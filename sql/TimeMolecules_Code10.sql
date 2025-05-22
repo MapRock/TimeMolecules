@@ -1,20 +1,10 @@
+--[START Code 10  – Update CaseID with an offset so we don’t write over existing CaseIDs.]
 USE [TimeSolution]
 GO
---[START Code 10  – Insert (Load) sales from AdventureWorksDW into the Cases tables of Time Solution.]
---Be sure to run Code09 first. It creates #ETLADW
---Retrieve metadata (SourceID and CaseTypeID) for the data source
-DECLARE @DatabaseName NVARCHAR(128)='AdventureWorksDW2017'
-DECLARE @SourceID INT = 
-  (SELECT SourceID FROM [TimeSolution].[dbo].[Sources] WHERE [Name]=@DatabaseName)
-DECLARE @CaseTypeName NVARCHAR(128)='Internet Sale'
+--Be sure to run Code08 first. It creates ##ETLADW (a global temp table).
+DECLARE @CaseID_OffSet INT=(SELECT MAX(CaseID) FROM [TimeSolution].dbo.CaseProperties)
+UPDATE [TimeSolution].[WORK].ETLADW SET
+	CaseID=CaseID+@CaseID_OffSet
 
-DECLARE @CaseTypeID INT = 
-  (SELECT CaseTypeID FROM [TimeSolution].[dbo].CaseTypes WHERE [Name]=@CaseTypeName)
 
---Insert data from #ETLADW into CaseProperties and Cases tables.
-INSERT INTO [TimeSolution].dbo.CaseProperties (CaseID, [Properties])
-	SELECT CaseID, [Properties] FROM [Work].[ETLADW]
-INSERT INTO [TimeSolution].dbo.Cases 
-  (CaseID, NaturalKey,SourceID,CaseTypeID,AccessBitmap)
-  SELECT CaseID, NaturalKey,@SourceID AS SourceID,@CaseTypeID, 7 FROM [Work].[ETLADW]
 --[END Code 10]

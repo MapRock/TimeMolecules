@@ -1,20 +1,15 @@
 USE [TimeSolution]
 GO
---[START Code 34] - Three focused model results.]
---We're not interested in the details. We want to check the average of time customers spend in the restaurant.
+--[START Code 34 – Save the query with the transforms and requery.]
+--Cache the Markov Model with the arnold and dietpage transforms.
+DECLARE @EventSet NVARCHAR(500)='websitepages'
+DECLARE @TransformCode NVARCHAR(20)='arnold'
 
---1. Length of time, begin to end.
-SELECT ModelID,Event1A,EventB,[Max],[Avg],[Min],[StDev],CoefVar,[Sum],
+EXEC CreateUpdateMarkovProcess NULL, @EventSet,0,NULL,NULL,@TransformCode,1,NULL,NULL,NULL
+--Query the website pages event set with the arnold transform that we just created.
+SELECT
+	ModelID,Event1A,EventB,
+	[Max],[Avg],[Min],[StDev],CoefVar,[Sum],
 	[Rows],Prob,IsEntry,IsExit,FromCache
-FROM dbo.[MarkovProcess](0, 'arrive,depart' ,1,NULL,NULL,NULL,1,NULL,NULL,NULL,1)
-
---2. From the time the party is seated until they depart.
-SELECT ModelID,Event1A,EventB,[Max],[Avg],[Min],[StDev],CoefVar,[Sum],
-	[Rows],Prob,IsEntry,IsExit,FromCache
-FROM dbo.[MarkovProcess](0, 'seated,depart' ,1,NULL,NULL,NULL,1,NULL,NULL,NULL,1)
-
---3. From the time the party orders to the time they are served.
-SELECT ModelID,Event1A,EventB,[Max],[Avg],[Min],[StDev],CoefVar,[Sum],
-	[Rows],Prob,IsEntry,IsExit,FromCache
-FROM dbo.[MarkovProcess](0, 'order,served' ,1,NULL,NULL,NULL,1,NULL,NULL,NULL,1)
+FROM dbo.[MarkovProcess](0,@EventSet,0,NULL,NULL,@TransformCode,1,NULL,NULL,NULL,0)
 --[END Code 34]

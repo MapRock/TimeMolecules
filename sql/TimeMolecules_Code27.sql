@@ -1,6 +1,8 @@
 USE [TimeSolution]
 GO
---[START Code 27 – Markov Model for the fuel metric of the commute event set.]
-SELECT ModelID,Event1A,EventB,[Max],[Avg],[Min],[StDev],CoefVar,[Sum],[Rows],Prob,IsEntry,IsExit
-FROM dbo.[MarkovProcess](1,'commute',0,NULL,NULL,NULL,1,'Fuel',NULL,NULL,0)
---[END Code 27] 
+--[START Code 27 – Look at raw events for commute.]
+--Display raw events related to commute.
+SELECT CaseID, [Event], EventDate,[Rank],EventOccurence,MetricActualValue 
+FROM dbo.SelectedEvents('commute',0,NULL,NULL,NULL,1,'Fuel',NULL,NULL) 
+ORDER BY CaseID,[Rank]
+--[END Code 27]
