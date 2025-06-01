@@ -5,6 +5,8 @@ This `.bak` file is the official backup used for tutorials and examples in the b
 
 ---
 
+See /docs/install_timemolecules_dev_env.pdf for instructions on setting up the sample SQL Server database, TimeSolution.bak.
+
 ## 🔐 File Authenticity and Signature Verification
 
 To ensure that this file is genuine and hasn't been tampered with, a digital signature (`.asc`) is provided.
@@ -18,19 +20,4 @@ The current file was <b>created on May 30, 2025 at 6:02am US MT.</b>
 - `restore.sql` — Example script to restore the database
 - `LicenseAndDisclaimer.txt` — Legal and usage notes
 
----
 
-## ✅ Verifying the Signature (Optional, for Advanced Users)
-
-To verify that the backup file was signed by Eugene Asahara:
-
-### 1. Install GPG
-
-- **Windows**: [https://git-scm.com/download/win](https://git-scm.com/download/win)
-- **Mac**: `brew install gnupg`
-- **Linux**: `sudo apt install gnupg`
-
-### 2. Import the public key
-
-```bash
-gpg --import publickey.asc
