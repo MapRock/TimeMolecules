@@ -1,0 +1,23 @@
+LICENSE AND DISCLAIMER FOR TIMESOLUTION.BAK
+
+This sample database file, TimeSolution.bak, is provided by Eugene Asahara in support of the book *Time Molecules* (Technics Publications, 2025).
+
+Permission is granted to download, restore, and use this file for personal, educational, or non-commercial use.
+
+You may:
+- Use this file in personal projects, demonstrations, educational materials, or research.
+- Share the file in its original, unmodified form with attribution to the author.
+
+You may not:
+- Redistribute modified versions of this file under the same name.
+- Use the file, in whole or in part, for commercial purposes without prior written permission.
+- Sell or bundle this file in any product or service.
+
+DISCLAIMER:
+This file is provided *as is*, without warranty of any kind.  
+No guarantee is made regarding the correctness, completeness, or suitability of the data or structure for any purpose.  
+Use of this file is at your own risk.
+
+By using this file, you agree to the above terms.
+
+Copyright © 2025 Eugene Asahara. All rights reserved.
