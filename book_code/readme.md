@@ -1,3 +1,9 @@
+### Important Reminders
+
+<ul>
+  <li>After restoring the SQL Server database, TimeSolution.Bak, it's important to run sql/TimeMolecules_Code00 before proceeding with the tutorials laid out in the book.</li>
+</ul>
+
 ### Changes from the Time Molecules Book.
 
 Please review this document for information on tutorial steps that have changed since the publication of <i>Time Molecules</i>.
