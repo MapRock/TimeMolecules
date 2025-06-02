@@ -1,0 +1,10 @@
+pyodbc
+python-dotenv
+pandas
+numpy
+scipy
+matplotlib
+ruptures
+scikit-learn
+openai
+python-dateutil
