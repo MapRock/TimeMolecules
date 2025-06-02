@@ -10,7 +10,7 @@ Please review this document for information on tutorial steps that have changed 
 
 #### Insight Space Graph Markov Models - Page 234
 
-The Create_markov_data.py script assumes access to a Kyvos cube and uses the Kyvos Python SDK to query data.
+The <i>Create_markov_data.py</i> script assumes access to a Kyvos cube and uses the Kyvos Python SDK to query data.
 
 There isn't a workaround at this time (June 4, 2025). But I will post one on an update by August 2025.
 
