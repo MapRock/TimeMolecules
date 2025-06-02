@@ -16,4 +16,4 @@ You should skip to Steps 1-3, and continue to Step 4, <b>Prepare Data for Neo4j<
 
 This exercise assumes access to a Kyvos cube and uses the Kyvos Python SDK to query data.
 
-There isn't a workaround.
+There isn't a workaround at this time (June 4, 2025). But I will post one on an update by August 2025.
