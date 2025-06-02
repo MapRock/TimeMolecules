@@ -9,3 +9,11 @@ In order to work around this requirement, the end product of this script,
 a csv file named sales_event_data.csv, is included in the supplemental material:
 
 c:\MapRock\TimeMolecules\demo_output\sales_event_data.csv
+
+You should skip to Steps 1-3, and continue to Step 4, <b>Prepare Data for Neo4j</b>
+
+#### Custom Correlation Scores - page 241
+
+This exercise assumes access to a Kyvos cube and uses the Kyvos Python SDK to query data.
+
+There isn't a workaround.
