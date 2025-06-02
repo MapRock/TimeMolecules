@@ -8,3 +8,4 @@ ruptures
 scikit-learn
 openai
 python-dateutil
+python-dotenv
