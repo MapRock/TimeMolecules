@@ -1,3 +1,5 @@
+<b>Important Note:</B> In the book, I say that all the SQL code is consolidated into the file, time_molecules_code_from_book.sql. But I later decided to separate each code in order to avoid having to redefine variables so that code could be highlighted and run. Instead, each code is in its own file and users an open the file and simply Execute.
+
 TimeMolecules_Code04.sql through TimeMolecules_Code75.sql reflect SQL code in the book, Time Molecules. Each is:
 
 1. Run from the TimeSolution database (restored from TimeSolution.bak). My intent is to use SQL Server Management Studio (SSMS) as the "query tool" for these SQL snippets.
