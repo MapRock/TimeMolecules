@@ -19,4 +19,12 @@ So, I truncated them before creating the TimeSolution.bak file.
 */
 	EXEC [dbo].[InsertCaseProperties] @CompleteRefresh=1 --1 means to truncate CasePropertiesParsed
 	EXEC [dbo].[InsertEventProperties] @CompleteRefresh=1
+
+
+/*
+Set the server name in the dbo.Sources table to the Local SQL Server.
+*/
+	UPDATE dbo.Sources
+	SET ServerName = @@SERVERNAME
+	WHERE ServerName='LocalSQLServer';  -- or whatever logic selects the correct row
 --[END Code 00]
