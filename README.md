@@ -1,5 +1,5 @@
 # TimeMolecules
-Time Molecules book supplemental site
+Time Molecules book supplemental github repository.
 
 May 14, 2025 - The Time Molecules book is scheduled for publication on June 4, 2025:  https://eugeneasahara.com/2025/04/25/time-molecules-launch-date/
 
