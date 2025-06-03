@@ -1,3 +1,26 @@
+"""
+one_pass_standard_deviation.py
+
+Demonstration of standard deviation calculation using two methods:
+
+1. Two-Pass Method (Naïve):
+   - Calculates the mean in the first pass
+   - Calculates squared deviations in the second pass
+   - Shown via both manual math and the Python 'statistics' module
+
+2. One-Pass Weighted Method (Streaming Friendly):
+   - Implements Welford’s algorithm adapted for weighted samples
+   - Maintains running weight, mean, and a single accumulator (S)
+   - Suitable for streaming or distributed computation
+   - Outputs sample and population standard deviation from the same pass
+
+This script is part of Appendix J of the *Time Molecules* book and shows how 
+to compute standard deviation in an environment where performance, I/O cost, 
+and real-time feasibility matter.
+
+Author: Eugene Asahara
+"""
+
 import statistics
 import math
 

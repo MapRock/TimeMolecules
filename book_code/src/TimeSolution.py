@@ -1,3 +1,22 @@
+"""
+Author: Eugene Asahara
+
+This Python script, associated with the book, Time Molecules. It computes the stationary 
+distribution for each Markov model stored in the SQL Server–based TimeSolution framework. 
+
+It first connects to the database using credentials stored in a .env file, then retrieves 
+the transition matrix for each model via the [dbo].[ModelMatrix](ModelID) 
+table-valued function. After validating the matrix (checking for missing events or zero 
+probabilities), it calculates the long-run steady-state distribution by iteratively 
+multiplying the transition matrix by a probability vector until convergence. 
+The resulting vector—representing the stationary distribution—is written back to the 
+dbo.Model_Stationary_Distribution table for further analysis. 
+
+This allows users to understand long-term behavior in customer journeys, workflows, 
+or other modeled processes. The script loops through all existing models in the 
+Models table, automatically processing each one.
+
+"""
 import pyodbc
 import pandas as pd
 import numpy as np
