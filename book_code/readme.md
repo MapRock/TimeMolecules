@@ -6,7 +6,7 @@
 
 ### Changes from the Time Molecules Book.
 
-Please review this document for information on tutorial steps that have changed since the publication of <i>Time Molecules</i>.
+Please review this document for information on tutorial steps that have changed since the publication of <a href="https://technicspub.com/time-molecules/" target="_blank"><em>Time Molecules</em></a>.
 
 #### Insight Space Graph Markov Models - Page 234
 
