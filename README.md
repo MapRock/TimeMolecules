@@ -5,4 +5,4 @@ Please see the document, <a href="https://github.com/MapRock/TimeMolecules/blob/
 
 I will be posting blogs related to Time Molecules over the next few months after publication. You can find them at: https://eugeneasahara.com/category/time-molecules/
 
-
+You may contact me at eugene@softcodedlogic.com
