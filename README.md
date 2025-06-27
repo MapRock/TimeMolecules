@@ -11,7 +11,7 @@ I will be posting blogs related to Time Molecules over the next few months after
 <ol>
   <li><a href="https://eugeneasahara.com/2025/05/30/from-data-through-wisdom-the-case-for-process-aware-intelligence/"><em>From Data Through Wisdom: The Case for Process-Aware Intelligence</em></a></li>
   <li><a href="https://eugeneasahara.com/2025/06/15/thousands-of-senses/"><em>Thousands of Senses</em></a></li>
-  <li><em>Analogy and Curiosity-Driven Original Thinking</em> (est. mid July 2025)</li>
+  <li><a href="https://eugeneasahara.com/2025/06/27/analogy-and-curiosity-driven-original-thinking/">Analogy and Curiosity-Driven Original Thinking</a></li>
 </ol>
 <p>You may contact me at <a href="mailto:eugene@softcodedlogic.com">eugene@softcodedlogic.com</a>.</p>
 
