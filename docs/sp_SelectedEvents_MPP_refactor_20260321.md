@@ -1,6 +1,7 @@
 # `sp_SelectedEvents` and the Shift Toward MPP-Friendly Time Molecules
+## Effective April 15, 2026
 
-One of the important refactors in the current TimeSolution codebase is the move away from the old `dbo.SelectedEvents` table-valued function and toward the stored procedure `dbo.sp_SelectedEvents`.
+One of the important refactors in the current TimeSolution codebase (as of April 15, 2026) is the move away from the old `dbo.SelectedEvents` table-valued function and toward the stored procedure `dbo.sp_SelectedEvents`.
 
 This change was not made because it is automatically faster on ordinary SQL Server. In many cases, it will not be. It was made because it moves TimeSolution closer to a form that can survive in a very large-scale environment such as Snowflake, Azure Synapse, or other massively parallel processing (MPP) platforms.
 
