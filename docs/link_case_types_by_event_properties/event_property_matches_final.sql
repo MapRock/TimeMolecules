@@ -1,4 +1,7 @@
-
+/*
+With a list of cases that match to other cases via common event properties, we can
+analyze whether two different case TYPES are related.
+*/
 ;WITH ttl AS
 (
 	SELECT
