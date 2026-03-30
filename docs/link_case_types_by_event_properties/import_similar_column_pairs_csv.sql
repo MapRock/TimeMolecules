@@ -44,3 +44,4 @@ GO
 -- Quick verification
 SELECT COUNT(*) AS [RowCount] FROM dbo.SimilarSourceColumnPairs;
 SELECT * FROM dbo.SimilarSourceColumnPairs ORDER BY SimilarityScore DESC;
+SELECT * FROM vwSimiliarSourceColumnPairs_Full ORDER BY SimilarityScore DESC;
