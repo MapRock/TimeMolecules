@@ -38,4 +38,4 @@ IMPORTANT ADDITIONAL GUIDANCE (apply these rules on top of the original TASK):
 
 Do NOT be overly conservative — the goal is to surface every possible useful mapping for Time Molecules / event correlation.'
 
-exception: tell me why 62,70 wasn't chosen.
+
