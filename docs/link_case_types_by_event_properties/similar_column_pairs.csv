@@ -1,0 +1,43 @@
+SourceColumnID1,SourceColumnID2,SimilarityScore,Reason
+62,74,0.95,Unique hospital visit or encounter identifiers in EHR and Lab workflows
+62,79,0.95,Unique hospital visit or encounter identifiers in EHR and MRI workflows
+62,70,0.92,Both are keys linking to parent hospital visit/encounter
+62,63,0.91,Both are keys linking to parent or related visit/encounter
+62,76,0.91,Both are keys linking to parent visit/encounter in EHR/MRI workflows
+62,73,0.9,Patient MRN identifiers for linking patient records
+62,77,0.9,Patient MRN identifiers for linking patient records
+62,64,0.9,Patient MRN identifiers for linking patient records
+62,75,0.88,Identifiers linking to MRI workflow or encounter
+62,71,0.87,Identifiers linking to lab workflow or encounter
+62,78,0.8,Study/imaging identifiers associated with visit/encounter
+62,66,0.8,Study/imaging identifiers associated with visit/encounter
+62,61,0.8,Imaging workflow identifiers linked to visit/encounter
+62,65,0.78,Patient age at time of visit/encounter
+62,57,0.75,Patient age at time of visit/encounter
+62,45,0.75,Patient sex/gender at visit/encounter
+62,58,0.75,Patient sex/gender at visit/encounter
+63,70,0.93,Natural/business keys linking to parent hospital visit/encounter
+63,74,0.91,Visit/encounter identifiers in EHR and Lab workflows
+63,79,0.91,Visit/encounter identifiers in EHR and MRI workflows
+63,76,0.91,Natural/business keys linking to parent visit/encounter
+63,73,0.9,Patient MRN identifiers for linking patient records
+63,77,0.9,Patient MRN identifiers for linking patient records
+63,64,0.9,Patient MRN identifiers for linking patient records
+63,75,0.88,Identifiers linking to MRI workflow or encounter
+63,71,0.87,Identifiers linking to lab workflow or encounter
+63,78,0.8,Study/imaging identifiers associated with visit/encounter
+63,66,0.8,Study/imaging identifiers associated with visit/encounter
+63,61,0.8,Imaging workflow identifiers linked to visit/encounter
+63,65,0.78,Patient age at time of visit/encounter
+63,57,0.75,Patient age at time of visit/encounter
+63,45,0.75,Patient sex/gender at visit/encounter
+63,58,0.75,Patient sex/gender at visit/encounter
+64,73,0.98,Patient MRN identifiers for linking patient records
+64,77,0.98,Patient MRN identifiers for linking patient records
+64,65,0.8,Patient age at time of visit/encounter
+64,57,0.78,Patient age at time of visit/encounter
+64,45,0.78,Patient sex/gender at visit/encounter
+64,58,0.78,Patient sex/gender at visit/encounter
+65,57,0.96,Patient age columns in EHR and cardiology datasets
+65,58,0.85,Patient sex/gender columns in EHR and cardiology datasets
+65,45,0.85,Patient sex/gender columns in EHR and cardiology datasets
