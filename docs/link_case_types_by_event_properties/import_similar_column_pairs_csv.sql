@@ -17,7 +17,8 @@ CREATE TABLE dbo.SimilarSourceColumnPairs (
 );
 GO
 
-
+--Note: Be sure the last line in the CSV is complete.
+    
 BULK INSERT dbo.SimilarSourceColumnPairs
 FROM 'C:\MapRock\TimeMolecules\similar_column_pairs.csv'
 WITH (
