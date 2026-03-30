@@ -36,4 +36,6 @@ IMPORTANT ADDITIONAL GUIDANCE (apply these rules on top of the original TASK):
 - Any column whose description contains “visit”, “encounter”, “parent visit”, “MRN”, “patient identifier”, “natural key”, or “business key” should be considered highly similar to others with the same role, even if the exact column name differs.
 - Lower the bar: include ANY pair that could plausibly be joined or used for correlation across workflows (score >= 0.70).
 
-Do NOT be overly conservative — the goal is to surface every possible useful mapping for Time Molecules / event correlation.
+Do NOT be overly conservative — the goal is to surface every possible useful mapping for Time Molecules / event correlation.'
+
+exception: tell me why 62,70 wasn't chosen.
