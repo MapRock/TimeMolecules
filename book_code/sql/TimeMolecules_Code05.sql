@@ -9,4 +9,6 @@ FROM
 	dbo.SelectedEvents('restaurantguest',0,NULL,NULL,NULL,1,NULL,NULL,NULL) 
 ORDER BY 
 	CaseID,[Rank]
+
+EXEC sp_SelectedEvents @EventSet='restaurantguest'
 --[END Code 5]

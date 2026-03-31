@@ -1,6 +1,7 @@
 USE [TimeSolution]
 GO
 --[START Code 19 – Three ways the event set key is created.]
+--@SetByOccurence and @SetPreSorted are the same set, just in different order.
 DECLARE @SetByOccurence NVARCHAR(50)='arrive,greeted,seated, order, served,check,depart'
 DECLARE @SetPreSorted NVARCHAR(50)=' arrive,check, depart,greeted,order, seated,served'
 DECLARE @NotSequence BIT=0

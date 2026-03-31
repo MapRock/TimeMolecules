@@ -6,10 +6,17 @@ DECLARE @EventSet NVARCHAR(500)='websitepages'
 DECLARE @TransformCode NVARCHAR(20)='arnold'
 
 EXEC CreateUpdateMarkovProcess NULL, @EventSet,0,NULL,NULL,@TransformCode,1,NULL,NULL,NULL
---Query the website pages event set with the arnold transform that we just created.
+
+/*
+--Deprecated.
 SELECT
 	ModelID,Event1A,EventB,
 	[Max],[Avg],[Min],[StDev],CoefVar,[Sum],
 	[Rows],Prob,IsEntry,IsExit,FromCache
 FROM dbo.[MarkovProcess](0,@EventSet,0,NULL,NULL,@TransformCode,1,NULL,NULL,NULL,0)
+*/
+
+--Query the website pages event set with the arnold transform that we just created.
+--Note that the ModelID column has a value.
+EXEC MarkovProcess2 0,@EventSet,0,NULL,NULL,@TransformCode,1,NULL,NULL,NULL,0
 --[END Code 34]

@@ -8,6 +8,7 @@ DECLARE @Description NVARCHAR(500)='merge different arnolds and combine keto, we
 DECLARE @Transformskey VARBINARY(16)
 EXEC [dbo].[UpdateTransform] @FM_Transforms, @Code,@Description, @Transformskey OUTPUT
 PRINT @TransformsKey
-SELECT transformskey, transforms,Code, CreateDate FROM Transforms
+--List all transforms to find the arnold1.
+SELECT transformskey, transforms,Code, CreateDate,LastUpdate FROM Transforms
 --Prints out: 0x903FBEFEFB94CFAD7968D8501583AFAC
 --[END Code 33]

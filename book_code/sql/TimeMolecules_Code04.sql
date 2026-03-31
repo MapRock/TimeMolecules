@@ -10,4 +10,7 @@ FROM
 	dbo.SelectedEvents(@eventset,0,NULL,NULL,NULL,1,NULL,NULL,NULL) 
 ORDER BY 
 	CaseID,[Rank]
+
+--Stored procedure version, which is more easily migrated to other platforms, including ultra-scalable.
+EXEC sp_SelectedEvents @EventSet=@EventSet
 --[END Code 4]
