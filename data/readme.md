@@ -21,3 +21,4 @@ The TimeSolution.bak database was updated on March 31, 2026. It could be conside
 - Modified the SQL Server code (stored procedures and table-valued functions) to be more easily portable to higher-scale platforms. It should be mostly portable to Azure Managed Instances (which is essentially SQL Server in the Cloud).
 - Modified TVF to be 'inline'.
 - Expanded some NVARCHAR columns meant to act as "codes" from 20 chars to 50.
+
