@@ -34,7 +34,16 @@ Those two cases are obviously not related. We know that because "TickerSym" and 
 2. [source_column_semantic_similarity.py](https://github.com/MapRock/TimeMolecules/blob/main/tutorials/link_cases/source_column_semantic_similarity.py): Produces the CSV file, [similar_column_pairs.csv](https://github.com/MapRock/TimeMolecules/blob/main/tutorials/link_cases/similar_column_pairs.csv).
 3. [import_similar_column_pairs_csv.sql](https://github.com/MapRock/TimeMolecules/blob/main/tutorials/link_cases/import_similar_column_pairs_csv.sql): Imports the contents of similar_column_pairs.csv into the table, [TimeSolution].[dbo].[SimilarSourceColumnPairs].
 4. [find_related_case_types.sql](https://github.com/MapRock/TimeMolecules/blob/main/tutorials/link_cases/find_related_case_types.sql)
-### Find Related Cases
+
+## Find Event Proximities
+
+```sql
+EXEC [dbo].[sp_CompareEventProximities]
+    @CaseFilterProperties1 = '{"LocationID":1,"EmployeeID":1}',
+    @CaseFilterProperties2 = '{"LocationID":1,"EmployeeID":4}',
+    @StartDateTime = NULL,
+    @EndDateTime = NULL;
+```
 
 ## Helpful Hints
 
