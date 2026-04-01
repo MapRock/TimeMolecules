@@ -17,11 +17,25 @@ The primary idea is that different case types could be related if the case types
 | ER Checkin | ER111-2026 | VisitID | ER111-2026 |
 | MRI | MRI123 | RequestorCaseID | ER111-2026 |
 
-If we have a huge database of events that include ER visits and MRI requests, and we didn't know anything about how the case types are related, we could try matching property values. We could match the property names, but it's more likely there will be a match on values than on the property names (VisitID vs. RequestorCaseID).
+If we have a huge database of events that include ER visits and MRI requests, and we didn't know anything about how the case types are related, we could try matching property values. 
 
-### Find Plausibly Similary Event Property Name
+### Find Plausibly Similar Event Property Names
 
+We could match the property names, but it's more likely there will be a match on values than on the property names (VisitID vs. RequestorCaseID). However, we cannot completely disregard the property names. For example, "F" could be the stock ticker symbol for Ford Motor Co. and could be a code for "Female":
 
+| Case Type| ID | Property | Value |
+|----------|----------|----------|----------|
+| Stock Quote | SQ-F | TickerSym | F |
+| Patient Visit | ER111-2026 | PatientGender | F |
+
+Those two cases are obviously not related. We know that because "TickerSym" and "PatientGender" are not semantically related. But "VisitID" and "RequestorCaseID" are plausibly semantically related.
+
+- [llm_prompt_similarity_score_event_properties.txt](https://github.com/MapRock/TimeMolecules/blob/main/tutorials/link_cases/llm_prompt_similarity_score_event_properties.txt)
+- [source_column_semantic_similarity.py](https://github.com/MapRock/TimeMolecules/blob/main/tutorials/link_cases/source_column_semantic_similarity.py)
+- [import_similar_column_pairs_csv.sql](https://github.com/MapRock/TimeMolecules/blob/main/tutorials/link_cases/import_similar_column_pairs_csv.sql)
+- 
+
+### Find Related Cases
 
 ## Helpful Hints
 
