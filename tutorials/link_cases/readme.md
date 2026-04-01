@@ -30,11 +30,10 @@ We could match the property names, but it's more likely there will be a match on
 
 Those two cases are obviously not related. We know that because "TickerSym" and "PatientGender" are not semantically related. But "VisitID" and "RequestorCaseID" are plausibly semantically related.
 
-- [llm_prompt_similarity_score_event_properties.txt](https://github.com/MapRock/TimeMolecules/blob/main/tutorials/link_cases/llm_prompt_similarity_score_event_properties.txt)
-- [source_column_semantic_similarity.py](https://github.com/MapRock/TimeMolecules/blob/main/tutorials/link_cases/source_column_semantic_similarity.py)
-- [import_similar_column_pairs_csv.sql](https://github.com/MapRock/TimeMolecules/blob/main/tutorials/link_cases/import_similar_column_pairs_csv.sql)
-- 
-
+1. [llm_prompt_similarity_score_event_properties.txt](https://github.com/MapRock/TimeMolecules/blob/main/tutorials/link_cases/llm_prompt_similarity_score_event_properties.txt)
+2. [source_column_semantic_similarity.py](https://github.com/MapRock/TimeMolecules/blob/main/tutorials/link_cases/source_column_semantic_similarity.py): Produces the CSV file, [similar_column_pairs.csv](https://github.com/MapRock/TimeMolecules/blob/main/tutorials/link_cases/similar_column_pairs.csv).
+3. [import_similar_column_pairs_csv.sql](https://github.com/MapRock/TimeMolecules/blob/main/tutorials/link_cases/import_similar_column_pairs_csv.sql): Imports the contents of similar_column_pairs.csv into the table, [TimeSolution].[dbo].[SimilarSourceColumnPairs].
+4. [find_related_case_types.sql](https://github.com/MapRock/TimeMolecules/blob/main/tutorials/link_cases/find_related_case_types.sql)
 ### Find Related Cases
 
 ## Helpful Hints
