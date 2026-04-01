@@ -37,6 +37,11 @@ Those two cases are obviously not related. We know that because "TickerSym" and 
 
 ## Find Event Proximities
 
+This example, utilizing the sp_CompareEventProximities stored procedure, find common event properties two sets of cases:
+
+1. Cases where LocationID=1 AND EmployeeID=1.
+2. Cases LocationID=1 AND EmployeeID=4.
+
 ```sql
 EXEC [dbo].[sp_CompareEventProximities]
     @CaseFilterProperties1 = '{"LocationID":1,"EmployeeID":1}',
@@ -44,6 +49,15 @@ EXEC [dbo].[sp_CompareEventProximities]
     @StartDateTime = NULL,
     @EndDateTime = NULL;
 ```
+
+The results include two rows, one from each Case Set, that have the same GPS coordinate as a property ({"lat":-116.2023, "lon":43.6150}). This means the event took place at the exact same place, which implies either EmployeeID 1's home is walmart2.
+
+| CaseSet | CaseID | EventID | Event      | PropertyName | EventDate                | PropertyValueAlpha              |
+|--------:|-------:|--------:|------------|--------------|--------------------------|---------------------------------|
+| 2       | 28     | 140     | walmart2   | point        | 2023-03-10 08:46:00.000  | {"lat":-116.2023, "lon":43.6150} |
+| 1       | 11     | 86      | leavehome  | point        | 2022-10-01 07:20:00.000  | {"lat":-116.2023, "lon":43.6150} |
+
+Of course, GPS coordinates (or most other non-whole numbers) are usually not exact. In this case, a test for "distance" could be applied. But that's the subject of another story.
 
 ## Helpful Hints
 
