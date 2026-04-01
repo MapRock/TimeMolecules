@@ -136,3 +136,4 @@ A good kitchen case property set would be:
 
 This gives a simple and scalable way to link subprocesses without having to reconstruct everything from a flat event log. It also nudges the model toward a more agent-like and function-like structure, where cases can call other cases and return results.
 
+See the tutorials in the [link_cases directory](https://github.com/MapRock/TimeMolecules/tree/main/tutorials/link_cases).
