@@ -49,4 +49,4 @@ EXEC [dbo].[sp_CompareEventProximities]
 
 - **EXEC dbo.sp_CasePropertyProfiling** View a list of case-level properties, metadata about them, and counts.
 - If similar pairs are either being missed or incorrectly added, adjust the text of dbo.SourceColumns.[Description]. It might be too specific. We're looking for plausibly similar, not exactly the same thing.
-- See [Linking Subprocesses](https://github.com/MapRock/TimeMolecules/blob/main/docs/subprocess_case_linking.md).
+- See [Linking Subprocesses with Case Properties](https://github.com/MapRock/TimeMolecules/blob/main/docs/subprocess_case_linking.md).
