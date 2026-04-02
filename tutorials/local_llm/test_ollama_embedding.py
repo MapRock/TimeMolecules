@@ -7,7 +7,7 @@ EMBEDDING_MODEL = "nomic-embed-text"   # Good balance of speed & quality
 
 # Your sample documents (replace with your own writing)
 documents = [
-    "I believe the open source AI path is the only way the US can stay competitive against China.",
+    "Some believe the open source AI path is the only way the US can stay competitive against China.",
     "Brian Roemmele and others talks about how closed SaaS AI models will die because of open source.",
     "Local models running on my laptop give me complete privacy and no usage limits.",
     "I want to build a personal knowledge base from all my writing about AI and technology.",
