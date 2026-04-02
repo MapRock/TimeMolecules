@@ -132,7 +132,7 @@ TIMESOLUTION_DATABASE_NAME=TimeSolution
 
 You can add other local settings there as needed.
 
-Do **not** commit `.env` to source control.
+**Remember:** Do **not** commit `.env` to source control.
 
 ## 6. Make sure Python can find `.env`
 
