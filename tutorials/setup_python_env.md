@@ -40,6 +40,7 @@ Example:
 ```env
 OPENAI_API_KEY=your_key_here
 TIMESOLUTION_DATABASE_NAME=TimeSolution
+TIMESOLUTION_SERVER_NAME="Your Desktop SQL Server Name"
 ```
 
 Then create your own local `.env` from that template and fill in your real values privately.
@@ -128,6 +129,7 @@ Create a file named `.env` in the repo root, for example:
 ```env
 OPENAI_API_KEY=your_openai_api_key_here
 TIMESOLUTION_DATABASE_NAME=TimeSolution
+TIMESOLUTION_SERVER_NAME="Your Desktop SQL Server Name"
 ```
 
 You can add other local settings there as needed.
