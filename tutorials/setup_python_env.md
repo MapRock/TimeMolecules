@@ -80,6 +80,14 @@ cd TimeMolecules
 
 Or download the ZIP from GitHub and extract it, then open a terminal in the extracted `TimeMolecules` folder.
 
+1. Open the repository page in your web browser.
+2. Go to the main page of the repository:
+   `https://github.com/MapRock/TimeMolecules`
+3. Above the list of files, click the **Code** button.
+4. In the menu that opens, click **Download ZIP**.
+5. Save the ZIP file to your computer.
+6. After the download finishes, extract the ZIP to a folder such as:
+
 ## 2. Create a virtual environment
 
 From the root of the repo:
