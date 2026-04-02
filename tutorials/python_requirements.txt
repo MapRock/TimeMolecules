@@ -1,0 +1,6 @@
+# Requirements for Python scripts currently under tutorials/
+python-dotenv>=1.0.0
+pyodbc>=5.0.0
+pandas>=2.0.0
+requests>=2.31.0
+openai>=0.28.0,<1.0.0
