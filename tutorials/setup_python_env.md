@@ -2,7 +2,63 @@
 
 These instructions are for someone who downloaded or cloned the `TimeMolecules` repo and wants to run the Python examples under `tutorials`.
 
-## Prerequisites
+## Important Notes
+### Security Notice About `.env`
+
+The `.env` file is **for local use only** and must **never** be committed, uploaded, or published to GitHub or any other source control system.
+
+A `.env` file commonly contains private or sensitive information such as:
+
+- API keys
+- passwords
+- database connection details
+- server names
+- local paths
+- other environment-specific settings
+
+If you upload `.env`, you may expose credentials or private infrastructure details to other people. Even if you delete the file later, the information may still remain in Git history, forks, caches, logs, or other copies outside this repository.
+
+By using these tutorials, you acknowledge that:
+
+1. You are solely responsible for protecting your own credentials, keys, passwords, and configuration values.
+2. You must keep your real `.env` file only on your local machine.
+3. You must add `.env` to your `.gitignore` before committing changes.
+4. If you accidentally expose secrets, you are responsible for rotating or revoking them immediately.
+5. The author and contributors are not responsible for any loss, exposure, misuse, charges, or damages resulting from your decision to store, commit, upload, share, or fail to protect your own secrets or environment files.
+
+At a minimum, your `.gitignore` should include:
+
+```gitignore
+.env
+.env.*
+````
+
+A safer pattern is to commit a template file such as `.env.example` with placeholder values, and keep your real `.env` private on your own machine.
+
+Example:
+
+```env
+OPENAI_API_KEY=your_key_here
+TIMESOLUTION_DATABASE_NAME=TimeSolution
+```
+
+Then create your own local `.env` from that template and fill in your real values privately.
+
+#### If you accidentally upload `.env`
+
+Treat that as a credential leak.
+
+Immediately:
+
+1. delete the file from the repository
+2. add `.env` to `.gitignore`
+3. rotate or revoke any exposed API keys, passwords, or tokens
+4. consider cleaning the file from Git history if it was committed
+
+Do not assume that deleting the file later makes the secret safe again.
+
+
+### Prerequisites
 
 - Python 3.10 or later recommended
 - `pip`
