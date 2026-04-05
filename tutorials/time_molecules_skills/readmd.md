@@ -21,6 +21,10 @@ In ordinary business intelligence, a user often asks for a report, a chart, or a
 
 An AI agent can be taught these patterns as skills.
 
+## How is this different from the contents of llm_prompts?
+
+The articles in this directory should be complete lessons. The items in [llm_prompts](https://github.com/MapRock/TimeMolecules/tree/main/docs/llm_prompts) are designed for embeddings, they point to these full tutorials.
+
 ## Skills as a Directory of Capabilities
 
 One useful way to think about this is as a directory of capabilities. The agent should know that Time Molecules contains many objects, each with a purpose. Some objects select events. Some build or compare models. Some drill through to the underlying cases and events. Some expose metadata. Some help find similarities between models.
