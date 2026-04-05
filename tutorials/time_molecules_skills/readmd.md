@@ -25,6 +25,21 @@ An AI agent can be taught these patterns as skills.
 
 The articles in this directory should be complete lessons. The items in [llm_prompts](https://github.com/MapRock/TimeMolecules/tree/main/docs/llm_prompts) are designed for embeddings, they point to these full tutorials.
 
+## LLM-Generated Tutorials
+
+1. Generate a full script of the TimeSolution database. There is much commentary in the code. Save it in a file named, TimeSolution.sql.
+2. Paste it into a chat window with a frontier model (I use openai for this).
+3. Use the template below to describe the tutorial:
+
+**Template Start:** 
+Using the knowledge within the attached database script, generate the following tutorial:
+
+[Describe the tutorial]
+
+The tutorial should include references to code, information about the parameters.
+
+**Template End**
+
 ## Skills as a Directory of Capabilities
 
 One useful way to think about this is as a directory of capabilities. The agent should know that Time Molecules contains many objects, each with a purpose. Some objects select events. Some build or compare models. Some drill through to the underlying cases and events. Some expose metadata. Some help find similarities between models.
