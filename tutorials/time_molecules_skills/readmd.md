@@ -32,11 +32,13 @@ The articles in this directory should be complete lessons. The items in [llm_pro
 3. Use the template below to describe the tutorial:
 
 **Template Start:** 
+
 Using the knowledge within the attached database script, generate the following tutorial:
 
 [Describe the tutorial]
 
 The tutorial should include references to code, information about the parameters.
+
 
 **Template End**
 
