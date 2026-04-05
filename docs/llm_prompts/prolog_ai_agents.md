@@ -1,0 +1,9 @@
+* Prompt: How can Soft Coded Logic in Prolog enable a hierarchy of customizable Prolog AI agents that separate logic from procedural code and collaborate with LLMs?
+
+* Abstract: Soft Coded Logic (SCL) decouples decision logic from procedural code so that Prolog rules become independent, first-class artifacts. These rules drive IF-THEN-ELSE branches and can be authored, customized, or updated without touching the underlying application code. At query time, user-defined rules merge dynamically with MetaFacts (real-time data pulled from databases or sensors) and MetaRules (probabilistic patterns extracted from machine-learning models), producing context-aware decisions.
+
+This architecture creates Prolog AI agents organized by literacy level. Experts, working with LLMs for refinement and fact-checking, produce book-scale knowledge bases that encode deep domain expertise. Intermediate users build moderately complex rule systems. Novices adapt LLM-generated snippets or cut-and-paste examples. Those at the “none” level simply adopt defaults or published rule sets authored by others. 
+
+Prolog rules function as publishable, versionable artifacts—analogous to books released in multiple formats—making them consumable by humans, APIs, or other agents. In the LLM era, large language models overcome the historical barrier of authoring and maintaining large Prolog knowledge bases by partnering with subject-matter experts to iteratively create a transparent “golden copy” of vetted rules. The result is a democratized ecosystem of maintainable, auditable decision logic that complements the probabilistic strengths of LLMs while remaining fully traceable and updatable.
+
+* Primary location of source material to analyze: https://eugeneasahara.com/2024/08/07/prologs-role-in-the-llm-era-part-2/
