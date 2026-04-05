@@ -20,21 +20,18 @@ Primary Location: The stored prodecure, MarkovProcess2, is the primary object to
 
 ## Example of an LLM Prompt to Compose the Abstract from Base Material  (the entire topic is the prompt)
 
-From the material provided below (which may be a blog post, article, research paper, GitHub repo README, code file, notebook, PDF, or any other text-based content), generate an **embeddable abstract** using exactly this format:
+From the material provided below (which may be a blog post, article, research paper, GitHub repo README, code file, notebook, PDF, or any other text-based content), generate an embeddable abstract using exactly this format:
 
-- **Prompt**: The single, canonical question (in natural, user-friendly language) that this material is primarily answering or solving. Phrase it as a clear, searchable question someone would actually ask.
-- **Abstract**: A concise, standalone 50-200 word summary that captures the core idea, key insights, methods, and conclusions. Write it in clear, professional English suitable for a knowledge base or vector embedding. Do not add opinions or external references unless they are central to the material.
-- **Primary location**: The original URL, GitHub file path, or exact object identifier of the material (use the one provided; if none, state "Provided inline").
-
-Material:
-[PASTE THE FULL TEXT, URL, CODE, OR LINK HERE]
+Prompt: The single, canonical question (in natural, user-friendly language) that this material is primarily answering or solving. Phrase it as a clear, searchable question someone would actually ask.
+Abstract: A concise, standalone 50-200 word explanation of the core concept or idea itself. Write it as if you are directly explaining the main thesis or invention to someone who has never seen the material. Do not describe the blog post, article, or author. Do not use phrases like “The post presents…”, “This article introduces…”, “The author shows…”, “The preview discusses…”, or any meta-reference to the document. Treat the material as the direct source of the idea and explain the idea itself in clear, professional, self-contained English suitable for a knowledge base or vector embedding.
+Primary location of source material to analyze: [PASTE THE FULL TEXT, URL, CODE, OR LINK HERE]
 
 Rules:
-- Stay strictly within the three-section format above. No extra text, headings, or explanations outside the format.
-- For code or repositories: focus on what the code does, its purpose, architecture, and value — treat it like a functional description.
-- For blogs/articles: extract the central thesis and main contributions.
-- Keep the abstract objective, accurate, and self-contained so it can be embedded and retrieved independently
-- This is not about presenting the what is in the resource (article, code). It's about an abstract to answer the prompt.
+
+Stay strictly within the three-section format above. No extra text, headings, or explanations outside the format.
+For blogs/articles: extract the central thesis and main contributions, then express them directly as factual explanation of the concept.
+Keep the abstract objective, accurate, and self-contained so it can be embedded and retrieved independently.
+This is not about summarizing what the resource says about itself. It is about distilling and directly presenting the main idea the material is communicating.
 
 
 ## The Process
