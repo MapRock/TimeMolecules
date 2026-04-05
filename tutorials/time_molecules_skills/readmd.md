@@ -45,7 +45,7 @@ Rules:
 
 - The tutorial should be targeted at a primary audience of AI agents that will need to query or update the TimeSolution database, an implementation of [Time Molecules](https://technicspub.com/time-molecules/).
 - Because the primary audience are AI agents, the tutorial should include references to code, information about the parameters, prerequisites, and an actionable example if possible.
-- The tutorial should not include anything that would result in misbehavior, being findful of security issues, social responsibility, etc.
+- The tutorial should not include anything that would result in misbehavior, being mindful of security issues, social responsibility, etc.
 - The repository, https://github.com/MapRock/TimeMolecules/tree/main/book_code/sql, contains more information that might provide food for thought.
 
 
