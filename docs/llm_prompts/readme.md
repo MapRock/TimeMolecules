@@ -1,5 +1,7 @@
 # Collection of Documents addressing common prompts for Time Molecules.
 
+Each document in this directory will be embedded in full for the purpose of fuzzy searching.
+
 Each document should be on the short side, just an abstract, geared towards a question.
 
 ## Example
