@@ -18,15 +18,20 @@ Abstract: Creating a Markov Model involves specifying parameters of the model an
 
 Primary Location: The stored prodecure, MarkovProcess2, is the primary object to call.
 
-## Example of a Prompt to Compose the Abstract from Base Material
+## Example of an LLM Prompt to Compose the Abstract from Base Material
 
-From the material to follow, please compose an abstract suitable for embedding. It should have this format:
+From the material provided below (which may be a blog post, article, research paper, GitHub repo README, code file, notebook, PDF, or any other text-based content), generate an **embeddable abstract** using exactly this format:
 
-- **Prompt**: The cannonical question that is answered.
-- **Abstract**: A 50-200 word summary.
-- **Primary location**: The URL or object of more information.
+- **Prompt**: The single, canonical question (in natural, user-friendly language) that this material is primarily answering or solving. Phrase it as a clear, searchable question someone would actually ask.
+- **Abstract**: A concise, standalone 50-200 word summary that captures the core idea, key insights, methods, and conclusions. Write it in clear, professional English suitable for a knowledge base or vector embedding. Do not add opinions or external references unless they are central to the material.
+- **Primary location**: The original URL, GitHub file path, or exact object identifier of the material (use the one provided; if none, state "Provided inline").
 
-Here is the material:
+Material:
+[PASTE THE FULL TEXT, URL, CODE, OR LINK HERE]
 
-<Insert URL or code>
+Rules:
+• Stay strictly within the three-section format above. No extra text, headings, or explanations outside the format.
+• For code or repositories: focus on what the code does, its purpose, architecture, and value — treat it like a functional description.
+• For blogs/articles: extract the central thesis and main contributions.
+• Keep the abstract objective, accurate, and self-contained so it can be embedded and retrieved independently.
 
