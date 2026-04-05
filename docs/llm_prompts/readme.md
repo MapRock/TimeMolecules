@@ -10,7 +10,7 @@ Each document should be on the short side, just an abstract, geared towards a qu
 
 There is no strict format. This is meant for embedding, so the most important thing is to write text conducive to matching the prompt.
 
-## Example of a Document
+## Example of a Document (Paste the entire section as the prompt)
 
 Prompt: How can I create a Markov Model?
 
@@ -29,16 +29,19 @@ From the material provided below (which may be a blog post, article, research pa
 Material:
 [PASTE THE FULL TEXT, URL, CODE, OR LINK HERE]
 
+Rules:
+- Stay strictly within the three-section format above. No extra text, headings, or explanations outside the format.
+- For code or repositories: focus on what the code does, its purpose, architecture, and value — treat it like a functional description.
+- For blogs/articles: extract the central thesis and main contributions.
+- Keep the abstract objective, accurate, and self-contained so it can be embedded and retrieved independently
+- This is not about presenting the what is in the resource (article, code). It's about an abstract to answer the prompt.
+
+
 ## The Process
 
 - **EXEC dbo.BuildTimeSolutionsMetadata**: Run this stored procedure to update metadata in TimeSolutuion. This is the primary material for the vector database.
 - **[qdrant_demo_ollama.py](https://github.com/MapRock/TimeMolecules/blob/main/tutorials/local_llm/qdrant_demo_ollama.py)**: Imports items into a vector database.
 - **[qdrant_demo_UI_ollama.py](https://github.com/MapRock/TimeMolecules/blob/main/tutorials/local_llm/qdrant_demo_UI_ollama.py)**: UI for ollama that uses the vector database.
 
-Rules:
-• Stay strictly within the three-section format above. No extra text, headings, or explanations outside the format.
-• For code or repositories: focus on what the code does, its purpose, architecture, and value — treat it like a functional description.
-• For blogs/articles: extract the central thesis and main contributions.
-• Keep the abstract objective, accurate, and self-contained so it can be embedded and retrieved independently
-• This is not about presenting the what is in the resource (article, code). It's about an abstract to answer the prompt.
+
 
