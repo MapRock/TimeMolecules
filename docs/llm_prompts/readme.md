@@ -31,8 +31,9 @@ Material:
 
 ## The Process
 
-- **qdrant_demo_ollama.py**: Imports items into a vector database.
-- **qdrant_demo_UI_ollama.py**: UI for ollama that uses the vector database.
+- **EXEC dbo.BuildTimeSolutionsMetadata**: Run this stored procedure to update metadata in TimeSolutuion. This is the primary material for the vector database.
+- **[qdrant_demo_ollama.py](https://github.com/MapRock/TimeMolecules/blob/main/tutorials/local_llm/qdrant_demo_ollama.py)**: Imports items into a vector database.
+- **[qdrant_demo_UI_ollama.py](https://github.com/MapRock/TimeMolecules/blob/main/tutorials/local_llm/qdrant_demo_UI_ollama.py)**: UI for ollama that uses the vector database.
 
 Rules:
 • Stay strictly within the three-section format above. No extra text, headings, or explanations outside the format.
