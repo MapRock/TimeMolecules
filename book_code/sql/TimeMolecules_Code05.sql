@@ -1,6 +1,7 @@
 USE [TimeSolution]
 GO
 --[START Code 5 - Filtering events by event set.]
+--This describes how to select events from the EventsFact table.
 -- Use the EventSet code, restaurantguest, which maps to all the events above.
 --Mistakenly called "Code 4a" in the book.
 /*
