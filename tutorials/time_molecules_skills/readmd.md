@@ -1,4 +1,6 @@
-# How Can AI Agents Use Time Molecules
+This directory provides the skills that an AI Agent needs to access the TimeSolution database, an implementation of [Time Molecules](https://technicspub.com/time-molecules/).
+
+## How Can AI Agents Use Time Molecules
 
 “Skills” here is meant in roughly the same sense as Claude Skills, but with a slightly broader emphasis. In Time Molecules, a skill is not just a prompt pattern. It is a practical way for an AI agent to know **which database object to use** and **how to use it** to accomplish a task.
 
@@ -37,7 +39,8 @@ Using the knowledge within the attached database script, generate the following 
 
 [Describe the tutorial]
 
-The tutorial should include references to code, information about the parameters.
+The tutorial should include references to code, information about the parameters. 
+The tutorial should be targeted at an audience of AI agents that will need to query the TimeSolution database, an implementation of [Time Molecules](https://technicspub.com/time-molecules/).
 
 
 **Template End**
