@@ -35,12 +35,18 @@ The articles in this directory should be complete lessons. The items in [llm_pro
 
 **Template Start:** 
 
+I'm requesting that you compose a tutorial for the subject described below. You have been provided with the full database script for the TimeSolution database.
+
 Using the knowledge within the attached database script, generate the following tutorial:
 
 [Describe the tutorial]
 
-The tutorial should include references to code, information about the parameters. 
-The tutorial should be targeted at an audience of AI agents that will need to query the TimeSolution database, an implementation of [Time Molecules](https://technicspub.com/time-molecules/).
+Rules:
+
+- The tutorial should be targeted at a primary audience of AI agents that will need to query or update the TimeSolution database, an implementation of [Time Molecules](https://technicspub.com/time-molecules/).
+- Because the primary audience are AI agents, the tutorial should include references to code, information about the parameters, prerequisites, and an actionable example if possible.
+- The tutorial should not include anything that would result in misbehavior, being findful of security issues, social responsibility, etc.
+- The repository, https://github.com/MapRock/TimeMolecules/tree/main/book_code/sql, contains more information that might provide food for thought.
 
 
 **Template End**
