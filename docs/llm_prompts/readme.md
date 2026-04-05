@@ -1,6 +1,6 @@
 # Collection of Documents addressing common prompts for Time Molecules.
 
-Each document in this directory will be embedded in full for the purpose of fuzzy searching.
+Each document in this directory will be embedded in full for the purpose of fuzzy searching. It will be imported into a vector database, a repository of material related to [Time Molecules](https://technicspub.com/time-molecules/).
 
 Each document should be on the short side, just an abstract, geared towards a question. There are these main parts:
 
@@ -18,7 +18,7 @@ Abstract: Creating a Markov Model involves specifying parameters of the model an
 
 Primary Location: The stored prodecure, MarkovProcess2, is the primary object to call.
 
-## Example of an LLM Prompt to Compose the Abstract from Base Material  (the entire topic is the prompt)
+## Template for the LLM Prompt to Compose the Abstract from Base Material  (the entire topic is the prompt)
 
 From the material provided below (which may be a blog post, article, research paper, GitHub repo README, code file, notebook, PDF, or any other text-based content), generate an embeddable abstract using exactly this format:
 
@@ -34,9 +34,10 @@ Rules:
 - This is not about summarizing what the resource says about itself. It is about distilling and directly presenting the main idea the material is communicating.
 
 
-## The Process
+## The Process for Creating the Vector Database
 
 - **EXEC dbo.BuildTimeSolutionsMetadata**: Run this stored procedure to update metadata in TimeSolutuion. This is the primary material for the vector database.
+- **Create llm_prompt items**: Use the template shown above to present instructions to an LLM to create any number of items to be added into the vector database.
 - **[qdrant_demo_ollama.py](https://github.com/MapRock/TimeMolecules/blob/main/tutorials/local_llm/qdrant_demo_ollama.py)**: Imports items into a vector database.
 - **[qdrant_demo_UI_ollama.py](https://github.com/MapRock/TimeMolecules/blob/main/tutorials/local_llm/qdrant_demo_UI_ollama.py)**: UI for ollama that uses the vector database.
 
