@@ -29,6 +29,11 @@ From the material provided below (which may be a blog post, article, research pa
 Material:
 [PASTE THE FULL TEXT, URL, CODE, OR LINK HERE]
 
+## The Process
+
+- **qdrant_demo_ollama.py**: Imports items into a vector database.
+- **qdrant_demo_UI_ollama.py**: UI for ollama that uses the vector database.
+
 Rules:
 • Stay strictly within the three-section format above. No extra text, headings, or explanations outside the format.
 • For code or repositories: focus on what the code does, its purpose, architecture, and value — treat it like a functional description.
