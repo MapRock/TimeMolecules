@@ -10,7 +10,7 @@ Each document should be on the short side, just an abstract, geared towards a qu
 
 There is no strict format. This is meant for embedding, so the most important thing is to write text conducive to matching the prompt.
 
-## Example of a Document (Paste the entire section as the prompt)
+## Example of a Document
 
 Prompt: How can I create a Markov Model?
 
@@ -18,7 +18,7 @@ Abstract: Creating a Markov Model involves specifying parameters of the model an
 
 Primary Location: The stored prodecure, MarkovProcess2, is the primary object to call.
 
-## Example of an LLM Prompt to Compose the Abstract from Base Material
+## Example of an LLM Prompt to Compose the Abstract from Base Material  (the entire topic is the prompt)
 
 From the material provided below (which may be a blog post, article, research paper, GitHub repo README, code file, notebook, PDF, or any other text-based content), generate an **embeddable abstract** using exactly this format:
 
