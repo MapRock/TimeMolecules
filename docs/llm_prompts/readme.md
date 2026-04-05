@@ -39,5 +39,6 @@ Rules:
 • Stay strictly within the three-section format above. No extra text, headings, or explanations outside the format.
 • For code or repositories: focus on what the code does, its purpose, architecture, and value — treat it like a functional description.
 • For blogs/articles: extract the central thesis and main contributions.
-• Keep the abstract objective, accurate, and self-contained so it can be embedded and retrieved independently.
+• Keep the abstract objective, accurate, and self-contained so it can be embedded and retrieved independently
+• This is not about presenting the what is in the resource (article, code). It's about an abstract to answer the prompt.
 
