@@ -51,14 +51,20 @@ Using the knowledge within the attached database script, generate the following 
 
 Rules:
 
-- The instructions should be targeted at a primary audience of AI agents that will need to query or update the TimeSolution database, an implementation of [Time Molecules](https://technicspub.com/time-molecules/).
+- The instructions should be targeted at a primary audience of AI agents that will need to query or update the TimeSolution database, an implementation of https://technicspub.com/time-molecules.
 - Because the primary audience are AI agents, the tutorial should include references to code, information about the parameters, prerequisites, and an actionable example if possible.
 - The tutorial should not include anything that would result in misbehavior, being mindful of security issues, social responsibility, etc.
 - The repository, https://github.com/MapRock/TimeMolecules/tree/main/book_code/sql, contains more information that might provide food for thought.
-- Good examples include: [Compare Two Markov Models](https://github.com/MapRock/TimeMolecules/blob/main/tutorials/time_molecules_skills/compare_two_markov_models.md) and [How to Add an Adjaceny Matrix](https://github.com/MapRock/TimeMolecules/blob/main/tutorials/time_molecules_skills/how_to_add_an_adjacency_matrix.md).
+- Good examples include:
+  - https://github.com/MapRock/TimeMolecules/blob/main/tutorials/time_molecules_skills/compare_two_markov_models.md
+  - https://github.com/MapRock/TimeMolecules/blob/main/tutorials/time_molecules_skills/how_to_add_an_adjacency_matrix.md
 
 
 **Template End**
+
+### Template Notes
+
+- The URLs of references are explicitly referenced. The HREF-like form will paste only the descriptive part, not the URL.
 
 ## Skills as a Directory of Capabilities
 
