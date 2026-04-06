@@ -21,8 +21,8 @@ The directory, [Time Molecules Skills](https://github.com/MapRock/TimeMolecules/
 
 The repository is organized into three related but distinct layers. The [llm_prompts](https://github.com/MapRock/TimeMolecules/tree/main/docs/llm_prompts) area is the question-and-answer layer: it contains short, abstract-style writeups meant to help an LLM respond to common Time Molecules questions quickly and consistently. The broader [tutorials](https://github.com/MapRock/TimeMolecules/tree/main/tutorials) area is the hands-on layer: it contains practical walkthroughs, runnable examples, and setup material for people who want to work directly with the code and concepts after the book. Within that, [time molecules skills](https://github.com/MapRock/TimeMolecules/tree/main/tutorials/time_molecules_skills) is the task-focused layer: it breaks specific Time Molecules jobs into individual how-to guides, such as adding a Markov model, comparing models, or working with linked cases. In other words:
 
-- `llm_prompts` is about helping an AI explain Time Molecules
-- `tutorials` is about helping a person use Time Molecules
-- `time_molecules_skills` is about teaching one concrete Time Molecules task at a time.
+- `llm_prompts` is about succinct abstracts of Time Molecules concepts in a manner conducive to LLM embeddings.
+- `tutorials` is about helping a person use Time Molecules. It is more verbose.
+- `time_molecules_skills` is about the concrete mechanics of Time Molecules tasks.
 
 
