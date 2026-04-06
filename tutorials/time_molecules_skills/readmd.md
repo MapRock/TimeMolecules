@@ -55,6 +55,7 @@ Rules:
 - Because the primary audience are AI agents, the tutorial should include references to code, information about the parameters, prerequisites, and an actionable example if possible.
 - The tutorial should not include anything that would result in misbehavior, being mindful of security issues, social responsibility, etc.
 - The repository, https://github.com/MapRock/TimeMolecules/tree/main/book_code/sql, contains more information that might provide food for thought.
+- Be sure to mention the source material.
 - Good examples include:
   - https://github.com/MapRock/TimeMolecules/blob/main/tutorials/time_molecules_skills/compare_two_markov_models.md
   - https://github.com/MapRock/TimeMolecules/blob/main/tutorials/time_molecules_skills/how_to_add_an_adjacency_matrix.md
