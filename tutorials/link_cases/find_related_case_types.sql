@@ -1,3 +1,6 @@
+USE [TimeSolution]
+GO
+	
 DROP TABLE IF EXISTS #tmp
 /*
 This code will help us figure out which case types might be related to each other.
@@ -5,6 +8,8 @@ For example, a restaurant might consist of a dining room process and a separate 
 They meet up when the waiter submits the order and when the kitchen finishes the order and the waiter serves the meal.
 The two processes could be found to link it the natural key of the dining room process is passed as ParentNaturalKey
 to the kitchen process.
+
+It is pretty much the same as the stored procedure, [dbo].[sp_CompareEventProximities]
 
 #tmp will match a case natural key to other cases of different case types that have properties with the same value.
 
