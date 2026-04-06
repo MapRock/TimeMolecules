@@ -9,13 +9,20 @@ They meet up when the waiter submits the order and when the kitchen finishes the
 The two processes could be found to link it the natural key of the dining room process is passed as ParentNaturalKey
 to the kitchen process.
 
-It is pretty much the same as the stored procedure, [dbo].[sp_CompareEventProximities]
-
 #tmp will match a case natural key to other cases of different case types that have properties with the same value.
 
 This code for #tmp will be posted on:
 
 https://github.com/MapRock/TimeMolecules/blob/main/docs/link_case_types_by_event_properties/event_property_matches.sql
+	
+*** Compare find_related_case_types.sql and the stored procedure, sp_CompareEventProximities ***
+
+They are related, but different. find_related_case_types.sql is a case-link discovery script that rolls up to case-type relationships.
+sp_CompareEventProximities is a parameterized comparison procedure that compares two chosen populations at the event-property level and returns richer descriptive output.
+
+This code is asking, “which case types seem linkable at all?” The stored procedure is asking, “for these two selected populations, what event-property evidence do they have in common?”
+
+
 */
 SELECT
 	c.CaseID,
