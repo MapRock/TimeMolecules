@@ -21,6 +21,14 @@ The primary idea is that different case types could be related if the case types
 
 If we have a huge database of events that include ER visits and MRI requests, along with events from perhaps thousands of different sources, and we didn't know anything about how the case types are related, we could try matching property values. 
 
+### Ideal Situation
+
+A strong best practice in event design is to pass forward enough business metadata when one process calls or triggers another so that someone downstream can later analyze how work moved across many different systems and process cycles. That means a called process should ideally carry the natural key of the calling process, or some other durable business identifier, as part of its metadata rather than treating each process in isolation. With that discipline in place, event data from a vast array of sources becomes much easier to connect analytically, because related cases can be linked through shared business identifiers instead of relying on fragile inference after the fact.
+
+A familiar example is how a purchase order can remain associated with the invoice, shipment, receipt, or payment records that arise from related but distinct process cycles. Under that assumption, this code looks for cases whose natural key appears as a property value in other cases, then uses metadata about compatible source columns to identify which case types are most often linked in this way.
+
+[find_related_case_types.sql](https://github.com/MapRock/TimeMolecules/blob/main/tutorials/link_cases/find_related_case_types.sql) is based on the idea that well-designed event systems often preserve the natural key of the calling process when a related process is launched. In other words, when one process hands work to another, the downstream case is ideally tagged with metadata that carries the caller’s business key or a closely related identifier. That is a best practice when events are intended to support later analysis, because it makes cross-process relationships discoverable without requiring guesswork.
+
 ### Find Plausibly Similar Event Property Names
 
 We could match the property names, but it's more likely there will be a match on values than on the property names (VisitID vs. RequestorCaseID). However, we cannot completely disregard the property names. For example, "F" could be the stock ticker symbol for Ford Motor Co. and could be a code for "Female":
@@ -37,7 +45,7 @@ Those two cases of Table 2 are obviously not related. We know that because "Tick
 1. [llm_prompt_similarity_score_event_properties.txt](https://github.com/MapRock/TimeMolecules/blob/main/tutorials/link_cases/llm_prompt_similarity_score_event_properties.txt)
 2. [source_column_semantic_similarity.py](https://github.com/MapRock/TimeMolecules/blob/main/tutorials/link_cases/source_column_semantic_similarity.py): Produces the CSV file, [similar_column_pairs.csv](https://github.com/MapRock/TimeMolecules/blob/main/tutorials/link_cases/similar_column_pairs.csv).
 3. [import_similar_column_pairs_csv.sql](https://github.com/MapRock/TimeMolecules/blob/main/tutorials/link_cases/import_similar_column_pairs_csv.sql): Imports the contents of [similar_column_pairs.csv](https://github.com/MapRock/TimeMolecules/blob/main/tutorials/link_cases/similar_column_pairs.csv) into the table, [TimeSolution].[dbo].[SimilarSourceColumnPairs].
-4. [find_related_case_types.sql](https://github.com/MapRock/TimeMolecules/blob/main/tutorials/link_cases/find_related_case_types.sql): Finds likely relationships between case types by detecting when the natural key of one process is carried forward as metadata into related downstream processes.
+4.  
 
 ## Find Event Proximities
 
