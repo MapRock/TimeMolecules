@@ -30,6 +30,7 @@ From the material provided below (which may be a blog post, article, research pa
 
 Rules:
 
+- The prompt element should be phrased as a user or AI agent might question. Usually, they know what they want to do but won't know the implementation details.
 - Stay strictly within the three-section format above. No extra text, headings, or explanations outside the format. Be sure to include all three sections.
 - For blogs/articles: extract the central thesis and main contributions, then express them directly as factual explanation of the concept. Keep the focus on what the selected material is about.
 - When the material is a code file, SQL script, notebook, or any implementation artifact, the Prompt and Abstract MUST focus exclusively on what this specific file/script actually contains and implements. Do not generalize to the broader technique, concept, or framework it belongs to.
