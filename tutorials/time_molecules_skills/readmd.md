@@ -36,23 +36,26 @@ Tutorials in the [tutorials](https://github.com/MapRock/TimeMolecules/tree/main/
 To generate a skill for this directory:
 
 1. Generate a full script of the TimeSolution database. There is much commentary in the code. Save it in a file named, TimeSolution.sql.
-2. Paste it into a chat window with a frontier model (I use openai for this).
+2. Paste it into a chat window with a frontier model. I use a high-quality frontier model such as openai and grok for this purpose.
 3. Use the template below to describe the tutorial:
 
 **Template Start:** 
 
-I'm requesting that you compose a tutorial for the subject described below. You have been provided with the full database script for the TimeSolution database.
+I'm requesting that you compose instructions for the subject described below. 
+
+You have been provided with the full database script for the TimeSolution database, which contains very much information on how to use the TimeSolution.
 
 Using the knowledge within the attached database script, generate the following tutorial:
 
-[Describe the tutorial]
+[Describe the Instructions]
 
 Rules:
 
-- The tutorial should be targeted at a primary audience of AI agents that will need to query or update the TimeSolution database, an implementation of [Time Molecules](https://technicspub.com/time-molecules/).
+- The instructions should be targeted at a primary audience of AI agents that will need to query or update the TimeSolution database, an implementation of [Time Molecules](https://technicspub.com/time-molecules/).
 - Because the primary audience are AI agents, the tutorial should include references to code, information about the parameters, prerequisites, and an actionable example if possible.
 - The tutorial should not include anything that would result in misbehavior, being mindful of security issues, social responsibility, etc.
 - The repository, https://github.com/MapRock/TimeMolecules/tree/main/book_code/sql, contains more information that might provide food for thought.
+- Good examples include: [Compare Two Markov Models](https://github.com/MapRock/TimeMolecules/blob/main/tutorials/time_molecules_skills/compare_two_markov_models.md) and [How to Add an Adjaceny Matrix](https://github.com/MapRock/TimeMolecules/blob/main/tutorials/time_molecules_skills/how_to_add_an_adjacency_matrix.md).
 
 
 **Template End**
