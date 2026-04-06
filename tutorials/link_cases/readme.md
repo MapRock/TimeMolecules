@@ -16,6 +16,7 @@ The primary idea is that different case types could be related if the case types
 |----------|----------|----------|----------|
 | ER Checkin | ER111-2026 | VisitID | ER111-2026 |
 | MRI | MRI123 | RequestorCaseID | ER111-2026 |
+*Table 1. Case IDs from two different, but related, processes.*
 
 If we have a huge database of events that include ER visits and MRI requests, along with events from perhaps thousands of different sources, and we didn't know anything about how the case types are related, we could try matching property values. 
 
@@ -27,13 +28,14 @@ We could match the property names, but it's more likely there will be a match on
 |----------|----------|----------|----------|
 | Stock Quote | SQ-F | TickerSym | F |
 | Patient Visit | ER111-2026 | PatientGender | F |
+*Table 2. Two property values that are the same, but not semantically related.*
 
-Those two cases are obviously not related. We know that because "TickerSym" and "PatientGender" are not semantically related. But "VisitID" and "RequestorCaseID" are plausibly semantically related.
+Those two cases of Table 2 are obviously not related. We know that because "TickerSym" and "PatientGender" are not in any way semantically related. But "VisitID" and "RequestorCaseID" of Table 1 are plausibly semantically related.
 
 1. [llm_prompt_similarity_score_event_properties.txt](https://github.com/MapRock/TimeMolecules/blob/main/tutorials/link_cases/llm_prompt_similarity_score_event_properties.txt)
 2. [source_column_semantic_similarity.py](https://github.com/MapRock/TimeMolecules/blob/main/tutorials/link_cases/source_column_semantic_similarity.py): Produces the CSV file, [similar_column_pairs.csv](https://github.com/MapRock/TimeMolecules/blob/main/tutorials/link_cases/similar_column_pairs.csv).
 3. [import_similar_column_pairs_csv.sql](https://github.com/MapRock/TimeMolecules/blob/main/tutorials/link_cases/import_similar_column_pairs_csv.sql): Imports the contents of similar_column_pairs.csv into the table, [TimeSolution].[dbo].[SimilarSourceColumnPairs].
-4. [find_related_case_types.sql](https://github.com/MapRock/TimeMolecules/blob/main/tutorials/link_cases/find_related_case_types.sql)
+4. [find_related_case_types.sql](https://github.com/MapRock/TimeMolecules/blob/main/tutorials/link_cases/find_related_case_types.sql): This is lifted from the stored procedure, [dbo].[sp_CompareEventProximities]
 
 ## Find Event Proximities
 
@@ -56,6 +58,7 @@ The results include two rows, one from each Case Set, that have the same GPS coo
 |--------:|-------:|--------:|------------|--------------|--------------------------|---------------------------------|
 | 2       | 28     | 140     | walmart2   | point        | 2023-03-10 08:46:00.000  | {"lat":-116.2023, "lon":43.6150} |
 | 1       | 11     | 86      | leavehome  | point        | 2022-10-01 07:20:00.000  | {"lat":-116.2023, "lon":43.6150} |
+*Table 3. Two close GPS coordinates.*
 
 Of course, GPS coordinates (or most other non-whole numbers) are usually not exact. In this case, a test for "distance" could be applied. But that's the subject of another story.
 
