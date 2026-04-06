@@ -1,0 +1,5 @@
+Prompt: How do I drill into a Markov-model transition in TimeSolution to see the actual cases and events behind it?
+
+Abstract: `sp_ModelDrillThrough` is used to move from an aggregate transition in a stored Markov model down to the real adjacent event pairs that produced it. It takes a `ModelID` and optional `EventA` and `EventB` filters, reconstructs the saved model context, calls `sp_SelectedEvents` to rebuild the filtered event stream, and returns the underlying transition rows for matching cases. The output includes the case, both event names, both timestamps, elapsed minutes, event-instance IDs, and source-column IDs. This supports branch analysis, event-level validation of a model segment, comparison of the same transition across different models, and linking the drilled-through events back to source metadata for use in a semantic layer or knowledge graph.
+
+Primary location of source material to analyze: [https://github.com/MapRock/TimeMolecules/blob/main/tutorials/time_molecules_skills/model_event_drillthrough.md](https://github.com/MapRock/TimeMolecules/blob/main/tutorials/time_molecules_skills/model_event_drillthrough.md)
