@@ -1,12 +1,12 @@
 # Collection of Documents addressing common prompts for Time Molecules.
 
-Each document in this directory will be embedded in full for the purpose of fuzzy searching. It will be imported into a vector database, a repository of material related to [Time Molecules](https://technicspub.com/time-molecules/).
+Each document in this directory will be LLM-embedded in full for the purpose of fuzzy searching. It will be imported into a vector database, a repository of material related to [Time Molecules](https://technicspub.com/time-molecules/).
 
 Each document should be on the short side, just an abstract, geared towards a question. There are these main parts:
 
 - **Prompt**: The cannonical question that is answered.
 - **Abstract**: A 50-200 word summary.
-- **Primary location**: The URL or object of more information.
+- **Primary location**: The URL or object from which this abstract was made.
 
 There is no strict format. This is meant for embedding, so the most important thing is to write text conducive to matching the prompt.
 
