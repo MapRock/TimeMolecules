@@ -33,6 +33,8 @@ Tutorials in the [tutorials](https://github.com/MapRock/TimeMolecules/tree/main/
 
 ## LLM-Generated Instructions
 
+To generate a skill for this directory:
+
 1. Generate a full script of the TimeSolution database. There is much commentary in the code. Save it in a file named, TimeSolution.sql.
 2. Paste it into a chat window with a frontier model (I use openai for this).
 3. Use the template below to describe the tutorial:
