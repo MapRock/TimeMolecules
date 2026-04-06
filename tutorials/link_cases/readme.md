@@ -40,6 +40,8 @@ Table 2 shows how the MRI and Lab workflows are linked by the root ER case manag
 
 ### Find Plausibly Similar Event Property Names
 
+In the real world, countless processes relate in unexpected, unintended ways. To see how things relate, we need to match characteristics in abstracted, fuzzy ways.
+
 We could match the property names, but it's more likely there will be a match on values than on the property names (VisitID vs. RequestorCaseID). However, we cannot completely disregard the property names. For example, "F" could be the stock ticker symbol for Ford Motor Co. and could be a code for "Female":
 
 | Case Type| ID | Property | Value |
@@ -51,10 +53,12 @@ We could match the property names, but it's more likely there will be a match on
 
 Those two cases of Table 2 are obviously not related. We know that because "TickerSym" and "PatientGender" are not in any way semantically related. But "VisitID" and "RequestorCaseID" of Table 1 are plausibly semantically related.
 
+Setting up this mechanism involves these four items:
+
 1. [llm_prompt_similarity_score_event_properties.txt](https://github.com/MapRock/TimeMolecules/blob/main/tutorials/link_cases/llm_prompt_similarity_score_event_properties.txt)
 2. [source_column_semantic_similarity.py](https://github.com/MapRock/TimeMolecules/blob/main/tutorials/link_cases/source_column_semantic_similarity.py): Produces the CSV file, [similar_column_pairs.csv](https://github.com/MapRock/TimeMolecules/blob/main/tutorials/link_cases/similar_column_pairs.csv).
 3. [import_similar_column_pairs_csv.sql](https://github.com/MapRock/TimeMolecules/blob/main/tutorials/link_cases/import_similar_column_pairs_csv.sql): Imports the contents of [similar_column_pairs.csv](https://github.com/MapRock/TimeMolecules/blob/main/tutorials/link_cases/similar_column_pairs.csv) into the table, [TimeSolution].[dbo].[SimilarSourceColumnPairs].
-4.  
+4. [dbo].[sp_CompareEventProximities] stored procedure:
 
 ## Find Event Proximities
 
