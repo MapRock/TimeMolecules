@@ -25,7 +25,7 @@ An AI agent can be taught these patterns as skills.
 
 ## How is this different from the contents of llm_prompts?
 
-The articles in this directory should be complete lessons. The items in [llm_prompts](https://github.com/MapRock/TimeMolecules/tree/main/docs/llm_prompts) are designed for embeddings, they point to these full tutorials.
+The articles in this directory should be complete lessons. The items in [llm_prompts](https://github.com/MapRock/TimeMolecules/tree/main/docs/llm_prompts) are designed for embeddings. The "llm prompts" are abstracts of each item in this "time_molecules_skills" directory, shorter, designed for search, and point to these full tutorials.
 
 ## LLM-Generated Tutorials
 
