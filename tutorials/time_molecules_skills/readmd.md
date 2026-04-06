@@ -47,7 +47,7 @@ You have been provided with the full database script for the TimeSolution databa
 
 Using the knowledge within the attached database script, generate the following tutorial:
 
-[Describe the Instructions]
+[Describe the Instructions and/or Paste a URL to the source material]
 
 Rules:
 
