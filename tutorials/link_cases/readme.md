@@ -29,6 +29,15 @@ A familiar example is how a purchase order can remain associated with the invoic
 
 [find_related_case_types.sql](https://github.com/MapRock/TimeMolecules/blob/main/tutorials/link_cases/find_related_case_types.sql) is based on the idea that well-designed event systems often preserve the natural key of the calling process when a related process is launched. In other words, when one process hands work to another, the downstream case is ideally tagged with metadata that carries the caller’s business key or a closely related identifier. That is a best practice when events are intended to support later analysis, because it makes cross-process relationships discoverable without requiring guesswork.
 
+Table 2 shows how the MRI and Lab workflows are linked by the root ER case management passing along the patient's visit ID to those sub-processes.
+
+| Primary Case Type | Total Cases |  Linked Case Type | Linked Count | Linked % of Primary Case Type | Overlap Count | Non-Overlap Count | Overlap % Within Linked Type |
+|---:|---|---:|---:|---|---:|---:|---:|
+| Emergency Room Case Management | 6 | Emergency Room Laboratory workflow | 5 | 83.3 | 6 | 0 | 1.2 |
+| Emergency Room Case Management | 6 |  Emergency Room MRI / Radiology workflow | 4 | 66.7 | 4 | 1 | 1 |
+
+*Table 2. Two case types related to Emergency Room Case Management.*
+
 ### Find Plausibly Similar Event Property Names
 
 We could match the property names, but it's more likely there will be a match on values than on the property names (VisitID vs. RequestorCaseID). However, we cannot completely disregard the property names. For example, "F" could be the stock ticker symbol for Ford Motor Co. and could be a code for "Female":
@@ -38,7 +47,7 @@ We could match the property names, but it's more likely there will be a match on
 | Stock Quote | SQ-F | TickerSym | F |
 | Patient Visit | ER111-2026 | PatientGender | F |
 
-*Table 2. Two property values that are the same, but not semantically related.*
+*Table 3. Two property values that are the same, but not semantically related.*
 
 Those two cases of Table 2 are obviously not related. We know that because "TickerSym" and "PatientGender" are not in any way semantically related. But "VisitID" and "RequestorCaseID" of Table 1 are plausibly semantically related.
 
