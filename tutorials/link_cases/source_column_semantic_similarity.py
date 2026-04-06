@@ -62,7 +62,7 @@ def build_connection_string() -> str:
 
 def get_source_columns_df() -> pd.DataFrame:
     """
-    Query the view that produces the same data as source_columns.csv
+    Get source column metadata. "Sources" the databases where cases, events and properties of cases and events come from.
     """
     conn_str = build_connection_string()
     sql = "SELECT * FROM vwSourceColumnsFull"
