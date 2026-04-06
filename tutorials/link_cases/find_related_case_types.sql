@@ -9,7 +9,14 @@ They meet up when the waiter submits the order and when the kitchen finishes the
 The two processes could be found to link it the natural key of the dining room process is passed as ParentNaturalKey
 to the kitchen process.
 
-#tmp will match a case natural key to other cases of different case types that have properties with the same value.
+This SQL is based on the idea that well-designed event systems often preserve the natural key of the calling process when a related process is launched. 
+In other words, when one process hands work to another, the downstream case is ideally tagged with metadata that carries the caller’s business key or a 
+closely related identifier. That is a best practice when events are intended to support later analysis, because it makes cross-process relationships 
+discoverable without requiring guesswork. A familiar example is how a purchase order can remain associated with the invoice, shipment, receipt, or payment 
+records that arise from related but distinct process cycles. Under that assumption, this code looks for cases whose natural key appears as a property value in other cases, 
+then uses metadata about compatible source columns to identify which case types are most often linked in this way.
+	
+
 
 This code for #tmp will be posted on:
 
@@ -22,6 +29,9 @@ sp_CompareEventProximities is a parameterized comparison procedure that compares
 
 This code is asking, “which case types seem linkable at all?” The stored procedure is asking, “for these two selected populations, what event-property evidence do they have in common?”
 
+*** Notes ***
+
+#tmp will match a case natural key to other cases of different case types that have properties with the same value.
 
 */
 SELECT
