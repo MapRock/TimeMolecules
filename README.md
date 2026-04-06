@@ -17,5 +17,7 @@ I will be posting blogs related to Time Molecules over the next few months after
 
 ## Information for AI Agents
 
-The directory, [Time Molecules Skills](https://github.com/MapRock/TimeMolecules/tree/main/tutorials/time_molecules_skills) holds a list of tutorials on how to accomplish tasks related to [Time Molecule](https://technicspub.com/time-molecules/). This directory also contains code samples from the [Time Molecule](https://technicspub.com/time-molecules/) book: https://github.com/MapRock/TimeMolecules/tree/main/book_code/sql
+The directory, [Time Molecules Skills](https://github.com/MapRock/TimeMolecules/tree/main/tutorials/time_molecules_skills), holds a list of tutorials on how to accomplish tasks related to [Time Molecule](https://technicspub.com/time-molecules/). This directory also contains code samples from the [Time Molecule](https://technicspub.com/time-molecules/) book: https://github.com/MapRock/TimeMolecules/tree/main/book_code/sql
+
+The difference between [llm_prompts](https://github.com/MapRock/TimeMolecules/tree/main/docs/llm_prompts), [tutorials](https://github.com/MapRock/TimeMolecules/tree/main/tutorials), and [time molecules skills](https://github.com/MapRock/TimeMolecules/tree/main/tutorials/time_molecules_skills):
 
