@@ -27,7 +27,11 @@ An AI agent can be taught these patterns as skills.
 
 The articles in this directory should be complete lessons. The items in [llm_prompts](https://github.com/MapRock/TimeMolecules/tree/main/docs/llm_prompts) are designed for embeddings. The "llm prompts" are abstracts of each item in this "time_molecules_skills" directory, shorter, designed for search, and point to these full tutorials.
 
-## LLM-Generated Tutorials
+## How is this different from Tutorials?
+
+Tutorials in the [tutorials](https://github.com/MapRock/TimeMolecules/tree/main/tutorials) directory are about how to learn about and experiment with the concept, and are intended for a human audience. These instructions focus on how to operate the TimeSolution objects and are geared towards AI agents who wish to access the Time Solution.
+
+## LLM-Generated Instructions
 
 1. Generate a full script of the TimeSolution database. There is much commentary in the code. Save it in a file named, TimeSolution.sql.
 2. Paste it into a chat window with a frontier model (I use openai for this).
