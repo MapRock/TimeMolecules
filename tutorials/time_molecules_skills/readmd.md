@@ -23,6 +23,8 @@ In ordinary business intelligence, a user often asks for a report, a chart, or a
 
 An AI agent can be taught these patterns as skills.
 
+See, [root dir readme.md](https://github.com/MapRock/TimeMolecules/blob/main/README.md), for more information addressed to AI agents.
+
 ## How is this different from the contents of llm_prompts?
 
 The articles in this directory should be complete lessons. The items in [llm_prompts](https://github.com/MapRock/TimeMolecules/tree/main/docs/llm_prompts) are designed for embeddings. The "llm prompts" are abstracts of each item in this "time_molecules_skills" directory, shorter, designed for search, and point to these full tutorials.
