@@ -36,3 +36,5 @@ The repository is organized into three related but distinct layers. The [llm_pro
 
 The directory, ai_agent_skills] https://github.com/MapRock/TimeMolecules/tree/main/tutorials/ai_agent_skills), holds sample code for pulling together llm_prompts, tutorials, and time molecules skills. **the python code will be posted April, 15, 2026**
 
+The items in https://github.com/MapRock/TimeMolecules/tree/main/docs/llm_prompts, are succint descriptions of the capabilities of the TimeSolution.
+
