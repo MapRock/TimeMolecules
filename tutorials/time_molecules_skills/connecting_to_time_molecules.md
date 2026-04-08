@@ -84,3 +84,63 @@ The base tables are intended to remain locked down.
 For the current sample implementation, **SQL Server** is the active reference platform. **Azure SQL Managed Instance** is expected to be the most natural near-term deployment target because it is closest to SQL Server behavior. **Azure Synapse** and **Snowflake** are important target platforms, but they should presently be treated as planned targets that will require connector setup, security configuration, and some SQL adaptation before full support is available.
 
 The intended operational model is that consumers and agents work through **approved views, stored procedures, and functions**, while the underlying base tables remain protected.
+
+## MCP access for AI agents
+
+In addition to direct database connections, TimeSolution can also be exposed to AI agents through MCP (Model Context Protocol). MCP is a standard way for agents to discover and call approved tools rather than issuing unrestricted SQL directly. For SQL Server-family deployments, Microsoft’s SQL MCP Server is now part of Data API builder and is designed to expose selected database objects to agents through a controlled interface. :contentReference[oaicite:0]{index=0}
+
+### Why MCP may be useful for TimeSolution
+
+For TimeSolution, MCP is not a replacement for the database. It is a controlled access layer in front of the database. This fits the intended TimeSolution access model well because agents are already expected to work through approved interface objects such as:
+
+- views
+- stored procedures
+- table-valued functions
+- scalar functions
+
+rather than connecting directly to base tables. MCP can make those approved interfaces easier to expose to agent frameworks while keeping object-level permissions and access rules centralized. Microsoft’s SQL MCP Server documentation explicitly describes exposing selected tables, views, and stored procedures through configuration, with role-based access control applied consistently. :contentReference[oaicite:1]{index=1}
+
+### SQL Server and Azure SQL Managed Instance
+
+For SQL Server, MCP is a practical connection option today through Microsoft’s SQL MCP Server in Data API builder. Data API builder supports SQL Server and Azure SQL, and the SQL MCP Server uses the same configuration model to define the database connection and the objects that are exposed to agents. :contentReference[oaicite:2]{index=2}
+
+Azure SQL Managed Instance should generally be treated as the most natural Azure target for TimeSolution because it is closest to SQL Server behavior. An MCP layer built with Microsoft’s SQL MCP Server should be considered viable when the managed instance is reachable and the required networking, identity, and database permissions are in place. The important practical point is that Managed Instance still requires endpoint reachability, authentication, and private networking or firewall setup like any other SQL deployment. :contentReference[oaicite:3]{index=3}
+
+### Snowflake
+
+Snowflake also supports MCP, but through a different platform path. Snowflake provides a Snowflake-managed MCP server and SQL support for creating MCP servers inside Snowflake. That means AI agents can connect to governed Snowflake tools and approved SQL execution paths without deploying a separate MCP layer outside Snowflake. :contentReference[oaicite:4]{index=4}
+
+For TimeSolution specifically, Snowflake should still be treated as a target platform that may require SQL adaptation because the current sample implementation is SQL Server-based. MCP does not remove the need to adapt SQL Server-specific code patterns when moving TimeSolution logic to Snowflake. :contentReference[oaicite:5]{index=5}
+
+### When to use MCP versus a direct connection
+
+Use a direct database connection when:
+
+- the runtime already has an approved connector and credentials
+- the agent is expected to call a known set of procedures, views, or functions directly
+- the environment is SQL Server-centric and no tool-discovery layer is needed
+
+Use MCP when:
+
+- the agent framework expects MCP tools
+- you want object exposure and tool descriptions to be centrally configured
+- you want a stronger contract around what an agent may call
+- you want to expose only approved retrieval or action surfaces rather than broad SQL capability
+
+MCP is therefore best understood as an optional agent-facing access layer for TimeSolution, not as a change to TimeSolution’s underlying security model. The same design principle still applies: expose curated interface objects and keep base tables protected. :contentReference[oaicite:6]{index=6}
+
+### Recommended guidance for AI agents
+
+If TimeSolution is made available through MCP, an AI agent should assume:
+
+| Situation | Recommended agent assumption |
+|---|---|
+| MCP server is available | Use the advertised approved tools first instead of inventing raw SQL. |
+| MCP tool call fails | Treat this as a configuration, connectivity, or permission issue and fail clearly. |
+| A needed object is not exposed | Do not assume broad database access exists; report that the interface does not include the required object. |
+| Results seem incomplete | Consider that role-based filtering, approved object exposure, or row-level visibility logic may be in effect. |
+| Platform is Snowflake | Assume the MCP layer may be present even if TimeSolution SQL had to be adapted for the platform. |
+
+### Practical note
+
+For a tutorial on connecting to TimeSolution, MCP should be presented as an add-on deployment option for AI agents rather than the default connection method. The default explanation should remain direct database connectivity to approved SQL objects. Then a separate note can explain that agent-oriented deployments may expose those same approved objects through MCP for safer tool discovery and controlled execution. :contentReference[oaicite:7]{index=7}
