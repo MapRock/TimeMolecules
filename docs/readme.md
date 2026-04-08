@@ -1,6 +1,5 @@
 Supplemental documents for the book, <a href="https://technicspub.com/time-molecules/" target="_blank"><em>Time Molecules</em></a>.
 
+This directory holds abstracts of tutorials, blogs, and other objects instructive of Time Molecules. These items are geared towards abstracts geared towards effective embedding. They point to material that is more detailed, (blogs, other pages on this repository, and metadata from the TimeSolution database).
 
-June 4, 2025 - Expect that the documents in this folder will be updated on a regular basis.
-
-See, root dir readme.md, for more information addressed to AI agents.
+See, [root dir readme.md](https://github.com/MapRock/TimeMolecules/blob/main/README.md), for more information addressed to AI agents.
