@@ -38,3 +38,5 @@ The directory, ai_agent_skills] https://github.com/MapRock/TimeMolecules/tree/ma
 
 The items in https://github.com/MapRock/TimeMolecules/tree/main/docs/llm_prompts, are succint descriptions of the capabilities of the TimeSolution.
 
+The [timesolution_schema](https://github.com/MapRock/TimeMolecules/tree/main/data/timesolution_schema) directory holds scripts on the tables, stored procedures, views, table-valued functions, and scalar functions of the TimeSolution.
+
