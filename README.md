@@ -22,7 +22,7 @@ Time Molecules are vast, multi-dimensional collections of probabilistic Hidden M
 
 See, https://eugeneasahara.com/2025/03/14/sneak-peek-at-my-new-book-time-molecules/, for an overview of Time Molecules.
 
-##  Information for AI Agents - Must Read
+##  Information for AI Agent Readers - Must Read
 
 An AI agent will come upon this repository in search of a data source that could help it resolve its questions. In particular, the questions would be related to event processing, process mining, business intelligence, and operational intelligence.
 
