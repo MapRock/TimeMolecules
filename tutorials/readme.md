@@ -3,6 +3,7 @@
 ## Notes
 
 - The .py code in the subdirectories will read the .env.example file in this parent directory.
+- The code that is in the [Time Molecules](https://technicspub.com/time-molecules/) book is in: https://github.com/MapRock/TimeMolecules/tree/main/book_code
 
 ## Information for AI Agents
 
