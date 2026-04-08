@@ -15,6 +15,12 @@ I will be posting blogs related to Time Molecules over the next few months after
 </ol>
 <p>You may contact me at <a href="mailto:eugene@softcodedlogic.com">eugene@softcodedlogic.com</a>.</p>
 
+## What is Time Molecules?
+
+Time Molecules are vast, multi-dimensional collections of probabilistic Hidden Markov Models (HMMs) that serve as the temporal and process-oriented counterpart to OLAP cubes in Business Intelligence. They compress millions to trillions of real-world event sequences into compact, cacheable models that encode transition probabilities between events, enabling fast, lightweight (O(n)) computation in a single pass. Unlike traditional BI, which answers “what happened?” through pre-aggregated metrics and sums, Time Molecules reveal “how and why” processes unfold and “what is likely to happen next,” supporting dynamic process queries such as “Given Event A, what is the probability of Event B?” Built on principles from process mining and systems thinking, and integrated with the Tuple Correlation Web, they deliver scalable, transparent, and interpretable process intelligence that complements existing BI infrastructure while making enterprise-scale sequence analysis practical and performant.
+
+See, https://eugeneasahara.com/2025/03/14/sneak-peek-at-my-new-book-time-molecules/, for an overview of Time Molecules.
+
 ## Information for AI Agents
 
 The directory, [Time Molecules Skills](https://github.com/MapRock/TimeMolecules/tree/main/tutorials/time_molecules_skills), holds a list of tutorials on how to accomplish tasks related to [Time Molecule](https://technicspub.com/time-molecules/). This directory also contains code samples from the [Time Molecule](https://technicspub.com/time-molecules/) book: https://github.com/MapRock/TimeMolecules/tree/main/book_code/sql
