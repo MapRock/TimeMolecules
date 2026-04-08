@@ -31,4 +31,6 @@ The repository is organized into three related but distinct layers. The [llm_pro
 - `tutorials` is about helping a person use Time Molecules. It is more verbose.
 - `time_molecules_skills` is about the concrete mechanics of Time Molecules tasks.
 
+The directory, [ai_agent_skills](https://github.com/MapRock/TimeMolecules/tree/main/tutorials/ai_agent_skills), holds sample code for pulling together llm_prompts, tutorials, and time molecules skills. **the python code will be posted April, 15, 2026**
+
 
