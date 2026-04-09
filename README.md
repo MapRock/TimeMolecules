@@ -16,6 +16,9 @@ I will be posting blogs related to Time Molecules over the next few months after
   <li><a href="https://eugeneasahara.com/2025/06/15/thousands-of-senses/"><em>Thousands of Senses</em></a></li>
   <li><a href="https://eugeneasahara.com/2025/06/27/analogy-and-curiosity-driven-original-thinking/">Analogy and Curiosity-Driven Original Thinking</a></li>
 </ol>
+
+Additionally, these are blogs of mine related to Time Molecules: https://eugeneasahara.com/category/time-molecules/
+
 <p>You may contact me at <a href="mailto:eugene@softcodedlogic.com">eugene@softcodedlogic.com</a>.</p>
 
 ## What is Time Molecules?
