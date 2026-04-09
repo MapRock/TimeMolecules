@@ -33,3 +33,16 @@ OPENAI_API_KEY=[your openai key]
 CHATGPT_MODEL=gpt-4o-mini
 CHATGPT_MAX_RESPONSE_TOKENS=500
 ```
+## No Actual Time Molecules Implementation
+
+In order to build embeddings of Time Molecules assets without needing to install the TimeSolution SQL Server sample, I've dumped out the metadata into a file, https://github.com/MapRock/TimeMolecules/blob/main/data/timesolution_schema/TimeMolecules_Metadata.csv 
+
+Set the metadata_source variable in time_molecules_embeddings.py to csv:
+
+```python
+if __name__ == "__main__":
+    # Set parameters.
+    force_refresh = True  # Will reset the qdrant-client database.
+    llm=os.getenv("EMBED_LLM", "ollama").lower()
+    metadata_source = "sql" # "sql" or "csv" or "auto"
+```
