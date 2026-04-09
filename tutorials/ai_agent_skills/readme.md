@@ -43,6 +43,6 @@ Set the metadata_source variable in time_molecules_embeddings.py to csv:
 if __name__ == "__main__":
     # Set parameters.
     force_refresh = True  # Will reset the qdrant-client database.
-    llm=os.getenv("EMBED_LLM", "ollama").lower()
+    llm = os.getenv("EMBED_LLM", "ollama").lower()
     metadata_source = "sql" # "sql" or "csv" or "auto"
 ```
