@@ -1,4 +1,6 @@
-Generated using SQL Server's "generate scripts" function. 
+Generated using SQL Server's "generate scripts" function.
+
+Each stored procedure, table-valued function, and scalar function, contain extensive metadata (comments at the top of the script).
 
 Created in three parts (stored procedures, tables, and views/TVF) to avoid one big file.
 
