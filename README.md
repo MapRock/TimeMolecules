@@ -1,4 +1,7 @@
 # TimeMolecules
+
+**Important Note**: This repo is in a state of refresh until May 1, 2026. However, the material directly referenced in the book should be stable.
+
 Supplemental github repository for the book, <a href="https://technicspub.com/time-molecules/" target="_blank"><em>Time Molecules</em></a>.
 
 Please see the document, <a href="https://github.com/MapRock/TimeMolecules/blob/main/docs/install_timemolecules_dev_env.md/" target="_blank"><em>Install Dev Environment</em></a>, for instructions on setting up the dev environment for the book tutorials. TimeSolution is implemented as a SQL database and extensive logic (stored procedures, views, table-valued functions, scalar functions).
