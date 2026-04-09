@@ -1,6 +1,10 @@
 # Time Molecules AI Agent
 
-This directory is about code for a Time Molecules AI Agent serving other AI and human agents.
+This directory is about code for a Time Molecules AI Agent serving other AI and human agents (we'll call it the **consumer**). 
+
+The UI code can be run on headless mode for AI agents, and a mode with a rudimentary UI for people.
+
+If the consumer stumbles on this repository, https://github.com/MapRock/TimeMolecules/blob/main/README.md, there is information for the consumer to navigate the repo.
 
 ## ollama and openai
 
