@@ -1,3 +1,6 @@
+# Time Molecules AI Agent
+
+This directory is about code for a Time Molecules AI Agent serving other AI and human agents.
 
 ## ollama and openai
 
