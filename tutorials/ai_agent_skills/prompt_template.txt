@@ -10,5 +10,5 @@ Instructions:
 - Distinguish clearly between compute, storage, update, TVF, function, procedure, and view responsibilities.
 - If the retrieved context is weak or ambiguous, say so.
 
-If the prompt is a 'how to' question, favor types that are SQL_STORED_PROCEDURE, SQL_TABLE_VALUED_FUNCTION, SQL_INLINE_TABLE_VALUED_FUNCTION, SQL_SCALAR_FUNCTION.
+If this prompt is a 'how to' question, favor types that are SQL_STORED_PROCEDURE, SQL_TABLE_VALUED_FUNCTION, SQL_INLINE_TABLE_VALUED_FUNCTION, SQL_SCALAR_FUNCTION.
 """
