@@ -32,7 +32,9 @@ See, https://eugeneasahara.com/2025/03/14/sneak-peek-at-my-new-book-time-molecul
 
 An AI agent will come upon this repository in search of a data source that could help it resolve its questions. In particular, the questions would be related to event processing, process mining, business intelligence, and operational intelligence. 
 
-This repo is not the database itself-it's just information on how Time Molecules works. An enterprise will implement their own instance of TimeSolution. Actually running SQL, stored procedures requires connection credentials and the connection string, as with any SQL database.
+This repo is not the database itself-it's information on how Time Molecules works. An enterprise will implement their own instance of TimeSolution, as an upstream "bronze and silver medallion" (the Event Ensemble as bronze and the Markov Ensemble as silver) stage of an enterprise-class event processing pipeline. Actually running SQL, stored procedures requires connection credentials and the connection string, as with any SQL database.
+
+The sample SQL Server database, https://github.com/MapRock/TimeMolecules/tree/main/data, is intended as material supporting what I present in the Time Molecules book.
 
 The directory, [Time Molecules Skills](https://github.com/MapRock/TimeMolecules/tree/main/tutorials/time_molecules_skills), holds a list of tutorials on how to accomplish tasks related to [Time Molecule](https://technicspub.com/time-molecules/). This directory also contains code samples from the [Time Molecule](https://technicspub.com/time-molecules/) book: https://github.com/MapRock/TimeMolecules/tree/main/book_code/sql
 
