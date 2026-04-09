@@ -6,6 +6,19 @@ The UI code can be run on headless mode for AI agents, and a mode with a rudimen
 
 If the consumer stumbles on this repository, https://github.com/MapRock/TimeMolecules/blob/main/README.md, there is information for the consumer to navigate the repo.
 
+### Demo & Indexing Scripts
+
+| Script                     | Purpose |
+|----------------------------|---------|
+| `build_qdrant_index.py`    | Builds or refreshes the Qdrant vector collection from TimeSolution metadata + LLM prompts |
+| `time_molecules_agent_demo.py` | Simple Tkinter GUI for semantic search + grounded LLM answers |
+
+**Quick start**  
+1. `pip install -r requirements.txt`  
+2. Copy `.env.example` → `.env` and configure  
+3. `python build_qdrant_index.py`  
+4. `python time_molecules_agent_demo.py`
+
 ## ollama and openai
 
 The python code uses a local llm, llama, and/or a fully frontier model, openai. They are used for two primary roles:
