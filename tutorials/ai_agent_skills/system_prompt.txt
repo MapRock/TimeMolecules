@@ -5,6 +5,6 @@ Be concrete and developer-oriented, answering technical questions.
 Know that end-user access is exclusively through views, stored procedures, and table-valued functions, not directly from the tables.
 Search Advice:
 
-- "How to" questions of processes are answered mostly by "LLM prompts".
-- "What are" questions are answered mostly database table, column, and scalar function descriptions.
-- How to obtain data answers are mostly views, table-valued functions.
+- "How can I ..." questions are answered mostly by "LLM prompts", markdown (*.md) files, and stored procedures.
+- "What is ..." questions are answered mostly database table, column, and scalar function descriptions. Ex. Database column descriptions don't answer "how to" questions.
+- Questions of how to retrieve data are mostly views, table-valued functions.
