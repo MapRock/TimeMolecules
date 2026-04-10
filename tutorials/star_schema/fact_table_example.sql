@@ -1,3 +1,6 @@
+/*
+Sample of a SQL that generates a fact table from case-level and event-level properties.
+*/
 SELECT
 	e.[EventID],
 	e.EventDate,
