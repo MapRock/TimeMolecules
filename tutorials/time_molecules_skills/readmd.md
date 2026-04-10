@@ -51,10 +51,11 @@ Using the knowledge within the attached database script, generate the following 
 
 [Describe the Instructions and/or Paste a URL to the source material]
 
-Rules:
+Mandatory Rules:
 
 - The instructions should be targeted at a primary audience of AI agents that will need to query or update the TimeSolution database, an implementation of https://technicspub.com/time-molecules.
-- Because the primary audience are AI agents, the tutorial should include references to code, information about the parameters, prerequisites, and an actionable example if possible.
+- Because the primary audience are AI agents, the skill should include references to code, information about the parameters, prerequisites, and an actionable example if possible.
+- The "skill" should be succinct, straight-fowards, without being too terse. This differs from tutorials that could be more descriptive and user-friendly.
 - The tutorial should not include anything that would result in misbehavior, being mindful of security issues, social responsibility, etc.
 - The repository, https://github.com/MapRock/TimeMolecules/tree/main/book_code/sql, contains more information that might provide food for thought.
 - Be sure to mention the source material.
