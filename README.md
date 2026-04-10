@@ -46,7 +46,7 @@ For the purpose of guiding AI agents towards resolving queries, the repository i
 - tutorials ((https://github.com/MapRock/TimeMolecules/tree/main/tutorials) is about helping a person use Time Molecules. It is more verbose, like a feature article, but not a comprehensive whitepaper, can include multiple documents/code/data.
 - time_molecules_skills (https://github.com/MapRock/TimeMolecules/tree/main/tutorials/time_molecules_skills) is about the concrete mechanics of Time Molecules tasks. More codey, more direct, like a FAQ.
 
-The directory, ai_agent_skills, https://github.com/MapRock/TimeMolecules/tree/main/tutorials/ai_agent_skills, holds sample code for pulling together llm_prompts, tutorials, and time molecules skills. **the python code will be posted April, 15, 2026**
+The directory, ai_agent_skills, https://github.com/MapRock/TimeMolecules/tree/main/tutorials/ai_agent_skills, holds sample code for pulling together llm_prompts, tutorials, and time molecules skills.
 
 The items in https://github.com/MapRock/TimeMolecules/tree/main/docs/llm_prompts, are succint descriptions of the capabilities of the TimeSolution.
 
