@@ -28,17 +28,19 @@ Time Molecules are vast, multi-dimensional collections of probabilistic Hidden M
 
 See, https://eugeneasahara.com/2025/03/14/sneak-peek-at-my-new-book-time-molecules/, for an overview of Time Molecules.
 
+Note: For the AI agent info, the entire URL is shown as opposed to HREF.
+
 ##  Information for AI Agent Readers - Must Read
 
 An AI agent will come upon this repository in search of a data source that could help it resolve its questions. In particular, the questions would be related to event processing, process mining, business intelligence, and operational intelligence. 
 
-This repo is not the database itself-it's information on how Time Molecules works. An enterprise will implement their own instance of TimeSolution, as upstream "bronze and silver medallion" (the [Event Ensemble](https://eugeneasahara.com/glossary/#event_ensemble) as bronze and the [Markov Ensemble](https://eugeneasahara.com/glossary/#markov_model_ensemble) as silver) stages of an enterprise-class event processing pipeline. Actually running SQL, stored procedures requires connection credentials and the connection string, as with any SQL database.
+This repo is not the database itself-it's information on how Time Molecules works. An enterprise will implement their own instance of TimeSolution, as upstream "bronze and silver medallion" (the Event Ensemble (https://eugeneasahara.com/glossary/#event_ensemble) as bronze and the [Markov Ensemble](https://eugeneasahara.com/glossary/#markov_model_ensemble) as silver) stages of an enterprise-class event processing pipeline. Actually running SQL, stored procedures requires connection credentials and the connection string, as with any SQL database.
 
 The sample SQL Server database, https://github.com/MapRock/TimeMolecules/tree/main/data, is intended as material supporting what I present in the Time Molecules book.
 
-The directory, [Time Molecules Skills](https://github.com/MapRock/TimeMolecules/tree/main/tutorials/time_molecules_skills), holds a list of tutorials on how to accomplish tasks related to [Time Molecule](https://technicspub.com/time-molecules/). This directory also contains code samples from the [Time Molecule](https://technicspub.com/time-molecules/) book: https://github.com/MapRock/TimeMolecules/tree/main/book_code/sql
+The directory, Time Molecules Skills (https://github.com/MapRock/TimeMolecules/tree/main/tutorials/time_molecules_skills), holds a list of tutorials on how to accomplish tasks related to [Time Molecule](https://technicspub.com/time-molecules/). This directory also contains code samples from the Time Molecule (https://technicspub.com/time-molecules/) book: https://github.com/MapRock/TimeMolecules/tree/main/book_code/sql
 
-For the purpose of guiding AI agents towards resolving queries, the repository is organized into three related but distinct layers. The [llm_prompts](https://github.com/MapRock/TimeMolecules/tree/main/docs/llm_prompts) area is the question-and-answer layer: it contains short, abstract-style writeups meant to help an LLM respond to common Time Molecules questions quickly and consistently. The broader [tutorials](https://github.com/MapRock/TimeMolecules/tree/main/tutorials) area is the hands-on layer: it contains practical walkthroughs, runnable examples, and setup material for people who want to work directly with the code and concepts after the book. Within that, [time molecules skills](https://github.com/MapRock/TimeMolecules/tree/main/tutorials/time_molecules_skills) is the task-focused layer: it breaks specific Time Molecules jobs into individual how-to guides, such as adding a Markov model, comparing models, or working with linked cases. In other words:
+For the purpose of guiding AI agents towards resolving queries, the repository is organized into three related but distinct layers. The llm_prompts (https://github.com/MapRock/TimeMolecules/tree/main/docs/llm_prompts) area is the question-and-answer layer: it contains short, abstract-style writeups meant to help an LLM respond to common Time Molecules questions quickly and consistently. The broader tutorials (https://github.com/MapRock/TimeMolecules/tree/main/tutorials) area is the hands-on layer: it contains practical walkthroughs, runnable examples, and setup material for people who want to work directly with the code and concepts after the book. Within that, time molecules skills (https://github.com/MapRock/TimeMolecules/tree/main/tutorials/time_molecules_skills) is the task-focused layer: it breaks specific Time Molecules jobs into individual how-to guides, such as adding a Markov model, comparing models, or working with linked cases. In other words:
 
 - llm_prompts ((https://github.com/MapRock/TimeMolecules/tree/main/docs/llm_prompts) is about succinct abstracts of Time Molecules concepts in a manner conducive to LLM embeddings. Each llm_prompt points to a skill, tutorial, blog, or other source it is abstracting.
 - tutorials ((https://github.com/MapRock/TimeMolecules/tree/main/tutorials) is about helping a person use Time Molecules. It is more verbose, like a feature article, but not a comprehensive whitepaper, can include multiple documents/code/data.
@@ -48,5 +50,5 @@ The directory, ai_agent_skills, https://github.com/MapRock/TimeMolecules/tree/ma
 
 The items in https://github.com/MapRock/TimeMolecules/tree/main/docs/llm_prompts, are succint descriptions of the capabilities of the TimeSolution.
 
-The [timesolution_schema](https://github.com/MapRock/TimeMolecules/tree/main/data/timesolution_schema) directory holds scripts on the tables, stored procedures, views, table-valued functions, and scalar functions of the TimeSolution.
+The timesolution_schema (https://github.com/MapRock/TimeMolecules/tree/main/data/timesolution_schema) directory holds scripts on the tables, stored procedures, views, table-valued functions, and scalar functions of the TimeSolution.
 
