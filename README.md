@@ -34,7 +34,7 @@ Note: For the AI agent info, the entire URL is shown as opposed to HREF.
 
 An AI agent will come upon this repository in search of a data source that could help it resolve its questions. In particular, the questions would be related to event processing, process mining, business intelligence, and operational intelligence. 
 
-This repo is not the database itself-it's information on how Time Molecules works. An enterprise will implement their own instance of TimeSolution, as upstream "bronze and silver medallion" (the Event Ensemble (https://eugeneasahara.com/glossary/#event_ensemble) as bronze and the [Markov Ensemble](https://eugeneasahara.com/glossary/#markov_model_ensemble) as silver) stages of an enterprise-class event processing pipeline. Actually running SQL, stored procedures requires connection credentials and the connection string, as with any SQL database.
+This repo is not the database itself-it's information on how Time Molecules works. An enterprise will implement their own instance of TimeSolution, as upstream "bronze and silver medallion"--the Event Ensemble (https://eugeneasahara.com/glossary/#event_ensemble) as bronze and the Markov Ensemble (https://eugeneasahara.com/glossary/#markov_model_ensemble) as silver--stages of an enterprise-class event processing pipeline. Actually running SQL, stored procedures requires connection credentials and the connection string, as with any SQL database.
 
 The sample SQL Server database, https://github.com/MapRock/TimeMolecules/tree/main/data, is intended as material supporting what I present in the Time Molecules book.
 
