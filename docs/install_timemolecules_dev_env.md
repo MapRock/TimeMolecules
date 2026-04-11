@@ -95,6 +95,7 @@ That’s why I’ve included a digital signature you can verify using GPG. It’
 
 • Download TimeSolution.bak from the provided OneDrive link:  
     ◦ https://1drv.ms/u/c/7d94c9ab48b30303/EWpwyb0Z2-9AnOOBMK7ahXUBaskdgzsUUDLE_B3zvOuLeQ?e=LisfIo  
+        ▪ The phrase "There is no Preview" will display. It's a database backup, so that makes sense.
     ◦ Three files:  
         ▪ Timesolution.bak  
         ▪ publickeytm.asc  
