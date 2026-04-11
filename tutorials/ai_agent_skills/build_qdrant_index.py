@@ -131,6 +131,7 @@ def get_semantic_web_llm_values_df(
     def _load_from_sql() -> pd.DataFrame:
         conn_str = build_connection_string()
         sql = """
+        EXEC dbo.BuildTimeSolutionsMetadata;
         SELECT
             ObjectType,
             ObjectName,
@@ -139,7 +140,7 @@ def get_semantic_web_llm_values_df(
             ParametersJson,
             OutputNotes,
             ReferencedObjectsJson
-        FROM [vwTimeSolutionsMetadata]
+        FROM [vwTimeSolutionsMetadata];
         """
         with pyodbc.connect(conn_str, timeout=30) as conn:
             return pd.read_sql(sql, conn)
