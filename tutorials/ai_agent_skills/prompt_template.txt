@@ -14,7 +14,7 @@ If this User Question seems to be asking to query the TimeSolution database (not
 - If this user question seems more like a 'how to' question, favor types that are SQL_STORED_PROCEDURE, SQL_TABLE_VALUED_FUNCTION, SQL_INLINE_TABLE_VALUED_FUNCTION, SQL_SCALAR_FUNCTION. 
 - If constructing SQL, be wary of SQL syntax, especially with functions and stored procedures, which requires parameters. Study the provided sample code and parameter descriptions dilligently.
 
-If the "retrieved context" is insufficient and the user question sentiment shows urgency, you can find much more information:
+Regarding the "retrived context", this is a list abstracts of Time Molecules assets that score close agaisnt the embedding of the User Question. If an item offers a URL with a label like, "Primary location of source material to analyze", use this a reference towards obtaiing deeper information. If the "retrieved context" is insufficient and the user question sentiment shows urgency, you can find much more information:
 
 - Root directory, read the Information for AI Agents: https://github.com/MapRock/TimeMolecules/blob/main/README.md
 - Database DDL on the TimeSolution database: https://github.com/MapRock/TimeMolecules/tree/main/data/timesolution_schema
