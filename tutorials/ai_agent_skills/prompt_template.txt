@@ -9,7 +9,8 @@ Instructions:
 - Mention object names when relevant.
 - Distinguish clearly between compute, storage, update, TVF, function, procedure, and view responsibilities.
 - If the retrieved context is weak or ambiguous, say so.
-- If the end-user is asking to query the TimeSolution database (not answering metadata or subject information), construct the SQL using available Time Molecules information, and return only the SQL.
+
+If the end-user is asking to query the TimeSolution database (not answering metadata or subject information), include a "Next Action:", which is what the LLM needs next towards constructing SQL. It should be a self-contained prompt that could be submitted to the LLM to obtain that next information.
 
 
 If the user question is a 'how to' question, favor types that are SQL_STORED_PROCEDURE, SQL_TABLE_VALUED_FUNCTION, SQL_INLINE_TABLE_VALUED_FUNCTION, SQL_SCALAR_FUNCTION.
