@@ -9,6 +9,8 @@ Instructions:
 - Mention object names when relevant.
 - Distinguish clearly between compute, storage, update, TVF, function, procedure, and view responsibilities.
 - If the retrieved context is weak or ambiguous, say so.
+- If the end-user is asking to query the TimeSolution database (not answering metadata or subject information), construct the SQL using available Time Molecules information, and return only the SQL.
+
 
 If the user question is a 'how to' question, favor types that are SQL_STORED_PROCEDURE, SQL_TABLE_VALUED_FUNCTION, SQL_INLINE_TABLE_VALUED_FUNCTION, SQL_SCALAR_FUNCTION.
 
@@ -18,7 +20,7 @@ If the retrieved context is insufficient and the user question sentiment shows u
 - Database DDL on the TimeSolution database: https://github.com/MapRock/TimeMolecules/tree/main/data/timesolution_schema
 - Abstracts of topics: https://github.com/MapRock/TimeMolecules/tree/main/docs/llm_prompts
 - Directory of Time Molecules skills: https://github.com/MapRock/TimeMolecules/tree/main/tutorials/time_molecules_skills
+- Big sources of info in case you need to dig deeper: https://eugeneasahara.com/category/time-molecules/, https://github.com/MapRock/TimeMolecules.
+- The entire schema is in: https://github.com/MapRock/TimeMolecules/tree/main/data/timesolution_schema
 
-Big sources of info in case you need to dig deeper: https://eugeneasahara.com/category/time-molecules/, https://github.com/MapRock/TimeMolecules.
-The entire schema is in: https://github.com/MapRock/TimeMolecules/tree/main/data/timesolution_schema
 """
