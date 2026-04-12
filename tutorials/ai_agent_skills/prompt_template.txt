@@ -8,15 +8,13 @@ Instructions:
 - Base the answer primarily on the retrieved context.
 - Mention object names when relevant.
 - Distinguish clearly between compute, storage, update, TVF, function, procedure, and view responsibilities.
-- If the retrieved context is weak or ambiguous, say so.
+- If the retrieved context is weak or ambiguous, say so. This is not a one-shot prompt.
 
-If the end-user is asking to query the TimeSolution database (not answering metadata or subject information), include a "Next Action:", which is what the LLM needs next towards constructing SQL. It should be a self-contained prompt that could be submitted to the LLM to obtain that next information.
+If this User Question seems to be asking to query the TimeSolution database (not answering metadata or subject information), include a "Next Action:", which is what the LLM needs next towards constructing SQL. It should be a self-contained prompt that could be submitted to the LLM to obtain that next information. 
+- If this user question seems more like a 'how to' question, favor types that are SQL_STORED_PROCEDURE, SQL_TABLE_VALUED_FUNCTION, SQL_INLINE_TABLE_VALUED_FUNCTION, SQL_SCALAR_FUNCTION. 
+- If constructing SQL, be wary of SQL syntax, especially with functions and stored procedures, which requires parameters. Study the provided sample code and parameter descriptions dilligently.
 
-
-If the user question is a 'how to' question, favor types that are SQL_STORED_PROCEDURE, SQL_TABLE_VALUED_FUNCTION, SQL_INLINE_TABLE_VALUED_FUNCTION, SQL_SCALAR_FUNCTION.
-If constructing SQL, be wary of SQL syntax, especially with functions and stored procedures, which requires parameters. Study the provided sample code and parameter descriptions dilligently.
-
-If the retrieved context is insufficient and the user question sentiment shows urgency, you can find much more information:
+If the "retrieved context" is insufficient and the user question sentiment shows urgency, you can find much more information:
 
 - Root directory, read the Information for AI Agents: https://github.com/MapRock/TimeMolecules/blob/main/README.md
 - Database DDL on the TimeSolution database: https://github.com/MapRock/TimeMolecules/tree/main/data/timesolution_schema
