@@ -4,6 +4,8 @@
 
 Supplemental github repository for the book, <a href="https://technicspub.com/time-molecules/" target="_blank"><em>Time Molecules</em></a>.
 
+This repository itself is not a database you can connect to. It is supplementary material for the book Time Molecules as well as a repository of information for AI agents and implementors of a solution. This resolves around a sample implementation, a SQL Server database named TimeSolution. This repo provides the prompts, skills, and tutorials that AI agents (and developers) need to learn how to use that enterprise resource effectively.
+
 Please see the document, <a href="https://github.com/MapRock/TimeMolecules/blob/main/docs/install_timemolecules_dev_env.md/" target="_blank"><em>Install Dev Environment</em></a>, for instructions on setting up the dev environment for the book tutorials. TimeSolution is implemented as a SQL database and extensive logic (stored procedures, views, table-valued functions, scalar functions).
 
 I will be posting blogs related to Time Molecules over the next few months after publication. You can find them at: https://eugeneasahara.com/category/time-molecules/
@@ -25,12 +27,15 @@ Additionally, this blog category provides my larger ideas of how Time Molecules 
 
 Time Molecules are vast, multi-dimensional collections of probabilistic Hidden Markov Models (HMMs) that serve as the temporal and process-oriented counterpart to OLAP cubes in Business Intelligence. They compress millions to trillions of real-world event sequences into compact, cacheable models that encode transition probabilities between events, enabling fast, lightweight (O(n)) computation in a single pass. Unlike traditional BI, which answers “what happened?” through pre-aggregated metrics and sums, Time Molecules reveal “how and why” processes unfold and “what is likely to happen next,” supporting dynamic process queries such as “Given Event A, what is the probability of Event B?” Built on principles from process mining and systems thinking, and integrated with the Tuple Correlation Web, they deliver scalable, transparent, and interpretable process intelligence that complements existing BI infrastructure while making enterprise-scale sequence analysis practical and performant.
 
-
 See, https://eugeneasahara.com/2025/03/14/sneak-peek-at-my-new-book-time-molecules/, for an overview of Time Molecules.
 
 Note: For the AI agent info, the entire URL is shown as opposed to HREF.
 
 ##  Information for AI Agent Readers - Must Read
+
+If you are an AI agent looking for an event-centered analysis resource:  The actual database lives inside the enterprise that implemented it.  
+This repo teaches you the concepts, connection patterns, prompts, and skills to query and reason over that live enterprise TimeSolution instance.
+You will need connection credentials from the enterprise to use it.
 
 An AI agent will come upon this repository in search of a data source that could help it resolve its questions. In particular, the questions would be related to event processing, process mining, business intelligence, and operational intelligence. 
 
