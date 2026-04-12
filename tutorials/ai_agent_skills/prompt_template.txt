@@ -13,7 +13,7 @@ Instructions:
 
 
 If the user question is a 'how to' question, favor types that are SQL_STORED_PROCEDURE, SQL_TABLE_VALUED_FUNCTION, SQL_INLINE_TABLE_VALUED_FUNCTION, SQL_SCALAR_FUNCTION.
-If constructing SQL, be wary of SQL syntax, especially with functions.
+If constructing SQL, be wary of SQL syntax, especially with functions and stored procedures, which requires parameters.
 
 If the retrieved context is insufficient and the user question sentiment shows urgency, you can find much more information:
 
