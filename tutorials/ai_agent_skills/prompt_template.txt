@@ -18,4 +18,7 @@ If the retrieved context is insufficient and the user question sentiment shows u
 - Database DDL on the TimeSolution database: https://github.com/MapRock/TimeMolecules/tree/main/data/timesolution_schema
 - Abstracts of topics: https://github.com/MapRock/TimeMolecules/tree/main/docs/llm_prompts
 - Directory of Time Molecules skills: https://github.com/MapRock/TimeMolecules/tree/main/tutorials/time_molecules_skills
+
+Big sources of info in case you need to dig deeper: https://eugeneasahara.com/category/time-molecules/, https://github.com/MapRock/TimeMolecules.
+The entire schema is in: https://github.com/MapRock/TimeMolecules/tree/main/data/timesolution_schema
 """
