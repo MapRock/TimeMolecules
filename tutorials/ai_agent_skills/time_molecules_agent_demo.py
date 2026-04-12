@@ -18,6 +18,8 @@ from tkinter import Tk, Label, Button, END, BOTH, X, Frame, LEFT, BooleanVar, Ch
 from tkinter.scrolledtext import ScrolledText
 from tkinter import ttk
 import requests
+import pandas as pd
+from pandastable import Table
 
 import ollama
 import openai
@@ -82,6 +84,161 @@ PROMPT_TEMPLATE_URL = (
     "tutorials/ai_agent_skills/prompt_template.txt"
 )
 
+class BaseAgent:
+    def __init__(self, name, llm_client):
+    
+        self.name = name
+        self.llm_client = llm_client
+
+    def run(self, context):
+        raise NotImplementedError("Subclasses must implement the run() method.")
+    
+    def embed_text(self,text: str) -> list[float]:
+        response = OLLAMA_CLIENT.embed(model=OLLAMA_EMBED_MODEL, input=text)
+
+        embeddings = response.get("embeddings")
+        if not embeddings or not embeddings[0]:
+            raise ValueError("Ollama returned no embedding.")
+
+        return embeddings[0]
+    
+    def ask_llm(self,prompt: str, context: str) -> str:
+
+        print(f"Calling {llm} chat with model: {OLLAMA_CHAT_MODEL}")
+        print(f"Prompt Length:\n{len(prompt)}\n")
+        print(f"Context length: {len(context)}")
+
+        user_prompt = prompt_template.replace("{prompt}", prompt).replace("{context}", context)
+
+
+        if llm == "openai":
+            response = openai.ChatCompletion.create(
+                model=CHATGPT_MODEL,
+                messages=[
+                    {"role": "system", "content": system_prompt},
+                    {"role": "user", "content": user_prompt},
+                ],
+                max_tokens=MAX_TOKENS,
+            )
+            response_message = response["choices"][0]["message"]["content"].strip()
+
+        elif llm == "ollama":
+            response = OLLAMA_CLIENT.chat(
+                model=OLLAMA_CHAT_MODEL,
+                messages=[
+                    {"role": "system", "content": system_prompt},
+                    {"role": "user", "content": user_prompt},
+                ],
+                options={"num_ctx": ctx}
+            )
+            message = response.get("message", {})
+            response_message = message.get("content", "").strip()
+
+        else:
+            raise ValueError(f"Unsupported llm: {llm}")
+
+        return response_message
+
+class TaskContext:
+    def __init__(self, user_prompt):
+        self.user_prompt = user_prompt
+        self.goal = None
+        self.process = []
+        self.current_step = None
+        self.retrieved_hits = []
+        self.link_contents = []
+        self.metadata_findings = []
+        self.sql_attempts = []
+        self.sql_results = []
+        self.errors = []
+        self.final_answer = None
+
+class GuidanceAgent(BaseAgent):
+    def run(self, context):
+        # produce process / plan / likely objects
+        pass
+
+class DiscoveryAgent(BaseAgent):
+    def run(self, context):
+        # inspect links, metadata, properties, object definitions
+        pass
+
+class SQLAgent(BaseAgent):
+    def run(self, context):
+        # draft, validate, execute, repair SQL
+        pass
+
+class PrimaryAgent(BaseAgent):
+    def __init__(self, name, llm_client, guidance_agent, discovery_agent, sql_agent):
+        super().__init__(name, llm_client)
+        self.guidance_agent = guidance_agent
+        self.discovery_agent = discovery_agent
+        self.sql_agent = sql_agent
+
+    def run(self, context):
+        # orchestrate subagents based on task type and current state
+        pass
+
+    def format_hits_for_display(self,hits) -> str:
+        """Now shows SampleCode (indented) for stored procs/functions."""
+        if not hits:
+            return "No matches found."
+
+        lines = []
+        for i, hit in enumerate(hits, start=1):
+            payload = hit.payload or {}
+            obj_name = payload.get('ObjectName', '<unknown>')
+            obj_type = payload.get('ObjectType', '')
+
+            lines.append(f"{i}. {obj_name} [{obj_type}]")
+            lines.append(f"   Score: {round(getattr(hit, 'score', 0), 4)}")
+
+            if payload.get("Description"):
+                lines.append(f"   Description: {payload.get('Description')}")
+
+            if payload.get("Utilization"):
+                lines.append(f"   Utilization: {payload.get('Utilization')}")
+
+            if obj_type in ("SQL_STORED_PROCEDURE", "SQL_SCALAR_FUNCTION",
+                            "SQL_TABLE_VALUED_FUNCTION", "SQL_INLINE_TABLE_VALUED_FUNCTION"):
+                # Parameters
+                if payload.get("ParametersJson"):
+                    lines.append("   Parameters:")
+                    for line in safe_json_pretty(payload["ParametersJson"]).splitlines():
+                        lines.append(f"      {line}")
+                else:
+                    lines.append("   Parameters: (none)")
+
+                # SampleCode
+                sample = payload.get("SampleCode", "").strip()
+                if sample:
+                    lines.append("   SampleCode:")
+                    for line in sample.splitlines():
+                        lines.append(f"      {line}")
+                else:
+                    lines.append("   SampleCode: (none)")
+
+            lines.append("")
+
+        return "\n".join(lines).strip()
+
+    def search_metadata(self, prompt: str, limit: int = RESULTS_LIMIT):
+        client = get_qdrant_client()
+        try:
+            query_vector = self.embed_text(prompt)
+            results = client.query_points(
+                collection_name=COLLECTION_NAME,
+                query=query_vector,
+                limit=limit,
+                with_payload=True,
+            ).points
+            return results
+        finally:
+            client.close()
+
+
+
+
 # ----------------------------
 # Ollama helpers
 # ----------------------------
@@ -94,14 +251,7 @@ def get_ollama_client():
 OLLAMA_CLIENT = get_ollama_client()
 
 
-def embed_text(text: str) -> list[float]:
-    response = OLLAMA_CLIENT.embed(model=OLLAMA_EMBED_MODEL, input=text)
 
-    embeddings = response.get("embeddings")
-    if not embeddings or not embeddings[0]:
-        raise ValueError("Ollama returned no embedding.")
-
-    return embeddings[0]
 
 
 def load_prompt(url: str, timeout: int = 15) -> str:
@@ -120,42 +270,7 @@ system_prompt = load_prompt(SYSTEM_PROMPT_URL)
 prompt_template = load_prompt(PROMPT_TEMPLATE_URL)
 
 
-def ask_ollama(prompt: str, context: str) -> str:
 
-    print(f"Calling {llm} chat with model: {OLLAMA_CHAT_MODEL}")
-    print(f"Prompt Length:\n{len(prompt)}\n")
-    print(f"Context length: {len(context)}")
-
-    user_prompt = prompt_template.replace("{prompt}", prompt).replace("{context}", context)
-
-
-    if llm == "openai":
-        response = openai.ChatCompletion.create(
-            model=CHATGPT_MODEL,
-            messages=[
-                {"role": "system", "content": system_prompt},
-                {"role": "user", "content": user_prompt},
-            ],
-            max_tokens=MAX_TOKENS,
-        )
-        response_message = response["choices"][0]["message"]["content"].strip()
-
-    elif llm == "ollama":
-        response = OLLAMA_CLIENT.chat(
-            model=OLLAMA_CHAT_MODEL,
-            messages=[
-                {"role": "system", "content": system_prompt},
-                {"role": "user", "content": user_prompt},
-            ],
-            options={"num_ctx": ctx}
-        )
-        message = response.get("message", {})
-        response_message = message.get("content", "").strip()
-
-    else:
-        raise ValueError(f"Unsupported llm: {llm}")
-
-    return response_message
 
 # ----------------------------
 # Qdrant helpers
@@ -176,24 +291,16 @@ def ensure_collection_exists():
         client.close()
 
 
-def search_metadata(prompt: str, limit: int = RESULTS_LIMIT):
-    client = get_qdrant_client()
-    try:
-        query_vector = embed_text(prompt)
-        results = client.query_points(
-            collection_name=COLLECTION_NAME,
-            query=query_vector,
-            limit=limit,
-            with_payload=True,
-        ).points
-        return results
-    finally:
-        client.close()
+
 
 
 # ----------------------------
 # Prompt grounding
 # ----------------------------
+# ---------------------------- 
+# Prompt grounding (UPDATED)
+# ----------------------------
+
 def safe_json_pretty(text_value: str) -> str:
     if not text_value:
         return ""
@@ -205,6 +312,7 @@ def safe_json_pretty(text_value: str) -> str:
 
 
 def build_context_from_hits(hits) -> str:
+    """Now includes SampleCode for procs/functions so the LLM sees real usage examples."""
     parts = []
 
     for i, hit in enumerate(hits, start=1):
@@ -213,6 +321,9 @@ def build_context_from_hits(hits) -> str:
         object_type = payload.get("ObjectType", "")
         description = payload.get("Description", "")
         utilization = payload.get("Utilization", "")
+        params_json = payload.get("ParametersJson", "")
+        sample_code = payload.get("SampleCode", "")
+
         block = f"""
 Match {i}
 Score: {getattr(hit, "score", "")}
@@ -220,44 +331,42 @@ Object Name: {object_name}
 Object Type: {object_type}
 Description: {description}
 Utilization: {utilization}
-""".strip()
+"""
 
-        parts.append(block)
+        if object_type in ("SQL_STORED_PROCEDURE", "SQL_SCALAR_FUNCTION",
+                           "SQL_TABLE_VALUED_FUNCTION", "SQL_INLINE_TABLE_VALUED_FUNCTION"):
+            if params_json:
+                block += f"\nParameters:\n{safe_json_pretty(params_json)}"
+            else:
+                block += "\nParameters: (none)"
+
+            if sample_code:
+                block += f"\n\nSampleCode:\n{sample_code.strip()}"
+
+        parts.append(block.strip())
 
     return "\n\n" + ("\n\n" + ("-" * 70) + "\n\n").join(parts)
 
 
-def format_hits_for_display(hits) -> str:
-    if not hits:
-        return "No matches found."
-
-    lines = []
-    for i, hit in enumerate(hits, start=1):
-        payload = hit.payload or {}
-        lines.append(f"{i}. {payload.get('ObjectName', '<unknown>')} [{payload.get('ObjectType', '')}]")
-        lines.append(f"   Score: {round(getattr(hit, 'score', 0), 4)}")
-
-        description = payload.get("Description")
-        if description:
-            lines.append(f"   Description: {description}")
-
-        utilization = payload.get("Utilization")
-        if utilization:
-            lines.append(f"   Utilization: {utilization}")
-
-        lines.append("")
-
-    return "\n".join(lines).strip()
 
 
 # ----------------------------
-# UI
+# UI (UPDATED with tabs + DataFrame support)
 # ----------------------------
 class TimeMoleculesUI:
     def __init__(self, root: Tk):
         self.root = root
         self.root.title("Time Molecules Prompt UI (Query Qdrant + Ollama)")
         self.root.geometry("1100x820")
+
+        self.primeagent = PrimaryAgent(
+            name="PrimeAgent",
+            llm_client=get_ollama_client(),
+            guidance_agent=GuidanceAgent("GuidanceAgent", get_ollama_client()),
+            discovery_agent=DiscoveryAgent("DiscoveryAgent", get_ollama_client()),
+            sql_agent=SQLAgent("SQLAgent", get_ollama_client())
+        )
+
 
         top = Frame(root)
         top.pack(fill=X, padx=10, pady=10)
@@ -289,11 +398,7 @@ class TimeMoleculesUI:
 
         self.results_limit_var = IntVar(value=RESULTS_LIMIT)
         self.results_limit_spin = Spinbox(
-            button_frame,
-            from_=1,
-            to=50,
-            width=4,
-            textvariable=self.results_limit_var
+            button_frame, from_=1, to=50, width=4, textvariable=self.results_limit_var
         )
         self.results_limit_spin.pack(side=LEFT, padx=(0, 12))
 
@@ -317,11 +422,23 @@ class TimeMoleculesUI:
         self.hits_box = ScrolledText(root, height=14, wrap="word")
         self.hits_box.pack(fill=BOTH, expand=False, padx=10, pady=5)
 
-        answer_label = Label(root, text="Answer:")
-        answer_label.pack(anchor="w", padx=10)
+        # ================== NEW: TABBED RESULTS AREA ==================
+        results_label = Label(root, text="Results:")
+        results_label.pack(anchor="w", padx=10, pady=(10, 0))
 
-        self.answer_box = ScrolledText(root, height=20, wrap="word")
-        self.answer_box.pack(fill=BOTH, expand=True, padx=10, pady=5)
+        self.results_notebook = ttk.Notebook(root)
+        self.results_notebook.pack(fill=BOTH, expand=True, padx=10, pady=5)
+
+        # Tab 1: Text Answer
+        self.answer_frame = Frame(self.results_notebook)
+        self.results_notebook.add(self.answer_frame, text="Answer")
+        self.answer_box = ScrolledText(self.answer_frame, wrap="word")
+        self.answer_box.pack(fill=BOTH, expand=True)
+
+        # Tab 2: Data Table (will hold pandastable)
+        self.table_frame = Frame(self.results_notebook)
+        self.results_notebook.add(self.table_frame, text="Query Results")
+        self.table = None  # will be created when we have data
 
     def start_spinner(self):
         self.spinner.start(10)
@@ -332,6 +449,27 @@ class TimeMoleculesUI:
     def set_status(self, text: str):
         self.status_label.config(text=text)
         self.root.update_idletasks()
+
+    # New helper: show text in Answer tab
+    def show_text(self, text: str):
+        self.answer_box.delete("1.0", END)
+        self.answer_box.insert("1.0", text)
+        self.results_notebook.select(self.answer_frame)   # switch to Answer tab
+
+    # New helper: show DataFrame as nice table
+    def show_dataframe(self, df: pd.DataFrame):
+        # Clear previous table if it exists
+        for widget in self.table_frame.winfo_children():
+            widget.destroy()
+
+        if df is None or df.empty:
+            Label(self.table_frame, text="No data returned from query.").pack()
+            return
+
+        self.table = Table(self.table_frame, dataframe=df,
+                           showtoolbar=True, showstatusbar=True)
+        self.table.show()
+        self.results_notebook.select(self.table_frame)   # switch to table tab
 
     def on_ask(self):
         prompt = self.prompt_box.get("1.0", END).strip()
@@ -349,39 +487,84 @@ class TimeMoleculesUI:
                 self.ask_button.config(state="disabled")
                 self.start_spinner()
                 self.answer_box.delete("1.0", END)
-                self.hits_box.delete("1.0", END)
+                # clear old table
+                for widget in self.table_frame.winfo_children():
+                    widget.destroy()
 
                 self.set_status("Checking Qdrant collection...")
                 ensure_collection_exists()
 
                 self.set_status("Embedding prompt and searching Qdrant...")
-                hits = search_metadata(prompt, limit=results_limit)
+                hits = self.primeagent.search_metadata(prompt, limit=results_limit)
 
-                self.hits_box.insert("1.0", format_hits_for_display(hits))
+                self.hits_box.delete("1.0", END)
+                self.hits_box.insert("1.0", self.primeagent.format_hits_for_display(hits))
 
                 if not self.use_llm_var.get():
-                    self.answer_box.insert(
-                        "1.0",
-                        "Retrieved hits shown above. Ollama summarization is turned off."
-                    )
+                    self.show_text("Retrieved hits shown above. Ollama summarization is turned off.")
                     self.set_status("Done.")
                     return
 
                 context = build_context_from_hits(hits)
 
-                self.set_status("Calling Ollama on retrieved hits...")
-                answer = ask_ollama(prompt, context)
+                self.set_status("Calling LLM...")
+                answer = self.primeagent.ask_llm(prompt, context)
 
-                self.answer_box.insert("1.0", answer)
+                # === NEW: Try to extract and run SQL if present ===
+                sql = self._extract_sql(answer)
+                if sql:
+                    self.set_status("Executing SQL query...")
+                    df = self.execute_sql(sql)          # ← your DB logic here
+                    if df is not None:
+                        self.show_dataframe(df)
+                        self.show_text(answer)          # keep explanation too
+                        self.set_status("Done (SQL executed).")
+                        return
+
+                # Normal text answer (no SQL)
+                self.show_text(answer)
                 self.set_status("Done.")
 
             except Exception as e:
-                self.answer_box.insert("1.0", f"Error:\n{e}")
+                self.show_text(f"Error:\n{e}")
                 self.set_status(f"Error: {e}")
             finally:
                 self.ask_button.config(state="normal")
                 self.stop_spinner()
+
         threading.Thread(target=worker, daemon=True).start()
+
+    # Simple SQL extractor (looks for ```sql ... ``` block)
+    def _extract_sql(self, text: str) -> str | None:
+        import re
+        match = re.search(r"```sql\s*(.*?)\s*```", text, re.DOTALL | re.IGNORECASE)
+        if match:
+            return match.group(1).strip()
+        # fallback: if the whole answer looks like a SELECT statement
+        if text.strip().upper().startswith(("SELECT", "WITH")):
+            return text.strip()
+        return None
+
+    # ================== YOUR SQL EXECUTION GOES HERE ==================
+    def execute_sql(self, sql: str) -> pd.DataFrame | None:
+        """Replace this placeholder with your real database connection."""
+        try:
+            # EXAMPLE for SQLite (uncomment and modify):
+            # import sqlite3
+            # conn = sqlite3.connect("your_timesolution.db")
+            # return pd.read_sql(sql, conn)
+
+            # EXAMPLE for SQL Server / PostgreSQL with sqlalchemy:
+            # from sqlalchemy import create_engine
+            # engine = create_engine("mssql+pyodbc://...?driver=ODBC+Driver+17+for+SQL+Server")
+            # return pd.read_sql(sql, engine)
+
+            # For now just show what would be executed
+            print("Would execute SQL:\n", sql)
+            raise NotImplementedError("Implement your DB connection in execute_sql()")
+        except Exception as e:
+            self.show_text(f"SQL execution failed:\n{e}\n\nSQL was:\n{sql}")
+            return None
 
 
 # ----------------------------

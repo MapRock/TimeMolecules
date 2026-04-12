@@ -7,6 +7,13 @@ Part of tutorials/ai_agent_skills
 
 Run build_qdrant_index.py first, then the demo.
 Uses .env + local Qdrant folder.
+
+
+When reading from sql, it will save the dataframe into a csv file in the data folder. 
+This is to have a stable snapshot of the metadata that can be easily reloaded without hitting the database, 
+and also to have a human-readable version of the metadata for debugging and exploration. 
+The csv file will be overwritten each time you run the script with source="sql", so it always reflects 
+the latest data from the database at the time of running.
 """
 from qdrant_client import QdrantClient
 from qdrant_client.models import Distance, VectorParams, PointStruct
@@ -126,6 +133,7 @@ def get_semantic_web_llm_values_df(
         "ParametersJson",
         "OutputNotes",
         "ReferencedObjectsJson",
+        "SampleCode"
     ]
 
     def _load_from_sql() -> pd.DataFrame:
@@ -139,7 +147,8 @@ def get_semantic_web_llm_values_df(
             Utilization,
             ParametersJson,
             OutputNotes,
-            ReferencedObjectsJson
+            ReferencedObjectsJson,
+            SampleCode
         FROM [vwTimeSolutionsMetadata];
         """
         with pyodbc.connect(conn_str, timeout=30) as conn:
@@ -176,6 +185,12 @@ def get_semantic_web_llm_values_df(
 
     if source == "sql":
         df = _load_from_sql()
+        df.to_csv(
+            r"c:/maprock/timemolecules/data/TimeMolecules_Metadata.csv",
+            index=False,
+            encoding="utf-8",
+            na_rep=""
+        )
     elif source == "csv":
         df = _load_from_csv()
     elif source == "auto":
@@ -286,6 +301,7 @@ def build_weighted_text(
     object_type: str,
     description: str,
     utilization: str,
+    sample_code: str
 ) -> str:
     """
     Build embedding text with Utilization weighted more than Description.
@@ -295,6 +311,7 @@ def build_weighted_text(
     object_type = normalize_text(object_type_desc(object_type))
     description = normalize_text(description)
     utilization = normalize_text(utilization)
+    sample_code = normalize_text(sample_code)
 
     # Primary semantic text
     primary_text = utilization if utilization else description
@@ -311,7 +328,8 @@ def build_weighted_text(
         parts.append(f"Usage: {utilization}")
     if description and description != utilization:
         parts.append(f"Description: {description}")
-
+    if sample_code:
+        parts.append(f"Sample Code: {sample_code}")
     return "\n".join(part for part in parts if part)
 
 def build_qdrant_points(df: pd.DataFrame) -> list[PointStruct]:
@@ -335,6 +353,7 @@ def build_qdrant_points(df: pd.DataFrame) -> list[PointStruct]:
         object_type = row["ObjectType"]
         description = row["Description"]
         utilization = row["Utilization"]
+        sample_code = row["SampleCode"]
 
         if is_nullish(object_name) or is_nullish(object_type):
             continue
@@ -344,6 +363,7 @@ def build_qdrant_points(df: pd.DataFrame) -> list[PointStruct]:
             object_type=object_type,
             description=description,
             utilization=utilization,
+            sample_code=sample_code
         )
         print(f"Embedding text for '{object_name}':\n{vector_text}\n")
         if llm == "ollama":
@@ -362,6 +382,7 @@ def build_qdrant_points(df: pd.DataFrame) -> list[PointStruct]:
                 "ParametersJson",
                 "OutputNotes",
                 "ReferencedObjectsJson",
+                "SampleCode"
             ],
         )
 
