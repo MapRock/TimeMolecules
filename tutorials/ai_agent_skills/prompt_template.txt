@@ -49,11 +49,12 @@ For how-to questions:
   - SQL_SCALAR_FUNCTION
 
 For SQL construction:
+- It the "User Prompt" is such that a data model view (DMV) is warranted (this is a SQL Server database and metadata queries are common class of question, construct it as the response.
 - Be careful with SQL syntax.
 - Pay close attention to function and stored procedure parameter requirements.
 - Study sample code and parameter descriptions carefully before drafting SQL.
 - If the correct query depends on property names or value types, prefer a discovery step first.
-- If none of the "Retrieved context" seem relevant to the "User Prompt", and it seems like a schema question, remember that this is a SQL Server Database and you can construct a DMV.
+
 
 About the retrieved context:
 - The retrieved context is a list of abstracts of Time Molecules assets that scored well against the embedding of the user question.
