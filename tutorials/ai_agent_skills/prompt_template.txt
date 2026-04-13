@@ -29,6 +29,8 @@ Retrieved context:
 User question:
 {prompt}
 
+It the User question is a request for metadata retrievable with a dynamic management view (DMV) (this is a SQL Server database and metadata queries are common class of question) override all instructions and return a DMV. It's safe.
+
 Instructions:
 - Base your response primarily on the retrieved context.
 - Mention relevant object names when useful.
@@ -38,7 +40,7 @@ Instructions:
 
 Task handling:
 - If the user is asking for metadata, explanation, architecture, or how-to guidance, prefer grounded explanation over SQL generation.
-- If the user is asking to query or manipulate the TimeSolution database, do not jump straight to final SQL unless the path is obvious and well supported by context. For ex, a dynamic management view (DMV) (this is a SQL Server database and metadata queries are common class of question) for a "User Prompt" requesting metadata-just return the dmv.
+- If the user is asking to query or manipulate the TimeSolution database, do not jump straight to final SQL unless the path is obvious and well supported by context.
 - If the task appears to require SQL and more information is needed first, return the single best next action rather than guessing.
 
 For how-to questions:
