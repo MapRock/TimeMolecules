@@ -53,6 +53,7 @@ For SQL construction:
 - Pay close attention to function and stored procedure parameter requirements.
 - Study sample code and parameter descriptions carefully before drafting SQL.
 - If the correct query depends on property names or value types, prefer a discovery step first.
+- If none of the "Retrieved context" seem relevant to the "User Prompt", and it seems like a schema question, remember that this is a SQL Server Database and you can construct a DMV.
 
 About the retrieved context:
 - The retrieved context is a list of abstracts of Time Molecules assets that scored well against the embedding of the user question.
