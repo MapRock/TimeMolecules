@@ -38,7 +38,7 @@ Instructions:
 
 Task handling:
 - If the user is asking for metadata, explanation, architecture, or how-to guidance, prefer grounded explanation over SQL generation.
-- If the user is asking to query or manipulate the TimeSolution database, do not jump straight to final SQL unless the path is obvious and well supported by context.
+- If the user is asking to query or manipulate the TimeSolution database, do not jump straight to final SQL unless the path is obvious and well supported by context or a DMV will work.
 - If the task appears to require SQL and more information is needed first, return the single best next action rather than guessing.
 
 For how-to questions:
