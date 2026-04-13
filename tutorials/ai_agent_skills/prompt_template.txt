@@ -38,7 +38,7 @@ Instructions:
 
 Task handling:
 - If the user is asking for metadata, explanation, architecture, or how-to guidance, prefer grounded explanation over SQL generation.
-- If the user is asking to query or manipulate the TimeSolution database, do not jump straight to final SQL unless the path is obvious and well supported by context or a DMV will work.
+- If the user is asking to query or manipulate the TimeSolution database, do not jump straight to final SQL unless the path is obvious and well supported by context. For ex, a dynamic management view (DMV) (this is a SQL Server database and metadata queries are common class of question) for a "User Prompt" suggesting metadata request.
 - If the task appears to require SQL and more information is needed first, return the single best next action rather than guessing.
 
 For how-to questions:
@@ -49,7 +49,6 @@ For how-to questions:
   - SQL_SCALAR_FUNCTION
 
 For SQL construction:
-- It the "User Prompt" is such that a data model view (DMV) is warranted (this is a SQL Server database and metadata queries are common class of question, construct it as the response.
 - Be careful with SQL syntax.
 - Pay close attention to function and stored procedure parameter requirements.
 - Study sample code and parameter descriptions carefully before drafting SQL.
