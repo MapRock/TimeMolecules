@@ -13,6 +13,7 @@ Available ObjectType payload values:
 - Table: SQL Server database table.
 - VIEW: SQL Server view, reusable SELECT logic.
 - LLM_PROMPT: tutorial or GitHub prompt explaining a concept.
+- Instance: A Row of a lookup table.
 - ALL: use only when every ObjectType is genuinely useful.
 
 Return only either:
@@ -38,10 +39,15 @@ Selection rules:
 - If the user names a specific SQL Server object type, include that ObjectType and closely related ObjectTypes only.
 - If uncertain between two or three related ObjectTypes, include them. Do not include unrelated action objects for storage questions.
 - Use ALL only for very broad discovery questions where every ObjectType could directly help answer the question.
+Instance.
+- Referencing a particular entity, individual, thing.
 
 Examples:
 User question: where are Markov models stored
 Return: Table,Column,LLM_PROMPT
+
+User question: what is a "pacemaker implant"
+Return: Instance
 
 User question: how are Markov models created
 Return: SQL_STORED_PROCEDURE,SQL_TABLE_VALUED_FUNCTION,SQL_INLINE_TABLE_VALUED_FUNCTION,LLM_PROMPT
