@@ -1,0 +1,56 @@
+You are classifying a user question for a Qdrant vector search over SQL Server database metadata and related GitHub tutorial prompts.
+
+User question:
+{{USER_PROMPT}}
+
+Available ObjectType payload values:
+- Column: SQL Server table or view column.
+- Instance: instance of an entity, usually a table row with a unique key.
+- SQL_INLINE_TABLE_VALUED_FUNCTION: SQL Server inline table-valued function.
+- SQL_SCALAR_FUNCTION: SQL Server scalar function.
+- SQL_STORED_PROCEDURE: SQL Server stored procedure.
+- SQL_TABLE_VALUED_FUNCTION: SQL Server multi-statement table-valued function.
+- Table: SQL Server database table.
+- VIEW: SQL Server view, reusable SELECT logic.
+- LLM_PROMPT: tutorial or GitHub prompt explaining a concept.
+
+Return only a comma-separated list of ObjectType values. No explanation. No markdown.
+
+Goal:
+Choose ObjectTypes that are likely to directly contain the answer. Be inclusive, but do not return everything unless the question truly requires every category.
+
+Selection rules:
+- Storage questions asking where something is stored, persisted, cached, recorded, held, or saved: return Table,Column. Add VIEW only if the question asks how it is exposed or queried. Add LLM_PROMPT only if conceptual/tutorial context may help.
+- Column/schema questions asking what columns, fields, attributes, or schema an object has: return Column,Table,VIEW.
+- Row/entity questions asking about example records, IDs, values, entities, or instances: return Instance,Table,Column.
+- Action/workflow questions asking how to run, execute, create, update, insert, delete, populate, cache, orchestrate, or perform an action: return SQL_STORED_PROCEDURE. Add SQL_TABLE_VALUED_FUNCTION and SQL_INLINE_TABLE_VALUED_FUNCTION only if reusable query logic or returned result sets may help.
+- Parameter/input questions: return SQL_STORED_PROCEDURE,SQL_TABLE_VALUED_FUNCTION,SQL_INLINE_TABLE_VALUED_FUNCTION,SQL_SCALAR_FUNCTION.
+- Calculation/function questions asking about formulas, scalar values, reusable logic, or function output: return SQL_SCALAR_FUNCTION,SQL_TABLE_VALUED_FUNCTION,SQL_INLINE_TABLE_VALUED_FUNCTION.
+- TVF questions: return SQL_TABLE_VALUED_FUNCTION,SQL_INLINE_TABLE_VALUED_FUNCTION.
+- View/query questions asking about views, reusable SELECT logic, read-only result sets, or query abstractions: return VIEW,Column.
+- Tutorial/concept questions asking for examples, conceptual explanation, GitHub guidance, or how to understand something: return LLM_PROMPT. Add SQL objects only if implementation details are also requested.
+- Purpose questions asking “what is the purpose of object X” or “what does object X do”: return the named object type if clear. If unclear, return SQL_STORED_PROCEDURE,SQL_TABLE_VALUED_FUNCTION,SQL_INLINE_TABLE_VALUED_FUNCTION,SQL_SCALAR_FUNCTION,Table,VIEW.
+- If the user names a specific SQL Server object type, include that ObjectType and closely related ObjectTypes only.
+- If uncertain between two or three related ObjectTypes, include them. Do not include unrelated action objects for storage questions.
+
+Examples:
+User question: where are Markov models stored
+Return: Table,Column,LLM_PROMPT
+
+User question: how are Markov models created
+Return: SQL_STORED_PROCEDURE,SQL_TABLE_VALUED_FUNCTION,SQL_INLINE_TABLE_VALUED_FUNCTION,LLM_PROMPT
+
+User question: what are the columns of ModelEvents
+Return: Column,Table
+
+User question: what are the input parameters of MarkovProcess2
+Return: SQL_STORED_PROCEDURE,SQL_TABLE_VALUED_FUNCTION,SQL_INLINE_TABLE_VALUED_FUNCTION
+
+User question: what view shows model results
+Return: VIEW,Column,Table
+
+User question: explain Markov models in TimeSolution
+Return: LLM_PROMPT,Table,Column
+
+User question: what object should I use to drill through a model
+Return: SQL_STORED_PROCEDURE,SQL_TABLE_VALUED_FUNCTION,SQL_INLINE_TABLE_VALUED_FUNCTION,VIEW,LLM_PROMPT
