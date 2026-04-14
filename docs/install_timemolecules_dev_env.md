@@ -93,13 +93,13 @@ This step is optional, but recommended if you want to explore Time Molecules han
 
 That’s why I’ve included a digital signature you can verify using GPG. It’s a simple way to confirm the file hasn’t been tampered with and that it came from me. While a .bak file is unlikely to contain malicious code, databases can contain unexpected data, settings, or objects—so this extra step helps ensure integrity and trust.
 
-• Download TimeSolution.bak from the provided OneDrive link:  
-    ◦ https://1drv.ms/u/c/7d94c9ab48b30303/EWpwyb0Z2-9AnOOBMK7ahXUBaskdgzsUUDLE_B3zvOuLeQ?e=LisfIo  
-        ▪ The phrase "There is no Preview" will display. It's a database backup, so that makes sense.
-    ◦ Three files:  
-        ▪ Timesolution.bak  
-        ▪ publickeytm.asc  
-        ▪ timesolution.bak.asc  
+- Download TimeSolution.bak from the provided OneDrive link:  
+    - https://1drv.ms/u/c/7d94c9ab48b30303/EWpwyb0Z2-9AnOOBMK7ahXUBaskdgzsUUDLE_B3zvOuLeQ?e=LisfIo  
+        - The kind of scary looking phrase, "There is no Preview ...", will display. It's a database backup, so that makes sense.
+    - Three files are related to the SQL Server database:  
+        - Timesolution.bak  
+        - publickeytm.asc  
+          - timesolution.bak.asc  
     ◦ Assuming a download of three files to:  
         ▪ C:\MapRock\TimeMolecules\data\  
 
