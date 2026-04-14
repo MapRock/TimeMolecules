@@ -15,6 +15,7 @@ and also to have a human-readable version of the metadata for debugging and expl
 The csv file will be overwritten each time you run the script with source="sql", so it always reflects 
 the latest data from the database at the time of running.
 """
+from matplotlib import text
 from qdrant_client import QdrantClient
 from qdrant_client.models import Distance, VectorParams, PointStruct
 
@@ -24,6 +25,7 @@ import hashlib
 import os
 import pyodbc
 import pandas as pd
+import re
 import requests  # ← add this import at the top of your file if not already present
 
 import ollama
@@ -59,6 +61,7 @@ collection_name = "time_molecules_directory"
 
 SERVER = os.getenv("TIMESOLUTION_SERVER_NAME")
 DATABASE = os.getenv("TIMESOLUTION_DATABASE_NAME")
+CONN_DRIVER = os.getenv("TIMESOLUTION_CONNECTION_DRIVER", "ODBC Driver 18 for SQL Server")
 
 CSV_METADATA_URL = (
     "https://raw.githubusercontent.com/MapRock/TimeMolecules/main/"
@@ -67,44 +70,16 @@ CSV_METADATA_URL = (
 QDRANT_PATH = os.getenv("QDRANT_PATH", "./qdrant_data")   # relative path, works on any OS
 
 
-
-def get_best_sql_server_driver() -> str:
-    """
-    Pick the newest installed Microsoft SQL Server ODBC driver if available.
-    Falls back in a sensible order.
-    """
-    installed = [d for d in pyodbc.drivers() if "SQL Server" in d]
-
-    preferred_order = [
-        "ODBC Driver 18 for SQL Server",
-        "ODBC Driver 17 for SQL Server",
-        "SQL Server Native Client 11.0",
-        "SQL Server",
-    ]
-
-    for driver in preferred_order:
-        if driver in installed:
-            return driver
-
-    raise RuntimeError(
-        "No suitable SQL Server ODBC driver found. "
-        f"Installed drivers: {installed}"
-    )
-
-
 def build_connection_string() -> str:
-    driver = get_best_sql_server_driver()
 
     return (
-        f"DRIVER={{{driver}}};"
+        f"DRIVER={{{CONN_DRIVER}}};"
         f"SERVER={SERVER};"
         f"DATABASE={DATABASE};"
         "Trusted_Connection=yes;"
         "Encrypt=yes;"
         "TrustServerCertificate=yes;"
     )
-
-
 
 
 def get_semantic_web_llm_values_df(
@@ -135,24 +110,23 @@ def get_semantic_web_llm_values_df(
         "ReferencedObjectsJson",
         "SampleCode"
     ]
+    sql_columns = ", ".join(f"[{col}]" for col in expected_cols)
 
     def _load_from_sql() -> pd.DataFrame:
         conn_str = build_connection_string()
-        sql = """
+        sql = f"""
         EXEC dbo.BuildTimeSolutionsMetadata;
         SELECT
-            ObjectType,
-            ObjectName,
-            Description,
-            Utilization,
-            ParametersJson,
-            OutputNotes,
-            ReferencedObjectsJson,
-            SampleCode
-        FROM [vwTimeSolutionsMetadata];
+            {sql_columns}
+        FROM [vwTimeSolutionsMetadata]
+        WHERE ObjectName NOT IN ('dbo.sysdiagrams')  -- filter out irrelevant system table
         """
-        with pyodbc.connect(conn_str, timeout=30) as conn:
-            return pd.read_sql(sql, conn)
+        try:
+            with pyodbc.connect(conn_str, timeout=30) as conn:
+                return pd.read_sql(sql, conn)
+        except Exception as e:
+            print(f"⚠️ SQL query failed: {e}")
+            return pd.DataFrame()
 
     def _load_from_csv() -> pd.DataFrame:
         df = pd.read_csv(
@@ -286,32 +260,62 @@ def object_type_desc(object_type: str) -> str:
     Map ObjectType to a more descriptive phrase for the LLM.
     """
     mapping = {
-        "Column": "a column in a database table or view which contains data of a specific type and semantic meaning",
-        "Table": "a database table which contains rows of data and can be queried",
-        "VIEW": "a database view which is a virtual table defined by a SQL query",
-        "SQL_SCALAR_FUNCTION": "a SQL scalar function which returns a single value and can be used in queries",
-        "SQL_STORED_PROCEDURE": "a SQL stored procedure which performs actions and may return results but is not directly queryable like a table",
-        "SQL_TABLE_VALUED_FUNCTION": "a SQL table-valued function which returns a table and can be used in the FROM clause of queries",
-        "SQL_INLINE_TABLE_VALUED_FUNCTION": "a SQL inline table-valued function which is a simpler form of table-valued function defined by a single SELECT statement and can be used in the FROM clause of queries",
+        "Column": "database column",
+        "Table": "database table",
+        "VIEW": "database view",
+        "SQL_SCALAR_FUNCTION": "scalar function",
+        "SQL_STORED_PROCEDURE": "stored procedure",
+        "SQL_TABLE_VALUED_FUNCTION": "table-valued function",
+        "SQL_INLINE_TABLE_VALUED_FUNCTION": "inline table-valued function",
     }
-    return mapping.get(object_type, f"an object of type {object_type}")
+    return mapping.get(object_type, f"{object_type}")
 
 def build_weighted_text(
     object_name: str,
-    object_type: str,
     description: str,
-    utilization: str,
-    sample_code: str
+    utilization: str
 ) -> str:
     """
     Build embedding text with Utilization weighted more than Description.
     Fallback to Description when Utilization is missing.
     """
-    object_name = normalize_text(object_name)
-    object_type = normalize_text(object_type_desc(object_type))
-    description = normalize_text(description)
-    utilization = normalize_text(utilization)
-    sample_code = normalize_text(sample_code)
+
+    def _clean_for_embedding(text: str) -> str:
+        """
+        Clean text before sending to an embedding model.
+        Removes brackets and noisy punctuation while preserving meaning.
+        Expands SQL/CamelCase identifiers for better embeddings.
+        """
+        if not text:
+            return ""
+
+        text = str(text)
+
+        # 1. Replace common problematic characters with space
+        text = text.replace("[", "").replace("]", "")
+        text = text.replace("{", "").replace("}", "")
+        text = text.replace("(", "").replace(")", "")
+
+        # 2. Replace SQL/schema separators and identifier separators
+        text = text.replace("dbo.", "")
+        text = re.sub(r"[_\-]+", " ", text)
+
+        # 3. Split camelCase / PascalCase:
+        # EventPropertiesParsed -> Event Properties Parsed
+        text = re.sub(r"(?<=[a-z0-9])(?=[A-Z])", " ", text)
+
+        # 4. Split acronym followed by word:
+        # JSONPropertyValue -> JSON Property Value
+        text = re.sub(r"(?<=[A-Z])(?=[A-Z][a-z])", " ", text)
+
+        # 5. Normalize whitespace
+        text = re.sub(r"\s+", " ", text).strip()
+
+        return text
+    
+    object_name = _clean_for_embedding(normalize_text(object_name))
+    description = _clean_for_embedding(normalize_text(description))
+    utilization = _clean_for_embedding(normalize_text(utilization))
 
     # Primary semantic text
     primary_text = utilization if utilization else description
@@ -320,27 +324,45 @@ def build_weighted_text(
     # and repeating it once. Keep description for broader context.
     parts = [
         f"Primary Purpose: {primary_text}",
-        f"Object Type: {object_type}",
         f"Object Name: {object_name}",
     ]
 
     if utilization:
         parts.append(f"Usage: {utilization}")
-    if description and description != utilization:
+    if description and utilization and description != utilization:
         parts.append(f"Description: {description}")
-    if sample_code:
-        parts.append(f"Sample Code: {sample_code}")
+
     return "\n".join(part for part in parts if part)
 
 def build_qdrant_points(df: pd.DataFrame) -> list[PointStruct]:
     """
     Convert dataframe rows into Qdrant PointStruct objects.
-    Expects columns:
-      - ObjectName
-      - ObjectType
-      - Utilization
-    plus optional metadata columns.
+
+    For each object row, create:
+      1. the main object point
+      2. an additional point for ParametersJson, if present
+      3. an additional point for OutputNotes, if present
     """
+
+    df_cols = [
+        "ObjectType",
+        "ObjectName",
+        "Description",
+        "Utilization",
+        "ParametersJson",
+        "OutputNotes",
+        "ReferencedObjectsJson",
+        "SampleCode",
+    ]
+
+    def _vectorize_text(text: str) -> list[float]:
+        if llm == "ollama":
+            return embed_text_ollama(text)
+        elif llm == "openai":
+            return embed_text_openai(text)
+        else:
+            raise ValueError(f"Unsupported LLM for embedding: {llm}")
+    
     required = {"ObjectName", "ObjectType", "Utilization"}
     missing = required - set(df.columns)
     if missing:
@@ -353,37 +375,30 @@ def build_qdrant_points(df: pd.DataFrame) -> list[PointStruct]:
         object_type = row["ObjectType"]
         description = row["Description"]
         utilization = row["Utilization"]
-        sample_code = row["SampleCode"]
 
+      
         if is_nullish(object_name) or is_nullish(object_type):
             continue
 
+        # ----------------------------
+        # 1. Main object point
+        # ----------------------------
         vector_text = build_weighted_text(
             object_name=object_name,
-            object_type=object_type,
             description=description,
-            utilization=utilization,
-            sample_code=sample_code
+            utilization=utilization
         )
+
+
+
         print(f"Embedding text for '{object_name}':\n{vector_text}\n")
-        if llm == "ollama":
-            vector = embed_text_ollama(vector_text)
-        elif llm == "openai":
-            vector = embed_text_openai(vector_text)
+
+        vector = _vectorize_text(vector_text)
 
         point_id = make_stable_int_id(str(object_name), str(object_type))
         payload = row_to_payload(
             row,
-            cols=[
-                "ObjectType",
-                "ObjectName",
-                "Description",
-                "Utilization",
-                "ParametersJson",
-                "OutputNotes",
-                "ReferencedObjectsJson",
-                "SampleCode"
-            ],
+            cols=df_cols
         )
 
         points.append(
@@ -394,7 +409,11 @@ def build_qdrant_points(df: pd.DataFrame) -> list[PointStruct]:
             )
         )
 
+     
+
+
     return points
+
 
 def ingest_llm_prompts_from_github(client, collection_name: str, github_tree_url: str = "https://github.com/MapRock/TimeMolecules/tree/main/docs/llm_prompts"):
     """
@@ -534,7 +553,7 @@ if __name__ == "__main__":
             print(f"✅ Retrieved {len(df)} rows from metadata source: {metadata_source}")
 
 
-
+            # Get items from the vwTimeSolutionsMetadata view, convert to Qdrant PointStructs, and insert into the collection.
             points = build_qdrant_points(df)
             if points:
                 print(f"✅ Built {len(points)} points from dataframe.")
@@ -543,6 +562,7 @@ if __name__ == "__main__":
 
             vector_size = len(points[0].vector)
 
+            # Create the collection with the correct vector size and distance metric.
             client.create_collection(
                 collection_name=collection_name,
                 vectors_config=VectorParams(
