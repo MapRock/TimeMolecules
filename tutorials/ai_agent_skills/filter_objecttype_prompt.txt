@@ -1,7 +1,7 @@
 You are classifying a user question for a Qdrant vector search over SQL Server database metadata and related GitHub tutorial prompts.
 
 User question:
-{{USER_PROMPT}}
+{USER_PROMPT}
 
 Available ObjectType payload values:
 - Column: SQL Server table or view column.
@@ -13,11 +13,16 @@ Available ObjectType payload values:
 - Table: SQL Server database table.
 - VIEW: SQL Server view, reusable SELECT logic.
 - LLM_PROMPT: tutorial or GitHub prompt explaining a concept.
+- ALL: use only when every ObjectType is genuinely useful.
 
-Return only a comma-separated list of ObjectType values. No explanation. No markdown.
+Return only either:
+1. a comma-separated list of ObjectType values, or
+2. ALL if every ObjectType is truly needed.
+
+No explanation. No markdown.
 
 Goal:
-Choose ObjectTypes that are likely to directly contain the answer. Be inclusive, but do not return everything unless the question truly requires every category.
+Choose ObjectTypes that are likely to directly contain the answer. Be inclusive, but do not return every ObjectType unless the question truly requires every category. If every ObjectType is truly needed, return only the word: ALL
 
 Selection rules:
 - Storage questions asking where something is stored, persisted, cached, recorded, held, or saved: return Table,Column. Add VIEW only if the question asks how it is exposed or queried. Add LLM_PROMPT only if conceptual/tutorial context may help.
@@ -32,6 +37,7 @@ Selection rules:
 - Purpose questions asking “what is the purpose of object X” or “what does object X do”: return the named object type if clear. If unclear, return SQL_STORED_PROCEDURE,SQL_TABLE_VALUED_FUNCTION,SQL_INLINE_TABLE_VALUED_FUNCTION,SQL_SCALAR_FUNCTION,Table,VIEW.
 - If the user names a specific SQL Server object type, include that ObjectType and closely related ObjectTypes only.
 - If uncertain between two or three related ObjectTypes, include them. Do not include unrelated action objects for storage questions.
+- Use ALL only for very broad discovery questions where every ObjectType could directly help answer the question.
 
 Examples:
 User question: where are Markov models stored
@@ -54,3 +60,6 @@ Return: LLM_PROMPT,Table,Column
 
 User question: what object should I use to drill through a model
 Return: SQL_STORED_PROCEDURE,SQL_TABLE_VALUED_FUNCTION,SQL_INLINE_TABLE_VALUED_FUNCTION,VIEW,LLM_PROMPT
+
+User question: search everything related to Markov models
+Return: ALL
