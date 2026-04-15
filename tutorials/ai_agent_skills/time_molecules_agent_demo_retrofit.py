@@ -8,7 +8,10 @@ Part of tutorials/ai_agent_skills
 Run build_qdrant_index.py first, then the demo.
 Uses .env + local Qdrant folder.
 """
+
+from pickle import GLOBAL
 import re
+
 
 from qdrant_client import QdrantClient
 from qdrant_client.models import Filter, FieldCondition, MatchAny
@@ -16,6 +19,7 @@ from qdrant_client.models import Filter, FieldCondition, MatchAny
 import json
 import os
 import threading
+from datetime import datetime
 from pathlib import Path
 from tkinter import Tk, Label, Button, END, BOTH, X, Frame, LEFT, BooleanVar, Checkbutton, Spinbox, IntVar
 from tkinter.scrolledtext import ScrolledText
@@ -28,6 +32,8 @@ import pyodbc
 import ollama
 import openai
 from dotenv import load_dotenv
+
+import write_to_import_events as imp
 
 
 # ----------------------------
@@ -75,13 +81,18 @@ SERVER = os.getenv("TIMESOLUTION_SERVER_NAME")
 DATABASE = os.getenv("TIMESOLUTION_DATABASE_NAME")
 CONN_DRIVER = os.getenv("TIMESOLUTION_CONNECTION_DRIVER", "ODBC Driver 18 for SQL Server")
 
+case_id = ""
+
 if llm== "openai":
     if not OPENAI_API_KEY:
         raise RuntimeError("OPENAI_API_KEY must be set in .env or environment variables to use OpenAI as LLM.")
     else:
         openai.api_key = OPENAI_API_KEY
 
-
+# For logging AI agent workflow stages to TimeSolution's STAGE.ImportEvents
+workflow_name = "AI Agent Task"
+ai_agent_source_id = 13  # Replace with actual SourceID for the agent in dbo.Sources in TimeSolution
+access_bitmap = 7  # access bitmap for the event; adjust as needed based on your TimeSolution configuration
 
 SYSTEM_PROMPT_URL = (
     "https://raw.githubusercontent.com/MapRock/TimeMolecules/main/"
@@ -189,10 +200,12 @@ class BaseAgent:
     
         self.name = name
         self.user_prompt:str=None
-        self.call_log: list["AgentCall"] = []
+        self.call_log: list["AgentCall"] = [] # List of AgentCall instances for logging calls to LLM and SQL execution
 
     def run(self, context):
         raise NotImplementedError("Subclasses must implement the run() method.")
+    
+
     
     def ask_llm_raw(self, prompt: str) -> str:
         if llm == "openai":
@@ -305,13 +318,38 @@ class BaseAgent:
         return response_message
     
 class AgentCall:
-    def __init__(self, calling_agent: BaseAgent, prompt:str, context: str):
+    def __init__(self, calling_agent: BaseAgent, natural_key:str, event:str, prompt:str, context: str):
         self.calling_agent = calling_agent
         self.prompt = prompt
         self.context = context
         self.start_timestamp = pd.Timestamp.now()
         self.response = None
         self.end_timestamp = None
+        self.log_sql_execution(
+            agent_name=calling_agent.name,     
+            natural_key=natural_key,     
+            phase=event, 
+            extra_properties={"agent_name": calling_agent.name} 
+        )
+        
+
+    def log_sql_execution(self, agent_name: str, natural_key: str, phase: str, extra_properties: dict | None = None):
+        """
+        Logs the start or end of a SQL execution workflow to STAGE.ImportEvents in TimeSolution.
+        """
+        if not TIMESOLUTION_AVAILABLE:
+            print("⚠️ TimeSolution database connection not available. Skipping logging of AI agent stage event.")
+            return
+        imp.log_ai_agent_stage_event(
+            SQLAgent.get_cnxn(),
+            agent_name=agent_name,
+            natural_key=natural_key,
+            phase=phase,
+            source_id=ai_agent_source_id,  # Replace with actual SourceID
+            workflow_name=workflow_name,
+            access_bitmap=access_bitmap,
+            extra_actual_properties=extra_properties,
+        )
 
 
 class GuidanceAgent(BaseAgent):
@@ -335,80 +373,15 @@ class GuidanceAgent(BaseAgent):
             "Do not fabricate objects."
             f"{process_hint}"
         )
-        context.current_step = "guidance"
+        context.current_step = f"Guidance from {llm}"
         context.final_answer = self.ask_llm(
-            AgentCall(self, guidance_prompt + "\n\nUser request:\n" + context.user_prompt, context.retrieved_context)
+            AgentCall(self, case_id, context.current_step, guidance_prompt + "\n\nUser request:\n" + context.user_prompt, context.retrieved_context)
         )
         return context
-        return context
+
 
 class DiscoveryAgent(BaseAgent):
-    def run(self, context: TaskContext):
-        findings = []
-        for hit in context.retrieved_hits:
-            payload = getattr(hit, "payload", {}) or {}
-            object_name = payload.get("ObjectName")
-            object_type = payload.get("ObjectType")
-            description = payload.get("Description")
-            utilization = payload.get("Utilization")
-            if object_name or object_type:
-                findings.append({
-                    "ObjectName": object_name,
-                    "ObjectType": object_type,
-                    "Description": description,
-                    "Utilization": utilization,
-                })
-        context.metadata_findings = findings
-        return context
-
-class SQLAgent(BaseAgent):
-
-    def __init__(self, name):
-        super().__init__(name)
-
-
-        def _build_connection_string() -> str:
-
-            return (
-                f"DRIVER={{{CONN_DRIVER}}};"
-                f"SERVER={SERVER};"
-                f"DATABASE={DATABASE};"
-                "Trusted_Connection=yes;"
-                "Encrypt=yes;"
-                "TrustServerCertificate=yes;"
-            )
-
-        self.conn_str = _build_connection_string()
-
-    def run(self, sql: str):
-        try:
-            with pyodbc.connect(self.conn_str, timeout=30) as conn:
-                return pd.read_sql(sql, conn)
-        except Exception as e:
-            print(f"⚠️ SQL query failed: {e}")
-            raise
-
-class PrimaryAgent(BaseAgent):
-    def __init__(self, name, guidance_agent, discovery_agent, sql_agent):
-        super().__init__(name)
-        self.guidance_agent = guidance_agent
-        self.discovery_agent = discovery_agent
-        self.sql_agent = sql_agent
-
-    def _extract_sql(self, text: str) -> str | None:
-        import re
-        if not text:
-            return None
-        match = re.search(r"```sql\s*(.*?)\s*```", text, re.DOTALL | re.IGNORECASE)
-        if match:
-            return match.group(1).strip()
-        stripped = text.strip()
-        if stripped.upper().startswith(("SELECT", "WITH", "EXEC", "DECLARE")):
-            return stripped
-        return None
-    
     def classify_object_type_filter(self, prompt: str) -> list[str] | None:
-  
         classifier_prompt = filter_objecttype_prompt.replace("{USER_PROMPT}", prompt)
         response = self.ask_llm_raw(classifier_prompt)
 
@@ -431,7 +404,6 @@ class PrimaryAgent(BaseAgent):
         print(f"✅ LLM classified ObjectType filter values: {object_types if object_types else 'ALL'}")
         return object_types or None
 
-
     def build_qdrant_object_type_filter(self, object_types: list[str] | None):
         if not object_types:
             return None
@@ -445,12 +417,39 @@ class PrimaryAgent(BaseAgent):
             ]
         )
 
+    def search_metadata(
+        self,
+        prompt: str,
+        limit: int = RESULTS_LIMIT,
+        use_objecttype_filter: bool = False,
+    ):
+        client = get_qdrant_client()
+        try:
+            if use_objecttype_filter:
+                object_types = self.classify_object_type_filter(prompt)
+                qdrant_filter = self.build_qdrant_object_type_filter(object_types)
+                print(f"Qdrant ObjectType filter: {object_types if object_types else 'ALL'}")
+            else:
+                object_types = None
+                qdrant_filter = None
+                print("Qdrant ObjectType filter: BYPASSED")
+
+            query_vector = self.embed_text(prompt)
+
+            results = client.query_points(
+                collection_name=COLLECTION_NAME,
+                query=query_vector,
+                query_filter=qdrant_filter,
+                limit=limit,
+                with_payload=True,
+            ).points
+
+            return results
+
+        finally:
+            client.close()
+
     def run(self, context: TaskContext):
-        context.status = "Checking Qdrant collection..."
-        ensure_collection_exists()
-
-        context.status = "Embedding prompt and searching Qdrant..."
-
         hits = self.search_metadata(
             context.user_prompt,
             limit=context.results_limit,
@@ -459,31 +458,132 @@ class PrimaryAgent(BaseAgent):
 
         context.retrieved_hits = hits
         context.retrieved_context = build_context_from_hits(hits)
-        self.discovery_agent.run(context)
+
+        findings = []
+        for hit in hits:
+            payload = getattr(hit, "payload", {}) or {}
+            object_name = payload.get("ObjectName")
+            object_type = payload.get("ObjectType")
+            description = payload.get("Description")
+            utilization = payload.get("Utilization")
+            if object_name or object_type:
+                findings.append({
+                    "ObjectName": object_name,
+                    "ObjectType": object_type,
+                    "Description": description,
+                    "Utilization": utilization,
+                })
+
+        context.metadata_findings = findings
+        return context
+
+class SQLAgent(BaseAgent):
+
+    def __init__(self, name):
+        super().__init__(name)
+
+    @staticmethod
+    def get_cnxn():
+
+        def _build_connection_string() -> str:
+
+            return (
+                f"DRIVER={{{CONN_DRIVER}}};"
+                f"SERVER={SERVER};"
+                f"DATABASE={DATABASE};"
+                "Trusted_Connection=yes;"
+                "Encrypt=yes;"
+                "TrustServerCertificate=yes;"
+            )
+
+        conn_str = _build_connection_string()
+        try:
+            return pyodbc.connect(conn_str, timeout=30) 
+        except Exception as e:
+            print(f"⚠️ Obtaining SQL connection failed: {e}")
+            raise
+
+    @staticmethod
+    def normalize_sql(sql: str) -> str:
+        return (sql or "").lstrip("\ufeff").replace("\x00", "").strip()
+
+    def run(self, sql: str):
+        sql = self.normalize_sql(sql)
+        try:
+            with SQLAgent.get_cnxn() as conn:
+                return pd.read_sql(sql, conn)
+        except Exception as e:
+            print(f"⚠️ SQL query failed: {e}")
+            raise
+    
+
+
+
+class PrimaryAgent(BaseAgent):
+    def __init__(self, name, guidance_agent, discovery_agent, sql_agent):
+        super().__init__(name)
+        self.guidance_agent = guidance_agent
+        self.discovery_agent = discovery_agent
+        self.sql_agent = sql_agent
+
+    def _extract_sql(self, text: str) -> str | None:
+        import re
+        if not text:
+            return None
+        match = re.search(r"```sql\s*(.*?)\s*```", text, re.DOTALL | re.IGNORECASE)
+        if match:
+            return match.group(1).strip()
+        stripped = text.strip()
+        if stripped.upper().startswith(("SELECT", "WITH", "EXEC", "DECLARE")):
+            return stripped
+        return None
+    
+
+
+
+    def run(self, context: TaskContext):
+
+        def _change_context_status(new_status: str):
+            context.status = new_status
+            # Log that PrimaryAgent was asked something
+            AgentCall(
+                self,
+                case_id,
+                new_status,
+                context.user_prompt,
+                ""
+            )
+
+        _change_context_status("Checking Qdrant collection...")
+        ensure_collection_exists()
+
+        _change_context_status("Embedding prompt and searching Qdrant")
+
+        context = self.discovery_agent.run(context)
 
         if context.on_hits_retrieved:
             context.on_hits_retrieved(context.retrieved_hits)
 
         if context.prompt_is_sql:
             context.current_step = "execute_sql"
-            sql = context.user_prompt.lstrip("\ufeff").replace("\x00", "").strip()
+            sql = self.sql_agent.normalize_sql(context.user_prompt)
             context.sql_attempts.append(sql)
-            context.status = "Executing SQL query..."
+            _change_context_status("Execute SQL query")
             try:
                 df = self.sql_agent.run(sql)
                 context.final_dataframe = df
                 context.sql_results.append(df)
                 context.final_answer = "Prompt treated as SQL and executed directly."
-                context.status = "Done (SQL executed)."
+                _change_context_status("Done (SQL executed).")
             except Exception as e:
                 context.errors.append(str(e))
                 context.final_answer = f"SQL execution failed:\n{e}\n\nSQL was:\n{sql}"
-                context.status = f"Error: {e}"
+                _change_context_status(f"Error: {e}")
             return context
 
         if not context.use_llm:
             context.final_answer = "Retrieved hits shown above. LLM summarization is turned off."
-            context.status = "Done."
+            _change_context_status("Done.")
             return context
 
         context = self.guidance_agent.run(context)
@@ -491,19 +591,20 @@ class PrimaryAgent(BaseAgent):
         sql = self._extract_sql(context.final_answer or "")
         if sql:
             context.current_step = "execute_sql"
+            sql = self.sql_agent.normalize_sql(sql)
             context.sql_attempts.append(sql)
-            context.status = "Executing SQL query..."
+            _change_context_status("Execute SQL query")
             try:
                 df = self.sql_agent.run(sql)
                 context.final_dataframe = df
                 context.sql_results.append(df)
-                context.status = "Done (SQL executed)."
+                _change_context_status("Done (SQL executed).")
             except Exception as e:
                 context.errors.append(str(e))
-                context.status = f"Error: {e}"
+                _change_context_status(f"Error: {e}")
                 context.final_answer = (context.final_answer or "") + f"\n\nSQL execution failed:\n{e}"
         else:
-            context.status = "Done."
+            _change_context_status("Done.")
 
         return context
 
@@ -550,38 +651,7 @@ class PrimaryAgent(BaseAgent):
 
         return "\n".join(lines).strip()
 
-    def search_metadata(
-        self,
-        prompt: str,
-        limit: int = RESULTS_LIMIT,
-        use_objecttype_filter: bool = False,
-    ):
-        client = get_qdrant_client()
-        try:
 
-            if use_objecttype_filter:
-                object_types = self.classify_object_type_filter(prompt)
-                qdrant_filter = self.build_qdrant_object_type_filter(object_types)
-                print(f"Qdrant ObjectType filter: {object_types if object_types else 'ALL'}")
-            else:
-                object_types = None
-                qdrant_filter = None
-                print("Qdrant ObjectType filter: BYPASSED")
-
-            query_vector = self.embed_text(prompt)
-
-            results = client.query_points(
-                collection_name=COLLECTION_NAME,
-                query=query_vector,
-                query_filter=qdrant_filter,
-                limit=limit,
-                with_payload=True,
-            ).points
-
-            return results
-
-        finally:
-            client.close()
 
 
 
@@ -841,6 +911,9 @@ class TimeMoleculesUI:
         self.root.update_idletasks()
 
     def on_ask(self):
+        # CASE_ID is used for logging and can help correlate events in TimeSolution's STAGE.ImportEvents with specific user interactions in the UI. We set it at the start of on_ask to capture the timestamp of the user's request.
+        global case_id
+        case_id = "AI Agent Request " + datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")[:-3]
         prompt = self.prompt_box.get("1.0", END).strip()
         if not prompt:
             self.set_status("Enter a prompt first.")
@@ -886,7 +959,7 @@ class TimeMoleculesUI:
                     def update_hits_box():
                         self.hits_box.delete("1.0", END)
                         self.hits_box.insert("1.0", hits_text)
-                        self.set_status("Qdrant results retrieved. Waiting for LLM...")
+                        self.set_status("Qdrant results retrieved. Waiting for LLM")
 
                     self.root.after(0, update_hits_box)
 
@@ -964,6 +1037,7 @@ def validate_config():
 
 
 if __name__ == "__main__":
+    TIMESOLUTION_AVAILABLE = SQLAgent.get_cnxn() is not None
 
     # Paramteres
 

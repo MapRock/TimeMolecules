@@ -267,6 +267,7 @@ def object_type_desc(object_type: str) -> str:
         "SQL_STORED_PROCEDURE": "stored procedure",
         "SQL_TABLE_VALUED_FUNCTION": "table-valued function",
         "SQL_INLINE_TABLE_VALUED_FUNCTION": "inline table-valued function",
+        "Instance": "Row of a lookup table"
     }
     return mapping.get(object_type, f"{object_type}")
 
