@@ -1,5 +1,7 @@
 /*
 Sample of a SQL that generates a fact table from case-level and event-level properties.
+
+Should be saved as a "FACT" table, as in a dimensional model, using the FACT schema. ex. FACT.[Fuel_Weight]
 */
 SELECT
 	e.[EventID],
