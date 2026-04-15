@@ -1,0 +1,940 @@
+object_type,object_name,object_description,utilization,sample_code
+SQL_SCALAR_FUNCTION,[ETL].[StockMove],"Scalar function, [ETL].[StockMove]: Evaluates two successive stock values and classifies the movement as a big jump, big drop, or no move based on a configurable threshold.","Use when classifying or summarizing stock-price movement in a consistent way for analytics, transforms, or downstream event generation.","
+
+    SELECT ETL.StockMove(105.0, 100.0, 0.05);  
+	   SELECT ETL.StockMove(105.0, 200.0, 0.05); 
+
+"
+SQL_STORED_PROCEDURE,[dbo].[AddEventToCaseProperties],"Stored procedure, , [dbo].[AddEventToCaseProperties]: For every case containing the specified event, upsert a case‐level property (named by @PropertyName or the event) with either the existing metric value or a default, marking it as added post‐ETL and timestamping the update; errors are logged to ProcErrorLog.","Use when an event should also update or enrich case-level properties, especially when important event information needs to become part of the case’s lasting metadata.","
+
+	--For all poker games with this event, add it as a case-level property.
+	--This lets us slice and dice by this property.
+    EXEC dbo.AddEventToCaseProperties
+        @Event = 'game-state-0',
+        @PropertyName = NULL,
+        @Metric = 'Amount';
+
+    -- Look for all ""bigtip"" events, use their ""tip"" property (if present) 
+    -- or default 1, and add it as a case-level property named ""tip"":
+    EXEC dbo.AddEventToCaseProperties 
+        @Event = 'bigtip',
+        @PropertyName = NULL,   -- defaults to 'bigtip' (@Event).
+        @Metric = 'tip';
+
+"
+SQL_SCALAR_FUNCTION,[dbo].[AddSegmentProbabilities],"Scalar function, [dbo].[AddSegmentProbabilities]: Aggregates probabilities across multiple model-event segments by reverse-engineering total event counts to yield an overall segment probability.","Use when you want to combine several existing model segments into one rolled-up probability without rebuilding the whole model. Helpful for testing composite paths, summarizing related transitions, or estimating the probability of a larger process fragment from known segment probabilities.","
+
+    SELECT dbo.AddSegmentProbabilities(
+        '[{""ModelID"":1,""EventA"":""arrive"",""EventB"":""greeted""},'
+        + '{""ModelID"":1,""EventA"":""charged"",""EventB"":""depart""},'
+        + '{""ModelID"":4,""EventA"":""charged"",""EventB"":""bigtip""}]'
+    );
+
+Notes:
+    • If any segment’s Prob is zero, the denominator SUM([Rows]/Prob) will error or return NULL—consider validating or filtering zero‐prob entries.
+
+"
+SQL_INLINE_TABLE_VALUED_FUNCTION,[dbo].[AdjacencyMatrix],"Table-valued function, [dbo].[AdjacencyMatrix]: Generates an adjacency matrix from a given event set by computing, for each EventA→EventB pair, the conditional probability P(B|A), total occurrences of A, and raw counts.","Use when you want a compact transition matrix showing how often each event in a selected event set leads to each other event, along with P(B|A), total outgoing volume from EventA, and raw transition counts. Helpful for quick process-shape inspection, adjacency-style graph building, and comparing the relative strength of event-to-event handoffs. This TVF is deprecated for Azure Synapse portability; prefer dbo.sp_AdjacencyMatrix for the supported stored-procedure path.","
+
+    SELECT * FROM dbo.AdjacencyMatrix('poker', 1, NULL);
+SELECT * FROM  [dbo].[AdjacencyMatrix]('restaurantguest',1,NULL)
+
+"
+SQL_STORED_PROCEDURE,[dbo].[BayesianProbability2],"Stored procedure, , [dbo].[BayesianProbability2]: Computes Bayesian-style conditional probabilities between two event sequences over a specified time window, using the selected event stream to determine how often sequence A occurs, how often sequence B occurs, how often both occur in the same grouped unit, and the resulting conditional and marginal probabilities.","Use when you want to measure how strongly one sequence is associated with another within the same case or time bucket. Helpful for questions such as 'given sequence A, how likely is sequence B,' especially in exploratory process analysis, branch co-occurrence analysis, or hypothesis testing across filtered populations.","
+
+    -- Fold probability after GameState-1 events in any case, over the full date range.
+    EXEC dbo.BayesianProbability2
+        @SeqA = 'GameState-1',
+        @SeqB = 'folds',
+        @EventSet = NULL,
+        @StartDateTime = '19000101',
+        @EndDateTime   = '20501231',
+        @transforms    = NULL,
+        @CaseFilterProperties  = NULL,
+        @EventFilterProperties = NULL,
+        @GroupType     = NULL,
+        @SessionID     = NULL;
+
+    -- Probability of “Holter Pos” given “TIA” across all available events.
+    EXEC dbo.BayesianProbability2
+        @SeqA = 'TIA',
+        @SeqB = 'Holter Pos',
+        @EventSet = NULL,
+        @StartDateTime = NULL,
+        @EndDateTime   = NULL,
+        @transforms    = NULL,
+        @CaseFilterProperties  = NULL,
+        @EventFilterProperties = NULL,
+        @GroupType     = NULL,
+        @SessionID     = NULL;
+
+    -- Probability of “Holter Pos” given “TIA” restricted to the cardiology event set.
+    EXEC dbo.BayesianProbability2
+        @SeqA = 'TIA',
+        @SeqB = 'Holter Pos',
+        @EventSet = 'cardiology',
+        @StartDateTime = NULL,
+        @EndDateTime   = NULL,
+        @transforms    = NULL,
+        @CaseFilterProperties  = NULL,
+        @EventFilterProperties = NULL,
+        @GroupType     = NULL,
+        @SessionID     = NULL;
+
+Notes:
+    • Sequence matching is order-sensitive. The events in SeqA and SeqB must occur in the exact specified order within the grouped unit.
+    • GroupType controls whether co-occurrence is evaluated by case, day, month, or year.
+    • If @SessionID is supplied, the result remains in WORK.BayesianProbability for downstream processing; otherwise the procedure displays and then deletes the row.
+    • The current code constructs @EventSet from SeqA and SeqB when it is NULL; an in-code note suggests the standalone @EventSet parameter may no longer be necessary.
+
+"
+SQL_TABLE_VALUED_FUNCTION,[dbo].[BayesianProbability],"Table-valued function, [dbo].[BayesianProbability]: Calculates the joint and conditional probabilities of two event sequences occurring within the same case over a specified time range, returning counts and P(B|A), P(A|B), P(A), P(B).","Use when you want to measure how often one event sequence co-occurs with another within the same case or time bucket. Helpful for questions like 'given A, how likely is B,' especially in exploratory process intelligence or causal-hypothesis work.","
+
+The Probability of B given A.
+Given 'arrive,greeted', what is the probability of 'intro,order'?
+
+SELECT * FROM dbo.BayesianProbability('arrive,greeted','intro,order','restaurantguest','01/01/1900','12/31/2050',NULL,NULL,NULL,NULL)
+SELECT * FROM dbo.BayesianProbability('arrive,greeted','bigtip','restaurantguest','01/01/1900','12/31/2050',NULL,NULL,NULL,NULL)
+SELECT * FROM dbo.BayesianProbability('arrive,greeted,seated','intro,drinks','restaurantguest','01/01/1900','12/31/2050',NULL,NULL,NULL,NULL)
+SELECT * FROM dbo.BayesianProbability('arrive,greeted,seated','intro,drinks',NULL,'01/01/1900','12/31/2050',NULL,NULL,NULL,NULL)
+SELECT * FROM dbo.BayesianProbability('GameState-1','folds',NULL,'01/01/1900','12/31/2050',NULL,NULL,NULL,NULL)
+
+
+"
+SQL_STORED_PROCEDURE,[dbo].[CalculateBayesianForModels],"Stored procedure, , [dbo].[CalculateBayesianForModels]: For a given ModelID, derives Bayesian-style co-occurrence probabilities between case characteristics associated with that model, including both anomaly-derived event sequences and case-property attributes, then inserts or updates the results in dbo.BayesianProbabilities.","Use when you want to compute pairwise conditional probabilities across the characteristic signals associated with a model population. Helpful for discovering which anomaly sequences and case properties tend to co-occur within the same cases, and for persisting those relationships as reusable Bayesian probabilities tied to a specific model.","
+
+    -- Compute and persist Bayesian relationships for all characteristics associated with model 1.
+    EXEC dbo.CalculateBayesianForModels
+        @ModelID = 1;
+
+    -- Recompute and upsert Bayesian relationships for another stored model.
+    EXEC dbo.CalculateBayesianForModels
+        @ModelID = 2;
+
+Notes:
+    • The procedure uses dbo.CaseCharacteristics(@ModelID) as its source population, so the quality and scope of the result depend on how that function represents anomaly-derived sequences and case properties for the model.
+    • Case properties are represented using the property name as the EventSequence when Category = 'CaseProperty'.
+    • Non-property characteristics are represented as two-step sequences in the form EventA + ',' + EventB.
+    • Only pairwise combinations with a nonzero intersection are emitted in the final probability output and persisted to dbo.BayesianProbabilities.
+    • New sequences discovered in the pairwise comparison set are inserted into dbo.EventSets as IsSequence = 1, with IsCaseProperty set according to whether the source characteristic came from a case property.
+    • The procedure uses GroupType = 'ModelProp' for all persisted rows, indicating that the grouping context is the model-level characteristic space rather than a time bucket or raw case stream.
+
+"
+SQL_TABLE_VALUED_FUNCTION,[dbo].[CaseCharacteristics],"Table-valued function, [dbo].[CaseCharacteristics]: Retrieves both anomaly-derived event-pair metrics and case-level properties for a given model, consolidating them into a single result set for downstream association analysis.","Use when you want one result set that mixes model-derived anomaly signals with case properties for the same population of cases. Helpful for downstream association analysis, clustering, or finding which case attributes travel with anomalous behavior.","
+
+    SELECT * FROM dbo.CaseCharacteristics(1);
+	SELECT * FROM dbo.CaseCharacteristics(2);
+
+"
+SQL_TABLE_VALUED_FUNCTION,[dbo].[CasesWithProperties],"Table-valued function, [dbo].[CasesWithProperties]: Returns case rows enriched with up to five selected case‐level properties (both numeric and alpha), along with CaseType and SourceID.","Use when you need to turn case-level properties from row form into a simple wide result per case. This is helpful for exploratory analysis, debugging property population, quick reporting, export to BI tools, or joining a few important case attributes into other SQL queries without repeatedly writing separate joins to dbo.CasePropertiesParsed.","
+
+SELECT * FROM [dbo].[CasesWithProperties]('EmployeeID,CustomerID,OrderID')
+SELECT * FROM [dbo].[CasesWithProperties]('Players,seats, button')
+
+"
+SQL_TABLE_VALUED_FUNCTION,[dbo].[ConditionalProbabilityTable],"Table-valued function, [dbo].[ConditionalProbabilityTable]: For each case or time-group (CASEID/DAY/MONTH/YEAR), counts occurrences of two event sequences A and B so you can compute conditional probabilities across cases.","Use when you want grouped counts of sequence A and sequence B by case, day, month, or year so you can compute conditional probabilities or compare how the relationship changes over time.",
+SQL_STORED_PROCEDURE,[dbo].[CreateUpdateBayesianProbabilities],"Stored procedure, , [dbo].[CreateUpdateBayesianProbabilities]: Creates or refreshes Bayesian probability records by finding or inserting the appropriate model, invoking BayesianProbability2 to compute joint and conditional counts and probabilities for two sequences, and upserting the results into the BayesianProbabilities table.","Use when you want to build or refresh stored Bayesian probability results rather than calculating them ad hoc every time. Helpful for caching, scheduled refresh, and downstream reporting.","
+
+	EXEC dbo.CreateUpdateBayesianProbabilities
+		@SeqA = 'arrive,greeted',
+		@SeqB = 'intro,order',
+		@EventSet = 'restaurantguest',
+		@StartDateTime = '19000101',
+		@EndDateTime = '20501231',
+		@transforms = NULL,
+		@CaseFilterProperties = NULL,
+		@EventFilterProperties = NULL,
+		@GroupType = 'CASEID';
+
+    -- Cardiology example for TIA → Holter Pos:
+    EXEC dbo.CreateUpdateBayesianProbabilities
+        @SeqA = 'TIA',
+        @SeqB = 'Holter Pos',
+        @EventSet = 'cardiology',
+        @StartDateTime = NULL,
+        @EndDateTime = NULL,
+        @transforms = NULL,
+        @CaseFilterProperties = NULL,
+        @EventFilterProperties = NULL,
+        @GroupType = NULL;
+
+"
+SQL_STORED_PROCEDURE,[dbo].[CreateUpdateMarkovProcess],"Stored procedure, , [dbo].[CreateUpdateMarkovProcess]: [
+    ""Creates or refreshes a Markov process model for a given event set."",
+    ""Calls InsertModel to upsert Models, clears ModelEvents, invokes MarkovProcess2 to compute transition metrics into a temp table, populates ModelEvents, updates Models.DistinctCases, and—if requested—inserts detailed sequences into ModelSequences."",
+    ""Returns the final ModelID as a single-row result for downstream callers (e.g., pyodbc).""
+  ]","Use when you want to create or refresh a stored Markov process model from current event data, especially for repeatable analysis and cacheable model generation.","
+
+    EXEC dbo.CreateUpdateMarkovProcess
+       @ModelID = NULL OUTPUT,
+       @EventSet = 'restaurantguest',
+       @enumerate_multiple_events = 0,
+       @StartDateTime = '19000101',
+       @EndDateTime = '20501231',
+       @transforms = NULL,
+       @ByCase = 1,
+       @metric = NULL,
+       @CaseFilterProperties = NULL,
+       @EventFilterProperties = NULL,
+       @InsertSequences = 1;
+
+"
+SQL_INLINE_TABLE_VALUED_FUNCTION,[dbo].[DecodeAccessBitmap],"Table-valued function, [dbo].[DecodeAccessBitmap]: Takes a BIGINT bitmask and returns each AccessID with its description and whether that bit is set (granted).","Use when you need to translate an access bitmap into a more readable form for debugging, auditing, administration, or user-explainer output.","
+
+    SELECT * FROM dbo.DecodeAccessBitmap(6);
+
+"
+SQL_STORED_PROCEDURE,[dbo].[DefaultModelParameters],"Stored procedure, , [dbo].[DefaultModelParameters]: Initializes or returns default model parameters (date range, event enumeration, metric, and ordering) via OUTPUT parameters.",Use when you want to populate or maintain the system’s default modeling parameters so downstream procedures behave consistently when callers omit optional settings.,"
+    DECLARE 
+      @Start DATETIME, 
+      @End DATETIME, 
+      @Ord INT, 
+      @Enum INT, 
+      @Met NVARCHAR(20);
+    EXEC dbo.DefaultModelParameters 
+      @StartDateTime=@Start OUTPUT,
+      @EndDateTime=@End OUTPUT,
+      @Order=@Ord OUTPUT,
+      @enumerate_multiple_events=@Enum OUTPUT,
+      @metric=@Met OUTPUT;
+    SELECT @Start, @End, @Ord, @Enum, @Met;
+
+"
+SQL_STORED_PROCEDURE,[dbo].[DeleteCase],"Stored procedure, , [dbo].[DeleteCase]: [
+    ""Deletes all data associated with a given CaseID, including event facts, parsed and raw properties, case properties, and the case record itself.""
+  ]",Use when you need to remove a case and its related dependent data in a controlled way rather than manually deleting from multiple tables.,"
+
+    EXEC dbo.DeleteCase @CaseID = xxxx;
+
+"
+SQL_STORED_PROCEDURE,[dbo].[DeleteEventBatch],"Stored procedure, , [dbo].[DeleteEventBatch]: [
+    ""Deletes all events and related properties for the given BatchID, including fact rows, raw and parsed event properties, and any cases affected by those events (case records and their properties)."",
+    ""Should log success or failure to ProcErrorLog with BatchID context.""
+  ]","Use when backing out an imported batch of events and related parsed rows, cases, and properties, especially during ETL correction, reload, or bad-batch cleanup.","
+
+    EXEC dbo.DeleteEventBatch @BatchID = 987654321;
+
+"
+SQL_STORED_PROCEDURE,[dbo].[DeleteModel],"Stored procedure, , [dbo].[DeleteModel]: Deletes a Markov model and all its associated data (stationary distribution, properties, events, sequences, similarity links) and logs the deletion event.","Use when you want to remove a model and all of its dependent stored artifacts cleanly, especially during model regeneration, cleanup, or administrative maintenance.","
+
+EXEC dbo.DeleteModel @ModelID = 42;
+
+"
+SQL_TABLE_VALUED_FUNCTION,[dbo].[DrillThroughToModelEvents],"Table-valued function, [dbo].[DrillThroughToModelEvents]: Retrieves all events (with ordering, occurrence counts, and metric values) that constitute the specified Markov model by its ModelID, leveraging the parameters stored for that model.","Use when you want to see the actual event rows behind a stored model, including order and metric values, instead of only the summarized model segments. Helpful for validation, walkthroughs, and explaining a model to others.","
+    SELECT * FROM dbo.DrillThroughToModelEvents(24);
+
+"
+SQL_INLINE_TABLE_VALUED_FUNCTION,[dbo].[EntryAndExitPoints],"Table-valued function, [dbo].[EntryAndExitPoints]: Identifies the entry and exit handoff points for a given event set by comparing each event in a case to its predecessor and successor, counting how often an event enters or exits the defined process.","Use when you want to find where a defined process tends to begin and end relative to surrounding events. Helpful for boundary discovery, handoff analysis, and understanding how a process connects to upstream and downstream workflows.","
+    SELECT * 
+      FROM dbo.EntryAndExitPoints('kitchenorder', 0, '2024-01-01', '2025-01-01', NULL, 1, NULL, NULL, NULL);
+
+Note that this sproc looks at the events of the restaurantguest (dining area) and the kitchenorder event set to be under
+a single case. The two event sets split the events of a case into two groups.
+
+"
+SQL_INLINE_TABLE_VALUED_FUNCTION,[dbo].[EventPropertiesSource],"Table-valued function, [dbo].[EventPropertiesSource]: Retrieves all metadata about properties associated with a specific event, including property values, source table/column context, case natural key, and associated date column information.","Use when you need to understand which source columns or source systems contribute particular event properties, especially for lineage, mapping, and semantic cleanup.","
+
+  SELECT *
+    FROM dbo.EventPropertiesSource(435820);
+
+"
+SQL_INLINE_TABLE_VALUED_FUNCTION,[dbo].[EventSegments],"Table-valued function, [dbo].[EventSegments]: Finds the starting positions (CaseOrdinal indices) in each case where a given sequence of events (EventSegment) occurs within the allowed EventSet and date range.","Use when you want to locate where an exact event segment begins inside cases, based on raw event order within a date range and event set. Helpful for finding repeated sub-processes, validating whether a known pattern occurs in cases, or using segment start positions as input to deeper drillthrough or sequence analysis.","
+
+SELECT * FROM [dbo].EventSegments('greeted,seated,intro','restaurantguest',NULL,NULL)
+
+
+"
+SQL_SCALAR_FUNCTION,[dbo].[EventSetByCode],"Scalar function, [dbo].[EventSetByCode]: Given an EventSetCode and a flag indicating set versus sequence, looks up and returns the corresponding EventSet definition as a comma-separated list of events from dbo.EventSets.","Use when callers may provide a short event-set code instead of a literal event list and you want to resolve it into the actual comma-separated definition before filtering, model building, or event-set parsing.","
+
+    SELECT dbo.EventSetByCode('restaurantguest', 1);  -- returns sequence if defined
+    SELECT dbo.EventSetByCode('restaurantguest', 0);  -- returns set if defined
+
+"
+SQL_INLINE_TABLE_VALUED_FUNCTION,[dbo].[EventSetInclusion],"Table-valued function, [dbo].[EventSetInclusion]: Determines which defined event sets include all of the events from the provided EventSet expression, returning metadata about each matching set. Rewritten as an inline table-valued function for better Azure Synapse compatibility.","Use when you have a candidate event set and want to know which named event sets already contain those events. Helpful for reuse discovery, taxonomy cleanup, and mapping a new process fragment to existing definitions.","
+
+    SELECT *
+    FROM dbo.EventSetInclusion('served,order');
+
+"
+SQL_SCALAR_FUNCTION,[dbo].[EventSetKey],"Scalar function, [dbo].[EventSetKey]: Generates a 16-byte binary key for a comma-separated list of events, treating the list either as a set (order-agnostic) or as a sequence (order-sensitive). Uses MD5 hashing of the normalized event list plus a single-character sequence flag.","Use when you need a stable hash key for an event set or sequence so that equivalent definitions can be matched, stored, reused, or looked up consistently across models, metadata, and caching logic.","
+
+    -- Same key for set {b,c,d}, regardless of input order:
+    SELECT dbo.EventSetKey('b,c,d', NULL);
+    SELECT dbo.EventSetKey('c,b,d', 0);
+    SELECT dbo.EventSetKey('d,b,c', 0);
+
+    -- Different key when treated as a sequence:
+    SELECT dbo.EventSetKey('d,b,c', 1);
+
+"
+SQL_STORED_PROCEDURE,[dbo].[Generate_LLM_Description_Prompts],"Stored procedure, , [dbo].[Generate_LLM_Description_Prompts]: Builds a set of natural-language prompts for various metadata objects (EventSets, Transforms, Metrics, Sources, Models, CaseTypes) to feed into an LLM for generating vector embeddings or descriptions.","Use when you want to generate prompt text for metadata objects so they can be described, embedded, or indexed for semantic search and LLM-assisted navigation.","
+
+    EXEC dbo.Generate_LLM_Description_Prompts;            -- Generate prompts for all metadata tables
+    EXEC dbo.Generate_LLM_Description_Prompts @Table='Models';  -- Only for Models table
+
+"
+SQL_SCALAR_FUNCTION,[dbo].[GetMetadataJsonValueFromDefinition],"Scalar function, [dbo].[GetMetadataJsonValueFromDefinition]: Extracts the Metadata JSON block from a module definition comment and returns the value of a specified top-level JSON key.","Use when querying sys.sql_modules and you want to pull a single metadata field such as Description, Utilization, or Author from the Metadata JSON block without manually parsing the comment text.",
+SQL_SCALAR_FUNCTION,[dbo].[GetModelEventString],"Scalar function, [dbo].[GetModelEventString]: Aggregates all transition pairs (EventA → EventB) and their probabilities for a given model into a single delimited string.","Use when you need a compact human-readable summary of a model’s event path or transitions for display, prompts, reporting, or quick inspection.","
+
+    SELECT dbo.GetModelEventString(1);
+
+"
+SQL_SCALAR_FUNCTION,[dbo].[GetModelPropertyString],"Scalar function, [dbo].[GetModelPropertyString]: [
+    ""Aggregates all properties for a given ModelID into a single string of the form 'PropertyName:Value|...'."",
+    ""Uses numeric PropertyValueNumeric when present; otherwise falls back to PropertyValueAlpha.""
+  ]","Use when you want to flatten a model’s properties into a single readable string for display, metadata generation, embeddings, or audit-style summaries.","
+
+    -- Concatenate all properties for model 6
+    SELECT 
+		mp.ModelID,
+		dbo.GetModelPropertyString(mp.ModelID) PropertyString
+	FRoM
+		[dbo].[ModelProperties] mp
+		
+
+"
+SQL_STORED_PROCEDURE,[dbo].[ImportEventsFromStage],"Stored procedure, , [dbo].[ImportEventsFromStage]: Imports staged event rows into the TimeSolution event ensemble beginning at an optional import date threshold. Resolves source context, applies user access defaults, and loads core event-level structures used later for property parsing, process analysis, and Markov model creation.","Use as the main ETL entry point for moving rows from STAGE into the core Time Molecules event ensemble. This is the procedure to run after stage tables have been populated and you want the imported events to become available for downstream case/event analysis, parsed properties, drill-through, and model generation.","
+
+    EXEC dbo.ImportEventsFromStage;
+
+    EXEC dbo.ImportEventsFromStage
+        @ImportFromDate = '2026-01-01';
+
+"
+SQL_STORED_PROCEDURE,[dbo].[InsertCaseProperties],"Stored procedure, , [dbo].[InsertCaseProperties]: Parses JSON case-level properties from dbo.CaseProperties, maps them to source columns when possible, applies default MDM overrides from dbo.CasePropertiesMDM, and inserts the results into dbo.CasePropertiesParsed. Supports full refresh or selective refresh by CaseID.","Use when case property bags are stored as JSON and need to be parsed into structured rows for filtering, joins, reporting, or downstream model logic.",
+SQL_STORED_PROCEDURE,[dbo].[InsertCase],"Stored procedure, , [dbo].[InsertCase]: Inserts a new case into the Cases table, auto-generating CaseID if not provided, validating CaseTypeName and SourceID, and setting date range and access bitmap.","Use when adding a case record in a standardized way, especially when event ingestion or ETL logic needs the case created before related properties or events are inserted.","
+
+    DECLARE @NewCaseID INT;
+    EXEC dbo.InsertCase 
+        @CaseID = @NewCaseID OUTPUT,
+        @CaseTypeName = 'ExampleCase',
+        @StartDateTime = '2024-09-27',
+        @EndDateTime = '2024-09-30',
+        @AccessBitMap = 0,
+        @SourceID = 3;
+
+"
+SQL_STORED_PROCEDURE,[dbo].[InsertEventProperties],"Stored procedure, , [dbo].[InsertEventProperties]: Parses and extracts key-value property pairs from JSON-formatted ActualProperties and ExpectedProperties in the EventProperties table and inserts them into EventPropertiesParsed, mapping to SourceColumns when possible. If @CompleteRefresh is 1, the table is truncated before insert.",Use when raw event property payloads need to be parsed and materialized into structured event-property rows for downstream filtering and analysis.,"
+
+    EXEC dbo.InsertEventProperties @CompleteRefresh = 1;
+
+"
+SQL_STORED_PROCEDURE,[dbo].[InsertEvent],"Stored procedure, , [dbo].[InsertEvent]: Adds a new event to the DimEvents table only if the event name does not already exist. This ensures that event names are unique across the dimension table, and stores optional metadata including description, JSON properties, and an IRI.","Use when inserting events through a standard database entry point rather than direct table writes, especially when you want consistent handling of event metadata and linked case information.","
+
+    EXEC dbo.InsertEvent 
+         @Event = 'appointmentconfirmed',
+         @Description = 'Customer confirmed appointment via SMS',
+         @Properties = '{""channel"":""sms""}',
+         @IRI = 'http://example.org/event/appointmentconfirmed';
+
+"
+SQL_STORED_PROCEDURE,[dbo].[InsertModelSimilarities],"Stored procedure, , [dbo].[InsertModelSimilarities]: Compares two Markov models based on their event transition segments, calculating Jaccard-style overlap, cosine similarity of transition probabilities, and t-test for average transition times. Stores the similarity metrics in the ModelSimilarity table. Optionally outputs segment-level comparison details.","Use when you want to compute and store similarities between models so related models can be compared, grouped, or recommended later.","
+
+    EXEC dbo.InsertModelSimilarities 
+         @ModelID1 = 1, 
+         @ModelID2 = 8, 
+         @DisplaySegments = 1;
+
+"
+SQL_STORED_PROCEDURE,[dbo].[InsertModel],"Stored procedure, , [dbo].[InsertModel]: Inserts or updates a model definition in the Models table based on parameters including event set, metric, case/event filters, and transformations. Generates a unique ParamHash to identify distinct model configurations, handles model deduplication, and populates ModelProperties with parsed case- and event-level properties.",Use when persisting a newly defined model and its associated metadata rather than leaving the model as a purely ad hoc query result.,"
+
+    DECLARE @ModelID INT;
+    DECLARE @EventSetKey VARBINARY(16), @TransformKey VARBINARY(16), @MetricID INT;
+    EXEC dbo.InsertModel 
+        @ModelID = @ModelID OUTPUT,
+        @EventSet = 'walkin,seated,order,paid',
+        @enumerate_multiple_events = 0,
+        @StartDateTime = '2022-01-01',
+        @EndDateTime = '2022-12-31',
+        @transforms = NULL,
+        @ByCase = 1,
+        @metric = 'Time Between',
+        @CaseFilterProperties = '{""location"":""store123""}',
+        @EventFilterProperties = NULL,
+        @MetricID = @MetricID OUTPUT,
+        @transformkey = @TransformKey OUTPUT,
+        @eventsetkey = @EventSetKey OUTPUT,
+        @order = 1,
+        @ModelType = 'MarkovChain';
+
+"
+SQL_STORED_PROCEDURE,[dbo].[InsertSourceColumn],"Stored procedure, , [dbo].[InsertSourceColumn]: Registers a new column for a given SourceID in the SourceColumns table. If a matching SourceColumnID or (SourceID + ColumnName + TableName) already exists, returns the existing ID and exits.",Use when registering source-column metadata so parsed event or case properties can be mapped back to their originating fields.,"
+
+    DECLARE @NewColID INT;
+    EXEC dbo.InsertSourceColumn
+      @SourceID = 1,
+      @ColumnName = 'OrderDate',
+      @TableName = 'FactInternetSales',
+      @SourceColumnID = @NewColID OUTPUT;
+    SELECT @NewColID AS SourceColumnID;
+
+"
+SQL_STORED_PROCEDURE,[dbo].[InsertSource],"Stored procedure, , [dbo].[InsertSource]: [
+    ""Inserts a new source definition if one with the given Name does not already exist."",
+    ""If the source exists, returns its existing SourceID; otherwise creates a new row in Sources and outputs the new SourceID."",
+    ""Logs the insertion event to ProcErrorLog with EventName='New Source' on success.""
+  ]","Use when registering a new data source in the metadata layer so events, properties, and source columns can be linked to it consistently.","
+
+    DECLARE @NewID INT;
+    EXEC dbo.InsertSource
+      @Name = 'AdventureWorksDW2017',
+      @DefaultTableName = 'FactInternetSales',
+      @SourceID = @NewID OUTPUT;
+    SELECT @NewID AS SourceID;
+
+"
+SQL_STORED_PROCEDURE,[dbo].[InsertTransforms],"Stored procedure, , [dbo].[InsertTransforms]: [
+    ""Computes the canonical key for a transforms JSON payload and inserts it into the Transforms table if not already present."",
+    ""Returns the binary TransformsKey for downstream use.""
+  ]",Use when storing transform definitions that normalize or remap event names before modeling and analysis.,"
+
+    DECLARE @tkey VARBINARY(16);
+    EXEC dbo.InsertTransforms
+      @Transforms = N'{""old"":""new"",""foo"":""bar""}',
+      @Code = N'MYTRANS',
+      @Transformskey = @tkey OUTPUT;
+    SELECT @tkey AS TransformsKey;
+
+"
+SQL_SCALAR_FUNCTION,[dbo].[IsMutuallyExclusive],"Scalar function, [dbo].[IsMutuallyExclusive]: [
+    ""Determines whether two models’ time ranges do not overlap (i.e., are mutually exclusive)."",
+    ""Returns 1 if Model1 ends before Model2 starts or Model2 ends before Model1 starts; otherwise 0.""
+  ]","Use when checking whether two events, properties, or conditions should be treated as incompatible in the same analytical context, especially when validating event-set or model design.","
+
+    -- Check if models 1 and 2 have non‐overlapping time ranges
+    SELECT dbo.IsMututallyExclusive(1, 2) AS AreExclusive;
+
+"
+SQL_STORED_PROCEDURE,[dbo].[MarkovProcess2],"Stored procedure, , [dbo].[MarkovProcess2]: Computes a first-, second-, or third-order Markov model from the selected events, calculating per-segment statistics such as count, probability, aggregate metric values, entry/exit flags, and ordinal measures, and writing the computed rows to WORK.MarkovProcess for the current session. This is the central object of the Markov Model Ensemble.","Use when you want to compute a Markov model from filtered event data and return its segment statistics in procedure form, especially when temp-table logic is preferable to the TVF implementation. Helpful for generating first-, second-, or third-order model segments, comparing process behavior under different filters or transforms, and feeding the results into another procedure such as CreateUpdateMarkovProcess that is responsible for storing or updating the model.","
+    EXEC dbo.MarkovProcess2 
+      @Order=1,
+      @EventSet='arrive,greeted,seated',
+      @enumerate_multiple_events=0,
+      @StartDateTime='2025-01-01',
+      @EndDateTime='2025-12-31',
+      @ByCase=1,
+      @ModelHighlights=3,
+      @DistinctCases=@DistinctCases OUTPUT,
+      @ModelID=@ModelID OUTPUT;
+
+"
+SQL_TABLE_VALUED_FUNCTION,[dbo].[MarkovProcess],"Table-valued function, [dbo].[MarkovProcess]: Computes an Nth-order Markov chain over a specified event set and time window, returning detailed transition statistics, probabilities, entry/exit flags, ordinal metrics, and cache indicators for each tuple of prior events → next event.",,"
+
+    SELECT * 
+      FROM dbo.MarkovProcess(
+        1, 'restaurantguest', 0,
+        '1900-01-01','2050-12-31',
+        NULL, 1, NULL, NULL, NULL, 0
+      );
+
+    -- Force recalculation and bypass cache:
+    SELECT * 
+      FROM dbo.MarkovProcess(
+        1, 'restaurantguest', 0,
+        NULL,NULL,
+        NULL, 1, NULL, NULL, NULL, 1
+      );
+
+    SELECT * 
+      FROM dbo.MarkovProcess(
+        2, 'restaurantguest', 0,
+        '1900-01-01','2050-12-31',
+        NULL, 1, NULL, NULL, NULL, 0
+      );
+
+    SELECT * 
+      FROM dbo.MarkovProcess(
+        3, 'restaurantguest', 0,
+        '1900-01-01','2050-12-31',
+        NULL, 1, NULL, NULL, NULL, 0
+      );
+
+    -- Bypass cache and default to order 1 when @Order ≤ 0
+    SELECT * 
+      FROM dbo.MarkovProcess(
+        0, 'poker', 0,
+        NULL, NULL,
+        NULL, 1, NULL, NULL, NULL, 1
+      );
+
+
+"
+SQL_STORED_PROCEDURE,[dbo].[Markov_Model_Confidence_Support],"Stored procedure, , [dbo].[Markov_Model_Confidence_Support]: Computes support (total transition count) and a confidence score (weighted by coefficient of variation) for one or all Markov models, returning per-model metrics and segment counts.","Use when you want supporting statistics around model confidence, stability, or support levels for a Markov model, especially for judging whether a model is analytically trustworthy.","
+
+    EXEC dbo.Markov_Model_Confidence_Support @ModelID = 2;
+    EXEC dbo.Markov_Model_Confidence_Support;  -- all models
+
+"
+SQL_SCALAR_FUNCTION,[dbo].[MetricValue],"Scalar function, [dbo].[MetricValue]: [
+    ""Calculates a metric value based on the specified method:"",
+    ""0: Direct current value (like an odometer reading)."",
+    ""1: Delta between actual values of successive events."",
+    ""2: Leak amount (expected minus actual at the current event)."",
+    ""3: Current actual value on arrival (backlog/bottleneck)."",
+    ""4: Percentage change since previous event.""
+  ]","Use when you need a single standardized way to derive the metric value used by a model or process step, instead of rewriting metric logic in multiple queries.","
+
+    -- Get the actual value at EventB:
+    SELECT dbo.MetricValue(0, 50, 60, 40, 60) AS Metric;
+
+    -- Compute consumption between events:
+    SELECT dbo.MetricValue(1, 50, NULL, 40, NULL) AS Consumption;
+
+"
+SQL_TABLE_VALUED_FUNCTION,[dbo].[ModelDrillThrough],"Table-valued function, [dbo].[ModelDrillThrough]: Retrieves paired events (EventA -> EventB) and their details for a specified Markov model, including elapsed minutes, rank, and occurrence counts.",,"
+
+    SELECT * FROM dbo.ModelDrillThrough(24,'lv-csv1','homedepot1');
+
+"
+SQL_INLINE_TABLE_VALUED_FUNCTION,[dbo].[ModelEventAnomalies],"Table-valued function, [dbo].[ModelEventAnomalies]: Returns all detected anomalies (metric outliers and low-prob transitions) for each event pair in the specified Markov model, including observed metric values, z-scores, and transition probabilities.","Use when you want anomaly-oriented model event output, especially to find unusual transitions, outlier timing, or segments whose behavior differs from expectations.","
+
+	DECLARE @ModelID INT = 1
+	SELECT  
+		[CaseID], [AnomalyCode], [EventA], [EventB],
+		MetricAvg, MetricStDev, metric_value, metric_zscore,
+		[transistion_prob]
+	FROM 
+		ModelEventAnomalies(@ModelID)
+
+"
+SQL_SCALAR_FUNCTION,[dbo].[ModelEventKey],"Scalar function, [dbo].[ModelEventKey]: [
+    ""Generates a 16-byte MD5 hash representing the combination of model-level parameters and filters."",
+    ""Enables linking of events across different models (e.g., Markov vs. Bayesian) by hashing the canonicalized parameter set.""
+  ]","Use when you need a stable identifier for a model event segment, especially for joins, deduplication, caching, or comparing segment definitions across runs.","
+
+    DECLARE @key VARBINARY(16) = dbo.ModelEventKey(
+      N'SalesProcess', 1,
+      '2024-01-01', '2024-12-31',
+      N'{""currency"":""USD""}', 1,
+      N'TotalSales',
+      N'{""store"":""Walmart""}',
+      N'{""eventType"":""purchase""}'
+    );
+    SELECT @key AS HashedModelEventKey;
+
+"
+SQL_INLINE_TABLE_VALUED_FUNCTION,[dbo].[ModelEventsByOrdinalMean],"Table-valued function, [dbo].[ModelEventsByOrdinalMean]: Aggregates transition statistics by source event, computing total occurrences and average ordinal metrics for each EventA in the specified Markov model.","Use when you want a compact summary of how often each source event appears in a model and roughly where in the process it tends to occur. Helpful for identifying early-, middle-, and late-stage events, comparing process shape by EventA, or building simplified visualizations from ModelEvents.","
+
+	DECLARE @ModelID INT=1
+    SELECT * 
+      FROM dbo.ModelEventsByOrdinalMean(@ModelID)
+	ORDER BY OrdinalMean
+
+"
+SQL_TABLE_VALUED_FUNCTION,[dbo].[ModelEventsByProperty],"Table-valued function, [dbo].[ModelEventsByProperty]: Retrieves transition metrics (Min, Max, Avg, Sum, Rows, Prob, entry/exit flags) for all Markov models matching the specified event set, time window, transforms, grouping, metric, and filter properties.","Use when you want transition rows for all models that share a given parameter set, rather than for just one model ID. Helpful for comparing model-event metrics across related models, retrieving transition statistics by model family, or supporting reports that need EventA→EventB metrics filtered by model-definition parameters.","
+
+	DECLARE @CreatedBy_AccessBitmap BIGINT=NULL
+    SELECT *
+      FROM dbo.ModelEventsByProperty(
+        'leavehome,heavytraffic,lighttraffic,arrivework',
+        0,
+        NULL,
+        NULL,
+        NULL,
+        1,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+		@CreatedBy_AccessBitmap
+      );
+
+"
+SQL_INLINE_TABLE_VALUED_FUNCTION,[dbo].[ModelEventsFull],"Table-valued function, [dbo].[ModelEventsFull]: Returns the full set of transition metrics (stats, probabilities, entry/exit flags, and up to five custom properties) for all model segments, filtered by user access and optionally by selected model properties.","Use when you want a richer version of model-event output than the basic segment table, especially for reporting, auditing, or exporting fuller model detail.","
+    SELECT * FROM dbo.ModelEventsFull('[""Property1"",""Property3""]');
+
+"
+SQL_SCALAR_FUNCTION,[dbo].[ModelID],"Scalar function, [dbo].[ModelID]: [
+    ""Looks up an existing ModelID matching the full model definition (event set, date range, enumeration flag, transforms, grouping, metric, filters, and model type)."",
+    ""Returns the first matching ModelID or NULL if none found.""
+  ]",Use when you want to resolve or derive a model identifier from model-defining inputs instead of hard-coding ModelID values in downstream logic.,"
+
+    -- Find existing model for these parameters
+    SELECT dbo.ModelID(
+      'restaurantguest', 1, '1900-1-1','2050-12-31',
+      NULL, 1,
+      'Time Between',
+      NULL,NULL,
+      'MarkovChain'
+    ) AS ExistingModelID;
+
+    SELECT dbo.ModelID(
+      'arrive,depart', 1, '1900-1-1','2050-12-31',
+      NULL, 1,
+      'Time Between',
+      NULL,NULL,
+      'MarkovChain'
+    ) AS ExistingModelID;
+
+
+"
+SQL_INLINE_TABLE_VALUED_FUNCTION,[dbo].[ModelMatrix],"Table-valued function, [dbo].[ModelMatrix]: Returns the first-order transition matrix for a given Markov model, listing each EventA→EventB transition and its associated probability.","Use when you want the first-order transition matrix for a single Markov model in its simplest form: EventA, EventB, and probability. Helpful for adjacency-style graphing, exporting model edges to other tools, or quickly inspecting the transition structure of a model without the extra statistics stored in ModelEvents.","
+
+    SELECT * FROM dbo.ModelMatrix(10);
+
+"
+SQL_TABLE_VALUED_FUNCTION,[dbo].[ModelSimilaritySegments],"Table-valued function, [dbo].[ModelSimilaritySegments]: Returns a segment-by-segment comparison between two existing Markov models by aligning EventA→EventB segments from dbo.ModelEvents. For each segment appearing in either model, the function reports probabilities, averages, row counts, presence flags, differences, and a t-test-like value when both models contain the same segment with nonzero variance.","Use when you already have two ModelID values and want to see exactly which segments are shared, unique, or materially different. Helpful after dbo.InsertModelSimilarities, or as a detailed complement to summary scores such as PercentSameSegments and CosineSimilarity.","
+
+    SELECT *
+    FROM dbo.ModelSimilaritySegments(6,7)
+    ORDER BY AbsProbDiff DESC, EventA, EventB;
+
+"
+SQL_INLINE_TABLE_VALUED_FUNCTION,[dbo].[ModelsWithProperties],"Table-valued function, [dbo].[ModelsWithProperties]: Retrieves models that have at least one of the specified custom properties, returning up to five property names and their numeric or alpha values for each model.","Use when you need to pivot a small set of model properties into a wide row per model so those properties can be filtered, displayed, or joined more easily. Helpful for browsing models by custom metadata, exporting model catalogs, or combining selected model properties with other model-level result sets.","
+    SELECT * 
+      FROM dbo.ModelsWithProperties('EmployeeID,CustomerID');
+
+
+"
+SQL_INLINE_TABLE_VALUED_FUNCTION,[dbo].[ParseCSV],"Table-valued function, [dbo].[ParseCSV]: Splits a comma- or delimiter-separated NVARCHAR string into rows of individual values using STRING_SPLIT.","Use when you need a lightweight helper to split a delimited string into rows inside SQL. Helpful for reusable parameter parsing, especially when other functions or procedures accept comma-separated lists and you want a simple rowset for filtering or joining.","
+
+SELECT * FROM dbo.ParseCSV('a,b,c', ',');
+
+"
+SQL_INLINE_TABLE_VALUED_FUNCTION,[dbo].[ParseEventSet],"Table-valued function, [dbo].[ParseEventSet]: Parses a named event set code (or literal comma-delimited list) into individual event names, resolving sequence sets and trimming whitespace.","Use when you want to resolve an event-set code into its underlying events, or treat a literal comma-separated event list the same way. Helpful for normalizing event-set inputs so downstream logic can work with a rowset of event names regardless of whether the caller passed a code or a literal list.","
+
+SELECT * FROM dbo.ParseEventSet('kitchenorder', 0);
+SELECT * FROM dbo.ParseEventSet('restaurantguest', 0);
+
+
+
+"
+SQL_INLINE_TABLE_VALUED_FUNCTION,[dbo].[ParseTransforms],"Table-valued function, [dbo].[ParseTransforms]: Parses and validates a JSON object of key→value event mappings, ensuring each source key appears only once and selecting the alphabetically first target if duplicates occur. Rewritten as an inline table-valued function for better Azure Synapse compatibility.","Use when you want to turn a transforms JSON object into a normalized rowset of source-event to target-event mappings. Helpful for validating transform definitions, generating stable transform keys, inspecting event-name remapping rules, or feeding transform logic into downstream modeling functions in a Synapse-friendly way.","
+
+    SELECT * FROM [dbo].[ParseTransforms]('{""heavytraffic"":""traffic"",""heavytraffic"":""bigtraffic""}');
+
+    SELECT * FROM [dbo].[ParseTransforms]('{""moderatetraffic"":""traffic"",""heavytraffic"":""traffic"",""lighttraffic"":""traffic"",""heavytraffic"":""bigtraffic""}');
+
+"
+SQL_SCALAR_FUNCTION,[dbo].[PromptEventSimilarity],"Scalar function, [dbo].[PromptEventSimilarity]: Constructs a natural‐language prompt for an LLM to score or explain the semantic similarity between two event names, optionally including contextual co‐occurring words.","Use when generating text prompts or similarity text around events for LLM, embedding, or semantic search scenarios.","
+
+--The events are named Event1 and Event2 instead of EventA and EventB because the latter is in the context of P(B|A).
+SELECT [dbo].[PromptEventSimilarity]('raises','heavytraffic',1,NULL,NULL,NULL)
+
+"
+SQL_SCALAR_FUNCTION,[dbo].[PropertySource],"Scalar function, [dbo].[PropertySource]: Translates a numeric PropertySourceKey into its corresponding property category name for use in property metadata.","Use when you need to standardize or decode where a property came from, such as distinguishing raw source-derived properties from transformed or derived ones.","
+
+  SELECT dbo.PropertySource(2);  -- returns 'AggregationProperties'
+
+"
+SQL_STORED_PROCEDURE,[dbo].[RefreshUserAccessBitmaps],"Stored procedure, , [dbo].[RefreshUserAccessBitmaps]: Rebuilds dbo.Users.AccessBitmap from granted rows in dbo.UserAccessRole by summing the corresponding bit value for each AccessID. Optionally limits the refresh to one user.","Use after inserting, updating, or deleting rows in dbo.UserAccessRole so dbo.Users.AccessBitmap stays synchronized for fast bitmap-based access checks throughout TimeSolution.","
+
+    EXEC dbo.RefreshUserAccessBitmaps;
+
+    EXEC dbo.RefreshUserAccessBitmaps
+        @UserID = 5,
+        @DisplayResults = 1;
+
+    EXEC dbo.RefreshUserAccessBitmaps
+        @SUSER_NAME = SUSER_NAME(),
+        @DisplayResults = 1;
+
+"
+SQL_INLINE_TABLE_VALUED_FUNCTION,[dbo].[SegmentComparison],"Table-valued function, [dbo].[SegmentComparison]: Filters and returns detailed transition metrics for a given event pair (EventA → EventB) across models sliced by specified property values, enabling comparative analysis of different segments.","Use when you want to compare similar segments across models, slices, or conditions to see where probabilities, timing, or other metrics differ.","
+
+-- Compare transitions for 'Big Drop-3%' to 'No Move' on specified stocks:
+SELECT * 
+  FROM dbo.SegmentComparison(
+    'Big Drop-3%', 
+    'No Move', 
+    '{""Stock"":[""INTC"",""MSFT""]}', 
+    '{""EmployeeID"":1,""LocationID"":1}'
+  );
+
+"
+SQL_TABLE_VALUED_FUNCTION,[dbo].[SelectedEvents],"Table-valued function, [dbo].[SelectedEvents]: Retrieves a time-ordered, ranked sequence of events filtered and transformed per user parameters, supporting event-set selection, date windowing, case and event property filters, custom transforms, metric extraction, and optional enumeration of repeated events.",,"
+
+-- Retrieve commute sequence for a given event set:
+SELECT *
+  FROM dbo.SelectedEvents(
+    'leavehome,heavytraffic,moderatetraffic,lighttraffic,arrivework,returnhome',
+    0, '1900-01-01','2050-12-31', NULL, 1, NULL, NULL, NULL
+  )
+ORDER BY CaseID, [Rank];
+
+SELECT * FROM [dbo].[SelectedEvents]('leavehome,heavytraffic,moderatetraffic,lighttraffic,arrivework,returnhome',0,'01/01/1900','12/31/2050',NULL,1,NULL,NULL,NULL)
+SELECT * FROM [dbo].[SelectedEvents](NULL,0,'01/01/1900','12/31/2050',NULL,1,NULL,'{""EmployeeID"":2,""CustomerID"":2}',NULL)
+SELECT * FROM dbo.SelectedEvents('commute',0,'01/01/1900','12/31/2050',NULL,1,'Fuel',NULL,NULL) ORDER BY CaseID,[Rank]
+SELECT * FROM dbo.SelectedEvents('pickuproute',0,'01/01/1900','12/31/2050',NULL,1,'Fuel',NULL,NULL) ORDER BY CaseID,[Rank]
+SELECT * FROM dbo.SelectedEvents('pickuproute',0,'01/01/1900','12/31/2050',NULL,1,'Fuel',NULL,NULL) ORDER BY CaseID,[Rank]
+
+SELECT * FROM dbo.SelectedEvents('poker',0,'01/01/2000','01/04/2050',NULL,1,NULL,NULL,NULL)
+SELECT * FROM dbo.SelectedEvents('NEW_GAME,collected,GameState-0,GameState-1,GameState-2,GameState-3,GameState-4,calls,bets,raises,folds,checks',0,'01/01/2000','01/04/2050',NULL,1,NULL,NULL,NULL)
+SELECT * FROM dbo.SelectedEvents('NEW_GAME,collected,GameState-0,GameState-1,GameState-2,GameState-3,GameState-4,calls,bets,raises,folds,checks',0,'01/01/2000','01/04/2050',NULL,1,'current_leader_chips',NULL)
+SELECT * FROM dbo.SelectedEvents('NEW_GAME,collected,GameState-0,GameState-1,GameState-2,GameState-3,GameState-4,calls,bets,raises,folds,checks',0,'01/01/2000','01/04/2050',NULL,1,'current_leader_chips','{""TournamentNumber"":206815194}',NULL)
+SELECT * FROM dbo.SelectedEvents('NEW_GAME,collected,GameState-0,GameState-1,GameState-2,GameState-3,GameState-4,calls,bets,raises,folds,checks',0,'01/01/2000','01/04/2050',NULL,1,'current_leader_chips','{""TournamentNumber"":206815194}','{""Player"":""RaminWho""}')
+
+SELECT * FROM dbo.SelectedEvents('TIA',0,NULL,NULL,NULL,1,'Fuel','{""age"":""Elderly""}',NULL) ORDER BY CaseID,[Rank]
+SELECT * FROM dbo.SelectedEvents('TIA',0,NULL,NULL,NULL,1,'Fuel','{""age"":""Young"",""Diabetic"":""No""}',NULL) ORDER BY CaseID,[Rank]
+
+SELECT * FROM dbo.SelectedEvents('restaurantguest',0,'01/01/1900','12/31/2050',NULL,1,NULL,NULL,NULL) ORDER BY CaseID,[Rank]
+
+
+Notes:
+    • @EventSet is mandatory; function returns nothing if NULL.
+    • @Metric defaults to 'Time Between' when omitted.
+
+"
+SQL_INLINE_TABLE_VALUED_FUNCTION,[dbo].[SeqProb],"Table-valued function, [dbo].[SeqProb]: Calculates the probability of a given next event following any sequence that starts with the specified start event, for a particular model or across all models.","Use when you need the probability of a specific sequence and want a scalar result that can be embedded in a larger query, scorecard, or rule.","
+
+    -- For a specific model:
+    SELECT * FROM dbo.SeqProb(1, 'arrive', 'order');
+    -- Across all models:
+    SELECT * FROM dbo.SeqProb(NULL, 'arrive', 'order');
+
+    SELECT * FROM dbo.SeqProb(NULL, 'arrive,greeted', 'drinks');
+
+"
+SQL_SCALAR_FUNCTION,[dbo].[SequenceKey],"Scalar function, [dbo].[SequenceKey]: Generates a 16-byte MD5 hash key for a given event sequence string and next-event value, providing a unique identifier for event‐transition sequences.","Use when you need a stable key for an event sequence so it can be cached, compared, joined, or stored independently of the raw comma-separated text.","
+
+  SELECT dbo.SequenceKey('arrive,greeted,seated,intro', 'drinks');
+
+"
+SQL_SCALAR_FUNCTION,[dbo].[SequenceProbability],"Scalar function, [dbo].[SequenceProbability]: Computes the overall probability of observing a given event sequence under a Markov model by walking through the ModelEvents transition probabilities, starting from the stationary (eigenvector) probability of the first event and multiplying successive transition probabilities.","Use when you want the probability of one or more sequences returned as a rowset, especially when comparing multiple sequences or joining sequence probabilities into larger analyses.","
+
+SELECT dbo.SequenceProbability('heavytraffic,lighttraffic,moderatetraffic,heavytraffic,heavytraffic',10)
+SELECT dbo.SequenceProbability('heavytraffic',10) -- Only gets the eigenvector value.
+
+"
+SQL_TABLE_VALUED_FUNCTION,[dbo].[SequenceSegments],"Table-valued function, [dbo].[SequenceSegments]: Identifies and aggregates all event sequences in raw event data that begin with a specified start event and end with a specified end event, computing basic statistics (min, max, avg, stdev, sum) on the elapsed time between those events and listing the cases in which they occur.",,"
+
+SELECT * FROM dbo.[SequenceSegments]('greeted','order','arrive,greeted,seated,intro,drinks,ccdeclined,charged,order,check,seated,served,bigtip,depart',1,'01/01/1900','12/31/2050',NULL,1,NULL,NULL)
+SELECT * FROM dbo.[SequenceSegments]('drinks','depart','arrive,greeted,seated,intro,drinks,ccdeclined,charged,order,check,seated,served,bigtip,depart',1,'01/01/1900','12/31/2050',NULL,1,NULL,NULL)
+
+
+"
+SQL_TABLE_VALUED_FUNCTION,[dbo].[Sequences],"Table-valued function, [dbo].[Sequences]: Computes all successive event‐sequence statistics (per‐sequence and per‐hop) for a given event set over a time window, optionally using cached results for performance.",,"
+    SELECT * 
+      FROM dbo.Sequences(
+        'arrive,greeted,seated',  
+         1, '1900-01-01','2050-12-31',
+         NULL,1,NULL,NULL,NULL,0
+      );
+
+    SELECT * 
+      FROM dbo.Sequences(
+        'restaurantguest',  
+         1, '1900-01-01','2050-12-31',
+         NULL,1,NULL,NULL,NULL,0
+      );
+
+"
+SQL_STORED_PROCEDURE,[dbo].[SetUserAccessBitmap],"Stored procedure, , [dbo].[SetUserAccessBitmap]: Inserts or updates a user’s AccessBitmap in the Users table based on login name, and optionally returns the detailed granted permissions.",Use when assigning or updating bitmap-based access permissions for a user so model and metadata visibility can be enforced consistently.,"
+	DECLARE @UID INT
+    EXEC dbo.SetUserAccessBitmap 
+      @SUSER_NAME = NULL, 
+      @AccessBitmap = 12345, 
+      @DisplayAccessDetail = 1, 
+      @UserID = @UID OUTPUT;
+	PRINT @UID
+
+	DECLARE @UID INT
+	EXEC dbo.SetUserAccessBitmap 'TestUser', 1, @UserID = @UID OUTPUT;
+	PRINT @UID
+
+"
+SQL_SCALAR_FUNCTION,[dbo].[SortKeyValueJSON],"Scalar function, [dbo].[SortKeyValueJSON]: Accepts a JSON object and returns a new JSON string with its key/value pairs sorted by key, preserving values as strings.","Use when you need a canonical ordering of JSON key/value pairs before hashing, comparison, storage, or transform-key generation.","
+
+    SELECT dbo.SortKeyValueJSON('{""harry"":""Carry"",""ally"":""smith"",""barry"":""carter""}');
+
+"
+SQL_SCALAR_FUNCTION,[dbo].[SourceID],"Scalar function, [dbo].[SourceID]: Looks up and returns the SourceID for a given server and database combination from the Sources table, or NULL if not found.","Use when you know the server and database names and want to resolve the corresponding SourceID for inserts, metadata joins, or ETL setup.","
+
+    SELECT dbo.SourceID('EAA2024','Stocks',NULL);
+    SELECT dbo.SourceID('EAA2024','EHR','Orders');
+
+"
+SQL_INLINE_TABLE_VALUED_FUNCTION,[dbo].[TimeIntelligenceWindow],"Table-valued function, [dbo].[TimeIntelligenceWindow]: Returns a single-row time-intelligence window for a supplied as-of datetime, units value, and function code. Supports common business windows such as current period, to-date windows, previous and next full periods, lag and lead periods, and rolling windows.","Use when a query, stored procedure, or other function needs a reusable time window such as MTD, QTD, YTD, previous month, next quarter, lag 7 days, or rolling 30 days. Designed as an inline table-valued function to be more optimizer-friendly and more portable toward MPP-oriented platforms than a multi-statement TVF.","
+
+	DECLARE @StartDateTime DATETIME
+	DECLARE @EndDateTime DATETIME
+	DECLARE @EventSet NVARCHAR(500)='restaurantguest'
+
+    SELECT @StartDateTime=StartDateTime, @EndDateTime=EndDateTime
+    FROM dbo.TimeIntelligenceWindow('02-28-2023', 0, 'MTD');
+
+	EXEC sp_SelectedEvents @EventSet,0, @StartDateTime,@EndDateTime,NULL,1,NULL,NULL,NULL
+
+
+    SELECT *
+    FROM dbo.TimeIntelligenceWindow(GETDATE(), 1, 'PREVMONTH');
+
+    SELECT *
+    FROM dbo.TimeIntelligenceWindow(GETDATE(), 30, 'ROLLINGDAYS');
+
+    SELECT *
+    FROM dbo.TimeIntelligenceWindow(GETDATE(), 2, 'LEADQTR');
+
+    SELECT e.*
+    FROM dbo.EventsFact e
+    CROSS APPLY dbo.TimeIntelligenceWindow(GETDATE(), 1, 'PREVMONTH') ti
+    WHERE e.EventDate >= ti.WindowStart
+      AND e.EventDate <  ti.WindowEnd;
+
+"
+SQL_SCALAR_FUNCTION,[dbo].[TransformsKey],"Scalar function, [dbo].[TransformsKey]: Generates a stable 16-byte MD5 hash for a JSON mapping of event transforms by sorting key/value pairs to ensure consistent ordering regardless of input order.","Use when you need a stable canonical key for a transforms JSON payload so logically identical mappings resolve to the same identifier even if the JSON property order differs. Helpful for deduplicating transform definitions, looking up cached models by transforms set, or storing transform metadata consistently.","
+
+    SELECT dbo.TransformsKey('{""lighttraffic"":""traffic"",""moderatetraffic"":""traffic"",""heavytraffic"":""traffic""}');
+    SELECT dbo.TransformsKey('{""heavytraffic"":""traffic"",""lighttraffic"":""traffic"",""moderatetraffic"":""traffic""}');
+	--heavytraffic shows up twice, second one with a different value.
+    SELECT dbo.TransformsKey('{""moderatetraffic"":""traffic"",""heavytraffic"":""traffic"",""lighttraffic"":""traffic"",""heavytraffic"":""vtraffce""}');
+    SELECT dbo.TransformsKey('{""moderatetraffic"":""traffic"",""heavytraffic"":""traffic"",""lighttraffic"":""traffic"",""LAtraffic"":""reallybadtraffce""}');
+
+"
+SQL_STORED_PROCEDURE,[dbo].[UpdateCaseFromEvents],"Stored procedure, , [dbo].[UpdateCaseFromEvents]: Recalculates and updates the EventCount, StartDateTime, and EndDateTime in the Cases table based on the EventsFact entries, optionally for a single case or all cases.","Use when case-level metadata should be refreshed from the events that belong to the case, especially after new event loads or corrections.","
+    EXEC dbo.UpdateCaseFromEvents @CaseID = 871;
+    EXEC dbo.UpdateCaseFromEvents @CaseID = NULL;  -- Update all cases
+
+"
+SQL_STORED_PROCEDURE,[dbo].[UpdateTransform],"Stored procedure, , [dbo].[UpdateTransform]: Updates an existing transforms entry by computing its key, ensuring the code is unique for that key, updating its code and description, and logs the update event.","Use when changing an existing transform definition without manually editing metadata tables, especially when event normalization rules evolve.","
+    DECLARE @tk VARBINARY(16);
+    EXEC dbo.UpdateTransform
+      @Transforms = '{""arnold1"":""arnold"",""arnold2"":""arnold"",""keto1"":""dietpage"",""weightwatcher1"":""dietpage"",""vanproteinbars"":""proteinbars"",""chocproteinbars"":""proteinbars""}',
+      @Code = 'Map1',
+      @Dessciption = 'Maps A to X and B to Y',
+      @Transformskey = @tk OUTPUT;
+
+"
+SQL_SCALAR_FUNCTION,[dbo].[UserID],"Scalar function, [dbo].[UserID]: Looks up the numeric UserID for a given Windows login; if none is passed, uses the current session’s login.","Use when you need the internal user identifier for the current or supplied user in joins, access checks, or audit logic.","
+
+    SELECT dbo.UserID(NULL);       -- Your own UserID
+    SELECT dbo.UserID('DOMAIN\\Joe');  -- Specific login
+
+"
+SQL_SCALAR_FUNCTION,[dbo].[bigint_to_binary_string],"Scalar function, [dbo].[bigint_to_binary_string]: Converts a BIGINT value into its 62-bit binary string representation, padding with leading zeros as needed.","Use when you need a readable bit-string form of a BIGINT, especially for debugging access bitmaps, flags, or other packed integer settings.","
+
+    SELECT dbo.bigint_to_binary_string(13);  -- returns '000...01101'
+
+"
+SQL_STORED_PROCEDURE,[dbo].[get_semantic_web_llm_values],"Stored procedure, , [dbo].[get_semantic_web_llm_values]: Dynamically discovers all tables with Description and IRI columns (plus optional EventsFact entries), and returns a unified result set of object name, type, description, IRI, code column name, and code value for semantic-web and LLM embedding purposes. Usefull for setting up 'Time Molecules skills'. See dbo.getTimeMoleculesObjectMetadata() for sprocs, tvf, and udfs.","Use when exporting or preparing Time Molecules metadata values for embeddings, semantic search, or LLM-oriented catalog generation.","
+
+    EXEC dbo.get_semantic_web_llm_values;          -- default, hides EventsFact
+    EXEC dbo.get_semantic_web_llm_values 1;        -- include EventsFact entries
+
+"
+SQL_STORED_PROCEDURE,[dbo].[sp_AdjacencyMatrix],"Stored procedure, , [dbo].[sp_AdjacencyMatrix]: Generates an adjacency matrix from a given event set by calling dbo.MarkovProcess2 and then returning, for each EventA→EventB pair, the conditional probability P(B|A), total occurrences of EventA, and raw transition counts.",Use when you want the stored-procedure version of dbo.AdjacencyMatrix so the logic can rely on the temp/work-table implementation path used by dbo.MarkovProcess2. This is more compatible with the newer Time Molecules stored-proc architecture and is friendlier to Azure Synapse style processing than depending on the legacy TVF chain.,"
+
+    SELECT * FROM dbo.AdjacencyMatrix('poker', 1, NULL);
+	EXEC dbo.sp_AdjacencyMatrix @EventSet='poker', @enumerate_multiple_events=1, @transforms=NULL;
+
+	SELECT * FROM  [dbo].[AdjacencyMatrix]('restaurantguest',1,NULL)
+    EXEC dbo.sp_AdjacencyMatrix @EventSet='restaurantguest', @enumerate_multiple_events=1, @transforms=NULL;
+
+"
+SQL_STORED_PROCEDURE,[dbo].[sp_CaseCharacteristics],"Stored procedure, , [dbo].[sp_CaseCharacteristics]: Retrieves both anomaly-derived event-pair metrics and case-level properties for a given model, consolidating them into a single result set for downstream association analysis. Stored-proc version of dbo.CaseCharacteristics using dbo.sp_ModelDrillThrough to derive the case population.","Use when you want one result set that mixes model-derived anomaly signals with case properties for the same population of cases, while following the newer stored-procedure architecture.",
+SQL_STORED_PROCEDURE,[dbo].[sp_CompareEventProximities],"Stored procedure, , [dbo].[sp_CompareEventProximities]: [
+    ""Compares the event footprints of two tuple-defined populations and returns the event properties found for both selections."",
+    ""Helps identify where two tuple-defined activity streams may intersect through shared event properties, objects, actors, or sources.""
+  ]","Use when you want to compare two tuple-defined populations and find event properties that appear in both selections. Helpful for exploratory root-cause work, overlap analysis, and discovering common objects, actors, sources, or other shared event-level signals that may connect two different activity streams.","
+
+EXEC [dbo].[sp_CompareEventProximities]
+    @CaseFilterProperties1 = '{""LocationID"":1,""EmployeeID"":1}',
+    @CaseFilterProperties2 = '{""LocationID"":1,""EmployeeID"":4}',
+    @StartDateTime = NULL,
+    @EndDateTime = NULL,
+	@ReturnOnlyMatchedProperties=0 --0 means return all property values, then LLM will evaluate what is similar.
+
+EXEC [dbo].[sp_CompareEventProximities]
+    @CaseFilterProperties1 = '{""LocationID"":1,""CustomerID"":2}',
+    @CaseFilterProperties2 = '{""LocationID"":1,""CustomerID"":4}',
+    @StartDateTime = '2020-01-01',
+    @EndDateTime = '2025-12-31',
+	@ReturnOnlyMatchedProperties=1
+
+"
+SQL_STORED_PROCEDURE,[dbo].[sp_ConditionalProbabilityTable],"Stored procedure, , [dbo].[sp_ConditionalProbabilityTable]: For each case or time-group (CASEID/DAY/MONTH/YEAR), counts occurrences of two event sequences A and B so you can compute conditional probabilities across cases.","Use when you want the conditional-probability table logic exposed as a stored procedure, especially for workflows that prefer procedural invocation or writing results to work tables.",
+SQL_STORED_PROCEDURE,[dbo].[sp_DrillThroughToModelEvents],"Stored procedure, , [dbo].[sp_DrillThroughToModelEvents]: Retrieves all underlying events (with ordering, occurrence counts, and metric values) that made up a specified Markov model by its ModelID, leveraging the parameters stored for that model.","Use when you want the event rows behind a stored model loaded procedurally, especially when a downstream step expects a work table or staged result rather than a TVF.","
+    EXEC sp_DrillThroughToModelEvents 24
+
+"
+SQL_STORED_PROCEDURE,[dbo].[sp_ModelDrillThrough],"Stored procedure, , [dbo].[sp_ModelDrillThrough]: Retrieves paired events (EventA -> EventB) and their details for a specified Markov model, including elapsed minutes, rank, and occurrence counts.","Use when you want paired EventA→EventB rows behind a specific model, especially for inspecting real case evidence behind a transition and explaining how a model behaves.","
+
+	DECLARE @ModelID BIGINT=5
+	SELECT * FROM [dbo].[ModelEvents] WHERE ModelID=@ModelID
+    EXEC dbo.sp_ModelDrillThrough @ModelID,'arrive','greeted';
+
+	DECLARE @SessionID UNIQUEIDENTIFIER=NEWID()
+	EXEC dbo.sp_ModelDrillThrough @ModelID=1, @SessionID=@SessionID
+
+
+"
+SQL_STORED_PROCEDURE,[dbo].[sp_SelectEventsbyProperties],"Stored procedure, , [dbo].[sp_SelectEventsbyProperties]: Returns events from dbo.EventPropertiesParsed that belong to the specified EventSet, fall within the effective datetime window, and match all property names supplied in the JSON property filter. The procedure expands the EventSet into distinct event names, parses the property filter JSON, and returns one row per matching event occurrence.","Use when you want to find actual event occurrences that match a named event set and a JSON property filter, especially for targeted drill-through, validation, or event-level troubleshooting.",
+SQL_STORED_PROCEDURE,[dbo].[sp_SelectedEvents],"Stored procedure, , [dbo].[sp_SelectedEvents]: [
+    ""Retrieves all events for a specified event set and optional filters, returning CaseID, Event name, timestamp, sequence rank, occurrence count, EventID, and metric values."",
+    ""Uses inline table variable (@result) to collect and return results; supports both stored-proc and TVF usage patterns.""
+  ]","Use when you need the SelectedEvents logic materialized procedurally, especially for work-table pipelines, scale-out rewrites, or multi-step processes that reuse the same filtered event set.","
+
+For short results, the TVF is often faster. For results across very many facts, the sproc is usually faster.
+
+EXEC dbo.sp_SelectedEvents 'restaurantguest',0, NULL,NULL,NULL,1,NULL,NULL,NULL
+SELECT * 
+FROM dbo.SelectedEvents('restaurantguest',0, NULL,NULL,NULL,1,NULL,NULL,NULL) 
+ORDER BY CaseID,[Rank]
+
+	CHECKPOINT;
+	GO
+	DBCC FREEPROCCACHE;
+	GO
+	DBCC DROPCLEANBUFFERS;
+	GO
+
+{""Fuel"":1,""Weight"":1}
+{""Fuel"":[1,2,3],""Weight"":1}
+{""Fuel"":{""start"":1,""end"":3},""Weight"":1}
+
+SELECT * FROM ParseFilterProperties('{""Fuel"":{""start"":1,""end"":3},""Weight"":1}')
+
+EXEC dbo.sp_SelectedEvents 'pickuproute',0, NULL,NULL,NULL,1,NULL,NULL,'{""Fuel"":{""start"":1,""end"":3000},""Weight"":{""start"":144,""end"":147}}'
+SELECT * 
+FROM dbo.SelectedEvents('pickuproute',0, NULL,NULL,NULL,1,NULL,NULL,'{""Fuel"":1,""Weight"":1}') 
+ORDER BY CaseID,[Rank]
+
+SELECT * 
+FROM dbo.SelectedEvents('cardiology',0, NULL,NULL,NULL,1,NULL,NULL,NULL) 
+ORDER BY CaseID,[Rank]
+
+--These two EXEC has @EventSet IS NULL, which means all events.
+--In this case, I want all events related to CustomerID=2 and CustomerID=4, at LocationID=1.
+--The purpose is to see where/when CustomerID 2 and 4 intersect.
+EXEC dbo.sp_SelectedEvents NULL,0, NULL,NULL,NULL,1,NULL,'{""LocationID"":1,""CustomerID"":2}'
+EXEC dbo.sp_SelectedEvents NULL,0, NULL,NULL,NULL,1,NULL,'{""LocationID"":1,""CustomerID"":4}'
+
+
+
+
+"
+SQL_STORED_PROCEDURE,[dbo].[sp_SequenceSegments],"Stored procedure, , [dbo].[sp_SequenceSegments]: Identifies and aggregates all event sequences in raw event data that begin with a specified start event and end with a specified end event, computing basic statistics (min, max, avg, stdev, sum) on the elapsed time between those events and listing the cases in which they occur.","Use when you want segment-level sequence output produced procedurally, especially for downstream comparison, caching, or staging into work tables.","
+
+EXEC sp_SequenceSegments 'greeted','order','arrive,greeted,seated,intro,drinks,ccdeclined,charged,order,check,seated,served,bigtip,depart',1,'01/01/1900','12/31/2050',NULL,1,NULL
+
+SELECT * FROM dbo.[SequenceSegments]('drinks','depart','arrive,greeted,seated,intro,drinks,ccdeclined,charged,order,check,seated,served,bigtip,depart',1,'01/01/1900','12/31/2050',NULL,1,NULL,NULL)
+EXEC sp_SequenceSegments 'drinks','depart','arrive,greeted,seated,intro,drinks,ccdeclined,charged,order,check,seated,served,bigtip,depart',1,'01/01/1900','12/31/2050',NULL,1,NULL,NULL
+
+
+"
+SQL_STORED_PROCEDURE,[dbo].[sp_Sequences],"Stored procedure, , [dbo].[sp_Sequences]: Computes all successive event‐sequence statistics (per‐sequence and per‐hop) for a given event set over a time window, optionally using cached results for performance.","Use when you want sequence discovery or sequence extraction materialized procedurally, especially when the output needs to feed work tables or later pipeline steps.","
+      EXEC dbo.sp_Sequences 'arrive,greeted,seated',  
+         1, '1900-01-01','2050-12-31',
+         NULL,1,NULL,NULL,NULL,0
+
+		SELECT
+			*
+		FROM
+			SelectedEvents('arrive,greeted,seated',1,NULL,NULL,NULL,NULL,NULL,NULL,NULL) e
+	
+
+
+
+    SELECT * 
+      FROM dbo.Sequences(
+        'arrive,greeted,seated',  
+         1, '1900-01-01','2050-12-31',
+         NULL,1,NULL,NULL,NULL,0
+      );
+
+"
+SQL_STORED_PROCEDURE,[dbo].[utility_Bad_Data],"Stored procedure, , [dbo].[utility_Bad_Data]: Performs a series of data‐quality checks across event and metadata tables: identifies cases with duplicate timestamps, non-unique EventSetCode values, and cases missing valid source or property mappings.","Use when scanning for, logging, or correcting known bad-data patterns in the Time Molecules environment, especially during ETL hygiene and troubleshooting.","
+    EXEC dbo.utility_Bad_Data @IncludeCases = 1;
+
+"
+SQL_STORED_PROCEDURE,[dbo].[utility_LogProcError],"Stored procedure, , [dbo].[utility_LogProcError]: Inserts a row into dbo.ProcErrorLog for procedure events, warnings, or errors.","Use when procedures need a common, reusable way to write rows to dbo.ProcErrorLog instead of repeating manual INSERT statements.",
