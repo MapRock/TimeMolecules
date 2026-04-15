@@ -43,6 +43,10 @@ Instance.
 - Referencing a particular entity, individual, thing.
 
 Examples:
+
+User question: Tell me about Bayesian probabilities objects
+Return: Table,LLM_PROMPT, SQL_STORED_PROCEDURE
+
 User question: where are Markov models stored
 Return: Table,Column,LLM_PROMPT
 
