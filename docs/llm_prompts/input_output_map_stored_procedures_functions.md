@@ -1,0 +1,7 @@
+Prompt: How can an AI agent figure out which stored procedures, table-valued functions, and scalar functions should be called before or after one another in order to compose a useful workflow?
+
+Abstract: AI workflow composition requires more than a list of available database objects. It requires a map of how procedural objects relate through their inputs, outputs, and dependencies so that one object’s result can satisfy another object’s parameter or expected data shape. The central idea is to make stored procedures, TVFs, and scalar functions intelligible as interoperating tools rather than isolated code artifacts. That map gives an agent a practical basis for choosing execution order, tracing dependencies, reusing intermediate results, and building multi-step workflows grounded in the actual behavior of the available SQL objects. It is not the entire orchestration problem, because value selection, validation, permissions, and business rules still matter, but it provides a critical structural layer that makes workflow composition possible. ([GitHub][1])
+
+Primary location of source material to analyze (for more information): [https://github.com/MapRock/TimeMolecules/tree/main/tutorials/input_output_map_stored_procs_functions](https://github.com/MapRock/TimeMolecules/tree/main/tutorials/input_output_map_stored_procs_functions)
+
+[1]: https://github.com/MapRock/TimeMolecules/tree/main/tutorials/input_output_map_stored_procs_functions "TimeMolecules/tutorials/input_output_map_stored_procs_functions at main · MapRock/TimeMolecules · GitHub"
