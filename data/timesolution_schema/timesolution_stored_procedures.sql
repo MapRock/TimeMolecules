@@ -1,6 +1,6 @@
 USE [TimeSolution]
 GO
-/****** Object:  StoredProcedure [dbo].[AddEventToCaseProperties]    Script Date: 4/8/2026 9:45:49 AM ******/
+/****** Object:  StoredProcedure [dbo].[AddEventToCaseProperties]    Script Date: 4/16/2026 8:01:24 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -135,7 +135,7 @@ BEGIN
 
 END;
 GO
-/****** Object:  StoredProcedure [dbo].[BayesianProbability2]    Script Date: 4/8/2026 9:45:49 AM ******/
+/****** Object:  StoredProcedure [dbo].[BayesianProbability2]    Script Date: 4/16/2026 8:01:24 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -587,7 +587,7 @@ BEGIN
 
 END
 GO
-/****** Object:  StoredProcedure [dbo].[BuildTimeSolutionsMetadata]    Script Date: 4/8/2026 9:45:49 AM ******/
+/****** Object:  StoredProcedure [dbo].[BuildTimeSolutionsMetadata]    Script Date: 4/16/2026 8:01:24 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -647,16 +647,18 @@ BEGIN
     BEGIN
         CREATE TABLE dbo.TimeSolutionsMetadata
         (
-            ObjectType            NVARCHAR(60)   NULL,
-            ObjectName            NVARCHAR(500)  NULL,
+            ObjectType            NVARCHAR(MAX)   NULL,
+            ObjectName            NVARCHAR(MAX)  NULL,
             Description           NVARCHAR(MAX)  NULL,
             Utilization           NVARCHAR(MAX)  NULL,
             ParametersJson        NVARCHAR(MAX)  NULL,
             OutputNotes           NVARCHAR(MAX)  NULL,
             ReferencedObjectsJson NVARCHAR(MAX)  NULL,
-            IRI                   NVARCHAR(1000) NULL,
-            CodeColumn            NVARCHAR(128)  NULL,
-            Code                  NVARCHAR(50)   NULL
+            IRI                   NVARCHAR(MAX) NULL,
+            CodeColumn            NVARCHAR(MAX)  NULL,
+            Code                  NVARCHAR(MAX)   NULL,
+			AccessBitmap		BIGiNT NULL,
+			SampleCode			NVARCHAR(MAX) NULL
         );
     END;
 
@@ -676,7 +678,8 @@ BEGIN
         IRI,
         CodeColumn,
         Code,
-		AccessBitmap
+		AccessBitmap,
+		SampleCode
     )
     SELECT
         ObjectType,
@@ -689,7 +692,8 @@ BEGIN
         CAST(NULL AS NVARCHAR(1000)) AS IRI,
         CAST(NULL AS NVARCHAR(128))  AS CodeColumn,
         CAST(NULL AS NVARCHAR(50))   AS Code,
-		@AllAccess AS AccessBitMap
+		@AllAccess AS AccessBitMap,
+		SampleCode
     FROM dbo.getTimeMoleculesObjectMetadata()
     WHERE ObjectType IN
     (
@@ -715,7 +719,8 @@ BEGIN
         IRI,
         CodeColumn,
         Code,
-		AccessBitmap
+		AccessBitmap,
+		SampleCode
     )
     SELECT
         ObjectType,
@@ -728,12 +733,13 @@ BEGIN
         IRI,
         CodeColumn,
         Code,
-		AccessBitmap
+		AccessBitmap,
+		SampleCode
     FROM WORK.semantic_web_llm_values;
 END
 
 GO
-/****** Object:  StoredProcedure [dbo].[CaculateBayesianForModels]    Script Date: 4/8/2026 9:45:49 AM ******/
+/****** Object:  StoredProcedure [dbo].[CalculateBayesianForModels]    Script Date: 4/16/2026 8:01:24 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -741,7 +747,7 @@ GO
 /*
 Metadata JSON:
 {
-  "Stored Procedure": "dbo.CaculateBayesianForModels",
+  "Stored Procedure": "dbo.CalculateBayesianForModels",
   "Author": "Eugene Asahara",
   "Contact": "eugene@softcodedlogic.com",
   "Description": "For a given ModelID, derives Bayesian-style co-occurrence probabilities between case characteristics associated with that model, including both anomaly-derived event sequences and case-property attributes, then inserts or updates the results in dbo.BayesianProbabilities.",
@@ -813,11 +819,11 @@ Metadata JSON:
 Sample utilization:
 
     -- Compute and persist Bayesian relationships for all characteristics associated with model 1.
-    EXEC dbo.CaculateBayesianForModels
+    EXEC dbo.CalculateBayesianForModels
         @ModelID = 1;
 
     -- Recompute and upsert Bayesian relationships for another stored model.
-    EXEC dbo.CaculateBayesianForModels
+    EXEC dbo.CalculateBayesianForModels
         @ModelID = 2;
 
 Notes:
@@ -837,7 +843,7 @@ License:
     Licensed under the MIT License. See LICENSE.md for full terms.
     (c) 2025 Eugene Asahara. All rights reserved.
 */
-CREATE PROCEDURE [dbo].[CaculateBayesianForModels]
+CREATE PROCEDURE [dbo].[CalculateBayesianForModels]
     @ModelID INT,
     @SessionID UNIQUEIDENTIFIER = NULL
 AS
@@ -1205,7 +1211,7 @@ BEGIN
         );
 END
 GO
-/****** Object:  StoredProcedure [dbo].[CauseAndEffectModel]    Script Date: 4/8/2026 9:45:49 AM ******/
+/****** Object:  StoredProcedure [dbo].[CauseAndEffectModel]    Script Date: 4/16/2026 8:01:24 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1355,7 +1361,7 @@ BEGIN
 		a.[EventA]
 END
 GO
-/****** Object:  StoredProcedure [dbo].[CreateUpdateBayesianProbabilities]    Script Date: 4/8/2026 9:45:49 AM ******/
+/****** Object:  StoredProcedure [dbo].[CreateUpdateBayesianProbabilities]    Script Date: 4/16/2026 8:01:24 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1619,7 +1625,7 @@ BEGIN
     END
 END
 GO
-/****** Object:  StoredProcedure [dbo].[CreateUpdateMarkovProcess]    Script Date: 4/8/2026 9:45:49 AM ******/
+/****** Object:  StoredProcedure [dbo].[CreateUpdateMarkovProcess]    Script Date: 4/16/2026 8:01:24 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1912,7 +1918,7 @@ BEGIN
 
 END
 GO
-/****** Object:  StoredProcedure [dbo].[DefaultModelParameters]    Script Date: 4/8/2026 9:45:49 AM ******/
+/****** Object:  StoredProcedure [dbo].[DefaultModelParameters]    Script Date: 4/16/2026 8:01:24 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1991,7 +1997,7 @@ BEGIN
 
 END
 GO
-/****** Object:  StoredProcedure [dbo].[DeleteCase]    Script Date: 4/8/2026 9:45:49 AM ******/
+/****** Object:  StoredProcedure [dbo].[DeleteCase]    Script Date: 4/16/2026 8:01:24 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -2082,7 +2088,7 @@ BEGIN
 	);
 END
 GO
-/****** Object:  StoredProcedure [dbo].[DeleteEventBatch]    Script Date: 4/8/2026 9:45:49 AM ******/
+/****** Object:  StoredProcedure [dbo].[DeleteEventBatch]    Script Date: 4/16/2026 8:01:24 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -2180,7 +2186,7 @@ BEGIN
 	);
 END
 GO
-/****** Object:  StoredProcedure [dbo].[DeleteModel]    Script Date: 4/8/2026 9:45:49 AM ******/
+/****** Object:  StoredProcedure [dbo].[DeleteModel]    Script Date: 4/16/2026 8:01:24 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -2264,7 +2270,7 @@ BEGIN
 
 END
 GO
-/****** Object:  StoredProcedure [dbo].[Generate_LLM_Description_Prompts]    Script Date: 4/8/2026 9:45:49 AM ******/
+/****** Object:  StoredProcedure [dbo].[Generate_LLM_Description_Prompts]    Script Date: 4/16/2026 8:01:24 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -2468,7 +2474,7 @@ END
 
 
 GO
-/****** Object:  StoredProcedure [dbo].[get_semantic_web_llm_values]    Script Date: 4/8/2026 9:45:49 AM ******/
+/****** Object:  StoredProcedure [dbo].[get_semantic_web_llm_values]    Script Date: 4/16/2026 8:01:24 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -2600,10 +2606,20 @@ BEGIN
 				WHEN @TableName='SourceColumns' THEN 'JOIN Sources s ON s.SourceID=t.SourceID'
 				ELSE ''
 		END
+
 		SET @sql = @sql + 
-		'SELECT ''' + @TableName + ''' AS TableName, ''Instance'' AS [ObjectType], '+@Description+', t.[IRI], ' +
-		''''+ @CodeColumn+''' AS CodeColumn,' + 
-		@CodeColumn + ' AS Code 
+		'SELECT ' +
+			'''' + @TableName + ''' + 
+				CASE 
+					WHEN t.' + QUOTENAME(@CodeColumn) + ' IS NOT NULL 
+					THEN ''.'' + CAST(t.' + QUOTENAME(@CodeColumn) + ' AS NVARCHAR(4000))
+					ELSE ''''
+				END AS ObjectName,
+			''Instance'' AS [ObjectType], ' +
+			@Description + ',
+			t.[IRI], ' +
+			'''' + @CodeColumn + ''' AS CodeColumn,
+			t.' + QUOTENAME(@CodeColumn) + ' AS Code
 		 FROM ' + @FromClause + ' UNION ALL ';
 
 		FETCH NEXT FROM table_cursor INTO @TableName, @CodeColumn, @ParentColumn;
@@ -2627,8 +2643,8 @@ BEGIN
 		SELECT 
 			s.name+'.'+obj.name AS ObjectName,
 			'Table' AS [ObjectType],
-			'This is a database table that stores data named '+s.name+'.'+obj.name+'.'+
-			COALESCE(CAST(ep.value AS NVARCHAR(MAX)),'') + ' Columns of this table include: '+
+			s.name+'.'+obj.name+'.'+
+			COALESCE(CAST(ep.value AS NVARCHAR(MAX)),'') + ' Columns: '+
 			ISNULL(
 				'[' + STRING_AGG( c.name , ',') + ']',
 				'[]'
@@ -2653,7 +2669,7 @@ BEGIN
 		SELECT 
 			tbl.name+'.'+col.[name] AS ObjectName,
 			'Column' AS [ObjectType],
-			'Database Column named '+tbl.name+'.'+col.[name]+'. '+
+			tbl.name+'.'+col.[name]+'. '+
 			CAST(ep.value AS NVARCHAR(MAX))  AS Description
 		FROM 
 			sys.columns AS col
@@ -2674,7 +2690,7 @@ BEGIN
 	BEGIN
 	INSERT INTO #tmp (ObjectName,[ObjectType],[Description],AccessBitmap)
 		SELECT 
-			'Model' AS ObjectName,
+			'Model.'+CAST(m.ModelID AS VARCHAR(10)) AS ObjectName,
 			'Instance' AS [ObjectType],
 			LEFT(
 				'Cached Markov Model'+
@@ -2701,7 +2717,7 @@ BEGIN
 	BEGIN
 	INSERT INTO #tmp (ObjectName,[ObjectType],[Description],[IRI],[CodeColumn],[Code])
 		SELECT 
-			'Event Type' AS ObjectName,
+			'EventType.'+e.[Event] AS ObjectName,
 			'Instance' AS [ObjectType],
 			LEFT(
 				COALESCE(e.[Description],'Event Set')+
@@ -2719,7 +2735,7 @@ BEGIN
 	BEGIN
 	INSERT INTO #tmp (ObjectName,[ObjectType],[Description],[IRI],[CodeColumn],[Code])
 		SELECT 
-			'Event Set' AS ObjectName,
+			'Event Set.'+COALESCE(es.EventSetCode,'CodeNotSet') AS ObjectName,
 			'Instance' AS [ObjectType],
 			LEFT(
 				COALESCE(es.[Description],'Event Set')+
@@ -2734,11 +2750,13 @@ BEGIN
 			[dbo].[EventSets] es
 	END
 
+
+
 	IF NOT EXISTS (SELECT * FROM #tmp WHERE ObjectName='Transforms' AND [ObjectType]='Table')
 	BEGIN
 	INSERT INTO #tmp (ObjectName,[ObjectType],[Description],[CodeColumn],[Code])
 		SELECT 
-			'Event Transform' AS ObjectName,
+			'EventTransform.'+COALESCE(t.Code,'CodeNotSet') AS ObjectName,
 			'Instance' AS [ObjectType],
 			COALESCE(t.[Description], 'Event from-to: '+t.transforms) AS [Description],
 			'Code',
@@ -2752,7 +2770,7 @@ BEGIN
 	BEGIN
 	INSERT INTO #tmp (ObjectName,[ObjectType],[Description],[IRI],[CodeColumn],[Code],AccessBitmap)
 		SELECT 
-			'Souce Column' AS ObjectName,
+			'Souce Column.'+COALESCE(sc.ColumnName,'NameNotSet') AS ObjectName,
 			'Instance' AS [ObjectType],
 			LEFT(
 				COALESCE(sc.[Description],'Source Column')
@@ -2798,11 +2816,58 @@ BEGIN
 	order by [ObjectType],[ObjectName]
 END
 GO
-/****** Object:  StoredProcedure [dbo].[ImportEventsFromStage]    Script Date: 4/8/2026 9:45:49 AM ******/
+/****** Object:  StoredProcedure [dbo].[ImportEventsFromStage]    Script Date: 4/16/2026 8:01:24 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
+/*
+Metadata JSON:
+{
+  "Stored Procedure": "dbo.ImportEventsFromStage",
+  "Author": "Eugene Asahara",
+  "Contact": "eugene@softcodedlogic.com",
+  "Last Update": "2026-04-11",
+  "Description": "Imports staged event rows into the TimeSolution event ensemble beginning at an optional import date threshold. Resolves source context, applies user access defaults, and loads core event-level structures used later for property parsing, process analysis, and Markov model creation.",
+  "Utilization": "Use as the main ETL entry point for moving rows from STAGE into the core Time Molecules event ensemble. This is the procedure to run after stage tables have been populated and you want the imported events to become available for downstream case/event analysis, parsed properties, drill-through, and model generation.",
+  "Input Parameters": [
+    { "name": "@ImportFromDate", "type": "DATETIME", "default": "NULL", "description": "Optional lower-bound date for staged rows to import. NULL means import according to the procedure's normal logic without a date filter." }
+  ],
+  "Output Notes": [
+    { "name": "Imported events", "type": "Table Update", "description": "Loads staged event rows into the core event ensemble tables." },
+    { "name": "Access handling", "type": "Security Behavior", "description": "Uses the current user's access bitmap and no-access defaults during import processing." },
+    { "name": "Status / diagnostics", "type": "Runtime behavior", "description": "The procedure declares message and procedure-name variables for import logging or status reporting as part of execution." }
+  ],
+  "Referenced objects": [
+    { "name": "STAGE schema", "type": "Schema", "description": "Holds staging tables that serve as the source for event import." },
+    { "name": "dbo.Users", "type": "Table", "description": "Provides user context and access bitmap information used during import security handling." },
+    { "name": "dbo.UserAccessBitmap", "type": "Scalar Function", "description": "Returns the current user's access bitmap for import-time security logic." },
+    { "name": "dbo.Sources", "type": "Table", "description": "Provides source-system metadata, including the Unknown source fallback used by the procedure." },
+    { "name": "Event ensemble tables", "type": "Table Group", "description": "Target TimeSolution tables populated by the import process for later property parsing and model generation." }
+  ]
+}
+
+Sample utilization:
+
+    EXEC dbo.ImportEventsFromStage;
+
+    EXEC dbo.ImportEventsFromStage
+        @ImportFromDate = '2026-01-01';
+
+Context:
+    • This code is provided as-is for teaching and demonstration of the Time Molecules concepts.
+    • It is **not** production-hardened: error handling, security (SQL injection), concurrency, indexing, query plan tuning, partitioning, etc., have been omitted or simplified.
+    • Performance and scale have not been fully addressed—use at your own risk.
+    • Intended to accompany “Time Molecules” by Eugene Asahara (Technics Publications, 2025).
+
+License:
+    Licensed under the MIT License. See LICENSE.md for full terms.
+    (c) 2026 Eugene Asahara. All rights reserved.
+
+Notes:
+    • This procedure is part of the ETL path from staged data into the core event ensemble.
+    • Imported rows are intended to become available for downstream parsing, filtering, drill-through, and Markov model creation.
+*/
 
 CREATE PROCEDURE [dbo].[ImportEventsFromStage]
     @ImportFromDate DATETIME = NULL
@@ -3045,7 +3110,7 @@ End of validation.
 	EXEC [dbo].[InsertEventProperties] @CompleteRefresh=1
 END
 GO
-/****** Object:  StoredProcedure [dbo].[InsertCase]    Script Date: 4/8/2026 9:45:49 AM ******/
+/****** Object:  StoredProcedure [dbo].[InsertCase]    Script Date: 4/16/2026 8:01:24 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -3179,7 +3244,7 @@ BEGIN
 
 END
 GO
-/****** Object:  StoredProcedure [dbo].[InsertCaseProperties]    Script Date: 4/8/2026 9:45:49 AM ******/
+/****** Object:  StoredProcedure [dbo].[InsertCaseProperties]    Script Date: 4/16/2026 8:01:24 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -3319,7 +3384,8 @@ BEGIN
 					AND sc.SourceID=c.SourceID
 			) AS SourceColumnID,
 			c.StartDateTime,
-			c.EndDateTime
+			c.EndDateTime,
+			c.AccessBitmap
 		FROM
 			(
 				SELECT
@@ -3327,7 +3393,8 @@ BEGIN
 					cp.Properties,
 					c.SourceID,
 					c.StartDateTime,
-					c.EndDateTime
+					c.EndDateTime,
+					c.AccessBitmap
 				FROM
 					[dbo].[CaseProperties] cp
 					JOIN dbo.[Cases] c ON c.CaseID=cp.CaseID
@@ -3340,7 +3407,7 @@ BEGIN
 		WHERE
 			p.[value] IS NOT NULL
 	)
-	INSERT INTO [dbo].[CasePropertiesParsed] (CaseID, PropertyName, PropertyValueAlpha,PropertyValueNumeric,SourceColumnID,StartDateTime,EndDateTime)
+	INSERT INTO [dbo].[CasePropertiesParsed] (CaseID, PropertyName, PropertyValueAlpha,PropertyValueNumeric,SourceColumnID,StartDateTime,EndDateTime,AccessBitmap)
 	SELECT
 		t.CaseID,
 		t.PropertyName,
@@ -3348,16 +3415,18 @@ BEGIN
 		CASE WHEN cm.PropertyValueNumeric IS NULL THEN t.PropertyValueNumeric ELSE cm.PropertyValueNumeric END,
 		t.SourceColumnID,
 		t.StartDateTime,
-		t.EndDateTime
+		t.EndDateTime,
+		COALESCE(sc.AccessBitmap, t.AccessBitmap) AS AccessBitmap --Favor the source column id restriction over the case's.
 	FROM
 		t
+		LEFT JOIN SourceColumns sc oN sc.SourceColumnID=t.SourceColumnID
 		LEFT JOIN [dbo].[CasePropertiesMDM] cm ON 
 			cm.MDMVersionID = @DefaultVersionID AND
 			cm.SourceColumnID=t.SourceColumnID AND 
 			cm.PropertyName COLLATE SQL_Latin1_General_CP1_CI_AS  =t.PropertyName COLLATE SQL_Latin1_General_CP1_CI_AS 
 END
 GO
-/****** Object:  StoredProcedure [dbo].[InsertEvent]    Script Date: 4/8/2026 9:45:49 AM ******/
+/****** Object:  StoredProcedure [dbo].[InsertEvent]    Script Date: 4/16/2026 8:01:24 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -3419,7 +3488,7 @@ BEGIN
 	END
 END
 GO
-/****** Object:  StoredProcedure [dbo].[InsertEventProperties]    Script Date: 4/8/2026 9:45:49 AM ******/
+/****** Object:  StoredProcedure [dbo].[InsertEventProperties]    Script Date: 4/16/2026 8:01:24 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -3475,7 +3544,7 @@ BEGIN
 		TRUNCATE TABLE [dbo].[EventPropertiesParsed]
 	END
 
-	INSERT INTO [dbo].[EventPropertiesParsed] (EventID, PropertyName, PropertyValueAlpha,PropertyValueNumeric,[IsJSON],PropertySource, SourceColumnID,EventPropertyCountAllocation,EventDate,[Event],CaseID)
+	INSERT INTO [dbo].[EventPropertiesParsed] (EventID, PropertyName, PropertyValueAlpha,PropertyValueNumeric,[IsJSON],PropertySource, SourceColumnID,EventPropertyCountAllocation,EventDate,[Event],CaseID,AccessBitmap)
 		SELECT
 			EventID,
 			p.[key] AS PropertyName,
@@ -3503,7 +3572,8 @@ BEGIN
 			1.0/(COUNT(*) OVER (PARTITION BY e.EventID)) AS EventPropertyCountAllocation,
 			e.EventDate,
 			e.[Event],
-			e.CaseID
+			e.CaseID,
+			e.AccessBitmap	--EventsFact should have inherited from Cases table.
 		FROM
 			(
 				SELECT
@@ -3512,7 +3582,8 @@ BEGIN
 					ef.[Event],
 					e.ActualProperties,
 					ef.SourceID,
-					ef.CaseID
+					ef.CaseID,
+					ef.AccessBitmap
 				FROM
 					[dbo].[EventProperties] e
 					JOIN dbo.EventsFact ef ON ef.EventID=e.EventID
@@ -3525,7 +3596,7 @@ BEGIN
 		WHERE
 			p.[value] IS NOT NULL
 
-	INSERT INTO [dbo].[EventPropertiesParsed] (EventID, PropertyName, PropertyValueAlpha,PropertyValueNumeric,[IsJSON],PropertySource, SourceColumnID,EventPropertyCountAllocation,EventDate,[Event],CaseID)
+	INSERT INTO [dbo].[EventPropertiesParsed] (EventID, PropertyName, PropertyValueAlpha,PropertyValueNumeric,[IsJSON],PropertySource, SourceColumnID,EventPropertyCountAllocation,EventDate,[Event],CaseID,AccessBitmap)
 		SELECT
 			EventID,
 			p.[key] AS PropertyName,
@@ -3553,7 +3624,8 @@ BEGIN
 			1.0/(COUNT(*) OVER (PARTITION BY e.EventID)) AS EventPropertyCountAllocation,
 			e.EventDate,
 			e.[Event],
-			e.CaseID
+			e.CaseID,
+			e.AccessBitmap
 		FROM
 			(
 				SELECT
@@ -3562,7 +3634,8 @@ BEGIN
 					ef.[Event],
 					e.ExpectedProperties,
 					ef.SourceID,
-					ef.CaseID
+					ef.CaseID,
+					ef.AccessBitmap
 				FROM
 					[dbo].[EventProperties] e
 					JOIN dbo.EventsFact ef ON ef.EventID=e.EventID
@@ -3577,7 +3650,7 @@ BEGIN
 
 END
 GO
-/****** Object:  StoredProcedure [dbo].[InsertEventSets]    Script Date: 4/8/2026 9:45:49 AM ******/
+/****** Object:  StoredProcedure [dbo].[InsertEventSets]    Script Date: 4/16/2026 8:01:24 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -3679,7 +3752,7 @@ BEGIN
     END
 END
 GO
-/****** Object:  StoredProcedure [dbo].[InsertModel]    Script Date: 4/8/2026 9:45:49 AM ******/
+/****** Object:  StoredProcedure [dbo].[InsertModel]    Script Date: 4/16/2026 8:01:24 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -3974,7 +4047,7 @@ BEGIN
     END
 END
 GO
-/****** Object:  StoredProcedure [dbo].[InsertModelSimilarities]    Script Date: 4/8/2026 9:45:49 AM ******/
+/****** Object:  StoredProcedure [dbo].[InsertModelSimilarities]    Script Date: 4/16/2026 8:01:24 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -4202,7 +4275,7 @@ BEGIN
 
 END
 GO
-/****** Object:  StoredProcedure [dbo].[InsertSource]    Script Date: 4/8/2026 9:45:49 AM ******/
+/****** Object:  StoredProcedure [dbo].[InsertSource]    Script Date: 4/16/2026 8:01:24 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -4315,7 +4388,7 @@ BEGIN
 
 END
 GO
-/****** Object:  StoredProcedure [dbo].[InsertSourceColumn]    Script Date: 4/8/2026 9:45:49 AM ******/
+/****** Object:  StoredProcedure [dbo].[InsertSourceColumn]    Script Date: 4/16/2026 8:01:24 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -4431,7 +4504,7 @@ BEGIN
 
 END
 GO
-/****** Object:  StoredProcedure [dbo].[InsertTransforms]    Script Date: 4/8/2026 9:45:49 AM ******/
+/****** Object:  StoredProcedure [dbo].[InsertTransforms]    Script Date: 4/16/2026 8:01:24 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -4502,7 +4575,7 @@ BEGIN
 	END
 END
 GO
-/****** Object:  StoredProcedure [dbo].[Markov_Model_Confidence_Support]    Script Date: 4/8/2026 9:45:49 AM ******/
+/****** Object:  StoredProcedure [dbo].[Markov_Model_Confidence_Support]    Script Date: 4/16/2026 8:01:24 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -4594,7 +4667,7 @@ ON
 
 END
 GO
-/****** Object:  StoredProcedure [dbo].[MarkovProcess2]    Script Date: 4/8/2026 9:45:49 AM ******/
+/****** Object:  StoredProcedure [dbo].[MarkovProcess2]    Script Date: 4/16/2026 8:01:24 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -4632,7 +4705,7 @@ Metadata JSON:
   "Referenced objects": [
     { "name": "dbo.ModelsByParameters",           "type": "Table-Valued Function", "description": "Resolves or creates a ModelID by parameters." },
     { "name": "dbo.InsertModel",                  "type": "Stored Procedure",        "description": "Upserts into Models and returns keys." },
-    { "name": "dbo.SelectedEvents",               "type": "Table-Valued Function",   "description": "Returns filtered, ordered event stream per case." },
+    { "name": "dbo.sp_SelectedEvents",               "type": "Stored Procedure",   "description": "Returns filtered, ordered event stream per case." },
     { "name": "dbo.MetricValue",                  "type": "Scalar Function",         "description": "Computes a numeric metric per method." },
     { "name": "dbo.DefaultGroupType",             "type": "Scalar Function",         "description": "Normalizes grouping to CASEID/DAY/MONTH/YEAR." },
     { "name": "dbo.Model_Stationary_Distribution","type": "Table-Valued Function",   "description": "Provides stationary probabilities for initial event." },
@@ -5199,7 +5272,127 @@ BEGIN
 
 END;
 GO
-/****** Object:  StoredProcedure [dbo].[SetUserAccessBitmap]    Script Date: 4/8/2026 9:45:49 AM ******/
+/****** Object:  StoredProcedure [dbo].[RefreshUserAccessBitmaps]    Script Date: 4/16/2026 8:01:24 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+/*
+Metadata JSON:
+{
+  "Stored Procedure": "dbo.RefreshUserAccessBitmaps",
+  "Author": "Eugene Asahara",
+  "Contact": "eugene@softcodedlogic.com",
+  "Last Update": "2026-04-11",
+  "Description": "Rebuilds dbo.Users.AccessBitmap from granted rows in dbo.UserAccessRole by summing the corresponding bit value for each AccessID. Optionally limits the refresh to one user.",
+  "Utilization": "Use after inserting, updating, or deleting rows in dbo.UserAccessRole so dbo.Users.AccessBitmap stays synchronized for fast bitmap-based access checks throughout TimeSolution.",
+  "Input Parameters": [
+    { "name": "@UserID", "type": "INT", "default": "NULL", "description": "Optional UserID to refresh. NULL refreshes all users." },
+    { "name": "@SUSER_NAME", "type": "NVARCHAR(50)", "default": "NULL", "description": "Optional login name to refresh. Used only if @UserID is NULL." },
+    { "name": "@DisplayResults", "type": "BIT", "default": "0", "description": "1 to return refreshed users and their AccessBitmap values." }
+  ],
+  "Output Notes": [
+    { "name": "dbo.Users.AccessBitmap", "type": "Table Update", "description": "Updated to reflect the sum of granted role bits from dbo.UserAccessRole." },
+    { "name": "Return Resultset", "type": "Table", "description": "When @DisplayResults=1, returns UserID, SUSER_NAME, SQLLoginName, and AccessBitmap for refreshed rows." }
+  ],
+  "Referenced objects": [
+    { "name": "dbo.Users", "type": "Table", "description": "Stores the materialized AccessBitmap per user." },
+    { "name": "dbo.UserAccessRole", "type": "Table", "description": "Normalized user-to-access-role bridge table." },
+    { "name": "dbo.Access", "type": "Table", "description": "Lookup table of access roles and AccessID values." }
+  ]
+}
+
+Sample utilization:
+
+    EXEC dbo.RefreshUserAccessBitmaps;
+
+    EXEC dbo.RefreshUserAccessBitmaps
+        @UserID = 5,
+        @DisplayResults = 1;
+
+    EXEC dbo.RefreshUserAccessBitmaps
+        @SUSER_NAME = SUSER_NAME(),
+        @DisplayResults = 1;
+
+Context:
+    • This code is provided as-is for teaching and demonstration of the Time Molecules concepts.
+    • It is **not** production-hardened: error handling, security (SQL injection), concurrency, indexing, query plan tuning, partitioning, etc., have been omitted or simplified.
+    • Performance and scale have not been fully addressed—use at your own risk.
+    • Intended to accompany “Time Molecules” by Eugene Asahara (Technics Publications, 2025).
+
+License:
+    Licensed under the MIT License. See LICENSE.md for full terms.
+    (c) 2026 Eugene Asahara. All rights reserved.
+*/
+CREATE   PROCEDURE [dbo].[RefreshUserAccessBitmaps]
+(
+    @UserID INT = NULL,
+    @SUSER_NAME NVARCHAR(50) = NULL,
+    @DisplayResults BIT = 0
+)
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    IF @UserID IS NULL AND @SUSER_NAME IS NOT NULL
+    BEGIN
+        SELECT @UserID = u.UserID
+        FROM dbo.Users u
+        WHERE u.SUSER_NAME = @SUSER_NAME;
+    END;
+
+    ;WITH BitValues AS
+    (
+        SELECT
+            uar.UserID,
+            SUM(
+                CASE
+                    WHEN COALESCE(uar.Granted, 1) = 1
+                         AND COALESCE(a.IsActive, 1) = 1
+                         AND a.AccessID BETWEEN 1 AND 62
+                    THEN POWER(CAST(2 AS BIGINT), a.AccessID - 1)
+                    ELSE CAST(0 AS BIGINT)
+                END
+            ) AS AccessBitmap
+        FROM
+            dbo.UserAccessRole uar
+            JOIN dbo.Access a
+                ON a.AccessID = uar.AccessID
+        WHERE
+            (@UserID IS NULL OR uar.UserID = @UserID)
+        GROUP BY
+            uar.UserID
+    )
+    UPDATE u
+       SET
+           u.AccessBitmap = COALESCE(bv.AccessBitmap, 0),
+           u.LastUpdate = GETDATE()
+    FROM
+        dbo.Users u
+        LEFT JOIN BitValues bv
+            ON bv.UserID = u.UserID
+    WHERE
+        (@UserID IS NULL OR u.UserID = @UserID);
+
+    IF @DisplayResults = 1
+    BEGIN
+        SELECT
+            u.UserID,
+            u.SUSER_NAME,
+            u.SQLLoginName,
+            u.AccessBitmap,
+            u.LastUpdate
+        FROM
+            dbo.Users u
+        WHERE
+            (@UserID IS NULL OR u.UserID = @UserID)
+        ORDER BY
+            u.UserID;
+    END
+END
+GO
+/****** Object:  StoredProcedure [dbo].[SetUserAccessBitmap]    Script Date: 4/16/2026 8:01:24 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -5283,7 +5476,7 @@ BEGIN
 	END
 END
 GO
-/****** Object:  StoredProcedure [dbo].[sp_AdjacencyMatrix]    Script Date: 4/8/2026 9:45:49 AM ******/
+/****** Object:  StoredProcedure [dbo].[sp_AdjacencyMatrix]    Script Date: 4/16/2026 8:01:24 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -5398,7 +5591,7 @@ BEGIN
     WHERE SessionID = @LocalSessionID;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[sp_CaseCharacteristics]    Script Date: 4/8/2026 9:45:49 AM ******/
+/****** Object:  StoredProcedure [dbo].[sp_CaseCharacteristics]    Script Date: 4/16/2026 8:01:24 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -5528,7 +5721,7 @@ BEGIN
 	DELETE FROM WORK.ModelDrillThrough WHERE @SessionID=SessionID
 END
 GO
-/****** Object:  StoredProcedure [dbo].[sp_CasePropertyProfiling]    Script Date: 4/8/2026 9:45:49 AM ******/
+/****** Object:  StoredProcedure [dbo].[sp_CasePropertyProfiling]    Script Date: 4/16/2026 8:01:24 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -5688,7 +5881,7 @@ BEGIN
     	cpp.PropertyName
 END
 GO
-/****** Object:  StoredProcedure [dbo].[sp_CompareEventProximities]    Script Date: 4/8/2026 9:45:50 AM ******/
+/****** Object:  StoredProcedure [dbo].[sp_CompareEventProximities]    Script Date: 4/16/2026 8:01:24 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -5891,7 +6084,7 @@ BEGIN
 END
 
 GO
-/****** Object:  StoredProcedure [dbo].[sp_ConditionalProbabilityTable]    Script Date: 4/8/2026 9:45:50 AM ******/
+/****** Object:  StoredProcedure [dbo].[sp_ConditionalProbabilityTable]    Script Date: 4/16/2026 8:01:24 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -6042,7 +6235,7 @@ BEGIN
 	RETURN 
 END
 GO
-/****** Object:  StoredProcedure [dbo].[sp_DrillThroughToModelEvents]    Script Date: 4/8/2026 9:45:50 AM ******/
+/****** Object:  StoredProcedure [dbo].[sp_DrillThroughToModelEvents]    Script Date: 4/16/2026 8:01:24 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -6170,7 +6363,7 @@ BEGIN
 
 END
 GO
-/****** Object:  StoredProcedure [dbo].[sp_ModelDrillThrough]    Script Date: 4/8/2026 9:45:50 AM ******/
+/****** Object:  StoredProcedure [dbo].[sp_ModelDrillThrough]    Script Date: 4/16/2026 8:01:24 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -6362,7 +6555,7 @@ BEGIN
 
 END
 GO
-/****** Object:  StoredProcedure [dbo].[sp_SelectedEvents]    Script Date: 4/8/2026 9:45:50 AM ******/
+/****** Object:  StoredProcedure [dbo].[sp_SelectedEvents]    Script Date: 4/16/2026 8:01:24 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -6718,7 +6911,7 @@ BEGIN
 	
 END
 GO
-/****** Object:  StoredProcedure [dbo].[sp_SelectEventsbyProperties]    Script Date: 4/8/2026 9:45:50 AM ******/
+/****** Object:  StoredProcedure [dbo].[sp_SelectEventsbyProperties]    Script Date: 4/16/2026 8:01:24 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -6871,7 +7064,7 @@ BEGIN
 		COUNT(*)=@EventMaxProps
 END
 GO
-/****** Object:  StoredProcedure [dbo].[sp_Sequences]    Script Date: 4/8/2026 9:45:50 AM ******/
+/****** Object:  StoredProcedure [dbo].[sp_Sequences]    Script Date: 4/16/2026 8:01:24 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -7241,7 +7434,7 @@ BEGIN
 	END
 END
 GO
-/****** Object:  StoredProcedure [dbo].[sp_SequenceSegments]    Script Date: 4/8/2026 9:45:50 AM ******/
+/****** Object:  StoredProcedure [dbo].[sp_SequenceSegments]    Script Date: 4/16/2026 8:01:24 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -7432,7 +7625,7 @@ BEGIN
 	FROM @seq
 END
 GO
-/****** Object:  StoredProcedure [dbo].[UpdateCaseFromEvents]    Script Date: 4/8/2026 9:45:50 AM ******/
+/****** Object:  StoredProcedure [dbo].[UpdateCaseFromEvents]    Script Date: 4/16/2026 8:01:24 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -7525,7 +7718,7 @@ BEGIN
 
 END
 GO
-/****** Object:  StoredProcedure [dbo].[UpdateCases_retire]    Script Date: 4/8/2026 9:45:50 AM ******/
+/****** Object:  StoredProcedure [dbo].[UpdateCases_retire]    Script Date: 4/16/2026 8:01:24 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -7570,7 +7763,7 @@ BEGIN
 ;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[UpdateTransform]    Script Date: 4/8/2026 9:45:50 AM ******/
+/****** Object:  StoredProcedure [dbo].[UpdateTransform]    Script Date: 4/16/2026 8:01:24 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -7663,7 +7856,7 @@ BEGIN
 
 END
 GO
-/****** Object:  StoredProcedure [dbo].[usp_LogTimestamp]    Script Date: 4/8/2026 9:45:50 AM ******/
+/****** Object:  StoredProcedure [dbo].[usp_LogTimestamp]    Script Date: 4/16/2026 8:01:24 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -7686,7 +7879,7 @@ BEGIN
     PRINT @output;
 END;
 GO
-/****** Object:  StoredProcedure [dbo].[utility_Bad_Data]    Script Date: 4/8/2026 9:45:50 AM ******/
+/****** Object:  StoredProcedure [dbo].[utility_Bad_Data]    Script Date: 4/16/2026 8:01:24 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -7739,13 +7932,34 @@ BEGIN
 	-- interfering with SELECT statements.
 	SET NOCOUNT ON;
 
+	--EventSetCode must be unique or null.
+	SELECT
+		s.ServerName,
+		s.DatabaseName,
+		COALESCE(s.DefaultTableName,'NULL') AS [DefaultTableName],
+		'Duplicate server, database, default table',
+		COUNT(*) AS [Count]
+	FROM
+		dbo.Sources s
+	GROUP BY
+		s.ServerName,
+		s.DatabaseName,
+		COALESCE(s.DefaultTableName,'NULL') 
+	HAVING COUNT(*)<>1
+
 	--Every CaseID row must have a unique time - ms are ok.
-	SELECT caseid,[EventDate],count(*) FROM dbo.EventsFact
+	SELECT 
+	caseid,
+	[EventDate],
+	'Event is Case has same timestamp',
+	count(*) 
+	FROM dbo.EventsFact
 	group by caseid,[EventDate] HAVING COUNT(*)<>1
 
 	--EventSetCode must be unique or null.
 	SELECT
 		EventSetCode,
+		'Event Set Code not Unique',
 		COUNT(*) AS [Count]
 	FROM
 		dbo.EventSets
@@ -7765,8 +7979,8 @@ BEGIN
 		s.DefaultTableName,
 		cp.PropertyName,
 		cp.PropertyValueAlpha,
-		cp.PropertyValueNumeric
-
+		cp.PropertyValueNumeric,
+		'Missing SourceID or SourceColumnID'
 	FROM
 		[dbo].[Cases] c (NOLOCK)
 		JOIN [dbo].[CasePropertiesParsed] cp (NOLOCK) ON cp.CaseID=c.CaseID
@@ -7778,7 +7992,7 @@ BEGIN
 
 END
 GO
-/****** Object:  StoredProcedure [dbo].[utility_LogProcError]    Script Date: 4/8/2026 9:45:50 AM ******/
+/****** Object:  StoredProcedure [dbo].[utility_LogProcError]    Script Date: 4/16/2026 8:01:24 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -7849,7 +8063,7 @@ BEGIN
     );
 END
 GO
-/****** Object:  StoredProcedure [dbo].[utility_Set_CaseOrdinal]    Script Date: 4/8/2026 9:45:50 AM ******/
+/****** Object:  StoredProcedure [dbo].[utility_Set_CaseOrdinal]    Script Date: 4/16/2026 8:01:24 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON

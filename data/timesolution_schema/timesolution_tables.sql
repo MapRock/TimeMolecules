@@ -1,6 +1,6 @@
 USE [TimeSolution]
 GO
-/****** Object:  Table [dbo].[Access]    Script Date: 4/8/2026 9:44:54 AM ******/
+/****** Object:  Table [dbo].[Access]    Script Date: 4/16/2026 8:00:11 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -8,13 +8,14 @@ GO
 CREATE TABLE [dbo].[Access](
 	[AccessID] [int] NOT NULL,
 	[Description] [nvarchar](100) NOT NULL,
+	[IsActive] [bit] NULL,
  CONSTRAINT [PK_Access] PRIMARY KEY CLUSTERED 
 (
 	[AccessID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[AggregationTypes]    Script Date: 4/8/2026 9:44:54 AM ******/
+/****** Object:  Table [dbo].[AggregationTypes]    Script Date: 4/16/2026 8:00:11 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -30,7 +31,7 @@ CREATE TABLE [dbo].[AggregationTypes](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[BayesianProbabilities]    Script Date: 4/8/2026 9:44:54 AM ******/
+/****** Object:  Table [dbo].[BayesianProbabilities]    Script Date: 4/16/2026 8:00:11 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -54,7 +55,7 @@ CREATE TABLE [dbo].[BayesianProbabilities](
 	[LastUpdate] [datetime] NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[CaseProperties]    Script Date: 4/8/2026 9:44:54 AM ******/
+/****** Object:  Table [dbo].[CaseProperties]    Script Date: 4/16/2026 8:00:11 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -70,7 +71,7 @@ CREATE TABLE [dbo].[CaseProperties](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[CasePropertiesMDM]    Script Date: 4/8/2026 9:44:54 AM ******/
+/****** Object:  Table [dbo].[CasePropertiesMDM]    Script Date: 4/16/2026 8:00:11 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -97,7 +98,7 @@ CREATE TABLE [dbo].[CasePropertiesMDM](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[CasePropertiesParsed]    Script Date: 4/8/2026 9:44:54 AM ******/
+/****** Object:  Table [dbo].[CasePropertiesParsed]    Script Date: 4/16/2026 8:00:11 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -114,6 +115,7 @@ CREATE TABLE [dbo].[CasePropertiesParsed](
 	[SortValue] [int] NULL,
 	[StartDateTime] [datetime] NULL,
 	[EndDateTime] [datetime] NULL,
+	[AccessBitmap] [bigint] NULL,
  CONSTRAINT [PK_CaseProperties] PRIMARY KEY CLUSTERED 
 (
 	[PropertyName] ASC,
@@ -121,7 +123,7 @@ CREATE TABLE [dbo].[CasePropertiesParsed](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Cases]    Script Date: 4/8/2026 9:44:54 AM ******/
+/****** Object:  Table [dbo].[Cases]    Script Date: 4/16/2026 8:00:11 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -146,7 +148,7 @@ CREATE TABLE [dbo].[Cases](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[CaseTypes]    Script Date: 4/8/2026 9:44:54 AM ******/
+/****** Object:  Table [dbo].[CaseTypes]    Script Date: 4/16/2026 8:00:11 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -164,7 +166,7 @@ CREATE TABLE [dbo].[CaseTypes](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[DimAnomalyCategories]    Script Date: 4/8/2026 9:44:54 AM ******/
+/****** Object:  Table [dbo].[DimAnomalyCategories]    Script Date: 4/16/2026 8:00:11 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -180,7 +182,7 @@ CREATE TABLE [dbo].[DimAnomalyCategories](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[DimDate]    Script Date: 4/8/2026 9:44:54 AM ******/
+/****** Object:  Table [dbo].[DimDate]    Script Date: 4/16/2026 8:00:11 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -199,7 +201,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[DimEvents]    Script Date: 4/8/2026 9:44:54 AM ******/
+/****** Object:  Table [dbo].[DimEvents]    Script Date: 4/16/2026 8:00:11 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -220,7 +222,7 @@ CREATE TABLE [dbo].[DimEvents](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[DimObservers]    Script Date: 4/8/2026 9:44:54 AM ******/
+/****** Object:  Table [dbo].[DimObservers]    Script Date: 4/16/2026 8:00:11 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -239,7 +241,7 @@ CREATE TABLE [dbo].[DimObservers](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[DimTime]    Script Date: 4/8/2026 9:44:54 AM ******/
+/****** Object:  Table [dbo].[DimTime]    Script Date: 4/16/2026 8:00:11 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -255,7 +257,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[EventPairAnomalies]    Script Date: 4/8/2026 9:44:54 AM ******/
+/****** Object:  Table [dbo].[EventPairAnomalies]    Script Date: 4/16/2026 8:00:11 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -277,7 +279,7 @@ CREATE TABLE [dbo].[EventPairAnomalies](
 	[MetricID] [int] NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[EventProperties]    Script Date: 4/8/2026 9:44:54 AM ******/
+/****** Object:  Table [dbo].[EventProperties]    Script Date: 4/16/2026 8:00:11 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -297,7 +299,7 @@ CREATE TABLE [dbo].[EventProperties](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[EventPropertiesMDM]    Script Date: 4/8/2026 9:44:54 AM ******/
+/****** Object:  Table [dbo].[EventPropertiesMDM]    Script Date: 4/16/2026 8:00:11 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -323,7 +325,7 @@ CREATE TABLE [dbo].[EventPropertiesMDM](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[EventPropertiesParsed]    Script Date: 4/8/2026 9:44:54 AM ******/
+/****** Object:  Table [dbo].[EventPropertiesParsed]    Script Date: 4/16/2026 8:00:11 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -342,6 +344,7 @@ CREATE TABLE [dbo].[EventPropertiesParsed](
 	[EventDate] [datetime] NULL,
 	[Event] [nvarchar](20) NULL,
 	[CaseID] [bigint] NULL,
+	[AccessBitmap] [bigint] NULL,
  CONSTRAINT [PK_EventPropertiesParsed] PRIMARY KEY CLUSTERED 
 (
 	[EventID] ASC,
@@ -350,7 +353,7 @@ CREATE TABLE [dbo].[EventPropertiesParsed](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[EventSets]    Script Date: 4/8/2026 9:44:54 AM ******/
+/****** Object:  Table [dbo].[EventSets]    Script Date: 4/16/2026 8:00:11 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -374,7 +377,7 @@ CREATE TABLE [dbo].[EventSets](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[EventsFact]    Script Date: 4/8/2026 9:44:54 AM ******/
+/****** Object:  Table [dbo].[EventsFact]    Script Date: 4/16/2026 8:00:11 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -393,7 +396,7 @@ CREATE TABLE [dbo].[EventsFact](
 	[AccessBitmap] [bigint] NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[MDMComparisonTypes]    Script Date: 4/8/2026 9:44:54 AM ******/
+/****** Object:  Table [dbo].[MDMComparisonTypes]    Script Date: 4/16/2026 8:00:11 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -407,7 +410,7 @@ CREATE TABLE [dbo].[MDMComparisonTypes](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Metrics]    Script Date: 4/8/2026 9:44:54 AM ******/
+/****** Object:  Table [dbo].[Metrics]    Script Date: 4/16/2026 8:00:11 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -425,7 +428,7 @@ CREATE TABLE [dbo].[Metrics](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Model_Stationary_Distribution]    Script Date: 4/8/2026 9:44:54 AM ******/
+/****** Object:  Table [dbo].[Model_Stationary_Distribution]    Script Date: 4/16/2026 8:00:11 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -442,7 +445,7 @@ CREATE TABLE [dbo].[Model_Stationary_Distribution](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[ModelEvents]    Script Date: 4/8/2026 9:44:54 AM ******/
+/****** Object:  Table [dbo].[ModelEvents]    Script Date: 4/16/2026 8:00:11 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -475,7 +478,7 @@ CREATE TABLE [dbo].[ModelEvents](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[ModelProperties]    Script Date: 4/8/2026 9:44:54 AM ******/
+/****** Object:  Table [dbo].[ModelProperties]    Script Date: 4/16/2026 8:00:11 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -493,7 +496,7 @@ CREATE TABLE [dbo].[ModelProperties](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Models]    Script Date: 4/8/2026 9:44:54 AM ******/
+/****** Object:  Table [dbo].[Models]    Script Date: 4/16/2026 8:00:11 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -521,21 +524,22 @@ CREATE TABLE [dbo].[Models](
 	[EventFactRows] [bigint] NULL,
 	[ParamHash] [varbinary](16) NULL,
 	[CreatedBy_AccessBitmap] [bigint] NULL,
+	[CreatedBy_UserID] [int] NULL,
  CONSTRAINT [PK_Models] PRIMARY KEY CLUSTERED 
 (
 	[modelid] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[ModelSequences]    Script Date: 4/8/2026 9:44:54 AM ******/
+/****** Object:  Table [dbo].[ModelSequences]    Script Date: 4/16/2026 8:00:11 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[ModelSequences](
 	[Seq] [nvarchar](2000) NULL,
-	[lastEvent] [nvarchar](20) NULL,
-	[nextEvent] [nvarchar](20) NULL,
+	[lastEvent] [nvarchar](50) NULL,
+	[nextEvent] [nvarchar](50) NULL,
 	[SeqStDev] [float] NULL,
 	[SeqMax] [float] NULL,
 	[SeqAvg] [float] NULL,
@@ -561,7 +565,7 @@ CREATE TABLE [dbo].[ModelSequences](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[ModelSimilarity]    Script Date: 4/8/2026 9:44:54 AM ******/
+/****** Object:  Table [dbo].[ModelSimilarity]    Script Date: 4/16/2026 8:00:11 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -583,7 +587,7 @@ CREATE TABLE [dbo].[ModelSimilarity](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[ProcErrorLog]    Script Date: 4/8/2026 9:44:54 AM ******/
+/****** Object:  Table [dbo].[ProcErrorLog]    Script Date: 4/16/2026 8:00:11 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -606,7 +610,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[SimilarSourceColumnPairs]    Script Date: 4/8/2026 9:44:54 AM ******/
+/****** Object:  Table [dbo].[SimilarSourceColumnPairs]    Script Date: 4/16/2026 8:00:11 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -618,7 +622,7 @@ CREATE TABLE [dbo].[SimilarSourceColumnPairs](
 	[Reason] [nvarchar](500) NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[SourceColumns]    Script Date: 4/8/2026 9:44:54 AM ******/
+/****** Object:  Table [dbo].[SourceColumns]    Script Date: 4/16/2026 8:00:11 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -634,13 +638,14 @@ CREATE TABLE [dbo].[SourceColumns](
 	[Description] [nvarchar](500) NULL,
 	[IRI] [nvarchar](500) NULL,
 	[ObserverID] [bigint] NULL,
+	[AccessBitmap] [bigint] NULL,
  CONSTRAINT [PK_SourceColumns] PRIMARY KEY CLUSTERED 
 (
 	[SourceColumnID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Sources]    Script Date: 4/8/2026 9:44:54 AM ******/
+/****** Object:  Table [dbo].[Sources]    Script Date: 4/16/2026 8:00:11 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -652,8 +657,8 @@ CREATE TABLE [dbo].[Sources](
 	[Name] [nvarchar](50) NOT NULL,
 	[DefaultTableName] [nvarchar](128) NULL,
 	[IRI] [nvarchar](500) NULL,
-	[DatabaseName] [nvarchar](400) NULL,
-	[ServerName] [nvarchar](400) NULL,
+	[DatabaseName] [nvarchar](300) NULL,
+	[ServerName] [nvarchar](300) NULL,
 	[PropertiesJSONFullyQualifiedColumnName] [nvarchar](128) NULL,
 	[TargetJSONFullyQualifiedColumnName] [nvarchar](128) NULL,
 	[DefaultObserverID] [bigint] NULL,
@@ -664,26 +669,27 @@ CREATE TABLE [dbo].[Sources](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[TimeSolutionsMetadata]    Script Date: 4/8/2026 9:44:54 AM ******/
+/****** Object:  Table [dbo].[TimeSolutionsMetadata]    Script Date: 4/16/2026 8:00:11 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[TimeSolutionsMetadata](
-	[ObjectType] [nvarchar](60) NULL,
-	[ObjectName] [nvarchar](517) NULL,
+	[ObjectType] [nvarchar](max) NULL,
+	[ObjectName] [nvarchar](max) NULL,
 	[Description] [nvarchar](max) NULL,
-	[Utilization] [nvarchar](4000) NULL,
+	[Utilization] [nvarchar](max) NULL,
 	[ParametersJson] [nvarchar](max) NULL,
 	[OutputNotes] [nvarchar](max) NULL,
 	[ReferencedObjectsJson] [nvarchar](max) NULL,
-	[IRI] [nvarchar](1000) NULL,
-	[CodeColumn] [nvarchar](128) NULL,
-	[Code] [nvarchar](50) NULL,
-	[AccessBitmap] [bigint] NULL
+	[IRI] [nvarchar](max) NULL,
+	[CodeColumn] [nvarchar](max) NULL,
+	[Code] [nvarchar](max) NULL,
+	[AccessBitmap] [bigint] NULL,
+	[SampleCode] [nvarchar](max) NULL
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Transforms]    Script Date: 4/8/2026 9:44:54 AM ******/
+/****** Object:  Table [dbo].[Transforms]    Script Date: 4/16/2026 8:00:11 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -703,7 +709,25 @@ CREATE TABLE [dbo].[Transforms](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Users]    Script Date: 4/8/2026 9:44:54 AM ******/
+/****** Object:  Table [dbo].[UserAccessRole]    Script Date: 4/16/2026 8:00:11 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[UserAccessRole](
+	[UserID] [int] NOT NULL,
+	[AccessID] [int] NOT NULL,
+	[Granted] [bit] NOT NULL,
+	[CreateDate] [datetime] NOT NULL,
+	[LastUpdate] [datetime] NOT NULL,
+ CONSTRAINT [PK_UserAccessRole] PRIMARY KEY CLUSTERED 
+(
+	[UserID] ASC,
+	[AccessID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Users]    Script Date: 4/16/2026 8:00:11 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -716,13 +740,28 @@ CREATE TABLE [dbo].[Users](
 	[LastUpdate] [datetime] NOT NULL,
 	[Description] [nvarchar](500) NULL,
 	[IRI] [nvarchar](500) NULL,
+	[IsActive] [bit] NOT NULL,
+	[SQLLoginName] [nvarchar](256) NULL,
  CONSTRAINT [PK_Users] PRIMARY KEY CLUSTERED 
 (
 	[SUSER_NAME] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [STAGE].[ImportEvents]    Script Date: 4/8/2026 9:44:54 AM ******/
+/****** Object:  Table [DIM].[Location_Test]    Script Date: 4/16/2026 8:00:11 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [DIM].[Location_Test](
+	[LocationID] [int] NULL,
+	[Description] [nvarchar](4000) NULL,
+	[City] [nvarchar](4000) NULL,
+	[State] [nvarchar](4000) NULL,
+	[Country] [nvarchar](4000) NULL
+) ON [PRIMARY]
+GO
+/****** Object:  Table [STAGE].[ImportEvents]    Script Date: 4/16/2026 8:00:11 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -745,7 +784,7 @@ CREATE TABLE [STAGE].[ImportEvents](
 	[NaturalKey_SourceColumnID] [int] NULL
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [STAGE].[sales_event_data]    Script Date: 4/8/2026 9:44:54 AM ******/
+/****** Object:  Table [STAGE].[sales_event_data]    Script Date: 4/16/2026 8:00:11 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -768,7 +807,7 @@ CREATE TABLE [STAGE].[sales_event_data](
 	[SourceSchema] [nvarchar](50) NOT NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [WORK].[BayesianProbability]    Script Date: 4/8/2026 9:44:54 AM ******/
+/****** Object:  Table [WORK].[BayesianProbability]    Script Date: 4/16/2026 8:00:11 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -787,7 +826,7 @@ CREATE TABLE [WORK].[BayesianProbability](
 	[PB] [float] NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [WORK].[CaseCharacteristics]    Script Date: 4/8/2026 9:44:54 AM ******/
+/****** Object:  Table [WORK].[CaseCharacteristics]    Script Date: 4/16/2026 8:00:11 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -811,7 +850,7 @@ CREATE TABLE [WORK].[CaseCharacteristics](
 	[SessionID] [uniqueidentifier] NOT NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [WORK].[causeandeffectdetails]    Script Date: 4/8/2026 9:44:54 AM ******/
+/****** Object:  Table [WORK].[causeandeffectdetails]    Script Date: 4/16/2026 8:00:11 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -824,7 +863,7 @@ CREATE TABLE [WORK].[causeandeffectdetails](
 	[EventAID] [bigint] NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [WORK].[DrillThroughToModelEvents]    Script Date: 4/8/2026 9:44:54 AM ******/
+/****** Object:  Table [WORK].[DrillThroughToModelEvents]    Script Date: 4/16/2026 8:00:11 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -840,7 +879,7 @@ CREATE TABLE [WORK].[DrillThroughToModelEvents](
 	[SessionID] [uniqueidentifier] NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [WORK].[MarkovProcess]    Script Date: 4/8/2026 9:44:54 AM ******/
+/****** Object:  Table [WORK].[MarkovProcess]    Script Date: 4/16/2026 8:00:11 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -867,7 +906,7 @@ CREATE TABLE [WORK].[MarkovProcess](
 	[SessionID] [uniqueidentifier] NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [WORK].[ModelDrillThrough]    Script Date: 4/8/2026 9:44:54 AM ******/
+/****** Object:  Table [WORK].[ModelDrillThrough]    Script Date: 4/16/2026 8:00:11 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -888,7 +927,7 @@ CREATE TABLE [WORK].[ModelDrillThrough](
 	[EventB_SourceColumnID] [int] NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [WORK].[SelectedEvents]    Script Date: 4/8/2026 9:44:54 AM ******/
+/****** Object:  Table [WORK].[SelectedEvents]    Script Date: 4/16/2026 8:00:11 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -905,7 +944,7 @@ CREATE TABLE [WORK].[SelectedEvents](
 	[EventID] [int] NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [WORK].[semantic_web_llm_values]    Script Date: 4/8/2026 9:44:54 AM ******/
+/****** Object:  Table [WORK].[semantic_web_llm_values]    Script Date: 4/16/2026 8:00:11 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -918,10 +957,11 @@ CREATE TABLE [WORK].[semantic_web_llm_values](
 	[IRI] [nvarchar](1000) NULL,
 	[CodeColumn] [nvarchar](128) NULL,
 	[Code] [nvarchar](50) NULL,
-	[AccessBitmap] [bigint] NULL
+	[AccessBitmap] [bigint] NULL,
+	[SampleCode] [nvarchar](max) NULL
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [WORK].[Sequences]    Script Date: 4/8/2026 9:44:54 AM ******/
+/****** Object:  Table [WORK].[Sequences]    Script Date: 4/16/2026 8:00:11 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -949,6 +989,8 @@ CREATE TABLE [WORK].[Sequences](
 	[length] [int] NULL,
 	[SessionID] [uniqueidentifier] NULL
 ) ON [PRIMARY]
+GO
+ALTER TABLE [dbo].[Access] ADD  CONSTRAINT [DF_Access_IsActive]  DEFAULT ((1)) FOR [IsActive]
 GO
 ALTER TABLE [dbo].[AggregationTypes] ADD  CONSTRAINT [DF_AggregationTypes_IsNative]  DEFAULT ((1)) FOR [IsNative]
 GO
@@ -1060,6 +1102,8 @@ ALTER TABLE [dbo].[SourceColumns] ADD  CONSTRAINT [DF_SourceColumns_Continuous] 
 GO
 ALTER TABLE [dbo].[SourceColumns] ADD  CONSTRAINT [DF_SourceColumns_DataType]  DEFAULT (N'nvarchar') FOR [DataType]
 GO
+ALTER TABLE [dbo].[SourceColumns] ADD  CONSTRAINT [DF_SourceColumns_AccessBitmap]  DEFAULT ((0)) FOR [AccessBitmap]
+GO
 ALTER TABLE [dbo].[Sources] ADD  CONSTRAINT [DF_Sources_AccessBitmap]  DEFAULT ((0)) FOR [AccessBitmap]
 GO
 ALTER TABLE [dbo].[Transforms] ADD  CONSTRAINT [DF_Transforms_CreateDate]  DEFAULT (getdate()) FOR [CreateDate]
@@ -1068,15 +1112,29 @@ ALTER TABLE [dbo].[Transforms] ADD  CONSTRAINT [DF_Transforms_LastUpdate]  DEFAU
 GO
 ALTER TABLE [dbo].[Transforms] ADD  CONSTRAINT [DF_Transforms_AccessBitmap]  DEFAULT ((-1)) FOR [AccessBitmap]
 GO
+ALTER TABLE [dbo].[UserAccessRole] ADD  DEFAULT ((1)) FOR [Granted]
+GO
+ALTER TABLE [dbo].[UserAccessRole] ADD  DEFAULT (getdate()) FOR [CreateDate]
+GO
+ALTER TABLE [dbo].[UserAccessRole] ADD  DEFAULT (getdate()) FOR [LastUpdate]
+GO
 ALTER TABLE [dbo].[Users] ADD  CONSTRAINT [DF_Users_AccessBitmap]  DEFAULT ((0)) FOR [AccessBitmap]
 GO
 ALTER TABLE [dbo].[Users] ADD  CONSTRAINT [DF_Users_CreateDate]  DEFAULT (getdate()) FOR [CreateDate]
 GO
 ALTER TABLE [dbo].[Users] ADD  CONSTRAINT [DF_Users_LastUpdate]  DEFAULT (getdate()) FOR [LastUpdate]
 GO
+ALTER TABLE [dbo].[Users] ADD  CONSTRAINT [DF_Users_IsActive]  DEFAULT ((1)) FOR [IsActive]
+GO
 ALTER TABLE [STAGE].[ImportEvents] ADD  CONSTRAINT [DF_ImportEvents_DateAdded]  DEFAULT (getdate()) FOR [DateAdded]
 GO
 ALTER TABLE [STAGE].[ImportEvents] ADD  CONSTRAINT [DF_ImportEvents_AccessBitmap]  DEFAULT ((-1)) FOR [AccessBitmap]
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Primary Key of the Access table.' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Access', @level2type=N'COLUMN',@level2name=N'AccessID'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'The access roles of the system. Each AccessID represents a bitmap in the AccessBitmap columns throughout the system.' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Access'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Primary key of the AggregationTypes table.' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'AggregationTypes', @level2type=N'COLUMN',@level2name=N'AggregationTypeID'
 GO
 EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'0=Aggregation is custom,  some ETL package.' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'AggregationTypes', @level2type=N'COLUMN',@level2name=N'IsNative'
 GO
@@ -1084,21 +1142,47 @@ EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'This is a json
 GO
 EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'An EventFact could be an aggregation of a type of event. For example, if an IoT device sends very many events during the day, say on an hourly basis, we might want to compare data on just some daily calculation such as last value or max value.' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'AggregationTypes'
 GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Foreign key to the Models table.' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'BayesianProbabilities', @level2type=N'COLUMN',@level2name=N'ModelID'
+GO
 EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'We can group events as cases, days, months, year.' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'BayesianProbabilities', @level2type=N'COLUMN',@level2name=N'GroupType'
 GO
-EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Allow a null in case we don''t have this value.' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'BayesianProbabilities', @level2type=N'COLUMN',@level2name=N'ACount'
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'FK to the EventSet table. This is the A of P(A|B).' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'BayesianProbabilities', @level2type=N'COLUMN',@level2name=N'EventSetAKey'
 GO
-EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Allow a null in case we don''t have this value.' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'BayesianProbabilities', @level2type=N'COLUMN',@level2name=N'BCount'
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'FK to the EventSet table. This is the B of P(A|B).' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'BayesianProbabilities', @level2type=N'COLUMN',@level2name=N'EventSetBKey'
 GO
-EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Allow a null in case we don''t have this value.' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'BayesianProbabilities', @level2type=N'COLUMN',@level2name=N'A_Int_BCount'
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Count of rows matching A. Allow a null in case we don''t have this value.' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'BayesianProbabilities', @level2type=N'COLUMN',@level2name=N'ACount'
 GO
-EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Allow a null in case we don''t have this value.' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'BayesianProbabilities', @level2type=N'COLUMN',@level2name=N'PB|A'
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Count of rows matching B. Allow a null in case we don''t have this value.' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'BayesianProbabilities', @level2type=N'COLUMN',@level2name=N'BCount'
 GO
-EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Stores a calculated conditional probability.' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'BayesianProbabilities'
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Count of rows common to A and B. Allow a null in case we don''t have this value.' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'BayesianProbabilities', @level2type=N'COLUMN',@level2name=N'A_Int_BCount'
 GO
-EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Properties related to what we targeted for the case.' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'CaseProperties', @level2type=N'COLUMN',@level2name=N'TargetProperties'
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Probability of A given B. Allow a null in case we don''t have this value.' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'BayesianProbabilities', @level2type=N'COLUMN',@level2name=N'PB|A'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Probability of B given A.' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'BayesianProbabilities', @level2type=N'COLUMN',@level2name=N'PA|B'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Probability of A' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'BayesianProbabilities', @level2type=N'COLUMN',@level2name=N'PA'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Probability of B' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'BayesianProbabilities', @level2type=N'COLUMN',@level2name=N'PB'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Stores a calculated conditional probability-a Bayesian-ish probability. This is prob A given B. For example, the count of getting big tips (A) given that the waiter probably introduced himself to the customer (B)' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'BayesianProbabilities'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Foreign key to the Cases table (Case.CaseID). One row per CaseID.' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'CaseProperties', @level2type=N'COLUMN',@level2name=N'CaseID'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Case-level properties in a JSON format. ex {"EmployeeID":1, "LocationID":2}' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'CaseProperties', @level2type=N'COLUMN',@level2name=N'Properties'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Properties related to what we targeted for the case, could be goals. ex: the goal of a delivery is to deliver at a profit. {"Spend":1000, "Budget":1100}' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'CaseProperties', @level2type=N'COLUMN',@level2name=N'TargetProperties'
 GO
 EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'This is decoupled from the Cases table because it''s JSON that is more of a storage than used at query time. CasePropertiesParsed is a relational table (key/value).' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'CaseProperties'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'FK to the SourceColumns table for the native value (as opposed to the matching MDM value.' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'CasePropertiesMDM', @level2type=N'COLUMN',@level2name=N'SourceColumnID'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'FK to SourceColumns table for the "golden record" value.' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'CasePropertiesMDM', @level2type=N'COLUMN',@level2name=N'MDMSourceColumnID'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Value if numeric.' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'CasePropertiesMDM', @level2type=N'COLUMN',@level2name=N'PropertyValueNumeric'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Value if not numeric' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'CasePropertiesMDM', @level2type=N'COLUMN',@level2name=N'PropertyValueAlpha'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Label for the MDM value. ex. PropertyName=Patient, MDMName=Customer.' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'CasePropertiesMDM', @level2type=N'COLUMN',@level2name=N'MDMName'
 GO
 EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'There can be many "MDM" mappings. This MDMVersionID allows for multiple mappings. The -1 default is the default mapping that will be transformed at the time CasePropertiesParsed is created.' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'CasePropertiesMDM', @level2type=N'COLUMN',@level2name=N'MDMVersionID'
 GO
@@ -1108,7 +1192,7 @@ EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'The PK of Sour
 GO
 EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'When CaseProperties are parsed into CasePropertiesParsed, they are transformed to a common MDM value.' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'CasePropertiesMDM'
 GO
-EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'JSON bag of properties.' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'CasePropertiesParsed', @level2type=N'COLUMN',@level2name=N'CaseID'
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'FK to the Cases table' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'CasePropertiesParsed', @level2type=N'COLUMN',@level2name=N'CaseID'
 GO
 EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Case-level properties. This is anything related to the property. For example, the customer id, the employee id of the person who served the customer. These could be used to slice and dice the cases.
 
@@ -1120,33 +1204,55 @@ TargetProperties are a special set of properties for which we track something at
 GO
 EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Case-level properties intended to be things that will be the target values of analysis.' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'CasePropertiesParsed', @level2type=N'COLUMN',@level2name=N'PropertyValueNumeric'
 GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'FK to the SourceColumns table. The column of the source of the property. ex. a property, gender, from Customers.Gender column of a CRM database.' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'CasePropertiesParsed', @level2type=N'COLUMN',@level2name=N'SourceColumnID'
+GO
 EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'0=This was parsed out of CaseProperties, 1=Added outside of case properties. CaseProperties is silver-level, cleansed table, not added.' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'CasePropertiesParsed', @level2type=N'COLUMN',@level2name=N'AddedProperty'
 GO
 EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'A value that allows the propertyname to be sorted. It comes from the property json:
 
 {"Sizes": {"value": "large", "sort_value": 5}' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'CasePropertiesParsed', @level2type=N'COLUMN',@level2name=N'SortValue'
 GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Bitmap of roles allowed to see these case-level properties.' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'CasePropertiesParsed', @level2type=N'COLUMN',@level2name=N'AccessBitmap'
+GO
 EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Case properties that are in JSON in the CaseProperties table, are flattened into one row per case property to avoid run-time json parsing. It also stores some data redundantly (StartDateTime, EndDateTime) to this table could act as a kind of covering index to narrow the property space without joining to the Cases table.' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'CasePropertiesParsed'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'PK of the Cases table.' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Cases', @level2type=N'COLUMN',@level2name=N'CaseID'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'FK to the CaseTypes table.' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Cases', @level2type=N'COLUMN',@level2name=N'CaseTypeID'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'FK to the Sources table, Sources.SourceID' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Cases', @level2type=N'COLUMN',@level2name=N'SourceID'
 GO
 EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Bitmap of Access. Cases included in a markov model must match the access. Inherits from CaseType AccessBitMap. In turn, EventsFact inherits this as well.' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Cases', @level2type=N'COLUMN',@level2name=N'AccessBitmap'
 GO
 EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'NaturalKey of the Case. This could be a json because the natural key could be made of parts. This should be the CaseID column from STAGE.ImportEevnts.' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Cases', @level2type=N'COLUMN',@level2name=N'NaturalKey'
 GO
-EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'The SourceColumns.SourceID for the event column of EventsFact rows under this CaseID.' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Cases', @level2type=N'COLUMN',@level2name=N'Event_SourceColumnID'
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'FK to the SourceColumns.SourceColumnsID. The SourceColumns.SourceID for the event column of EventsFact rows under this CaseID.' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Cases', @level2type=N'COLUMN',@level2name=N'Event_SourceColumnID'
 GO
 EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'The SourceColumns.SourceID for the date column of EventsFact rows under this CaseID.' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Cases', @level2type=N'COLUMN',@level2name=N'Date_SourceColumnID'
 GO
 EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'The SourceColumns.SourceID for the natural key column of this case.' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Cases', @level2type=N'COLUMN',@level2name=N'NaturalKey_SourceColumnID'
 GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'A cycle of a case type. A case is the holder for a set of events that occur. for example, a case is a patient getting a surgery. each event is related to that case.' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Cases'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'PK of the CaseTypes table.' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'CaseTypes', @level2type=N'COLUMN',@level2name=N'CaseTypeID'
+GO
 EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Intended as a prompt to an LLM so we can obtain more information about this.' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'CaseTypes', @level2type=N'COLUMN',@level2name=N'Description'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Hierarchical Parent CaseType.' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'CaseTypes', @level2type=N'COLUMN',@level2name=N'ParentCaseTypeID'
 GO
 EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'The IRI (Internation Resource Identifier) is the gateway to a knowledge graph.' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'CaseTypes', @level2type=N'COLUMN',@level2name=N'IRI'
 GO
 EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Cases inherit this AccessBitmap. In turn, events inherit from the case. Each event access could be modified.' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'CaseTypes', @level2type=N'COLUMN',@level2name=N'AccessBitmap'
 GO
-EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Hierarchy of Case Types' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'CaseTypes'
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Hierarchy of Case Types. The primary table for case types, with PK of CaseTypeID. A case type is really a kind of process. for example, serving a customer in a restaurant is a process, a complete sales cycle, a surgery.' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'CaseTypes'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'PK of the AnomalyCategoryID table. Noted that this isn;t spelled correctly.' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'DimAnomalyCategories', @level2type=N'COLUMN',@level2name=N'AmomalyCategoryID'
 GO
 EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'The IRI (Internation Resource Identifier) is the gateway to a knowledge graph.' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'DimAnomalyCategories', @level2type=N'COLUMN',@level2name=N'IRI'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'PK of the Dates table.' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'DimDate', @level2type=N'COLUMN',@level2name=N'DateKey'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'PK of the DimEvents table.' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'DimEvents', @level2type=N'COLUMN',@level2name=N'Event'
 GO
 EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Intended as a prompt to an LLM so we can obtain more information about this.' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'DimEvents', @level2type=N'COLUMN',@level2name=N'Description'
 GO
@@ -1172,7 +1278,11 @@ Note that Observers differ from Sources in that a Source is where case and event
 GO
 EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Observer of events. Could be an IoT device, AI agent, person, or some sort of system. Differs from Sources, which are where EventFacts are stored, not generated.' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'DimObservers'
 GO
-EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'JSON bag of properties.' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'EventProperties', @level2type=N'COLUMN',@level2name=N'EventID'
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Time by the second. Related to dimDate.' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'DimTime'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Anomalies between events, such as the time between is stanard deviation of more than 3.' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'EventPairAnomalies'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'FK to EventsFact.EventID. One row per EventID' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'EventProperties', @level2type=N'COLUMN',@level2name=N'EventID'
 GO
 EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Metric inputs - key/value pairs of metrics as inputs into a node.
 
@@ -1196,6 +1306,8 @@ EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'The function, 
 
 The importance of knowing why the event trigged added reasoning and something that can help us adjust how the events are triggered.' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'EventProperties', @level2type=N'COLUMN',@level2name=N'TriggerFunction'
 GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'A series of json the have variables for each event by actual properties, expected properties, and intended properties. also properties of the aggregation of the event metric.' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'EventProperties'
+GO
 EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'When EventProperties are parsed into EventPropertiesParsed, they are transformed to a common MDM value.' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'EventPropertiesMDM'
 GO
 EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'0 = ActualProperties, 1=ExpectedProperties, 2=AggregationProperties, 3=IntendedProperties' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'EventPropertiesParsed', @level2type=N'COLUMN',@level2name=N'PropertySource'
@@ -1208,9 +1320,11 @@ EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'CaseID will he
 GO
 EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Stores properties parsed out of the json value in the EventProperties tables. It stores a few pieces of data redundantly, acting as a sort of covering index (EventDate, Event, CaseID).' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'EventPropertiesParsed'
 GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'PK of the EventSets table.' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'EventSets', @level2type=N'COLUMN',@level2name=N'EventSetKey'
+GO
 EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'4000 should be good for at least 200 event codes (each event code is NVARCHAR(20)).' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'EventSets', @level2type=N'COLUMN',@level2name=N'EventSet'
 GO
-EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Allow NULL since we might not have a code, but want to preserve the key. The NULL values means we can''t set up an index on EventSetCode.' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'EventSets', @level2type=N'COLUMN',@level2name=N'EventSetCode'
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Simple code used to identify the event set. Allow NULL since we might not have a code, but want to preserve the key. The NULL values means we can''t set up an index on EventSetCode.' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'EventSets', @level2type=N'COLUMN',@level2name=N'EventSetCode'
 GO
 EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Normally, we want to find the set in whatever order it''s given, so to get a consistent key, the set should be ordered alphabetically. This means IsSequence=0.
 
@@ -1230,9 +1344,11 @@ EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Number of item
 GO
 EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Sets of Events that usually are included in a process, restricting what is included in a Markov Model. Differs from case types, which really define the process. The event set could be referenced by an EventSetCode. The events are in the EventSet column as a coma-separated list.' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'EventSets'
 GO
-EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Even a long-running case should have an ID. That would be like a feed from an IoT device that goes on indefinitely.' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'EventsFact', @level2type=N'COLUMN',@level2name=N'CaseID'
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'FK to Cases.CaseID. Even a long-running case should have an ID. That would be like a feed from an IoT device that goes on indefinitely.' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'EventsFact', @level2type=N'COLUMN',@level2name=N'CaseID'
 GO
-EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'There should always be an event, but it doesn''t need to be in the events table. It''s a case of allow an event that''s not in the events table and deal with it later.' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'EventsFact', @level2type=N'COLUMN',@level2name=N'Event'
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'FK to Events.Event. There should always be an event, but it doesn''t need to be in the events table. It''s a case of allow an event that''s not in the events table and deal with it later.' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'EventsFact', @level2type=N'COLUMN',@level2name=N'Event'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'PK of the Events table.' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'EventsFact', @level2type=N'COLUMN',@level2name=N'EventID'
 GO
 EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'The event might be an aggregation of smaller events compressed through a Streaming analytics port. If it is, information of the aggregation should be in the EventProperties.AggregationProperties field as a JSON.' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'EventsFact', @level2type=N'COLUMN',@level2name=N'AggregationTypeID'
 GO
@@ -1257,6 +1373,10 @@ GO
 EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Unit of Measure' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Metrics', @level2type=N'COLUMN',@level2name=N'UoM'
 GO
 EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Intended as a prompt to an LLM so we can obtain more information about this.' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Metrics', @level2type=N'COLUMN',@level2name=N'Description'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Lookup table of metrics, properties of events. The default metric is time between events - ex. the time between arriving at the restaurant and being seated.' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Metrics'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Created by: https://github.com/MapRock/TimeMolecules/blob/main/book_code/src/TimeSolution.py' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Model_Stationary_Distribution'
 GO
 EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'1st Order Markov Models.' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'ModelEvents', @level2type=N'COLUMN',@level2name=N'ModelID'
 GO
@@ -1293,13 +1413,17 @@ EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'0=Do Not trans
 
 There is a difference between an event happening 1 or event 2 times. But more than that probably doesn''t matter too much.' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Models', @level2type=N'COLUMN',@level2name=N'enumerate_multiple_events'
 GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'The hash key to the transforms table. it is a set of key-value pairs converting an event to another.' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Models', @level2type=N'COLUMN',@level2name=N'transformskey'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'0=Create models by caseid. this is the default. 1=Use a date bucket: hour, day, month, year.' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Models', @level2type=N'COLUMN',@level2name=N'ByCase'
+GO
 EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'the effective access scope to use when selecting facts for that model run or model drill-through.' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Models', @level2type=N'COLUMN',@level2name=N'AccessBitmap'
 GO
-EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'1st order markov model elements are stored in ModelEvents.
-2nd order markov model elements are stored in ModelEvents2.
-3rd order markov model elements are stored in ModelEvents3.' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Models', @level2type=N'COLUMN',@level2name=N'Order'
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'A "proper" Markov model is first order (1), which means the next event depends on only the current event. That''s the default. We can also specify 2nd and 3rd order models, meaning the next event depends on the n-1 and n event (2nd order), or n-2, n-1, and n event for 3rd order.' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Models', @level2type=N'COLUMN',@level2name=N'Order'
 GO
 EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'A usually LLM-created description used to create an embedding of the model. We will provide to the LLM a table structure of eventA, eventB and description of eventA and eventB.' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Models', @level2type=N'COLUMN',@level2name=N'Description'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'An globarrly recognized identifier for the model. ' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Models', @level2type=N'COLUMN',@level2name=N'IRI'
 GO
 EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Distinct cases.' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Models', @level2type=N'COLUMN',@level2name=N'DistinctCases'
 GO
@@ -1309,9 +1433,13 @@ EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'EventsFact row
 GO
 EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'This is a hash of the model-level parameters. This mostly helps to link Model events that are bayesian probabilities with markov models. This helps enable hidden markov model so we can link an event from a markov model to an event from a bayesian pair (specifically Event A).' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Models', @level2type=N'COLUMN',@level2name=N'ParamHash'
 GO
-EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'a historical property of the model. “Under what access scope was this model originally created?”' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Models', @level2type=N'COLUMN',@level2name=N'CreatedBy_AccessBitmap'
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'a historical property of the model. “Under what access scope was this model originally created?” This is actually  a property of the Model since it does restrict what events get in.' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Models', @level2type=N'COLUMN',@level2name=N'CreatedBy_AccessBitmap'
 GO
 EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'The primary table of the Markov Model ensemble of TimeSolution. This table holds the parameters of the markov models created from the events in dbo.EventFacts. The Markov model segments are in the ModelEvents table.' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Models'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'FK to DimEvents table.' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'ModelSequences', @level2type=N'COLUMN',@level2name=N'lastEvent'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'FK to DimEvents table' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'ModelSequences', @level2type=N'COLUMN',@level2name=N'nextEvent'
 GO
 EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Standard deviation of time between the first event and lastEvent of the sequence.' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'ModelSequences', @level2type=N'COLUMN',@level2name=N'SeqStDev'
 GO
@@ -1319,9 +1447,15 @@ EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Standard devia
 GO
 EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Total rows involved in calculating the sequence row.' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'ModelSequences', @level2type=N'COLUMN',@level2name=N'TotalRows'
 GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'FK to ModelID table' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'ModelSequences', @level2type=N'COLUMN',@level2name=N'ModelID'
+GO
 EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'length of the sequence. This can be used to find the first occurance of a sequence part.' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'ModelSequences', @level2type=N'COLUMN',@level2name=N'length'
 GO
 EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Stores statistics on sequences of events that actually have occurred, in the EventsFact table. For example, arrive->greeted->seated. It''s good to know how often a sequence happens, along with other information.' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'ModelSequences'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'FK to Models.ModelID of the ModelID2 we''re comparing to.' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'ModelSimilarity', @level2type=N'COLUMN',@level2name=N'ModelID1'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'FK to Models.ModelID of the model we''re comparing ModelID1 to.' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'ModelSimilarity', @level2type=N'COLUMN',@level2name=N'ModelID2'
 GO
 EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Percentage of EventA->EventB segments that are shared.' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'ModelSimilarity', @level2type=N'COLUMN',@level2name=N'PercentSameSegments'
 GO
@@ -1332,6 +1466,8 @@ NULL = Hasn''t been determined, 0 = No, 1 = Is Mututally exclusive.
 If model are sliced from different partitions, the EventFacts comprising the models are mutually exclusive. If the models are mutually exclusive, they can be added.' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'ModelSimilarity', @level2type=N'COLUMN',@level2name=N'IsMutuallyExclusive'
 GO
 EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Scores the difference between two markov models. This is one of the prime use cases for time molecules. This is done using the InsertModelSimilarities stored procedure.' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'ModelSimilarity'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Log file of events from the time molecules solution itself.' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'ProcErrorLog'
 GO
 EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'This looks at the SourceColumn table, along with values like the description and IRI of the column. There is a score for the similarity. See the python script: source_column_semantic_similarity.py, It uses an LLM to determine the score and reason. This is a very valuable feature that enables us to figure out processes by matching properties.' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'SimilarSourceColumnPairs'
 GO
@@ -1349,6 +1485,8 @@ EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'A data source 
 
 AI agents could be an observer.' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'SourceColumns', @level2type=N'COLUMN',@level2name=N'ObserverID'
 GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Source columns are related to Event-level and case-level properties, which might be sensitive.' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'SourceColumns', @level2type=N'COLUMN',@level2name=N'AccessBitmap'
+GO
 EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Metadata that traces properties, natural keys, etc. back to a source, in this case the table and column. This is usually from a semantic layer, but it can be the OLTP source if necessary.' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'SourceColumns'
 GO
 EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'It''s possible the source is "one big table" or a CSV. In this case, it helps to have the name of the table as a default.' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Sources', @level2type=N'COLUMN',@level2name=N'DefaultTableName'
@@ -1365,9 +1503,19 @@ EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Sources are wh
 
 Observer -> Source -> EventEnsemble -> Models' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Sources'
 GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'PK of the Transforms table.' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Transforms', @level2type=N'COLUMN',@level2name=N'transformskey'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'JSON of the from-event to the to-event key-value pairs.' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Transforms', @level2type=N'COLUMN',@level2name=N'transforms'
+GO
 EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Intended as a prompt to an LLM in order to help link information. For example, we could prompt the description of multiple transformations (or the set of transforms - the json of mappings) and ask how they relate.' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Transforms', @level2type=N'COLUMN',@level2name=N'Description'
 GO
 EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Event Transforms - Events could be aggregated together.' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Transforms'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'This is the primary table that maps users to access ids. it''s more interpretable than just the bitmap. but this is the information from which we construct the Users.AccessBitmap columns.' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'UserAccessRole'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'PK of the Users table.' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Users', @level2type=N'COLUMN',@level2name=N'SUSER_NAME'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Alternate key.' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Users', @level2type=N'COLUMN',@level2name=N'UserID'
 GO
 EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Could be JSON of parts comprising the natural key.' , @level0type=N'SCHEMA',@level0name=N'STAGE', @level1type=N'TABLE',@level1name=N'ImportEvents', @level2type=N'COLUMN',@level2name=N'SourceID'
 GO
@@ -1382,4 +1530,6 @@ GO
 EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Should be the same as CaseTypes.[Name], which is the "code" for case types.' , @level0type=N'SCHEMA',@level0name=N'STAGE', @level1type=N'TABLE',@level1name=N'ImportEvents', @level2type=N'COLUMN',@level2name=N'CaseType'
 GO
 EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'This is the standard import table. everything should be loaded into this table.' , @level0type=N'SCHEMA',@level0name=N'STAGE', @level1type=N'TABLE',@level1name=N'ImportEvents'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Holding area for bayesian probabilities procedure to pass back to caller.' , @level0type=N'SCHEMA',@level0name=N'WORK', @level1type=N'TABLE',@level1name=N'BayesianProbability'
 GO
