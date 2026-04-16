@@ -6,7 +6,7 @@ Created in three parts (stored procedures, tables, and views/TVF) to avoid one b
 
 - https://github.com/MapRock/TimeMolecules/blob/main/data/timesolution_schema/timesolution_stored_procedures.sql - DDL of the Time Molecules stored procedures.
 - https://github.com/MapRock/TimeMolecules/blob/main/data/timesolution_schema/tables.sql - DDL of the Time Molecules tables and columns.
-- https://github.com/MapRock/TimeMolecules/blob/main/data/timesolution_schema/timesolution_views.sql - DDL of the Time Molecules views, table-valued functions, and scalar functions.
+- https://github.com/MapRock/TimeMolecules/blob/main/data/timesolution_schema/timesolution_views_funcs.sql - DDL of the Time Molecules views, table-valued functions, and scalar functions.
 
 Other Files:
 - https://github.com/MapRock/TimeMolecules/blob/main/data/timesolution_schema/TimeMolecules_Metadata.csv - Exported data from the vwTimeSolutionMetadata view. This is so you don't need to install TimeSolution to play with the [ai_agent_skills](https://github.com/MapRock/TimeMolecules/tree/main/tutorials/ai_agent_skills) tutorial.
