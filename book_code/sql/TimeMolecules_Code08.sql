@@ -9,4 +9,7 @@ EXEC [dbo].[InsertEventSets]
     @EventSetKey OUTPUT,                   -- Output EventSetKey
     0;      
 print @EventSetKey
+
+--Should have only one row.
+SELECT * FROM dbo.EventSets WHERE EventSetKey=@EventSetKey
 --[END Code 8]
