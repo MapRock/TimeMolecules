@@ -10,3 +10,5 @@ That said, this is not the primary point of Time Molecules. The main point is no
 So the dimensional model here is a useful downstream analytic form of the Event Ensemble, not the central destination. The central destination is process-oriented understanding: detect meaningful differences in the Markov models first, then use conventional BI structures to study what properties help explain those differences.
 
 The two example SQL are ad-hoc, but it shows the idea.
+
+This is an extension of what I mention on page 126 of my book [Time Molecules](https://technicspub.com/time-molecules/): Open Schema Properties to an Outrigger Dimension Table
