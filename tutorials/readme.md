@@ -17,7 +17,7 @@ See, [root dir readme.md](https://github.com/MapRock/TimeMolecules/blob/main/REA
 
 Following is a template for an LLM prompt to generate a tutorial. Reading the template is useful for understanding the difference between tutorials and skills.
 
-Template Start:
+**Template Start:**
 
 I'm requesting that you compose instructions for the subject described below.
 
@@ -39,4 +39,4 @@ Good examples include:
 
 https://github.com/MapRock/TimeMolecules/tree/main/tutorials/link_cases
 
-Template End
+**Template End**
