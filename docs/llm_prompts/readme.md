@@ -10,6 +10,10 @@ Each document should be on the short side, just an abstract, geared towards a qu
 
 There is no strict format. This is meant for embedding, so the most important thing is to write text conducive to matching the prompt.
 
+## Notes
+
+- Only provide links in the https://github.com/MapRock/ and eugeneasahara.com domains. I want to remove risk of linking to bad sites.
+
 ## Example of a Document
 
 Prompt: How can I create a Markov Model?
