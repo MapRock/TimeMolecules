@@ -28,27 +28,26 @@ Choose ObjectTypes that are likely to directly contain the answer. Be inclusive,
 Selection rules:
 - Storage questions asking where something is stored, persisted, cached, recorded, held, or saved: return Table,Column. Add VIEW only if the question asks how it is exposed or queried. Add LLM_PROMPT only if conceptual/tutorial context may help.
 - Column/schema questions asking what columns, fields, attributes, or schema an object has: return Column,Table,VIEW.
-- Row/entity questions asking about example records, IDs, values, entities, or instances: return Instance,Table,Column.
+- Row/entity questions asking about example records, IDs, values, entities, or instances: return Instance,Table,Column. Instance is referencing tp a particular entity, individual, thing - this usually means a row of a table.
 - Action/workflow questions asking how to run, execute, create, update, insert, delete, populate, cache, orchestrate, or perform an action: return SQL_STORED_PROCEDURE. Add SQL_TABLE_VALUED_FUNCTION and SQL_INLINE_TABLE_VALUED_FUNCTION only if reusable query logic or returned result sets may help.
 - Parameter/input questions: return SQL_STORED_PROCEDURE,SQL_TABLE_VALUED_FUNCTION,SQL_INLINE_TABLE_VALUED_FUNCTION,SQL_SCALAR_FUNCTION.
 - Calculation/function questions asking about formulas, scalar values, reusable logic, or function output: return SQL_SCALAR_FUNCTION,SQL_TABLE_VALUED_FUNCTION,SQL_INLINE_TABLE_VALUED_FUNCTION.
 - TVF questions: return SQL_TABLE_VALUED_FUNCTION,SQL_INLINE_TABLE_VALUED_FUNCTION.
-- View/query questions asking about views, reusable SELECT logic, read-only result sets, or query abstractions: return VIEW,Column.
+- View/query questions asking about views, reusable SELECT logic, read-only result sets, or query abstractions: return VIEW, Column.
 - Tutorial/concept questions asking for examples, conceptual explanation, GitHub guidance, or how to understand something: return LLM_PROMPT. Add SQL objects only if implementation details are also requested.
-- Purpose questions asking “what is the purpose of object X” or “what does object X do”: return the named object type if clear. If unclear, return SQL_STORED_PROCEDURE,SQL_TABLE_VALUED_FUNCTION,SQL_INLINE_TABLE_VALUED_FUNCTION,SQL_SCALAR_FUNCTION,Table,VIEW.
+- Purpose questions asking “what is the purpose of object X” or “what does object X do”: return the named object type if clear. If unclear, return 
+SQL_STORED_PROCEDURE,SQL_TABLE_VALUED_FUNCTION,SQL_INLINE_TABLE_VALUED_FUNCTION,SQL_SCALAR_FUNCTION,Table,VIEW.
 - If the user names a specific SQL Server object type, include that ObjectType and closely related ObjectTypes only.
 - If uncertain between two or three related ObjectTypes, include them. Do not include unrelated action objects for storage questions.
 - Use ALL only for very broad discovery questions where every ObjectType could directly help answer the question.
-Instance.
-- Referencing a particular entity, individual, thing.
 
 Examples:
 
 User question: Tell me about Bayesian probabilities objects
-Return: Table,LLM_PROMPT, SQL_STORED_PROCEDURE
+Return: Table,LLM_PROMPT, SQL_STORED_PROCEDURE, VIEW
 
 User question: where are Markov models stored
-Return: Table,Column,LLM_PROMPT
+Return: Table,Column,LLM_PROMPT, VIEW
 
 User question: what is a "pacemaker implant"
 Return: Instance
@@ -57,13 +56,13 @@ User question: how are Markov models created
 Return: SQL_STORED_PROCEDURE,SQL_TABLE_VALUED_FUNCTION,SQL_INLINE_TABLE_VALUED_FUNCTION,LLM_PROMPT
 
 User question: what are the columns of ModelEvents
-Return: Column,Table
+Return: Column,Table, VIEW
 
 User question: what are the input parameters of MarkovProcess2
 Return: SQL_STORED_PROCEDURE,SQL_TABLE_VALUED_FUNCTION,SQL_INLINE_TABLE_VALUED_FUNCTION
 
 User question: what view shows model results
-Return: VIEW,Column,Table
+Return: VIEW
 
 User question: explain Markov models in TimeSolution
 Return: LLM_PROMPT,Table,Column
