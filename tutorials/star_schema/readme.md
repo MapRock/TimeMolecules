@@ -1,6 +1,6 @@
 # Star Schema from the Event Ensemble
 
-This tutorial shows how to derive a conventional dimensional model from the **Event Ensemble** in Time Molecules. The goal is not to replace the main Time Molecules workflow with a star schema. The goal is to show how event-centered data can be reshaped into familiar BI structures **after** the more distinctive Time Molecules work has been done.
+This tutorial shows how to derive a conventional dimensional model from the **Event Ensemble** in Time Molecules. The goal is not to replace the main Time Molecules workflow with a star schema. The goal is to show how event-centered data can be reshaped into familiar BI structures **after** the more distinctive Time Molecules work has been done. This is an extension of what I mention on page 126 of my book [Time Molecules](https://technicspub.com/time-molecules/): Open Schema Properties to an Outrigger Dimension Table
 
 In Time Molecules, the primary analytic path is:
 
