@@ -1,3 +1,5 @@
+**This is currently in progress. Recommend not to download yet.**
+
 # LLM-Assisted Object Descriptions in Time Molecules
 
 On page 212 of *Time Molecules*, in the section **“Generate LLM Prompts for Generating Object Descriptions,”** I introduce the idea of generating prompt text from TimeSolution metadata so an LLM can help create useful descriptions for system objects. This tutorial extends that idea in a more practical, GitHub-oriented direction. :contentReference[oaicite:0]{index=0}
