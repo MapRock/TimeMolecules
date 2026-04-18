@@ -68,7 +68,7 @@ So instead of treating the Markov model as just a structural graph, this pattern
 
 ## Tutorial script
 
-See: 
+See: https://github.com/MapRock/TimeMolecules/blob/main/tutorials/compare_event_transitions/compare_event_transitions.sql
 
 ## How to read the output
 
