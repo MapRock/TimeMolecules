@@ -70,9 +70,8 @@ So instead of treating the Markov model as just a structural graph, this pattern
 
 See: https://github.com/MapRock/TimeMolecules/blob/main/tutorials/compare_event_transitions/compare_event_transitions.sql
 
-## How to read the output
+### How to read the output
 
-## How to read the output
 
 The first final display compares **numeric properties** for the two destination-event populations.
 
@@ -117,7 +116,7 @@ Useful things to look for:
 * values that are balanced versus highly skewed
 * categories that may help explain why one outcome happened rather than the other
 
-## Why the script uses `EventB_ID`
+### Why the script uses `EventB_ID`
 
 The source event is the same in both transitions. The difference is in the destination event.
 
@@ -134,7 +133,5 @@ Examples include:
 * different operational routes after the same initial step
 * different AI agent next-step behaviors after the same context or prompt state
 
-## One likely next improvement
 
-A good next enhancement would be to add percentages for alpha values, not just counts, because the two transitions may have different row totals. That makes the comparison easier when one branch is much more common than the other.
 
