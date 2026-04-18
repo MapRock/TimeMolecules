@@ -74,6 +74,10 @@ See: https://github.com/MapRock/TimeMolecules/blob/main/tutorials/compare_event_
 
 The first final display compares numeric properties for the two destination-event populations.
 
+| PropertyName | PropertySource | SourceColumnID | TransA_Count | TransA_Avg | TransA_StDev | TransA_Min | TransA_Max | TransB_Count | TransB_Avg | TransB_StDev | TransB_Min | TransB_Max | AvgDiff_TransA_minus_TransB |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| Fuel | 0 | 23 | 5 | 33 | 14.7648230602334 | 15 | 50 | 8 | 47 | 7.98212288268514 | 31 | 55 | -14 |
+
 Useful things to look for:
 
 * properties with very different averages
