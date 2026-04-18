@@ -72,19 +72,43 @@ See: https://github.com/MapRock/TimeMolecules/blob/main/tutorials/compare_event_
 
 ## How to read the output
 
-The first final display compares numeric properties for the two destination-event populations.
+## How to read the output
+
+The first final display compares **numeric properties** for the two destination-event populations.
+
+Each row represents one numeric property found on the destination events of the two competing transitions. The columns show how that property behaved for each branch.
+
+Example:
 
 | PropertyName | PropertySource | SourceColumnID | TransA_Count | TransA_Avg | TransA_StDev | TransA_Min | TransA_Max | TransB_Count | TransB_Avg | TransB_StDev | TransB_Min | TransB_Max | AvgDiff_TransA_minus_TransB |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
 | Fuel | 0 | 23 | 5 | 33 | 14.7648230602334 | 15 | 50 | 8 | 47 | 7.98212288268514 | 31 | 55 | -14 |
 
+How to interpret this row:
+
+- `PropertyName = Fuel` means the property being compared is Fuel.
+- `PropertySource = 0` and `SourceColumnID = 23` identify where that property came from in the metadata.
+- `TransA_Count = 5` means five destination events in transition A had a numeric Fuel value.
+- `TransA_Avg = 33` means the average Fuel value for transition A was 33.
+- `TransA_StDev = 14.76` means Fuel values on transition A were fairly spread out.
+- `TransA_Min = 15` and `TransA_Max = 50` show the observed numeric range for transition A.
+- `TransB_Count = 8` means eight destination events in transition B had a numeric Fuel value.
+- `TransB_Avg = 47` means the average Fuel value for transition B was higher.
+- `TransB_StDev = 7.98` means Fuel values on transition B were more tightly clustered.
+- `TransB_Min = 31` and `TransB_Max = 55` show the observed numeric range for transition B.
+- `AvgDiff_TransA_minus_TransB = -14` means transition A averaged 14 units lower than transition B.
+
+So in this example, the `heavytraffic` branch appears associated with **higher Fuel values** than the `arrivework` branch, and the values on that branch are also **less variable**.
+
 Useful things to look for:
 
-* properties with very different averages
-* properties with very different min/max ranges
-* properties with higher spread on one branch than the other
-* properties present on one branch but missing on the other
+- properties with large average differences between the two transitions
+- properties with much wider spread on one branch than the other
+- properties whose minimum and maximum ranges barely overlap
+- properties that appear on one branch more often than the other
+- properties that may help explain why one destination event occurred instead of the other
 
+Even a single row can be suggestive, but the strongest clues usually come from patterns across several properties.
 The second final display compares alpha properties by value count.
 
 Useful things to look for:
