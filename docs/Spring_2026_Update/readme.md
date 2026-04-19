@@ -1,6 +1,6 @@
 # Time Molecules: Refresh and Major Update
 
-Since the publication of *Time Molecules*, I have continued developing the ideas, the implementation, and the supporting material around it. This is not a new edition of the book, but it is more than minor cleanup. It is a meaningful refresh of the surrounding body of work.
+Since the publication of [*Time Molecules*](https://technicspub.com/time-molecules/), I have continued developing the ideas, the implementation, and the supporting material around it. This is not a new edition of the book, but it is more than minor cleanup. It is a meaningful refresh and expansion of the surrounding body of work.
 
 ## What has changed
 
