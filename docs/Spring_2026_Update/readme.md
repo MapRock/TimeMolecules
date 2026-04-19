@@ -8,17 +8,15 @@ Since the publication of [*Time Molecules*](https://technicspub.com/time-molecul
 
 ### Clearer framing
 
-One of the biggest improvements is conceptual clarity.
+One of the biggest improvements (well ... hopefully) is the overall conceptual clarity. I have become more explicit that businesses are made not only of facts about things, but also of stories in the form of event sequences. A customer journey, hospital visit, support incident, machine workflow, or AI agent execution is a story unfolding through time. In this framing, Markov models are abstractions of those stories.
 
-I have become more explicit that businesses are made not only of facts about things, but also of stories in the form of event sequences. A customer journey, hospital visit, support incident, machine workflow, or AI agent execution is a story unfolding through time. In this framing, Markov models are abstractions of those stories.
-
-That idea helps explain why Time Molecules matters. OLAP cubes aggregate facts about things. Time Molecules aggregates stories about processes.
+That idea helps explain why Time Molecules matters. It's the time-side of BI. OLAP cubes aggregate facts about things, Time Molecules aggregates stories about processes.
 
 ### Expanded companion material
 
-The book already contains tutorials and practical examples, and that remains an important part of its value. Since publication, I have expanded the GitHub companion material to further support the book with additional tutorials, examples, clarifications, and implementation details.
+The book already contains tutorials and simple examples, and that remains an important part of its value. Since publication, I have expanded the GitHub companion material to further support the book with additional tutorials, examples, clarifications, and implementation details. The dev environment for the samples is in the doc, [install_timemolecules_dev_env.md](https://github.com/MapRock/TimeMolecules/blob/main/docs/install_timemolecules_dev_env.md), and code is found under [book_code](https://github.com/MapRock/TimeMolecules/tree/main/book_code).
 
-The GitHub material is meant to extend and reinforce the book, not replace it. The book lays out the larger framework and the core ideas in a structured way. The newer companion material helps readers go deeper into particular patterns, examples, and implementation directions.
+The GitHub new material is meant to extend and reinforce the book, not replace it. The book lays out the larger framework and the core ideas in a structured way. The newer companion material helps readers go deeper into particular patterns, examples, and implementation directions.
 
 Some of the stronger areas now include:
 
