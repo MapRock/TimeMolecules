@@ -12,7 +12,36 @@ One of the biggest improvements (well ... hopefully) is the overall conceptual c
 
 That idea helps explain why Time Molecules matters. It's the time-side of BI. OLAP cubes aggregate facts about things, Time Molecules aggregates stories about processes.
 
-### Expanded companion material
+## Beyond Single Markov Chains: Time Molecules as Enterprise Data Integration
+
+Most people hear the words “Markov models” and immediately picture a single probabilistic chain describing one isolated process. That is **not** what Time Molecules is about.
+
+Time Molecules is fundamentally an **enterprise-scale data integration framework** built for the age of event streams, AI agents, IoT, and process-aware intelligence. It treats every business outcome — a customer journey, hospital episode, support ticket, manufacturing run, or AI-agent execution — as a *story* told through sequences of timestamped events (cases). These stories are then compressed into a massive, multi-dimensional collection of Hidden Markov Models (HMMs) that can be sliced, diced, compared, and queried at scale — exactly the way OLAP cubes handle facts about *things*.
+
+### The Two Core Pillars
+
+1. **Time is the Ubiquitous Dimension**  
+   Time is the one attribute shared across virtually every system, database, event log, sensor feed, and AI-agent trace. By anchoring everything to timestamps and grouping events into cases, Time Molecules can link processes across heterogeneous systems *without* requiring perfect upfront entity resolution or rigid global schemas.  
+   This creates a true “space-time” view of the enterprise when combined with the Tuple Correlation Web from *Enterprise Intelligence*. You can now ask not only “what happened?” (OLAP) but “how did it unfold, how long did it take, and how is that changing over time?” — turning static BI into dynamic, systems-thinking intelligence.
+
+2. **LLMs Play a Fundamental Role in Semantic Integration**  
+   LLMs are not an afterthought; they are the critical translation layer that makes large-scale integration practical in the messy real world. They excel at:
+   - Discovering and normalizing event sets across different vocabularies and systems.
+   - Mapping equivalent case types and process definitions.
+   - Extracting, classifying, and disambiguating events from logs, prompts, tool calls, and unstructured sources.
+   - Supporting context engineering for AI agents so every step (prompt, tool use, decision, retry) becomes a traceable, analyzable event.
+
+   This symbiotic partnership — structured, interpretable Markov ensembles + LLM-powered semantic glue — is what turns raw event chaos into coherent, queryable process memory.
+
+### Why This Matters (and Why It’s Not “Just Markov Chains”)
+
+Time Molecules produces a web of linked Hidden Markov Models across a highly multi-dimensional space — the *time-oriented counterpart* to traditional thing-oriented OLAP cubes. It bridges Business Intelligence, Process Mining, and Systems Thinking, turning millions-to-trillions of event sequences into lightweight, cacheable, O(n) probabilistic abstractions that humans and AI agents can actually reason with.
+
+It is not about replacing neural networks or claiming Markov chains are magically new. It is about building scalable, transparent, process-aware intelligence grounded in the real flows of your enterprise data — with time as the universal connector and LLMs as the indispensable translator.
+
+This framing is what lets Time Molecules serve as process-aware memory and observability for the coming wave of AI agents while remaining fully compatible with the Enterprise Knowledge Graph work in *Enterprise Intelligence*.
+
+## Expanded companion material
 
 The book already contains tutorials and simple examples, and that remains an important part of its value. Since publication, I have expanded the GitHub companion material to further support the book with additional tutorials, examples, clarifications, and implementation details. The dev environment for the samples is in the doc, [install_timemolecules_dev_env.md](https://github.com/MapRock/TimeMolecules/blob/main/docs/install_timemolecules_dev_env.md), and code is found under [book_code](https://github.com/MapRock/TimeMolecules/tree/main/book_code).
 
@@ -28,7 +57,7 @@ Some of the stronger areas now include:
 
 Together, the book and the expanded companion material make the work more teachable and more concrete than it was at launch.
 
-### Stronger AI-agent relevance
+## Stronger AI-agent relevance
 
 The primary goal of this AI-agent feature is to have fitted this repo with the capability of answering questions a consumer AI agent would have about Time Molecules. That mechanism is summarized in this repo's [readme.md under "Information for AI Agents"](https://github.com/MapRock/TimeMolecules/blob/main/README.md).
 
