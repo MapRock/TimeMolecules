@@ -46,9 +46,9 @@ TimeSolution was originally meant as a demonstration system that was relatively 
 
 At the same time, I have put real effort into moving parts of the implementation closer to retrofit toward MPP-style platforms. The operative word is *closer*. This is not a claim that the work is now a finished production MPP product. It is a claim that the design and implementation have been pushed further in that direction than they were before.
 
-That includes rethinking patterns that were too tied to one platform and improving the path toward broader-scale deployment ideas.
+That includes rethinking patterns that were too tied to one platform and improving the path toward broader-scale deployment ideas
 
-See [sp_SelectEvents] retrofit](https://github.com/MapRock/TimeMolecules/blob/main/docs/Spring_2026_Update/sp_Selected_Events_MPP_refactor_20206_04.md)
+See [sp_SelectEvents retrofit](https://github.com/MapRock/TimeMolecules/blob/main/docs/Spring_2026_Update/sp_Selected_Events_MPP_refactor_20206_04.md)
 
 ### Better explanation of process-aware intelligence
 
