@@ -47,10 +47,10 @@ Rules:
 
 ## The Process for Creating the Vector Database
 
-- **EXEC dbo.BuildTimeSolutionsMetadata**: Run this stored procedure to update metadata in TimeSolutuion. This is the primary material for the vector database.
+- **EXEC dbo.BuildTimeSolutionsMetadata**: Run this stored procedure to update metadata in TimeSolutuion. This is the primary material for the vector database. [build_qdrant_index.py](https://github.com/MapRock/TimeMolecules/blob/main/tutorials/ai_agent_skills/build_qdrant_index.py) does this automatically as well.
 - **Create llm_prompt items**: Use the template shown above to present instructions to an LLM to create any number of items to be added into the vector database.
-- **[qdrant_demo_ollama.py](https://github.com/MapRock/TimeMolecules/blob/main/tutorials/local_llm/qdrant_demo_ollama.py)**: Imports items into a vector database.
-- **[qdrant_demo_UI_ollama.py](https://github.com/MapRock/TimeMolecules/blob/main/tutorials/local_llm/qdrant_demo_UI_ollama.py)**: UI for ollama that uses the vector database.
+- **[build_qdrant_index.py:](https://github.com/MapRock/TimeMolecules/blob/main/tutorials/ai_agent_skills/build_qdrant_index.py)** Imports items into a vector database.
+- **[time_molecules_agent_demo_retrofit.py](https://github.com/MapRock/TimeMolecules/blob/main/tutorials/ai_agent_skills/time_molecules_agent_demo_retrofit.py)**: UI for ollama that uses the vector database.
 
 
 
