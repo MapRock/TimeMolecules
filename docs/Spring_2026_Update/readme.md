@@ -18,20 +18,24 @@ Most people hear the words “Markov models” and immediately picture a single 
 
 Time Molecules is fundamentally an **enterprise-scale data integration framework** built for the age of event streams, AI agents, IoT, and process-aware intelligence. It treats every business outcome — a customer journey, hospital episode, support ticket, manufacturing run, or AI-agent execution — as a *story* told through sequences of timestamped events (cases). These stories are then compressed into a massive, multi-dimensional collection of Hidden Markov Models (HMMs) that can be sliced, diced, compared, and queried at scale — exactly the way OLAP cubes handle facts about *things*.
 
-### The Two Core Pillars
+### Five Core Pillars of Time Molecules
+
+Time Molecules is not a single-process Markov model tool. It is a complete enterprise data integration and process-intelligence framework. Its power comes from these five interlocking pillars, drawn directly from the real-world needs of BI, process mining, systems thinking, and AI-agent observability.
 
 1. **Time is the Ubiquitous Dimension**  
-   Time is the one attribute shared across virtually every system, database, event log, sensor feed, and AI-agent trace. By anchoring everything to timestamps and grouping events into cases, Time Molecules can link processes across heterogeneous systems *without* requiring perfect upfront entity resolution or rigid global schemas.  
-   This creates a true “space-time” view of the enterprise when combined with the Tuple Correlation Web from *Enterprise Intelligence*. You can now ask not only “what happened?” (OLAP) but “how did it unfold, how long did it take, and how is that changing over time?” — turning static BI into dynamic, systems-thinking intelligence.
+   Time is the one attribute shared by virtually every system, log, sensor feed, and agent trace. By anchoring everything to timestamps and grouping events into cases, Time Molecules links processes across heterogeneous systems without requiring perfect upfront entity resolution or rigid global schemas. This creates a true “space-time” view of the enterprise.
 
 2. **LLMs Play a Fundamental Role in Semantic Integration**  
-   LLMs are not an afterthought; they are the critical translation layer that makes large-scale integration practical in the messy real world. They excel at:
-   - Discovering and normalizing event sets across different vocabularies and systems.
-   - Mapping equivalent case types and process definitions.
-   - Extracting, classifying, and disambiguating events from logs, prompts, tool calls, and unstructured sources.
-   - Supporting context engineering for AI agents so every step (prompt, tool use, decision, retry) becomes a traceable, analyzable event.
+   LLMs are the critical translation layer that makes large-scale integration practical in the messy real world. They discover and normalize event sets, map equivalent case types, extract events from unstructured sources, and support context engineering for AI agents — turning raw chaos into coherent, queryable process memory.
 
-   This symbiotic partnership — structured, interpretable Markov ensembles + LLM-powered semantic glue — is what turns raw event chaos into coherent, queryable process memory.
+3. **Stories (Event Sequences / Cases) Are the Fundamental Transactional Unit of Intelligence**  
+   Traditional BI works with *facts about things*. Time Molecules works with *stories that unfold over time*. Every customer journey, hospital episode, support ticket, manufacturing run, or AI-agent execution is a case — a sequence of timestamped events. These stories, not isolated facts, are the atomic unit of process-aware intelligence.
+
+4. **Time Molecules Are the Time-Oriented Counterpart to Thing-Oriented OLAP Cubes**  
+   Just as OLAP cubes compress millions-to-trillions of transactions into multi-dimensional aggregates of *things*, Time Molecules compresses millions-to-trillions of event sequences into a massive collection of lightweight, cacheable Hidden Markov Models (HMMs). The result is a probabilistic, multi-dimensional “process cube” that can be sliced, diced, compared, and queried at enterprise scale — in O(n) time.
+
+5. **Process-Aware Intelligence via Integration with Enterprise Intelligence**  
+   Time Molecules does not stand alone. It extends the *Tuple Correlation Web* from *Enterprise Intelligence* to create a full space-time web of knowledge: the BI side of process mining and systems thinking. This integration enables true executive function — comparing processes, spotting emerging patterns, aligning actions with competing goals, and giving both humans and AI agents the process memory they need to reason, plan, and adapt.
 
 ### Why This Matters (and Why It’s Not “Just Markov Chains”)
 
