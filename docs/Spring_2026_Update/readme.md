@@ -48,6 +48,8 @@ At the same time, I have put real effort into moving parts of the implementation
 
 That includes rethinking patterns that were too tied to one platform and improving the path toward broader-scale deployment ideas.
 
+See [sp_SelectEvents] retrofit](https://github.com/MapRock/TimeMolecules/blob/main/docs/Spring_2026_Update/sp_Selected_Events_MPP_refactor_20206_04.md)
+
 ### Better explanation of process-aware intelligence
 
 The surrounding blog material has also improved the explanation of the deeper intuition behind the work:
@@ -82,7 +84,7 @@ If there is a single sentence that best captures the refresh, it is probably thi
 - [AI agent skills](https://github.com/MapRock/TimeMolecules/tree/main/tutorials/ai_agent_skills)
 
 ### Related blog themes
-- process-aware intelligence
-- stories as the transactional unit of human-level intelligence
-- AI agents and context engineering
-- planning, competing goals, and executive function
+- [Process-aware intelligence — *From Data through Wisdom: The Case for Process-Aware Intelligence*](https://eugeneasahara.com/2025/05/30/from-data-through-wisdom-the-case-for-process-aware-intelligence/)
+- [Stories as the transactional unit of human-level intelligence — *Stories are the Transactional Unit of Human-Level Intelligence*](https://eugeneasahara.com/2025/10/10/stories-the-unit-of-human-level-intelligence/)
+- [AI agents and context engineering — *AI Agents, Context Engineering, and Time Molecules*](https://eugeneasahara.com/2026/03/10/ai-agents-context-engineering-and-time-molecules/)
+- [Planning, competing goals, and executive function — *The Complex Game of Planning*](https://eugeneasahara.com/2025/12/19/the-complex-game-of-planning/)
