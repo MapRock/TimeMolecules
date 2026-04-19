@@ -6,5 +6,5 @@ SELECT *
 FROM 
 	[dbo].[ModelEventsByProperty](
 		'leavehome,heavytraffic,lighttraffic,arrivework', 0, NULL,
-		NULL, NULL, 1, @Metric, NULL, NULL, NULL)
+		NULL, NULL, 1, @Metric, NULL, NULL, NULL,NULL)
 --[END Code 39]
