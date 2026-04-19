@@ -32,6 +32,8 @@ Together, the book and the expanded companion material make the work more teacha
 
 ### Stronger AI-agent relevance
 
+The primary goal of this AI-agent feature is to have fitted this repo with the capability of answering questions a consumer AI agent would have about Time Molecules.
+
 Since the book came out, the industry has moved much more visibly toward AI agents, orchestration, observability, and process-aware context. That shift makes Time Molecules feel more timely.
 
 I have done more work to explain how Time Molecules can serve as process-aware memory and analysis for AI-agent activity. Each agent run is a case. Each prompt, tool call, retry, approval, and failure is an event. Across many runs, those become stories that can be studied, compared, and abstracted into Markov models.
