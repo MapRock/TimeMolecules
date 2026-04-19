@@ -38,6 +38,8 @@ I have done more work to explain how Time Molecules can serve as process-aware m
 
 That gives Time Molecules a more immediate connection to where enterprise AI appears to be going.
 
+See [AI Agent Skills](https://github.com/MapRock/TimeMolecules/tree/main/tutorials/ai_agent_skills)
+
 ### Closer to larger-scale architecture
 
 TimeSolution was originally meant as a demonstration system that was relatively approachable to install and study, especially on SQL Server. I still view it that way.
