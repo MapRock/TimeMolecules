@@ -79,7 +79,7 @@ If there is a single sentence that best captures the refresh, it is probably thi
 - [Compare event transitions](https://github.com/MapRock/TimeMolecules/tree/main/tutorials/compare_event_transitions)
 - [Link cases](https://github.com/MapRock/TimeMolecules/tree/main/tutorials/link_cases)
 - [Diced Markov models](https://github.com/MapRock/TimeMolecules/tree/main/tutorials/diced_markov_models)
-- AI agent skills
+- [AI agent skills](https://github.com/MapRock/TimeMolecules/tree/main/tutorials/ai_agent_skills)
 
 ### Related blog themes
 - process-aware intelligence
