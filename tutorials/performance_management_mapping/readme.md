@@ -53,6 +53,8 @@ Time Molecules supply the **what-if** simulation engine: “If we adjust Process
 
 This is the exact leap you described: from passive observer → conscious executive. The AI Agent Refresh (llm_prompts + Qdrant index + ai_agent_skills workbench) gives agents the vocabulary and tools to treat the strategy map as their own prefrontal cortex.
 
+I discuss Strategy Maps in an SBAR context in the [Time Molecules](https://technicspub.com/time-molecules/) book, page 276, Situation, Background, Analysis, Recommendation - SBAR.
+
 ### 4. Practical Integration Inside TimeMolecules (Where to Add This Today)
 Right now, the repo’s `/docs/llm_prompts/` and `/tutorials/` contain no dedicated files on KPIs, pain levels, or strategy maps. This is a clean opportunity to add:
 
