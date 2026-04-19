@@ -2,6 +2,8 @@
 
 Since the publication of [*Time Molecules*](https://technicspub.com/time-molecules/), I have continued developing the ideas, the implementation, and the supporting material around it. This is not a new edition of the book, but it is more than minor cleanup. It is a meaningful refresh and expansion of the surrounding body of work.
 
+> **Note:** This refresh is set for launch on **May 1, 2026**.
+
 ## What has changed
 
 ### Clearer framing
