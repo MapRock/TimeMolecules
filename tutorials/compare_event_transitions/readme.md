@@ -79,14 +79,15 @@ Each row represents one numeric property found on the destination events of the 
 
 Example:
 
-| PropertyName | PropertySource | SourceColumnID | TransA_Count | TransA_Avg | TransA_StDev | TransA_Min | TransA_Max | TransB_Count | TransB_Avg | TransB_StDev | TransB_Min | TransB_Max | AvgDiff_TransA_minus_TransB |
-|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
-| Fuel | 0 | 23 | 5 | 33 | 14.7648230602334 | 15 | 50 | 8 | 47 | 7.98212288268514 | 31 | 55 | -14 |
+| PropertyName | PropertySource | SourceColumnID | MetricMethod | TransA_Count | TransA_Avg | TransA_StDev | TransA_Min | TransA_Max | TransB_Count | TransB_Avg | TransB_StDev | TransB_Min | TransB_Max | AvgDiff_TransA_minus_TransB |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| Fuel | 0 | 23 | 1 | 5 | 33 | 14.7648230602334 | 15 | 50 | 8 | 47 | 7.98212288268514 | 31 | 55 | -14 |
 
 How to interpret this row:
 
 - `PropertyName = Fuel` means the property being compared is Fuel.
 - `PropertySource = 0` and `SourceColumnID = 23` identify where that property came from in the metadata.
+- `MetricMethod = 1` See "Why dbo.MetricValue matters." below.
 - `TransA_Count = 5` means five destination events in transition A had a numeric Fuel value.
 - `TransA_Avg = 33` means the average Fuel value for transition A was 33.
 - `TransA_StDev = 14.76` means Fuel values on transition A were fairly spread out.
@@ -121,6 +122,14 @@ Useful things to look for:
 The source event is the same in both transitions. The difference is in the destination event.
 
 So the script focuses on `EventB_ID` because that is the event that represents the divergent outcome. Comparing `EventA_ID` as well would dilute the comparison by mixing in the common starting point. The question here is not “what does the shared source event look like,” but rather “what is different about the events that cases reached after the branch?” 
+
+### Why dbo.MetricValue matters
+
+A numeric property is not always something that should be read at face value. Sometimes the meaningful number is the value at the destination event itself, but sometimes the real insight is in how that value changed from the source event to the destination event. dbo.MetricValue handles that distinction by applying a calculation method to the event-level values before the comparison is aggregated. In the context of competing transitions, this matters because the branch may be better explained by change, leak, backlog, or rate of change than by a raw reading alone.
+
+For example, if the property is Fuel, the useful comparison may not be the absolute fuel value on the destination event. It may be the fuel consumed between the source event and the destination event. In that case, the script should not simply average EventB values. It should look up the property in dbo.Metrics, retrieve the associated method, and use dbo.MetricValue to derive the correct per-row metric before aggregation. That shifts the analysis from “what was the value when the branch ended?” to “what happened along the branch?”
+
+This makes the branch comparison much more expressive. A property can represent a direct reading, a from-to delta, a leak between expected and actual, a backlog or bottleneck value on arrival, or a percentage change since the previous event. That means the same comparison framework can support several kinds of process intelligence without rewriting the aggregation logic for each metric. The Markov model still shows where the process diverged, but dbo.MetricValue helps ensure that the numeric comparison reflects the right kind of operational meaning for each property.
 
 ## Practical uses
 
