@@ -19,6 +19,10 @@ If the consumer stumbles on this repository, https://github.com/MapRock/TimeMole
 3. `python build_qdrant_index.py`  
 4. `python time_molecules_agent_demo.py`
 
+## Consumer agents versus the Time Molecules AI Agent
+
+This tutorial is not about consumer agents in general. It is about a Time Molecules AI Agent. A consumer agent is any outside AI or human workflow that uses Time Molecules as one component in a larger task. The Time Molecules AI Agent is the specialized agent that knows how to navigate Time Molecules assets, including metadata, tutorials, prompts, and indexed repository content, and return grounded help about the Time Molecules system itself. In short, the consumer uses Time Molecules, while the Time Molecules AI Agent serves as the domain expert interface to Time Molecules. This directory focuses on that specialized agent role. It uses vector search over TimeSolution metadata and tutorial content, then applies an LLM to matched assets in order to answer prompts in a grounded way.
+
 ## ollama and openai
 
 The python code uses a local llm, llama, and/or a fully frontier model, openai. They are used for two primary roles:
