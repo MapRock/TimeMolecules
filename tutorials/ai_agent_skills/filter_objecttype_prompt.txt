@@ -5,7 +5,7 @@ User question:
 
 Available ObjectType payload values:
 - Column: SQL Server table or view column.
-- Instance: instance of an entity, usually a table row with a unique key.
+- Instance: instance of an entity, usually a table row with a unique key. Suggests a Markov model, case type, event, etc. from their respective tables.
 - SQL_INLINE_TABLE_VALUED_FUNCTION: SQL Server inline table-valued function.
 - SQL_SCALAR_FUNCTION: SQL Server scalar function.
 - SQL_STORED_PROCEDURE: SQL Server stored procedure.
@@ -49,7 +49,7 @@ Return: Table,LLM_PROMPT, SQL_STORED_PROCEDURE, VIEW
 User question: where are Markov models stored
 Return: Table,Column,LLM_PROMPT, VIEW
 
-User question: what is a "pacemaker implant"
+User question: what is a "pacemaker implant" or "does anything suggest delivery pickups?"
 Return: Instance
 
 User question: how are Markov models created
