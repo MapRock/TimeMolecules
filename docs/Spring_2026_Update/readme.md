@@ -20,11 +20,11 @@ The GitHub new material is meant to extend and reinforce the book, not replace i
 
 Some of the stronger areas now include:
 
-- tutorials on the fundamental importance of Markov models
-- comparing event transitions to understand why one branch differs from another
-- linking cases across systems or process types
-- dicing Markov models by time and other dimensions
-- tutorials and supporting material around AI-agent usage
+- [tutorials on the fundamental importance of Markov models](https://github.com/MapRock/TimeMolecules/tree/main/tutorials/fundamental_importance_of_markov_models)
+- [comparing event transitions to understand why one branch differs from another](https://github.com/MapRock/TimeMolecules/tree/main/tutorials/compare_event_transitions)
+- [linking cases across systems or process types](https://github.com/MapRock/TimeMolecules/tree/main/tutorials/link_cases)
+- [dicing Markov models by time and other dimensions](https://github.com/MapRock/TimeMolecules/tree/main/tutorials/diced_markov_models)
+- [tutorials and supporting material around AI-agent usage](https://github.com/MapRock/TimeMolecules/tree/main/tutorials/ai_agent_skills)
 
 Together, the book and the expanded companion material make the work more teachable and more concrete than it was at launch.
 
