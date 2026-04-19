@@ -60,6 +60,8 @@ The surrounding blog material has also improved the explanation of the deeper in
 
 These explanations make the larger vision easier to understand than it was when the book first appeared.
 
+See [Fundamental Importance of Markov Models](https://github.com/MapRock/TimeMolecules/tree/main/tutorials/fundamental_importance_of_markov_models)
+
 ## Why this matters
 
 This refresh does not replace the book. It strengthens and extends it.
