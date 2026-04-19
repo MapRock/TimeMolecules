@@ -76,7 +76,7 @@ If there is a single sentence that best captures the refresh, it is probably thi
 
 ### GitHub tutorials
 - [Fundamental importance of Markov models](https://github.com/MapRock/TimeMolecules/tree/main/tutorials/fundamental_importance_of_markov_models)
-- Compare event transitions
+- [Compare event transitions](https://github.com/MapRock/TimeMolecules/tree/main/tutorials/compare_event_transitions)
 - Link cases
 - Diced Markov models
 - AI agent skills
