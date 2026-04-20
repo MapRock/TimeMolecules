@@ -70,6 +70,9 @@ as opaque black boxes.
 """
 from __future__ import annotations
 
+import csv
+
+
 import json
 import uuid
 from datetime import datetime, timezone
@@ -80,6 +83,72 @@ from urllib.error import URLError, HTTPError
 from typing import Any
 import os
 
+from dotenv import load_dotenv
+
+# ----------------------------
+# Load .env (search upward)
+# ----------------------------
+current = Path(__file__).resolve()
+env_path = None
+
+for parent in [current.parent, *current.parents]:
+    candidate = parent / ".env"
+    if candidate.exists():
+        env_path = candidate
+        break
+
+if env_path:
+    load_dotenv(env_path)
+    print(f"✅ Loaded .env from: {env_path}")
+else:
+    print("⚠️ .env not found. Falling back to system environment variables.")
+
+DEFAULT_OUTPUT_DIR = os.getenv("DEFAULT_OUTPUT_DIR", str(Path(__file__).resolve().parent / "output"))
+
+def append_stage_import_event_to_csv(
+    *,
+    agent_name: str,
+    natural_key: str,
+    phase: str,
+    source_id: int,
+    workflow_name: str,
+    access_bitmap: int,
+    extra_actual_properties: dict | None = None,
+):
+    output_dir = Path(DEFAULT_OUTPUT_DIR)
+    output_dir.mkdir(parents=True, exist_ok=True)
+
+    csv_path = output_dir / "stage_import_events.csv"
+    file_exists = csv_path.exists()
+
+    row = {
+        "CaseNaturalKey": natural_key,
+        "WorkflowName": workflow_name,
+        "Event": phase,
+        "EventTime": datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")[:-3],
+        "SourceID": source_id,
+        "AccessBitmap": access_bitmap,
+        "AgentName": agent_name,
+        "ActualPropertiesJson": json.dumps(extra_actual_properties or {}, ensure_ascii=False),
+    }
+
+    with open(csv_path, "a", newline="", encoding="utf-8") as f:
+        writer = csv.DictWriter(
+            f,
+            fieldnames=[
+                "CaseNaturalKey",
+                "WorkflowName",
+                "Event",
+                "EventTime",
+                "SourceID",
+                "AccessBitmap",
+                "AgentName",
+                "ActualPropertiesJson",
+            ],
+        )
+        if not file_exists:
+            writer.writeheader()
+        writer.writerow(row)
 
 def make_ai_agent_natural_key(agent_name: str, workflow_name: str | None = None) -> str:
     ts = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%S%fZ")
@@ -270,9 +339,6 @@ def log_ai_agent_stage_event(
     access_bitmap: int | None = None,
     extra_actual_properties: dict | None = None,
 ) -> bool:
-    if cnxn is None:
-        return False
-
     record = _build_stage_event_record(
         agent_name=agent_name,
         natural_key=natural_key,
@@ -283,12 +349,46 @@ def log_ai_agent_stage_event(
         extra_actual_properties=extra_actual_properties,
     )
 
+    if cnxn is None:
+        append_stage_import_event_to_csv(
+            agent_name=agent_name,
+            natural_key=natural_key,
+            phase=phase,
+            source_id=source_id,
+            workflow_name=workflow_name,
+            access_bitmap=access_bitmap if access_bitmap is not None else 0,
+            extra_actual_properties=extra_actual_properties,
+        )
+        return True
+
     if _is_pyodbc_connection(cnxn):
-        return _write_stage_event_to_pyodbc(cnxn, record)
+        success = _write_stage_event_to_pyodbc(cnxn, record)
+        if not success:
+            append_stage_import_event_to_csv(
+                agent_name=agent_name,
+                natural_key=natural_key,
+                phase=phase,
+                source_id=source_id,
+                workflow_name=workflow_name,
+                access_bitmap=access_bitmap if access_bitmap is not None else 0,
+                extra_actual_properties=extra_actual_properties,
+            )
+        return True
+
     if _is_url(cnxn):
         return _write_stage_event_to_url(cnxn, record)
+
     if _is_pathlike(cnxn):
         return _write_stage_event_to_file(cnxn, record)
 
-    print("⚠️ Unsupported cnxn type for log_ai_agent_stage_event.")
-    return False
+    print("⚠️ Unsupported cnxn type for log_ai_agent_stage_event. Falling back to CSV.")
+    append_stage_import_event_to_csv(
+        agent_name=agent_name,
+        natural_key=natural_key,
+        phase=phase,
+        source_id=source_id,
+        workflow_name=workflow_name,
+        access_bitmap=access_bitmap if access_bitmap is not None else 0,
+        extra_actual_properties=extra_actual_properties,
+    )
+    return True

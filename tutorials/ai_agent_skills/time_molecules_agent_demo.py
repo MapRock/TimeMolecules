@@ -12,6 +12,7 @@ Uses .env + local Qdrant folder.
 from pickle import GLOBAL
 import re
 
+import csv
 
 from qdrant_client import QdrantClient
 from qdrant_client.models import Filter, FieldCondition, MatchAny
@@ -64,6 +65,7 @@ llm=os.getenv("LLM", "ollama").lower()
 
 COLLECTION_NAME = os.getenv("QDRANT_COLLECTION_NAME", "time_molecules_directory")
 QDRANT_PATH = os.getenv("QDRANT_PATH", "c:/MapRock/TimeMolecules/qdrant_data_ollama")
+DEFAULT_OUTPUT_DIR = os.getenv("DEFAULT_OUTPUT_DIR", str(Path(__file__).resolve().parent / "output"))
 
 OLLAMA_HOST = os.getenv("OLLAMA_HOST", None)
 OLLAMA_EMBED_MODEL = os.getenv("OLLAMA_EMBED_MODEL", "nomic-embed-text")
@@ -192,6 +194,7 @@ class TaskContext:
         self.final_answer: str | None = None
         self.final_dataframe: pd.DataFrame | None = None
         self.status = "Ready."
+
 
 
 
@@ -335,17 +338,23 @@ class AgentCall:
 
     def log_sql_execution(self, agent_name: str, natural_key: str, phase: str, extra_properties: dict | None = None):
         """
-        Logs the start or end of a SQL execution workflow to STAGE.ImportEvents in TimeSolution.
+        Logs the start or end of a SQL execution workflow to STAGE.ImportEvents in TimeSolution,
+        or falls back to CSV through write_to_import_events.py.
         """
-        if not TIMESOLUTION_AVAILABLE:
-            print("⚠️ TimeSolution database connection not available. Skipping logging of AI agent stage event.")
-            return
+        cnxn = None
+
+        if TIMESOLUTION_AVAILABLE:
+            try:
+                cnxn = SQLAgent.get_cnxn()
+            except Exception:
+                cnxn = None
+
         imp.log_ai_agent_stage_event(
-            SQLAgent.get_cnxn(),
+            cnxn,
             agent_name=agent_name,
             natural_key=natural_key,
             phase=phase,
-            source_id=ai_agent_source_id,  # Replace with actual SourceID
+            source_id=ai_agent_source_id,
             workflow_name=workflow_name,
             access_bitmap=access_bitmap,
             extra_actual_properties=extra_properties,
@@ -1321,14 +1330,22 @@ def validate_config():
 
 
 
+
 if __name__ == "__main__":
-    TIMESOLUTION_AVAILABLE = SQLAgent.get_cnxn() is not None
+    try:
+        test_cnxn = SQLAgent.get_cnxn()
+        if test_cnxn:
+            test_cnxn.close()
+        TIMESOLUTION_AVAILABLE = True
+    except Exception:
+        TIMESOLUTION_AVAILABLE = False
+        print("⚠️ TimeSolution unavailable at startup. Stage import logging will fall back to CSV.")
 
-    # Paramteres
 
-    # The running part.
     validate_config()
 
     root = Tk()
     app = TimeMoleculesUI(root)
     root.mainloop()
+
+
