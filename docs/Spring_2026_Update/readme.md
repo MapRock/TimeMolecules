@@ -115,6 +115,7 @@ If there is a single sentence that best captures the refresh, it is probably thi
 - [Link cases](https://github.com/MapRock/TimeMolecules/tree/main/tutorials/link_cases)
 - [Diced Markov models](https://github.com/MapRock/TimeMolecules/tree/main/tutorials/diced_markov_models)
 - [AI agent skills](https://github.com/MapRock/TimeMolecules/tree/main/tutorials/ai_agent_skills)
+- [Pre-aggregated Markov Models](https://github.com/MapRock/TimeMolecules/tree/main/tutorials/preaggregate_markov_models)
 
 ### Related blog themes
 - [Process-aware intelligence — *From Data through Wisdom: The Case for Process-Aware Intelligence*](https://eugeneasahara.com/2025/05/30/from-data-through-wisdom-the-case-for-process-aware-intelligence/)
