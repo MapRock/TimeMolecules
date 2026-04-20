@@ -1,8 +1,85 @@
+# ============================================================
+# Time Molecules AI Agent Skills - Python Requirements
+#
+# This requirements file is intended to support the lightweight
+# local test path for the AI-agent tutorial app under:
+# tutorials/ai_agent_skills
+#
+# The simplest path uses:
+# - local Python
+# - a local Qdrant vector store
+# - the included TimeMolecules_Metadata.csv file
+# - either OpenAI or Ollama for embeddings/chat
+#
+# Note:
+# pyodbc is included because build_qdrant_index.py currently
+# imports it, even if you use the CSV metadata route instead of
+# connecting to SQL Server directly.
+# ============================================================
+
+
+# ------------------------------------------------------------
+# Vector database client
+# Used to create and query the local Qdrant collection that
+# holds embedded Time Molecules metadata and tutorial content.
+# ------------------------------------------------------------
 qdrant-client
+
+
+# ------------------------------------------------------------
+# Local LLM / embedding support
+# Used when running the app with Ollama for chat and/or
+# embeddings, such as llama3.2 or nomic-embed-text.
+# ------------------------------------------------------------
 ollama
+
+
+# ------------------------------------------------------------
+# OpenAI client
+# Kept on the older API line intentionally, because this setup
+# is currently based on the older OpenAI Python package and is
+# not being migrated right now.
+# ------------------------------------------------------------
 openai>=0.28.0,<1.0.0
+
+
+# ------------------------------------------------------------
+# Environment variable loading
+# Reads values from the .env file, such as API keys, model
+# names, Qdrant path, and SQL Server connection settings.
+# ------------------------------------------------------------
 python-dotenv
+
+
+# ------------------------------------------------------------
+# Dataframe support
+# Used to load and work with the metadata CSV and other tabular
+# data during index-building and related utility steps.
+# ------------------------------------------------------------
 pandas
+
+
+# ------------------------------------------------------------
+# HTTP requests
+# Used to fetch content such as the metadata CSV or raw GitHub
+# resources when the scripts pull material from URLs.
+# ------------------------------------------------------------
 requests
+
+
+# ------------------------------------------------------------
+# SQL Server connectivity
+# Needed if metadata is pulled directly from TimeSolution in
+# SQL Server instead of using the included CSV metadata file.
+# Also currently required because the index-building script
+# imports pyodbc at module load time.
+# ------------------------------------------------------------
 pyodbc
+
+
+# ------------------------------------------------------------
+# Tkinter table widget
+# Used by the local UI for displaying tabular results in a more
+# usable grid-like form.
+# ------------------------------------------------------------
 pandastable
