@@ -82,7 +82,7 @@ The script will:
 ### 7. Run the AI Agent Demo
 
 ```bash
-python time_molecules_agent_demo_retrofit.py
+python time_molecules_agent_demo.py
 ```
 
 A Tkinter window will open. You can now type natural-language questions about your TimeSolution database objects and get semantic search results + LLM summaries.
