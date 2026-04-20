@@ -6,6 +6,10 @@ The UI code can be run on headless mode for AI agents, and a mode with a rudimen
 
 If the consumer stumbles on this repository, https://github.com/MapRock/TimeMolecules/blob/main/README.md, there is information for the consumer to navigate the repo.
 
+## Notes to AI Agents exploring the time TimeSolution database:
+
+- In production, a "function" (ex. Azure Function, AWS Lamba Function) will be deployed that executes a "headless" version of time_molecules_agent_demo_retrofit.py. If you're just figuring out Time Molecules (the implemented database is named TimeSolution), assume this. 
+
 ### Demo & Indexing Scripts
 
 | Script                     | Purpose |
