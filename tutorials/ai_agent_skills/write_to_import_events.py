@@ -1,3 +1,73 @@
+"""
+Time Molecules AI Agent Event Logging Utility
+
+Purpose
+-------
+This module writes lightweight AI-agent workflow events into a Time Molecules-
+friendly shape, primarily for loading into STAGE.ImportEvents. It is intended
+to let an AI agent or related workflow emit process events such as "start" and
+"end" in a form that can later be ingested, analyzed, and modeled as part of
+the larger event stream.
+
+What it does
+------------
+- Creates a natural key for an AI-agent workflow case.
+- Builds a stage-event record using the Time Molecules event shape.
+- Writes that record to one of three targets:
+    1. a live pyodbc SQL Server connection
+    2. a local newline-delimited JSON file
+    3. an HTTP/HTTPS endpoint via POST
+
+Intended use
+------------
+Use this module when you want AI-agent activity to become part of the event
+ensemble rather than remain trapped inside application logs. This allows agent
+runs to be treated as cases made of events, such as workflow start, workflow
+end, retries, approvals, or failures.
+
+Current event shape
+-------------------
+The helper writes records with:
+- CaseType = "AI Agent Workflow"
+- Event = the supplied phase value
+- CaseID = the generated or supplied natural key
+- EventActualProperties = a JSON object containing agent context
+
+Notes
+-----
+- The phase value is intentionally flexible right now. The old "start/end only"
+  validation is commented out, which allows broader event naming if desired.
+- For SQL Server writes, datetime values are kept as Python datetime objects for
+  pyodbc insertion.
+- For file and URL output, datetime values are converted to ISO-8601 strings.
+- This module does not orchestrate the workflow itself. It only emits events.
+
+Typical usage
+-------------
+1. Create a natural key once for the workflow case.
+2. Call log_ai_agent_stage_event(...) at key points in the workflow.
+3. Point the output either at SQL Server, a file, or an endpoint.
+
+Example
+-------
+natural_key = make_ai_agent_natural_key("Time Molecules Agent", "metadata search")
+
+log_ai_agent_stage_event(
+    cnxn,
+    agent_name="Time Molecules Agent",
+    natural_key=natural_key,
+    phase="start",
+    source_id=62,
+    workflow_name="metadata search",
+    extra_actual_properties={"prompt": "How are Markov models created?"}
+)
+
+Author intent
+-------------
+This module is part of the larger idea that AI-agent runs can themselves be
+modeled as event-driven processes inside Time Molecules, rather than treated
+as opaque black boxes.
+"""
 from __future__ import annotations
 
 import json
