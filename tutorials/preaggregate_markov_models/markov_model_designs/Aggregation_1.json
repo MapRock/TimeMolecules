@@ -1,0 +1,29 @@
+{
+  "DesignName": "Cardiology monthly by location",
+  "Description": "Pre-create monthly cardiology models for two locations plus all locations.",
+  "FixedParameters": {
+    "EventSet": "cardiology",
+    "enumerate_multiple_events": 0,
+    "transforms": null,
+    "ByCase": 1,
+    "metric": null
+  },
+  "VariableParameters": {
+    "DateWindows": [
+      { "StartDateTime": "2025-01-01", "EndDateTime": "2025-02-01" },
+      { "StartDateTime": "2025-02-01", "EndDateTime": "2025-03-01" },
+      { "StartDateTime": "2025-03-01", "EndDateTime": "2025-04-01" }
+    ],
+    "CaseFilterProperties": [
+      null,
+      "{\"LocationID\":1}",
+      "{\"LocationID\":2}"
+    ],
+    "EventFilterProperties": [
+      null
+    ],
+    "transforms": [
+      null
+    ]
+  }
+}
