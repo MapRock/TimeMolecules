@@ -2,4 +2,7 @@ qdrant-client
 ollama
 openai>=0.28.0,<1.0.0
 python-dotenv
+pandas
+requests
+pyodbc
 pandastable
