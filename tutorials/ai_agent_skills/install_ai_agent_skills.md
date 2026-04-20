@@ -70,7 +70,7 @@ RESULTS_LIMIT=8
 **This step is required** — it creates the Qdrant collection with all TimeSolution objects and LLM prompt documents.
 
 ```bash
-python time_molecules_embeddings.py
+python build_qdrant_index.py
 ```
 
 The script will:
@@ -82,7 +82,7 @@ The script will:
 ### 7. Run the AI Agent Demo
 
 ```bash
-python time_molecules_agent_demo_.py
+python time_molecules_agent_demo_retrofit.py
 ```
 
 A Tkinter window will open. You can now type natural-language questions about your TimeSolution database objects and get semantic search results + LLM summaries.
