@@ -454,8 +454,7 @@ A few practical rules will make this work better downstream:
 * Align JSON property names to `SourceColumns.ColumnName` where possible.
 * Use `NaturalKey_SourceColumnID` when you know which source column produced the staged `CaseID`, even though the current import procedure does not yet consume it.  
 
-## 12. Suggested wording for the tutorial itself
+## 12. Sample app to generate flight events at scale
 
-If you want a shorter polished doc section, this is the core message:
+See https://github.com/MapRock/TimeMolecules/blob/main/tutorials/importing_events/generate_hnl_hilo_flight_events.py
 
-`STAGE.ImportEvents` is the landing table for bringing external event streams into the Time Molecules event ensemble. Each row represents one event occurrence for a source-native case key. Populate `SourceID` from `dbo.Sources`, use a stable natural case key in `CaseID`, keep `Event` short and reusable, and place case-level and event-level JSON into the property columns as appropriate. `dbo.ImportEventsFromStage` validates the staged rows, creates internal case IDs, loads cases and event facts, writes event and case properties, and refreshes parsed properties for downstream filtering, drill-through, and model generation. Progress and failures are logged through the procedure’s logging path; in the attached schema the confirmed log table is `dbo.ProcErrorLog`.   
