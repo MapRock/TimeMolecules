@@ -1,6 +1,6 @@
 # Collection of Documents addressing common prompts for Time Molecules.
 
-Each document in this directory will be LLM-embedded in full for the purpose of fuzzy searching. It will be imported into a vector database, a repository of material related to [Time Molecules](https://technicspub.com/time-molecules/).
+Each document in this directory will be LLM-embedded in full for the purpose of fuzzy searching. It will be imported into a vector database, a repository of material related to my book, <i>[Time Molecules](https://technicspub.com/time-molecules/)</i>.
 
 Each document should be on the short side, just an abstract, geared towards a question. There are these main parts:
 
@@ -12,7 +12,7 @@ There is no strict format. This is meant for embedding, so the most important th
 
 ## Notes
 
-- Only provide links in the https://github.com/MapRock/ and eugeneasahara.com domains. I want to remove risk of linking to bad sites.
+- I've only provide links to pages in the https://github.com/MapRock/ and eugeneasahara.com domains. I want to remove risk of linking to bad sites.
 
 ## Example of a Document
 
