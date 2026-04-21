@@ -144,6 +144,31 @@ This skill is especially useful in environments where event streams are broad an
 
 Together, they connect the modeled process to the broader event reality surrounding it.
 
+
+## Inflection points, spikes, and other marker events
+
+Not every useful intersegment event is part of an ordinary business process. Some events are important precisely because they mark that something changed.
+
+Examples include:
+
+- inflection points
+- spikes
+- threshold breaches
+- anomaly flags
+- sudden drops
+- unusual surges
+- external alert conditions
+
+These kinds of events may be produced by complex event processing (CEP) or other event-generation logic that watches streams and emits a new event when a meaningful pattern is detected. In that sense, they are second-order events: not just something that happened in the world, but something computed from what happened.
+
+That makes them especially useful in an intersegment scan.
+
+Suppose a segment takes unusually long. The cause may not be another concrete step in the same process. Instead, the delay may coincide with a marker event such as a traffic spike, a demand surge, a sensor anomaly, an inflection in patient volume, a fraud-risk spike, or some other computed signal from a different domain. Even if that event is unrelated to the modeled process in a direct workflow sense, it may still be a clue that the surrounding environment changed in a way that affected the segment.
+
+This is one of the strengths of intersegment analysis in a broad event ecosystem. The scan is not limited to process-native events. It can also surface signal events that indicate pressure, disruption, or transition in the wider system. Those events may represent side effects, external influences, or early warning signs of changing conditions.
+
+So when reading intersegment results, do not look only for obvious operational events. Also look for marker events that suggest the system crossed a threshold, changed direction, or entered a different state. Those events may be exactly the clue that explains why the segment behaved differently.
+
 ## Source references
 
 * [Model event drillthrough skill example](https://github.com/MapRock/TimeMolecules/blob/main/tutorials/time_molecules_skills/model_event_drillthrough.md)
