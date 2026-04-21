@@ -77,7 +77,9 @@ ORDER BY
     cpp.PropertyValueNumeric,
     cpp.PropertyValueAlpha;
 
-DROP TABLE IF EXISTS #CreatedModels;
+IF OBJECT_ID('tempdb..#CreatedModels') IS NOT NULL
+    DROP TABLE #CreatedModels;
+
 CREATE TABLE #CreatedModels
 (
     DiceOrdinal INT NOT NULL,
