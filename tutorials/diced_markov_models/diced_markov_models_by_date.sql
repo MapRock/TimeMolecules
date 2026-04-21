@@ -71,10 +71,10 @@ OPTION (MAXRECURSION 400);
 
 SELECT * FRoM #DiceWindows
 
-IF OBJECT_ID('tempdb..#CreatedModels') IS NOT NULL
-    DROP TABLE #CreatedModels;
+IF OBJECT_ID('tempdb..#CreatedModels_Date') IS NOT NULL
+    DROP TABLE #CreatedModels_Date;
 
-CREATE TABLE #CreatedModels
+CREATE TABLE #CreatedModels_Date
 (
     DiceOrdinal   INT              NOT NULL,
     DiceLabel     VARCHAR(20)      NOT NULL,
@@ -128,7 +128,7 @@ BEGIN
             @SessionID = @SessionID,
             @ModelID = @ModelID OUTPUT;
 
-        INSERT INTO #CreatedModels
+        INSERT INTO #CreatedModels_Date
         (
             DiceOrdinal,
             DiceLabel,
@@ -152,7 +152,7 @@ BEGIN
         );
     END TRY
     BEGIN CATCH
-        INSERT INTO #CreatedModels
+        INSERT INTO #CreatedModels_Date
         (
             DiceOrdinal,
             DiceLabel,
@@ -193,7 +193,7 @@ SELECT
     ModelID,
     Status,
     ErrorMessage
-FROM #CreatedModels
+FROM #CreatedModels_Date
 ORDER BY StartDateTime;
 
 -- Build pivot column list
@@ -211,7 +211,7 @@ SELECT
                     SELECT DISTINCT
                         DiceOrdinal,
                         DiceLabel
-                    FROM #CreatedModels
+                    FROM #CreatedModels_Date
                     WHERE Status = 'CreatedOrUpdated'
                       AND SessionID IS NOT NULL
                 ) x
@@ -234,7 +234,7 @@ SET @sql = N'
         mp.EventB,
         cm.DiceLabel,
         mp.Prob
-    FROM #CreatedModels cm
+    FROM #CreatedModels_Date cm
     JOIN WORK.MarkovProcess mp
         ON cm.SessionID = mp.SessionID
     WHERE cm.Status = ''CreatedOrUpdated''
@@ -254,4 +254,3 @@ print @sql
 
 EXEC sys.sp_executesql @sql;
 GO
-
