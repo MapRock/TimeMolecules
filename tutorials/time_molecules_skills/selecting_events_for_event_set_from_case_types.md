@@ -307,7 +307,4 @@ To use this object for event-set discovery in TimeSolution:
 
 For broad exploration, a view may be acceptable. For AI-agent workflows that should reduce the search space efficiently, a parameterized inline TVF is usually the better implementation.
 
-```
 
-Also, one technical correction: if you truly want pushdown on `EventsFact.StartDateTime` and `EventsFact.EndDateTime`, I would rename the object in the skill from a view to a TVF, because otherwise the writeup implies something a view cannot natively parameterize.
-```
