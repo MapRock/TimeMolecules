@@ -2,6 +2,8 @@ Prompt: How do I create a set of comparable Markov models in TimeSolution by dic
 
 Abstract: This material explains a reusable TimeSolution pattern for generating multiple stored Markov models from the same event set by varying one dimension at a time. One example dices the `cardiology` event set by month, creating one model per monthly time window so process behavior can be compared across time. The other dices the `restaurantguest` event set by property, creating one model per distinct `LocationID` value found in `dbo.CasePropertiesParsed` and formatting `@CaseFilterProperties` for each slice. In both cases, the pattern is to build a driving set of slice values, hold the other model parameters steady, call the model-creation procedure once per slice, and capture the resulting `ModelID` values for later comparison or downstream analysis. This makes process comparisons more targeted, interpretable, and performant than building a single model across all data. ([GitHub][1])
 
+The tutorial also demonstrates how dicing can fit into Bayesian probability. For example, across a series of Markov models by month, we could say, "Given EventA and Month1, the probability of EventB is ..."
+
 Primary location of source material to analyze (for more information): [https://github.com/MapRock/TimeMolecules/tree/main/tutorials/diced_markov_models](https://github.com/MapRock/TimeMolecules/tree/main/tutorials/diced_markov_models)
 
 [1]: https://github.com/MapRock/TimeMolecules/tree/main/tutorials/diced_markov_models "TimeMolecules/tutorials/diced_markov_models at main · MapRock/TimeMolecules · GitHub"
