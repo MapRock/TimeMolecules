@@ -14,6 +14,8 @@ This `.bak` file is the official backup used for tutorials and examples in the b
 - `publickey.asc` — Public key to verify the signature
 - `LicenseAndDisclaimer.txt` — Legal and usage notes
 
+Note: The link to the TimeSolutions.bak file is a OneDrive. It will say something like, "There is no preview". That just means it there's no way to display this file.
+
 ## Updates
 
 The TimeSolution.bak database was updated on March 31, 2026. It could be considered a "dot-one" cleanup:
