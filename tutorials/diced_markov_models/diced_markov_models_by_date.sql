@@ -128,6 +128,8 @@ BEGIN
             @SessionID = @SessionID,
             @ModelID = @ModelID OUTPUT;
 
+        SELECT * FROM Work.MarkovProcess WHERE SessionId=@SessionID
+
         INSERT INTO #CreatedModels_Date
         (
             DiceOrdinal,
