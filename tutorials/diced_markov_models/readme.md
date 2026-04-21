@@ -2,6 +2,8 @@ Sample scripts for how to create sets of Markov Models diced by date, property, 
 
 ## Dicing by date in the BI sense
 
+Based on the sample, https://github.com/MapRock/TimeMolecules/blob/main/tutorials/diced_markov_models/diced_markov_models_by_date.sql
+
 In Business Intelligence, *dicing* means taking the same basic subject of analysis and slicing it into many smaller, comparable subsets. In a sales cube, that might mean looking at sales by month, by region, or by product category. In Time Molecules, the idea is similar, but the thing being diced is not just a total or average. It is a **process model**.
 
 For this example, the process is the `cardiology` event set, and the dice dimension is **time by month**. Instead of creating one large Markov model over a broad date range, the script creates a separate model for each month. Each monthly model uses the same core parameters such as event set, transforms, case logic, and metric, but changes the `StartDateTime` and `EndDateTime` to isolate one month at a time.
