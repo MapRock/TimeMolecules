@@ -13,5 +13,12 @@ ORDER BY CaseID,[Rank]
 */
 
 --Same result as the SELECT above, but all columns, and using sproc, which is more conducive to MPP.
-EXEC sp_SelectedEvents @EventSet,0, NULL,NULL,NULL,1,NULL,NULL,NULL
+DECLARE @SessionID UNIQUEIDENTIFIER
+
+EXEC sp_SelectedEvents @EventSet,0, NULL,NULL,NULL,1,NULL,NULL,NULL, @SessionID=@SessionID OUTPUT
+
+print @SessionID --This is the key to WORK.SelectedEvents
+
 --[END Code 25]
+
+
