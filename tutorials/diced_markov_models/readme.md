@@ -24,3 +24,26 @@ The script in this example demonstrates a general dicing pattern:
 
 diced_markov_models_by_date.sql dices only by month, the same pattern can be extended to other BI-style dimensions. You could dice by month and employee, month and location, or month and case property. In that sense, this example is the date-based version of a broader Time Molecules pattern: **hold most parameters constant, vary one dimension deliberately, and create comparable process models across the resulting slices.**
 
+## A Bayesian way to read the final matrix
+
+The last part of the script turns the monthly diced models into a matrix where each row is an `EventA -> EventB` transition and each column is a month. The cell value is the transition probability for that month.
+
+That matrix can be read in a Bayesian spirit:
+
+**given the month and the current event, what is the probability of the next event?**
+
+In other words, each cell is answering a question like:
+
+- given `2025-01` and `holter positive`, what is the probability of `pacemaker`?
+- given `2025-02` and `admit cardiology`, what is the probability of `echo ordered`?
+- given `2025-03` and `stress test abnormal`, what is the probability of `cath lab consult`?
+
+This is not Bayesian in the sense of a full belief network with many variables. It is Bayesian in the more direct conditional-probability sense: **given this slice of time and this current event, what next event is likely?**
+
+That perspective is useful because it turns the matrix into more than just a display of Markov model outputs. It becomes a compact comparative view of how process behavior changes across time. If the probability of a transition rises, falls, appears, or disappears from month to month, the matrix makes that visible immediately.
+
+For example, if one month shows a much higher probability for a transition such as `holter positive -> pacemaker`, that may reflect a change in clinical practice, staffing, patient mix, coding behavior, or operational bottlenecks. If another transition weakens over time, that can be equally meaningful. The point is that the same process is being viewed repeatedly through comparable monthly slices, and the matrix makes those conditional differences easy to scan.
+
+So the final pivot is not just a formatting step. It is a way of asking, for each month:
+
+**given this event, what next event became more or less likely?**
