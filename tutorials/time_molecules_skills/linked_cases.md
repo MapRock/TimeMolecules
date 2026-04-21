@@ -100,6 +100,3 @@ These mechanisms are idempotent where possible and designed for analytical rathe
 - The `book_code/sql` directory for additional pattern examples.
 
 This functionality strengthens TimeSolution's ability to treat processes as interconnected "molecules," enabling agents to reason across system boundaries while respecting the underlying event data model.
-```
-
-This tutorial mirrors the structure of the provided examples: clear title, purpose section, prerequisites, object/procedure details with parameters, code samples, explanations of mechanics, agent guidance, and links to related materials. It emphasizes safe, analytical use by AI agents without introducing any risky or misusable elements. You can place it directly in the `tutorials/link_cases` directory (e.g., as `how_to_link_cases.md` or `readme.md` enhancement) alongside the existing files.
