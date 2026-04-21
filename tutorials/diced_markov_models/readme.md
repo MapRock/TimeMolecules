@@ -28,7 +28,26 @@ diced_markov_models_by_date.sql dices only by month, the same pattern can be ext
 
 ## A Bayesian way to read the final matrix
 
-The last part of the script turns the monthly diced models into a matrix where each row is an `EventA -> EventB` transition and each column is a month. The cell value is the transition probability for that month.
+The last part of the script turns the monthly diced models into a matrix where each row is an `EventA -> EventB` transition and each column is a month. The cell value is the transition probability for that month. This is the output:
+
+| Event1A | EventB | 2024-11 | 2024-10 | 2024-09 | 2024-08 | 2024-07 | 2024-06 | 2024-05 | 2024-04 | 2024-03 | 2024-02 | 2024-01 |
+|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| Arrhythmia | Echo | 0.4957 | 0.4902 | 0.4989 | 0.4827 | 0.5076 | 0.4906 | 0.5085 | 0.5048 | 0.4953 | 0.4978 | 0.5120 |
+| Arrhythmia | Holter Start | 0.5043 | 0.5098 | 0.5011 | 0.5173 | 0.4924 | 0.5094 | 0.4915 | 0.4952 | 0.5047 | 0.5022 | 0.4880 |
+| Echo | Holter Start | 1.0000 | 1.0000 | 1.0000 | 1.0000 | 1.0000 | 1.0000 | 1.0000 | 1.0000 | 1.0000 | 1.0000 | 1.0000 |
+| Holter End | Holter Neg | 0.5053 | 0.5002 | 0.4964 | 0.4906 | 0.5046 | 0.5037 | 0.5087 | 0.5008 | 0.5101 | 0.4981 | 0.4885 |
+| Holter End | Holter Pos | 0.4947 | 0.4998 | 0.5036 | 0.5094 | 0.4954 | 0.4963 | 0.4913 | 0.4992 | 0.4899 | 0.5019 | 0.5115 |
+| Holter Pos | NoImplant-Ineligible | 0.2460 | 0.2595 | 0.2782 | 0.2588 | 0.2437 | 0.2657 | 0.2510 | 0.2523 | 0.2746 | 0.2600 | 0.2453 |
+| Holter Pos | NoImplant-InsDecline | 0.2608 | 0.2521 | 0.2484 | 0.2623 | 0.2618 | 0.2456 | 0.2534 | 0.2441 | 0.2503 | 0.2560 | 0.2516 |
+| Holter Pos | NoImplant-PatDecline | 0.2484 | 0.2601 | 0.2436 | 0.2438 | 0.2641 | 0.2574 | 0.2439 | 0.2465 | 0.2414 | 0.2266 | 0.2704 |
+| Holter Pos | Pacemaker Implant | 0.2448 | 0.2283 | 0.2299 | 0.2351 | 0.2303 | 0.2313 | 0.2516 | 0.2570 | 0.2337 | 0.2573 | 0.2327 |
+| Holter Start | Holter End | 1.0000 | 1.0000 | 1.0000 | 1.0000 | 1.0000 | 1.0000 | 1.0000 | 1.0000 | 1.0000 | 1.0000 | 1.0000 |
+| Stroke | Echo | 0.4995 | 0.5010 | 0.4853 | 0.4979 | 0.4760 | 0.4832 | 0.4587 | 0.4802 | 0.4954 | 0.5046 | 0.4766 |
+| Stroke | Holter Start | 0.5005 | 0.4990 | 0.5147 | 0.5021 | 0.5240 | 0.5168 | 0.5413 | 0.5198 | 0.5046 | 0.4954 | 0.5234 |
+| Syncope | Echo | 0.5214 | 0.4959 | 0.5094 | 0.4943 | 0.4691 | 0.5142 | 0.4830 | 0.4859 | 0.5078 | 0.4794 | 0.4843 |
+| Syncope | Holter Start | 0.4786 | 0.5041 | 0.4906 | 0.5057 | 0.5309 | 0.4858 | 0.5170 | 0.5141 | 0.4922 | 0.5206 | 0.5157 |
+| TIA | Echo | 0.4822 | 0.4756 | 0.4896 | 0.5172 | 0.4941 | 0.4611 | 0.5024 | 0.4958 | 0.4944 | 0.4397 | 0.4815 |
+| TIA | Holter Start | 0.5178 | 0.5244 | 0.5104 | 0.4828 | 0.5059 | 0.5389 | 0.4976 | 0.5042 | 0.5056 | 0.5603 | 0.5185 |
 
 That matrix can be read in a Bayesian spirit:
 
