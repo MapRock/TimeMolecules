@@ -1,24 +1,24 @@
 USE [TimeSolution]
 GO
-/****** Object:  Schema [DIM]    Script Date: 4/16/2026 8:01:59 AM ******/
+/****** Object:  Schema [DIM]    Script Date: 4/21/2026 7:17:02 AM ******/
 CREATE SCHEMA [DIM]
 GO
-/****** Object:  Schema [ETL]    Script Date: 4/16/2026 8:01:59 AM ******/
+/****** Object:  Schema [ETL]    Script Date: 4/21/2026 7:17:02 AM ******/
 CREATE SCHEMA [ETL]
 GO
-/****** Object:  Schema [FACT]    Script Date: 4/16/2026 8:01:59 AM ******/
+/****** Object:  Schema [FACT]    Script Date: 4/21/2026 7:17:02 AM ******/
 CREATE SCHEMA [FACT]
 GO
-/****** Object:  Schema [KPI]    Script Date: 4/16/2026 8:01:59 AM ******/
+/****** Object:  Schema [KPI]    Script Date: 4/21/2026 7:17:02 AM ******/
 CREATE SCHEMA [KPI]
 GO
-/****** Object:  Schema [STAGE]    Script Date: 4/16/2026 8:01:59 AM ******/
+/****** Object:  Schema [STAGE]    Script Date: 4/21/2026 7:17:02 AM ******/
 CREATE SCHEMA [STAGE]
 GO
-/****** Object:  Schema [WORK]    Script Date: 4/16/2026 8:01:59 AM ******/
+/****** Object:  Schema [WORK]    Script Date: 4/21/2026 7:17:02 AM ******/
 CREATE SCHEMA [WORK]
 GO
-/****** Object:  UserDefinedFunction [dbo].[AddSegmentProbabilities]    Script Date: 4/16/2026 8:01:59 AM ******/
+/****** Object:  UserDefinedFunction [dbo].[AddSegmentProbabilities]    Script Date: 4/21/2026 7:17:02 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -90,7 +90,7 @@ BEGIN
 
 END
 GO
-/****** Object:  UserDefinedFunction [dbo].[BayesianProbability]    Script Date: 4/16/2026 8:01:59 AM ******/
+/****** Object:  UserDefinedFunction [dbo].[BayesianProbability]    Script Date: 4/21/2026 7:17:02 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -290,7 +290,7 @@ BEGIN
 	RETURN 
 END
 GO
-/****** Object:  UserDefinedFunction [dbo].[bigint_to_binary_string]    Script Date: 4/16/2026 8:01:59 AM ******/
+/****** Object:  UserDefinedFunction [dbo].[bigint_to_binary_string]    Script Date: 4/21/2026 7:17:02 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -343,7 +343,7 @@ BEGIN
     RETURN REVERSE(@binary_str);
 END;
 GO
-/****** Object:  UserDefinedFunction [dbo].[CaseCharacteristics]    Script Date: 4/16/2026 8:01:59 AM ******/
+/****** Object:  UserDefinedFunction [dbo].[CaseCharacteristics]    Script Date: 4/21/2026 7:17:02 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -484,7 +484,7 @@ BEGIN
 	RETURN 
 END
 GO
-/****** Object:  UserDefinedFunction [dbo].[CasesWithProperties]    Script Date: 4/16/2026 8:01:59 AM ******/
+/****** Object:  UserDefinedFunction [dbo].[CasesWithProperties]    Script Date: 4/21/2026 7:17:02 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -631,7 +631,7 @@ END
 
 --SELECT *,ROW_NUMBER() OVER(ORDER BY [key]) [Rank] FROM OPENJSON('{"EmployeeID":1}')
 GO
-/****** Object:  UserDefinedFunction [dbo].[ConditionalProbabilityTable]    Script Date: 4/16/2026 8:01:59 AM ******/
+/****** Object:  UserDefinedFunction [dbo].[ConditionalProbabilityTable]    Script Date: 4/21/2026 7:17:02 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -772,7 +772,7 @@ BEGIN
 	RETURN 
 END
 GO
-/****** Object:  UserDefinedFunction [dbo].[DefaultGroupType]    Script Date: 4/16/2026 8:01:59 AM ******/
+/****** Object:  UserDefinedFunction [dbo].[DefaultGroupType]    Script Date: 4/21/2026 7:17:02 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -838,7 +838,7 @@ BEGIN
 
 END
 GO
-/****** Object:  UserDefinedFunction [dbo].[DrillThroughToModelEvents]    Script Date: 4/16/2026 8:01:59 AM ******/
+/****** Object:  UserDefinedFunction [dbo].[DrillThroughToModelEvents]    Script Date: 4/21/2026 7:17:02 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -957,7 +957,7 @@ BEGIN
 	RETURN 
 END
 GO
-/****** Object:  UserDefinedFunction [dbo].[EventSetByCode]    Script Date: 4/16/2026 8:01:59 AM ******/
+/****** Object:  UserDefinedFunction [dbo].[EventSetByCode]    Script Date: 4/21/2026 7:17:02 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1053,7 +1053,7 @@ BEGIN
 
 END
 GO
-/****** Object:  UserDefinedFunction [dbo].[EventSetKey]    Script Date: 4/16/2026 8:01:59 AM ******/
+/****** Object:  UserDefinedFunction [dbo].[EventSetKey]    Script Date: 4/21/2026 7:17:02 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1175,7 +1175,7 @@ BEGIN
 
 END
 GO
-/****** Object:  UserDefinedFunction [dbo].[GetMetadataJsonValueFromDefinition]    Script Date: 4/16/2026 8:01:59 AM ******/
+/****** Object:  UserDefinedFunction [dbo].[GetMetadataJsonValueFromDefinition]    Script Date: 4/21/2026 7:17:02 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1241,7 +1241,7 @@ BEGIN
     RETURN @Result
 END
 GO
-/****** Object:  UserDefinedFunction [dbo].[GetModelEventString]    Script Date: 4/16/2026 8:01:59 AM ******/
+/****** Object:  UserDefinedFunction [dbo].[GetModelEventString]    Script Date: 4/21/2026 7:17:02 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1298,7 +1298,7 @@ BEGIN
     RETURN @Result
 END
 GO
-/****** Object:  UserDefinedFunction [dbo].[GetModelPropertyString]    Script Date: 4/16/2026 8:01:59 AM ******/
+/****** Object:  UserDefinedFunction [dbo].[GetModelPropertyString]    Script Date: 4/21/2026 7:17:02 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1361,7 +1361,92 @@ BEGIN
     RETURN @Result
 END
 GO
-/****** Object:  UserDefinedFunction [dbo].[IsMutuallyExclusive]    Script Date: 4/16/2026 8:01:59 AM ******/
+/****** Object:  UserDefinedFunction [dbo].[GetViewColumns]    Script Date: 4/21/2026 7:17:02 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+/*
+Metadata JSON:
+{
+  "Scalar Function": "GetViewColumns",
+  "Author": "Eugene Asahara",
+  "Contact": "eugene@softcodedlogic.com",
+  "Last Update": "2026-04-16",
+  "Description": "Returns a JSON document that lists the columns of a specified SQL Server view in ordinal order.",
+  "Utilization": "Use when you want a lightweight JSON description of a view's output columns for metadata inspection, LLM prompts, documentation, or object-to-object mapping.",
+  "Input Parameters": [
+    { "name": "@ViewName", "type": "NVARCHAR(256)", "default": "NULL", "description": "Name of the view to inspect. May be schema-qualified such as 'dbo.vwModels' or unqualified, in which case schema dbo is assumed." }
+  ],
+  "Output Notes": [
+    { "name": "return value", "type": "NVARCHAR(MAX)", "description": "JSON document of the form {\"Columns\":[{\"Name\":\"Column1\"},{\"Name\":\"Column2\"}]}, with columns returned in view ordinal order. Returns NULL if the view cannot be resolved." }
+  ],
+  "Referenced objects": [
+    { "name": "sys.columns", "type": "System View", "description": "Supplies column metadata for the resolved view object." },
+    { "name": "OBJECT_ID", "type": "Built-in Function", "description": "Resolves the object_id of the requested view using object type V." },
+    { "name": "PARSENAME", "type": "Built-in Function", "description": "Parses a potentially schema-qualified two-part object name." },
+    { "name": "QUOTENAME", "type": "Built-in Function", "description": "Safely delimits schema and object names during object resolution." },
+    { "name": "FOR JSON PATH", "type": "SQL Clause", "description": "Formats the column list as JSON with root node Columns." }
+  ]
+}
+
+Sample utilization:
+
+SELECT dbo.GetViewColumns('dbo.vwModels');
+
+Context:
+    • This code is provided as-is for teaching and demonstration of the Time Molecules concepts.
+    • It is **not** production-hardened: error handling, security, concurrency, indexing, query plan tuning, partitioning, and related concerns have been omitted or simplified.
+    • Performance and scale have not been fully addressed—use at your own risk.
+    • Intended to accompany “Time Molecules” by Eugene Asahara (Technics Publications, 2025).
+
+License:
+    Licensed under the MIT License. See LICENSE.md for full terms.
+    (c) 2025 Eugene Asahara. All rights reserved.
+*/
+
+CREATE   FUNCTION [dbo].[GetViewColumns]
+(
+    @ViewName NVARCHAR(256)
+)
+RETURNS NVARCHAR(MAX)
+AS
+BEGIN
+    DECLARE @SchemaName SYSNAME;
+    DECLARE @ObjectName SYSNAME;
+    DECLARE @ObjectID INT;
+    DECLARE @ColumnsJson NVARCHAR(MAX);
+
+    SET @SchemaName =
+        CASE
+            WHEN CHARINDEX('.', @ViewName) > 0 THEN PARSENAME(@ViewName, 2)
+            ELSE 'dbo'
+        END;
+
+    SET @ObjectName =
+        CASE
+            WHEN CHARINDEX('.', @ViewName) > 0 THEN PARSENAME(@ViewName, 1)
+            ELSE @ViewName
+        END;
+
+    SET @ObjectID = OBJECT_ID(QUOTENAME(@SchemaName) + '.' + QUOTENAME(@ObjectName), 'V');
+
+    IF @ObjectID IS NULL
+        RETURN NULL;
+
+    SELECT @ColumnsJson =
+    (
+        SELECT c.name AS [Name]
+        FROM sys.columns c
+        WHERE c.object_id = @ObjectID
+        ORDER BY c.column_id
+        FOR JSON PATH, ROOT('Columns')
+    );
+
+    RETURN @ColumnsJson;
+END;
+GO
+/****** Object:  UserDefinedFunction [dbo].[IsMutuallyExclusive]    Script Date: 4/21/2026 7:17:02 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1449,7 +1534,7 @@ BEGIN
 END
 
 GO
-/****** Object:  UserDefinedFunction [dbo].[MarkovChain_old]    Script Date: 4/16/2026 8:01:59 AM ******/
+/****** Object:  UserDefinedFunction [dbo].[MarkovChain_old]    Script Date: 4/21/2026 7:17:02 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1592,7 +1677,7 @@ BEGIN
 	RETURN 
 END
 GO
-/****** Object:  UserDefinedFunction [dbo].[MarkovChain_retired]    Script Date: 4/16/2026 8:01:59 AM ******/
+/****** Object:  UserDefinedFunction [dbo].[MarkovChain_retired]    Script Date: 4/21/2026 7:17:02 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1803,7 +1888,7 @@ BEGIN
 	RETURN 
 END
 GO
-/****** Object:  UserDefinedFunction [dbo].[MarkovProcess]    Script Date: 4/16/2026 8:01:59 AM ******/
+/****** Object:  UserDefinedFunction [dbo].[MarkovProcess]    Script Date: 4/21/2026 7:17:02 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -2261,7 +2346,7 @@ BEGIN
 	RETURN 
 END
 GO
-/****** Object:  UserDefinedFunction [dbo].[MarkovProcess_retired]    Script Date: 4/16/2026 8:01:59 AM ******/
+/****** Object:  UserDefinedFunction [dbo].[MarkovProcess_retired]    Script Date: 4/21/2026 7:17:02 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -2471,7 +2556,7 @@ BEGIN
 	RETURN 
 END
 GO
-/****** Object:  UserDefinedFunction [dbo].[MetricValue]    Script Date: 4/16/2026 8:01:59 AM ******/
+/****** Object:  UserDefinedFunction [dbo].[MetricValue]    Script Date: 4/21/2026 7:17:02 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -2484,13 +2569,13 @@ Metadata JSON:
   "Contact": "eugene@softcodedlogic.com",
   "Description": [
     "Calculates a metric value based on the specified method:",
-    "0: Direct current value (like an odometer reading).",
-    "1: Delta between actual values of successive events.",
+    "0: Direct current value (like an odometer reading), which means return the value as is.",
+    "1: Delta between actual values of successive events, which is like a reading; return the from-to difference.",
     "2: Leak amount (expected minus actual at the current event).",
     "3: Current actual value on arrival (backlog/bottleneck).",
     "4: Percentage change since previous event."
   ],
-  "Utilization": "Use when you need a single standardized way to derive the metric value used by a model or process step, instead of rewriting metric logic in multiple queries.",
+  "Utilization": "Use when you need one standardized way to calculate the metric value for a model segment or process step instead of rewriting metric logic in multiple queries. Method 0 returns the current value as-is, like a direct reading; method 1 returns the from-to delta between successive events, useful for change such as fuel consumed between locations; method 2 returns expected minus actual, useful for leak, loss, or slippage; method 3 returns the current actual value at arrival, useful for backlog, bottleneck, queue, or load; and method 4 returns percentage change since the previous event.",
   "Input Parameters": [
     {"name":"@metricmethod","type":"INT","default":null,"description":"Method selector (0–4) determining calculation logic."},
     {"name":"@From_MetricActualValue","type":"FLOAT","default":null,"description":"Actual metric value at the previous event (EventA)."},
@@ -2521,38 +2606,7 @@ License:
     Licensed under the MIT License. See LICENSE.md for full terms.
     (c) 2025 Eugene Asahara. All rights reserved.
 
-@metricmethod=0
-===============
-Direct current Value.
 
-This is like a reading of an odometer.
-
-@metricmethod=1
-===============
-
-What happened between events?
-
-How much has metric gained since the last Event. We left Walmart with 50 pounds and arrived at CSV with 40. We lost some along the way.
-A good example is fuel consumption from where we left to where we arrived.
-
-@metricmethod=2
-===============
-
-Leaks. Actual vs. Expected.
-
-
-@metricmethod=3
-===============
-
-Bottleneck.
-
-This is the value of something as we arrive (to). Ex: Arriving at CSV, we saw 1000 boxes piled up to be processed. Backlog.
-For Example: We arrive to deliver the weekly shipment of barrels to Seagrams, but we find their inventory is piling up because they
-don't have wheat to distill more whiskey. 
-
-@metricmethod=4
-===============
-Percentage change over previous event.
 */
 CREATE FUNCTION [dbo].[MetricValue]
 (
@@ -2585,7 +2639,7 @@ BEGIN
 
 END
 GO
-/****** Object:  UserDefinedFunction [dbo].[ModelDrillThrough]    Script Date: 4/16/2026 8:01:59 AM ******/
+/****** Object:  UserDefinedFunction [dbo].[ModelDrillThrough]    Script Date: 4/21/2026 7:17:02 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -2748,7 +2802,7 @@ BEGIN
 	RETURN 
 END
 GO
-/****** Object:  UserDefinedFunction [dbo].[ModelEventKey]    Script Date: 4/16/2026 8:01:59 AM ******/
+/****** Object:  UserDefinedFunction [dbo].[ModelEventKey]    Script Date: 4/21/2026 7:17:02 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -2847,7 +2901,7 @@ BEGIN
 	RETURN HASHBYTES('MD5', @concatenatedString) 
 END
 GO
-/****** Object:  UserDefinedFunction [dbo].[ModelEventsByProperty]    Script Date: 4/16/2026 8:01:59 AM ******/
+/****** Object:  UserDefinedFunction [dbo].[ModelEventsByProperty]    Script Date: 4/21/2026 7:17:02 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -2992,7 +3046,7 @@ BEGIN
 	RETURN 
 END
 GO
-/****** Object:  UserDefinedFunction [dbo].[ModelID]    Script Date: 4/16/2026 8:01:59 AM ******/
+/****** Object:  UserDefinedFunction [dbo].[ModelID]    Script Date: 4/21/2026 7:17:02 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -3105,7 +3159,7 @@ BEGIN
 
 END
 GO
-/****** Object:  UserDefinedFunction [dbo].[ModelsByParameters]    Script Date: 4/16/2026 8:01:59 AM ******/
+/****** Object:  UserDefinedFunction [dbo].[ModelsByParameters]    Script Date: 4/21/2026 7:17:02 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -3350,7 +3404,7 @@ BEGIN
 	RETURN 
 END
 GO
-/****** Object:  UserDefinedFunction [dbo].[ModelSimilaritySegments]    Script Date: 4/16/2026 8:01:59 AM ******/
+/****** Object:  UserDefinedFunction [dbo].[ModelSimilaritySegments]    Script Date: 4/21/2026 7:17:02 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -3518,7 +3572,7 @@ BEGIN
     RETURN;
 END
 GO
-/****** Object:  UserDefinedFunction [dbo].[PromptEventSimilarity]    Script Date: 4/16/2026 8:01:59 AM ******/
+/****** Object:  UserDefinedFunction [dbo].[PromptEventSimilarity]    Script Date: 4/21/2026 7:17:02 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -3666,7 +3720,7 @@ BEGIN
 
 END
 GO
-/****** Object:  UserDefinedFunction [dbo].[PropertySource]    Script Date: 4/16/2026 8:01:59 AM ******/
+/****** Object:  UserDefinedFunction [dbo].[PropertySource]    Script Date: 4/21/2026 7:17:02 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -3721,7 +3775,7 @@ BEGIN
 
 END
 GO
-/****** Object:  UserDefinedFunction [dbo].[SelectedEvents]    Script Date: 4/16/2026 8:01:59 AM ******/
+/****** Object:  UserDefinedFunction [dbo].[SelectedEvents]    Script Date: 4/21/2026 7:17:02 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -4032,7 +4086,7 @@ END
 
 --SELECT *,ROW_NUMBER() OVER(ORDER BY [key]) [Rank] FROM OPENJSON('{"EmployeeID":1}')
 GO
-/****** Object:  UserDefinedFunction [dbo].[SequenceKey]    Script Date: 4/16/2026 8:01:59 AM ******/
+/****** Object:  UserDefinedFunction [dbo].[SequenceKey]    Script Date: 4/21/2026 7:17:02 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -4084,7 +4138,7 @@ BEGIN
 
 END
 GO
-/****** Object:  UserDefinedFunction [dbo].[SequenceProbability]    Script Date: 4/16/2026 8:01:59 AM ******/
+/****** Object:  UserDefinedFunction [dbo].[SequenceProbability]    Script Date: 4/21/2026 7:17:02 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -4203,7 +4257,7 @@ BEGIN
 
 END
 GO
-/****** Object:  UserDefinedFunction [dbo].[Sequences]    Script Date: 4/16/2026 8:01:59 AM ******/
+/****** Object:  UserDefinedFunction [dbo].[Sequences]    Script Date: 4/21/2026 7:17:02 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -4483,7 +4537,7 @@ BEGIN
 	RETURN 
 END
 GO
-/****** Object:  UserDefinedFunction [dbo].[SequenceSegments]    Script Date: 4/16/2026 8:01:59 AM ******/
+/****** Object:  UserDefinedFunction [dbo].[SequenceSegments]    Script Date: 4/21/2026 7:17:02 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -4655,7 +4709,7 @@ BEGIN
 	RETURN 
 END
 GO
-/****** Object:  UserDefinedFunction [dbo].[SortKeyValueJSON]    Script Date: 4/16/2026 8:01:59 AM ******/
+/****** Object:  UserDefinedFunction [dbo].[SortKeyValueJSON]    Script Date: 4/21/2026 7:17:02 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -4718,7 +4772,7 @@ BEGIN
 	RETURN '{'+@result+'}'
 END
 GO
-/****** Object:  UserDefinedFunction [dbo].[SourceID]    Script Date: 4/16/2026 8:01:59 AM ******/
+/****** Object:  UserDefinedFunction [dbo].[SourceID]    Script Date: 4/21/2026 7:17:02 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -4789,7 +4843,7 @@ BEGIN
 
 END
 GO
-/****** Object:  UserDefinedFunction [dbo].[TransformsKey]    Script Date: 4/16/2026 8:01:59 AM ******/
+/****** Object:  UserDefinedFunction [dbo].[TransformsKey]    Script Date: 4/21/2026 7:17:02 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -4866,7 +4920,7 @@ BEGIN
 
 END
 GO
-/****** Object:  UserDefinedFunction [dbo].[UserAccessBitmap]    Script Date: 4/16/2026 8:01:59 AM ******/
+/****** Object:  UserDefinedFunction [dbo].[UserAccessBitmap]    Script Date: 4/21/2026 7:17:02 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -4932,7 +4986,7 @@ BEGIN
 
 END
 GO
-/****** Object:  UserDefinedFunction [dbo].[UserID]    Script Date: 4/16/2026 8:01:59 AM ******/
+/****** Object:  UserDefinedFunction [dbo].[UserID]    Script Date: 4/21/2026 7:17:02 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -4995,7 +5049,7 @@ BEGIN
 
 END
 GO
-/****** Object:  UserDefinedFunction [ETL].[StockMove]    Script Date: 4/16/2026 8:01:59 AM ******/
+/****** Object:  UserDefinedFunction [ETL].[StockMove]    Script Date: 4/21/2026 7:17:02 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -5056,7 +5110,7 @@ BEGIN
 
 END
 GO
-/****** Object:  UserDefinedFunction [dbo].[ModelsWithProperties]    Script Date: 4/16/2026 8:01:59 AM ******/
+/****** Object:  UserDefinedFunction [dbo].[ModelsWithProperties]    Script Date: 4/21/2026 7:17:02 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -5234,7 +5288,7 @@ RETURN
         )
 );
 GO
-/****** Object:  UserDefinedFunction [dbo].[ModelEventsFull]    Script Date: 4/16/2026 8:01:59 AM ******/
+/****** Object:  UserDefinedFunction [dbo].[ModelEventsFull]    Script Date: 4/21/2026 7:17:02 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -5378,7 +5432,7 @@ RETURN
 		)
 )
 GO
-/****** Object:  View [dbo].[vwSourceColumnsFull]    Script Date: 4/16/2026 8:01:59 AM ******/
+/****** Object:  View [dbo].[vwSourceColumnsFull]    Script Date: 4/21/2026 7:17:02 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -5389,7 +5443,7 @@ SELECT sc.SourceColumnID, sc.SourceID, sc.TableName, sc.ColumnName, sc.IsKey, sc
 FROM  dbo.SourceColumns AS sc INNER JOIN
          dbo.Sources AS s ON s.SourceID = sc.SourceID
 GO
-/****** Object:  View [dbo].[vwSimiliarSourceColumnPairs_Full]    Script Date: 4/16/2026 8:01:59 AM ******/
+/****** Object:  View [dbo].[vwSimiliarSourceColumnPairs_Full]    Script Date: 4/21/2026 7:17:02 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -5401,7 +5455,7 @@ FROM  dbo.SimilarSourceColumnPairs AS scp WITH (NOLOCK) INNER JOIN
          dbo.vwSourceColumnsFull AS s1 ON s1.SourceColumnID = scp.SourceColumnID1 INNER JOIN
          dbo.vwSourceColumnsFull AS s2 ON s2.SourceColumnID = scp.SourceColumnID2
 GO
-/****** Object:  UserDefinedFunction [dbo].[ParseEventSet]    Script Date: 4/16/2026 8:01:59 AM ******/
+/****** Object:  UserDefinedFunction [dbo].[ParseEventSet]    Script Date: 4/21/2026 7:17:02 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -5478,7 +5532,7 @@ RETURN
         CROSS APPLY string_split(r.EventSetValue, ',') s
 );
 GO
-/****** Object:  UserDefinedFunction [dbo].[EntryAndExitPoints]    Script Date: 4/16/2026 8:01:59 AM ******/
+/****** Object:  UserDefinedFunction [dbo].[EntryAndExitPoints]    Script Date: 4/21/2026 7:17:02 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -5616,7 +5670,7 @@ RETURN
     FROM combined c
 );
 GO
-/****** Object:  UserDefinedFunction [dbo].[EventSetInclusion]    Script Date: 4/16/2026 8:01:59 AM ******/
+/****** Object:  UserDefinedFunction [dbo].[EventSetInclusion]    Script Date: 4/21/2026 7:17:02 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -5703,7 +5757,7 @@ RETURN
         COUNT(DISTINCT e.[Event]) = c.EventCount
 );
 GO
-/****** Object:  View [dbo].[vwEventsFact]    Script Date: 4/16/2026 8:01:59 AM ******/
+/****** Object:  View [dbo].[vwEventsFact]    Script Date: 4/21/2026 7:17:02 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -5714,7 +5768,7 @@ SELECT e.CaseID, e.Event, e.EventDate, CONVERT(INT, CONVERT(VARCHAR(8), e.EventD
 FROM  dbo.EventsFact AS e WITH (NOLOCK) LEFT OUTER JOIN
          dbo.AggregationTypes AS at WITH (NOLOCK) ON at.AggregationTypeID = e.AggregationTypeID
 GO
-/****** Object:  UserDefinedFunction [dbo].[IntersegmentEvents]    Script Date: 4/16/2026 8:01:59 AM ******/
+/****** Object:  UserDefinedFunction [dbo].[IntersegmentEvents]    Script Date: 4/21/2026 7:17:02 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -5845,7 +5899,7 @@ RETURN
         f.EventID NOT IN (seg.EventA_ID, seg.EventB_ID)
 );
 GO
-/****** Object:  UserDefinedFunction [dbo].[EventSegments]    Script Date: 4/16/2026 8:01:59 AM ******/
+/****** Object:  UserDefinedFunction [dbo].[EventSegments]    Script Date: 4/21/2026 7:17:02 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -5946,7 +6000,7 @@ RETURN
 
 );
 GO
-/****** Object:  UserDefinedFunction [dbo].[AdjacencyMatrix]    Script Date: 4/16/2026 8:01:59 AM ******/
+/****** Object:  UserDefinedFunction [dbo].[AdjacencyMatrix]    Script Date: 4/21/2026 7:17:02 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -6018,7 +6072,7 @@ RETURNS TABLE
 
 
 GO
-/****** Object:  UserDefinedFunction [dbo].[BayesianRelationships_Full]    Script Date: 4/16/2026 8:01:59 AM ******/
+/****** Object:  UserDefinedFunction [dbo].[BayesianRelationships_Full]    Script Date: 4/21/2026 7:17:02 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -6116,7 +6170,7 @@ SELECT bp.[ModelID]
   JOIN [dbo].[Metrics] met (NOLOCK) ON met.MetricID=m.MetricID
 )
 GO
-/****** Object:  UserDefinedFunction [dbo].[CaseTypeListForEventSets]    Script Date: 4/16/2026 8:01:59 AM ******/
+/****** Object:  UserDefinedFunction [dbo].[CaseTypeListForEventSets]    Script Date: 4/21/2026 7:17:02 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -6205,7 +6259,7 @@ group by ct.eventsetkey,ct.[Count] ,	es.EventSet,
 
 )
 GO
-/****** Object:  UserDefinedFunction [dbo].[DecodeAccessBitmap]    Script Date: 4/16/2026 8:01:59 AM ******/
+/****** Object:  UserDefinedFunction [dbo].[DecodeAccessBitmap]    Script Date: 4/21/2026 7:17:02 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -6263,7 +6317,7 @@ RETURN
 		[dbo].[Access] a
 )
 GO
-/****** Object:  UserDefinedFunction [dbo].[EventPropertiesSource]    Script Date: 4/16/2026 8:01:59 AM ******/
+/****** Object:  UserDefinedFunction [dbo].[EventPropertiesSource]    Script Date: 4/21/2026 7:17:02 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -6365,7 +6419,7 @@ RETURN
 		ep.EventID=@EventID
 )
 GO
-/****** Object:  UserDefinedFunction [dbo].[FindModelSequence_retire]    Script Date: 4/16/2026 8:01:59 AM ******/
+/****** Object:  UserDefinedFunction [dbo].[FindModelSequence_retire]    Script Date: 4/21/2026 7:17:02 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -6422,7 +6476,7 @@ RETURN
 		ms.[Seq] LIKE '%'+@SeqFragment+'%'
 )
 GO
-/****** Object:  UserDefinedFunction [dbo].[getTimeMoleculesObjectMetadata]    Script Date: 4/16/2026 8:01:59 AM ******/
+/****** Object:  UserDefinedFunction [dbo].[getTimeMoleculesObjectMetadata]    Script Date: 4/21/2026 7:17:02 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -6676,18 +6730,15 @@ RETURN
             CAST(NULL AS NVARCHAR(4000)) AS Author,
             CAST(NULL AS NVARCHAR(4000)) AS Contact,
             CAST(NULL AS NVARCHAR(4000)) AS [Last Update],
-            CAST(N'Object Type: ' AS NVARCHAR(MAX)) +
-            CAST(v.type_desc COLLATE DATABASE_DEFAULT AS NVARCHAR(MAX)) +
-            CAST(N', Object Name: ' AS NVARCHAR(MAX)) +
-            CAST(s.name COLLATE DATABASE_DEFAULT AS NVARCHAR(MAX)) +
-            CAST(N'.' AS NVARCHAR(MAX)) +
-            CAST(v.name COLLATE DATABASE_DEFAULT AS NVARCHAR(MAX)) +
-            CAST(N': ' AS NVARCHAR(MAX)) +
-            CAST(COALESCE(CAST(ep.[value] AS NVARCHAR(MAX)), N'') COLLATE DATABASE_DEFAULT AS NVARCHAR(MAX)) AS Description,
-            CAST(
-                'Use when you want this view included in the Time Molecules object catalog even though it does not carry embedded metadata JSON. Helpful for metadata search, discovery, and retrieval across both programmable objects and views.'
-                AS NVARCHAR(4000)
-            ) AS Utilization,
+            CAST(v.type_desc COLLATE DATABASE_DEFAULT AS NVARCHAR(MAX)) + ' Name: ' +
+				CAST(s.name COLLATE DATABASE_DEFAULT AS NVARCHAR(MAX)) +
+				CAST(N'.' AS NVARCHAR(MAX)) +
+				CAST(v.name COLLATE DATABASE_DEFAULT AS NVARCHAR(MAX)) +
+				CAST(N': ' AS NVARCHAR(MAX)) +
+				CAST(COALESCE(CAST(ep.[value] AS NVARCHAR(MAX)), N'') COLLATE DATABASE_DEFAULT AS NVARCHAR(MAX)) + 
+				COALESCE(dbo.GetViewColumns(QUOTENAME(s.name) + '.' + QUOTENAME(v.name) ),'')
+			AS [Description],
+            CAST(NULL  AS NVARCHAR(4000)) AS Utilization,
             CAST(NULL AS NVARCHAR(MAX)) AS ParametersJson,
             CAST(NULL AS NVARCHAR(MAX)) AS OutputNotes,
             CAST(NULL AS NVARCHAR(MAX)) AS ReferencedObjectsJson,
@@ -6778,7 +6829,7 @@ RETURN
     FROM ViewMetadata
 );
 GO
-/****** Object:  UserDefinedFunction [dbo].[HiddenMarkovModels]    Script Date: 4/16/2026 8:01:59 AM ******/
+/****** Object:  UserDefinedFunction [dbo].[HiddenMarkovModels]    Script Date: 4/21/2026 7:17:02 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -6889,7 +6940,7 @@ RETURN
         )
 );
 GO
-/****** Object:  UserDefinedFunction [dbo].[ModelEventAnomalies]    Script Date: 4/16/2026 8:01:59 AM ******/
+/****** Object:  UserDefinedFunction [dbo].[ModelEventAnomalies]    Script Date: 4/21/2026 7:17:02 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -6974,7 +7025,7 @@ RETURN
 		epa.ModelID=@ModelID
 )
 GO
-/****** Object:  UserDefinedFunction [dbo].[ModelEventsByOrdinalMean]    Script Date: 4/16/2026 8:01:59 AM ******/
+/****** Object:  UserDefinedFunction [dbo].[ModelEventsByOrdinalMean]    Script Date: 4/21/2026 7:17:02 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -7035,7 +7086,7 @@ GROUP BY EventA
 )
 
 GO
-/****** Object:  UserDefinedFunction [dbo].[ModelMatrix]    Script Date: 4/16/2026 8:01:59 AM ******/
+/****** Object:  UserDefinedFunction [dbo].[ModelMatrix]    Script Date: 4/21/2026 7:17:02 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -7093,7 +7144,7 @@ RETURN
 )
 
 GO
-/****** Object:  UserDefinedFunction [dbo].[ParseCSV]    Script Date: 4/16/2026 8:01:59 AM ******/
+/****** Object:  UserDefinedFunction [dbo].[ParseCSV]    Script Date: 4/21/2026 7:17:02 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -7145,7 +7196,7 @@ RETURN
 	SELECT [value] FROM string_split(@csv,COALESCE(@delimiter,','))
 )
 GO
-/****** Object:  UserDefinedFunction [dbo].[ParseFilterProperties]    Script Date: 4/16/2026 8:01:59 AM ******/
+/****** Object:  UserDefinedFunction [dbo].[ParseFilterProperties]    Script Date: 4/21/2026 7:17:02 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -7221,7 +7272,7 @@ RETURN
     FROM OPENJSON(@FilterProperties) j
 );
 GO
-/****** Object:  UserDefinedFunction [dbo].[ParseTransforms]    Script Date: 4/16/2026 8:01:59 AM ******/
+/****** Object:  UserDefinedFunction [dbo].[ParseTransforms]    Script Date: 4/21/2026 7:17:02 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -7253,6 +7304,7 @@ Sample utilization:
     SELECT * FROM [dbo].[ParseTransforms]('{"heavytraffic":"traffic","heavytraffic":"bigtraffic"}');
 
     SELECT * FROM [dbo].[ParseTransforms]('{"moderatetraffic":"traffic","heavytraffic":"traffic","lighttraffic":"traffic","heavytraffic":"bigtraffic"}');
+    SELECT * FROM [dbo].[ParseTransforms]('arnld');
 
 Context:
     • This code is provided as-is for teaching and demonstration of the Time Molecules concepts.
@@ -7264,7 +7316,7 @@ License:
     Licensed under the MIT License. See LICENSE.md for full terms.
     (c) 2025 Eugene Asahara. All rights reserved.
 */
-CREATE   FUNCTION [dbo].[ParseTransforms]
+CREATE FUNCTION [dbo].[ParseTransforms]
 (
     @transforms NVARCHAR(MAX)
 )
@@ -7275,27 +7327,34 @@ RETURN
     WITH resolved AS
     (
         SELECT
-            COALESCE
-            (
+            CASE
+                WHEN EXISTS
                 (
-                    SELECT TOP 1 t.[transforms]
-                    FROM [dbo].[Transforms] t
-                    WHERE t.[Code] = @transforms
-                ),
-                @transforms
-            ) AS transforms_json
+                    SELECT 1
+                    FROM dbo.Transforms t
+                    WHERE t.Code = @transforms
+                )
+                THEN
+                (
+                    SELECT TOP 1 t.transforms
+                    FROM dbo.Transforms t
+                    WHERE t.Code = @transforms
+                )
+                WHEN ISJSON(@transforms) = 1
+                THEN @transforms
+                ELSE NULL
+            END AS transforms_json
     )
     SELECT
         j.[key] AS [fromkey],
         MIN(CAST(j.[value] AS NVARCHAR(20))) AS [tokey]
-    FROM
-        resolved r
-        CROSS APPLY OPENJSON(r.transforms_json) j
+    FROM resolved r
+    CROSS APPLY OPENJSON(r.transforms_json) j
     GROUP BY
         j.[key]
 );
 GO
-/****** Object:  UserDefinedFunction [dbo].[SegmentComparison]    Script Date: 4/16/2026 8:01:59 AM ******/
+/****** Object:  UserDefinedFunction [dbo].[SegmentComparison]    Script Date: 4/21/2026 7:17:02 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -7422,7 +7481,7 @@ RETURN
         AND (@EventB IS NULL OR me.EventB = @EventB)
 )
 GO
-/****** Object:  UserDefinedFunction [dbo].[SeqProb]    Script Date: 4/16/2026 8:01:59 AM ******/
+/****** Object:  UserDefinedFunction [dbo].[SeqProb]    Script Date: 4/21/2026 7:17:02 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -7523,7 +7582,7 @@ RETURN
 		t1
 )
 GO
-/****** Object:  UserDefinedFunction [dbo].[SetDefaultModelParameters]    Script Date: 4/16/2026 8:01:59 AM ******/
+/****** Object:  UserDefinedFunction [dbo].[SetDefaultModelParameters]    Script Date: 4/21/2026 7:17:02 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -7597,7 +7656,7 @@ RETURN
 		dbo.UserAccessBitmap() AS AccessBitmap
 )
 GO
-/****** Object:  UserDefinedFunction [dbo].[SourceColumnsByCaseType]    Script Date: 4/16/2026 8:01:59 AM ******/
+/****** Object:  UserDefinedFunction [dbo].[SourceColumnsByCaseType]    Script Date: 4/21/2026 7:17:02 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -7697,7 +7756,7 @@ RETURN
 
 )
 GO
-/****** Object:  UserDefinedFunction [dbo].[SourceColumnsByEventType]    Script Date: 4/16/2026 8:01:59 AM ******/
+/****** Object:  UserDefinedFunction [dbo].[SourceColumnsByEventType]    Script Date: 4/21/2026 7:17:02 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -7797,7 +7856,7 @@ RETURN
 
 )
 GO
-/****** Object:  UserDefinedFunction [dbo].[TimeIntelligenceWindow]    Script Date: 4/16/2026 8:01:59 AM ******/
+/****** Object:  UserDefinedFunction [dbo].[TimeIntelligenceWindow]    Script Date: 4/21/2026 7:17:02 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -8172,7 +8231,7 @@ SELECT
     Grain
 FROM calc;
 GO
-/****** Object:  View [dbo].[vwBayesianProbabilities_TCW]    Script Date: 4/16/2026 8:01:59 AM ******/
+/****** Object:  View [dbo].[vwBayesianProbabilities_TCW]    Script Date: 4/21/2026 7:17:02 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -8190,7 +8249,7 @@ WITH ua AS (SELECT CAST(dbo.UserAccessBitmap() AS BIGINT) AS UserAccessBitmap)
            ua AS ua_1
   WHERE (ua_1.UserAccessBitmap & ISNULL(m.AccessBitmap, 0) <> 0)
 GO
-/****** Object:  View [dbo].[vwCasePropertiesParsed]    Script Date: 4/16/2026 8:01:59 AM ******/
+/****** Object:  View [dbo].[vwCasePropertiesParsed]    Script Date: 4/21/2026 7:17:02 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -8205,7 +8264,7 @@ WITH ua AS (SELECT CAST(dbo.UserAccessBitmap() AS BIGINT) AS UserAccessBitmap)
            ua AS ua_1
   WHERE (ua_1.UserAccessBitmap & ISNULL(cp.AccessBitmap, 0) <> 0)
 GO
-/****** Object:  View [dbo].[vwCaseTypeEventCounts]    Script Date: 4/16/2026 8:01:59 AM ******/
+/****** Object:  View [dbo].[vwCaseTypeEventCounts]    Script Date: 4/21/2026 7:17:02 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -8223,7 +8282,7 @@ WITH UserAccess AS (SELECT CAST(dbo.UserAccessBitmap() AS BIGINT) AS UserAccessB
            (ua.UserAccessBitmap & c.AccessBitmap <> 0)
   GROUP BY ct.CaseTypeID, ct.Name, ct.Description, ct.IRI, e.Event, de.Description
 GO
-/****** Object:  View [dbo].[vwEventInputPropertiesFlattened]    Script Date: 4/16/2026 8:01:59 AM ******/
+/****** Object:  View [dbo].[vwEventInputPropertiesFlattened]    Script Date: 4/21/2026 7:17:02 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -8235,7 +8294,7 @@ FROM  [dbo].[EventProperties] p JOIN
          [dbo].[EventsFact] e ON e.EventID = p.EventID CROSS APPLY OPENJSON([ActualProperties])
 WHERE p.ActualProperties IS NOT NULL
 GO
-/****** Object:  View [dbo].[vwEventPropertiesParsed]    Script Date: 4/16/2026 8:01:59 AM ******/
+/****** Object:  View [dbo].[vwEventPropertiesParsed]    Script Date: 4/21/2026 7:17:02 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -8247,7 +8306,7 @@ FROM  dbo.EventPropertiesParsed AS e INNER JOIN
          dbo.SourceColumns AS sc ON sc.SourceColumnID = e.SourceColumnID INNER JOIN
          dbo.Sources AS s ON s.SourceID = sc.SourceID
 GO
-/****** Object:  View [dbo].[vwModels]    Script Date: 4/16/2026 8:01:59 AM ******/
+/****** Object:  View [dbo].[vwModels]    Script Date: 4/21/2026 7:17:02 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -8260,7 +8319,7 @@ WITH ua AS (SELECT CAST(dbo.UserAccessBitmap() AS BIGINT) AS UserAccessBitmap)
            ua AS ua_1
   WHERE (ua_1.UserAccessBitmap & ISNULL(m.AccessBitmap, 0) <> 0)
 GO
-/****** Object:  View [dbo].[vwTimeSolutionsMetadata]    Script Date: 4/16/2026 8:01:59 AM ******/
+/****** Object:  View [dbo].[vwTimeSolutionsMetadata]    Script Date: 4/21/2026 7:17:02 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON

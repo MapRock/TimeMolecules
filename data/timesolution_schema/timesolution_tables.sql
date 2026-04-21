@@ -1,6 +1,6 @@
 USE [TimeSolution]
 GO
-/****** Object:  Table [dbo].[Access]    Script Date: 4/16/2026 8:00:11 AM ******/
+/****** Object:  Table [dbo].[Access]    Script Date: 4/21/2026 7:15:29 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -15,7 +15,7 @@ CREATE TABLE [dbo].[Access](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[AggregationTypes]    Script Date: 4/16/2026 8:00:11 AM ******/
+/****** Object:  Table [dbo].[AggregationTypes]    Script Date: 4/21/2026 7:15:29 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -31,7 +31,7 @@ CREATE TABLE [dbo].[AggregationTypes](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[BayesianProbabilities]    Script Date: 4/16/2026 8:00:11 AM ******/
+/****** Object:  Table [dbo].[BayesianProbabilities]    Script Date: 4/21/2026 7:15:29 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -55,7 +55,7 @@ CREATE TABLE [dbo].[BayesianProbabilities](
 	[LastUpdate] [datetime] NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[CaseProperties]    Script Date: 4/16/2026 8:00:11 AM ******/
+/****** Object:  Table [dbo].[CaseProperties]    Script Date: 4/21/2026 7:15:29 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -71,7 +71,7 @@ CREATE TABLE [dbo].[CaseProperties](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[CasePropertiesMDM]    Script Date: 4/16/2026 8:00:11 AM ******/
+/****** Object:  Table [dbo].[CasePropertiesMDM]    Script Date: 4/21/2026 7:15:29 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -98,7 +98,7 @@ CREATE TABLE [dbo].[CasePropertiesMDM](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[CasePropertiesParsed]    Script Date: 4/16/2026 8:00:11 AM ******/
+/****** Object:  Table [dbo].[CasePropertiesParsed]    Script Date: 4/21/2026 7:15:29 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -123,7 +123,7 @@ CREATE TABLE [dbo].[CasePropertiesParsed](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Cases]    Script Date: 4/16/2026 8:00:11 AM ******/
+/****** Object:  Table [dbo].[Cases]    Script Date: 4/21/2026 7:15:29 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -148,7 +148,7 @@ CREATE TABLE [dbo].[Cases](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[CaseTypes]    Script Date: 4/16/2026 8:00:11 AM ******/
+/****** Object:  Table [dbo].[CaseTypes]    Script Date: 4/21/2026 7:15:29 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -166,7 +166,7 @@ CREATE TABLE [dbo].[CaseTypes](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[DimAnomalyCategories]    Script Date: 4/16/2026 8:00:11 AM ******/
+/****** Object:  Table [dbo].[DimAnomalyCategories]    Script Date: 4/21/2026 7:15:29 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -182,7 +182,7 @@ CREATE TABLE [dbo].[DimAnomalyCategories](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[DimDate]    Script Date: 4/16/2026 8:00:11 AM ******/
+/****** Object:  Table [dbo].[DimDate]    Script Date: 4/21/2026 7:15:29 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -201,7 +201,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[DimEvents]    Script Date: 4/16/2026 8:00:11 AM ******/
+/****** Object:  Table [dbo].[DimEvents]    Script Date: 4/21/2026 7:15:29 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -222,7 +222,7 @@ CREATE TABLE [dbo].[DimEvents](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[DimObservers]    Script Date: 4/16/2026 8:00:11 AM ******/
+/****** Object:  Table [dbo].[DimObservers]    Script Date: 4/21/2026 7:15:29 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -241,7 +241,7 @@ CREATE TABLE [dbo].[DimObservers](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[DimTime]    Script Date: 4/16/2026 8:00:11 AM ******/
+/****** Object:  Table [dbo].[DimTime]    Script Date: 4/21/2026 7:15:29 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -257,7 +257,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[EventPairAnomalies]    Script Date: 4/16/2026 8:00:11 AM ******/
+/****** Object:  Table [dbo].[EventPairAnomalies]    Script Date: 4/21/2026 7:15:29 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -279,7 +279,7 @@ CREATE TABLE [dbo].[EventPairAnomalies](
 	[MetricID] [int] NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[EventProperties]    Script Date: 4/16/2026 8:00:11 AM ******/
+/****** Object:  Table [dbo].[EventProperties]    Script Date: 4/21/2026 7:15:29 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -299,7 +299,7 @@ CREATE TABLE [dbo].[EventProperties](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[EventPropertiesMDM]    Script Date: 4/16/2026 8:00:11 AM ******/
+/****** Object:  Table [dbo].[EventPropertiesMDM]    Script Date: 4/21/2026 7:15:29 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -325,7 +325,7 @@ CREATE TABLE [dbo].[EventPropertiesMDM](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[EventPropertiesParsed]    Script Date: 4/16/2026 8:00:11 AM ******/
+/****** Object:  Table [dbo].[EventPropertiesParsed]    Script Date: 4/21/2026 7:15:29 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -353,7 +353,7 @@ CREATE TABLE [dbo].[EventPropertiesParsed](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[EventSets]    Script Date: 4/16/2026 8:00:11 AM ******/
+/****** Object:  Table [dbo].[EventSets]    Script Date: 4/21/2026 7:15:29 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -377,7 +377,7 @@ CREATE TABLE [dbo].[EventSets](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[EventsFact]    Script Date: 4/16/2026 8:00:11 AM ******/
+/****** Object:  Table [dbo].[EventsFact]    Script Date: 4/21/2026 7:15:29 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -396,7 +396,7 @@ CREATE TABLE [dbo].[EventsFact](
 	[AccessBitmap] [bigint] NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[MDMComparisonTypes]    Script Date: 4/16/2026 8:00:11 AM ******/
+/****** Object:  Table [dbo].[MDMComparisonTypes]    Script Date: 4/21/2026 7:15:29 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -410,7 +410,7 @@ CREATE TABLE [dbo].[MDMComparisonTypes](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Metrics]    Script Date: 4/16/2026 8:00:11 AM ******/
+/****** Object:  Table [dbo].[Metrics]    Script Date: 4/21/2026 7:15:29 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -428,7 +428,7 @@ CREATE TABLE [dbo].[Metrics](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Model_Stationary_Distribution]    Script Date: 4/16/2026 8:00:11 AM ******/
+/****** Object:  Table [dbo].[Model_Stationary_Distribution]    Script Date: 4/21/2026 7:15:29 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -445,7 +445,7 @@ CREATE TABLE [dbo].[Model_Stationary_Distribution](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[ModelEvents]    Script Date: 4/16/2026 8:00:11 AM ******/
+/****** Object:  Table [dbo].[ModelEvents]    Script Date: 4/21/2026 7:15:29 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -478,7 +478,7 @@ CREATE TABLE [dbo].[ModelEvents](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[ModelProperties]    Script Date: 4/16/2026 8:00:11 AM ******/
+/****** Object:  Table [dbo].[ModelProperties]    Script Date: 4/21/2026 7:15:29 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -496,7 +496,7 @@ CREATE TABLE [dbo].[ModelProperties](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Models]    Script Date: 4/16/2026 8:00:11 AM ******/
+/****** Object:  Table [dbo].[Models]    Script Date: 4/21/2026 7:15:29 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -531,7 +531,7 @@ CREATE TABLE [dbo].[Models](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[ModelSequences]    Script Date: 4/16/2026 8:00:11 AM ******/
+/****** Object:  Table [dbo].[ModelSequences]    Script Date: 4/21/2026 7:15:29 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -565,7 +565,7 @@ CREATE TABLE [dbo].[ModelSequences](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[ModelSimilarity]    Script Date: 4/16/2026 8:00:11 AM ******/
+/****** Object:  Table [dbo].[ModelSimilarity]    Script Date: 4/21/2026 7:15:29 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -587,7 +587,7 @@ CREATE TABLE [dbo].[ModelSimilarity](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[ProcErrorLog]    Script Date: 4/16/2026 8:00:11 AM ******/
+/****** Object:  Table [dbo].[ProcErrorLog]    Script Date: 4/21/2026 7:15:29 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -610,7 +610,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[SimilarSourceColumnPairs]    Script Date: 4/16/2026 8:00:11 AM ******/
+/****** Object:  Table [dbo].[SimilarSourceColumnPairs]    Script Date: 4/21/2026 7:15:29 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -622,7 +622,7 @@ CREATE TABLE [dbo].[SimilarSourceColumnPairs](
 	[Reason] [nvarchar](500) NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[SourceColumns]    Script Date: 4/16/2026 8:00:11 AM ******/
+/****** Object:  Table [dbo].[SourceColumns]    Script Date: 4/21/2026 7:15:29 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -645,7 +645,7 @@ CREATE TABLE [dbo].[SourceColumns](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Sources]    Script Date: 4/16/2026 8:00:11 AM ******/
+/****** Object:  Table [dbo].[Sources]    Script Date: 4/21/2026 7:15:29 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -669,7 +669,7 @@ CREATE TABLE [dbo].[Sources](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[TimeSolutionsMetadata]    Script Date: 4/16/2026 8:00:11 AM ******/
+/****** Object:  Table [dbo].[TimeSolutionsMetadata]    Script Date: 4/21/2026 7:15:29 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -689,7 +689,7 @@ CREATE TABLE [dbo].[TimeSolutionsMetadata](
 	[SampleCode] [nvarchar](max) NULL
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Transforms]    Script Date: 4/16/2026 8:00:11 AM ******/
+/****** Object:  Table [dbo].[Transforms]    Script Date: 4/21/2026 7:15:29 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -709,7 +709,7 @@ CREATE TABLE [dbo].[Transforms](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[UserAccessRole]    Script Date: 4/16/2026 8:00:11 AM ******/
+/****** Object:  Table [dbo].[UserAccessRole]    Script Date: 4/21/2026 7:15:29 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -727,7 +727,7 @@ CREATE TABLE [dbo].[UserAccessRole](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Users]    Script Date: 4/16/2026 8:00:11 AM ******/
+/****** Object:  Table [dbo].[Users]    Script Date: 4/21/2026 7:15:29 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -748,7 +748,7 @@ CREATE TABLE [dbo].[Users](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [DIM].[Location_Test]    Script Date: 4/16/2026 8:00:11 AM ******/
+/****** Object:  Table [DIM].[Location_Test]    Script Date: 4/21/2026 7:15:29 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -761,12 +761,13 @@ CREATE TABLE [DIM].[Location_Test](
 	[Country] [nvarchar](4000) NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [STAGE].[ImportEvents]    Script Date: 4/16/2026 8:00:11 AM ******/
+/****** Object:  Table [STAGE].[ImportEvents]    Script Date: 4/21/2026 7:15:29 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [STAGE].[ImportEvents](
+	[ImportEventID] [bigint] IDENTITY(1,1) NOT NULL,
 	[SourceID] [int] NOT NULL,
 	[CaseID] [nvarchar](1000) NOT NULL,
 	[Event] [nvarchar](50) NOT NULL,
@@ -781,10 +782,11 @@ CREATE TABLE [STAGE].[ImportEvents](
 	[DateAdded] [datetime] NOT NULL,
 	[AccessBitmap] [bigint] NOT NULL,
 	[CaseType] [nvarchar](50) NULL,
-	[NaturalKey_SourceColumnID] [int] NULL
+	[NaturalKey_SourceColumnID] [int] NULL,
+	[ValidationBitmap] [bigint] NULL
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [STAGE].[sales_event_data]    Script Date: 4/16/2026 8:00:11 AM ******/
+/****** Object:  Table [STAGE].[sales_event_data]    Script Date: 4/21/2026 7:15:29 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -807,7 +809,7 @@ CREATE TABLE [STAGE].[sales_event_data](
 	[SourceSchema] [nvarchar](50) NOT NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [WORK].[BayesianProbability]    Script Date: 4/16/2026 8:00:11 AM ******/
+/****** Object:  Table [WORK].[BayesianProbability]    Script Date: 4/21/2026 7:15:29 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -826,7 +828,7 @@ CREATE TABLE [WORK].[BayesianProbability](
 	[PB] [float] NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [WORK].[CaseCharacteristics]    Script Date: 4/16/2026 8:00:11 AM ******/
+/****** Object:  Table [WORK].[CaseCharacteristics]    Script Date: 4/21/2026 7:15:29 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -850,7 +852,7 @@ CREATE TABLE [WORK].[CaseCharacteristics](
 	[SessionID] [uniqueidentifier] NOT NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [WORK].[causeandeffectdetails]    Script Date: 4/16/2026 8:00:11 AM ******/
+/****** Object:  Table [WORK].[causeandeffectdetails]    Script Date: 4/21/2026 7:15:29 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -863,7 +865,7 @@ CREATE TABLE [WORK].[causeandeffectdetails](
 	[EventAID] [bigint] NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [WORK].[DrillThroughToModelEvents]    Script Date: 4/16/2026 8:00:11 AM ******/
+/****** Object:  Table [WORK].[DrillThroughToModelEvents]    Script Date: 4/21/2026 7:15:29 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -879,7 +881,32 @@ CREATE TABLE [WORK].[DrillThroughToModelEvents](
 	[SessionID] [uniqueidentifier] NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [WORK].[MarkovProcess]    Script Date: 4/16/2026 8:00:11 AM ******/
+/****** Object:  Table [WORK].[IntersegmentEvents]    Script Date: 4/21/2026 7:15:29 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [WORK].[IntersegmentEvents](
+	[SessionID] [uniqueidentifier] NOT NULL,
+	[Seg_ModelID] [int] NOT NULL,
+	[Seg_CaseID] [bigint] NOT NULL,
+	[Seg_EventA] [nvarchar](50) NOT NULL,
+	[Seg_EventA_ID] [bigint] NOT NULL,
+	[Seg_EventADate] [datetime2](7) NOT NULL,
+	[Seg_EventB] [nvarchar](50) NOT NULL,
+	[Seg_EventB_ID] [bigint] NOT NULL,
+	[Seg_EventBDate] [datetime2](7) NOT NULL,
+	[LagMinutes] [int] NOT NULL,
+	[LeadMinutes] [int] NOT NULL,
+	[WindowStartDate] [datetime2](7) NOT NULL,
+	[WindowEndDate] [datetime2](7) NOT NULL,
+	[CaseID] [bigint] NOT NULL,
+	[EventID] [bigint] NOT NULL,
+	[Event] [nvarchar](50) NOT NULL,
+	[EventDate] [datetime2](7) NOT NULL
+) ON [PRIMARY]
+GO
+/****** Object:  Table [WORK].[MarkovProcess]    Script Date: 4/21/2026 7:15:29 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -906,7 +933,7 @@ CREATE TABLE [WORK].[MarkovProcess](
 	[SessionID] [uniqueidentifier] NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [WORK].[ModelDrillThrough]    Script Date: 4/16/2026 8:00:11 AM ******/
+/****** Object:  Table [WORK].[ModelDrillThrough]    Script Date: 4/21/2026 7:15:29 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -927,7 +954,7 @@ CREATE TABLE [WORK].[ModelDrillThrough](
 	[EventB_SourceColumnID] [int] NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [WORK].[SelectedEvents]    Script Date: 4/16/2026 8:00:11 AM ******/
+/****** Object:  Table [WORK].[SelectedEvents]    Script Date: 4/21/2026 7:15:29 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -944,7 +971,7 @@ CREATE TABLE [WORK].[SelectedEvents](
 	[EventID] [int] NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [WORK].[semantic_web_llm_values]    Script Date: 4/16/2026 8:00:11 AM ******/
+/****** Object:  Table [WORK].[semantic_web_llm_values]    Script Date: 4/21/2026 7:15:29 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -961,7 +988,7 @@ CREATE TABLE [WORK].[semantic_web_llm_values](
 	[SampleCode] [nvarchar](max) NULL
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [WORK].[Sequences]    Script Date: 4/16/2026 8:00:11 AM ******/
+/****** Object:  Table [WORK].[Sequences]    Script Date: 4/21/2026 7:15:29 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1126,6 +1153,8 @@ ALTER TABLE [dbo].[Users] ADD  CONSTRAINT [DF_Users_LastUpdate]  DEFAULT (getdat
 GO
 ALTER TABLE [dbo].[Users] ADD  CONSTRAINT [DF_Users_IsActive]  DEFAULT ((1)) FOR [IsActive]
 GO
+ALTER TABLE [STAGE].[ImportEvents] ADD  CONSTRAINT [DF_ImportEvents_SourceID]  DEFAULT ((0)) FOR [SourceID]
+GO
 ALTER TABLE [STAGE].[ImportEvents] ADD  CONSTRAINT [DF_ImportEvents_DateAdded]  DEFAULT (getdate()) FOR [DateAdded]
 GO
 ALTER TABLE [STAGE].[ImportEvents] ADD  CONSTRAINT [DF_ImportEvents_AccessBitmap]  DEFAULT ((-1)) FOR [AccessBitmap]
@@ -1250,6 +1279,8 @@ EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'PK of the Anom
 GO
 EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'The IRI (Internation Resource Identifier) is the gateway to a knowledge graph.' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'DimAnomalyCategories', @level2type=N'COLUMN',@level2name=N'IRI'
 GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Anomaly categories. these are events in a markov model that exceed some threshold.' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'DimAnomalyCategories'
+GO
 EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'PK of the Dates table.' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'DimDate', @level2type=N'COLUMN',@level2name=N'DateKey'
 GO
 EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'PK of the DimEvents table.' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'DimEvents', @level2type=N'COLUMN',@level2name=N'Event'
@@ -1368,7 +1399,9 @@ EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Central table 
 GO
 EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Applies to the CasePropertiesMDM and EventPropertiesMDM tables. Those two tables hold a "golden value" for case and event properties, respectively. Some, such as GPS coordinates probably will not be exact, so we assign a value between 0-1. For the case of GPS coordinates, it''s a distance which should be normalized into a value between 0-1.' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'MDMComparisonTypes'
 GO
-EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'See dbo.MarkovChain to see how this is applied. ex: 0=EventBInput-EventAOutput, 1=EventBInput-EventAInput' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Metrics', @level2type=N'COLUMN',@level2name=N'Method'
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Integer code that specifies how the metric is calculated from event data, rather than what the metric is named. Supported values are 0 = direct current reading, 1 = change from the prior event’s actual value, 2 = expected minus actual at the current event (often useful for leak, friction, slippage, or other process loss), 3 = current actual value interpreted as backlog, bottleneck, queue, or load, and 4 = percentage change from the previous event. This makes the metric framework suitable for multiple kinds of process intelligence, from simple state measurement to change, deviation, accumulation, and flow behavior. 
+
+See stored proc MarkovProcess2 to see how this is used.' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Metrics', @level2type=N'COLUMN',@level2name=N'Method'
 GO
 EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Unit of Measure' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Metrics', @level2type=N'COLUMN',@level2name=N'UoM'
 GO
@@ -1517,6 +1550,8 @@ EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'PK of the User
 GO
 EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Alternate key.' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Users', @level2type=N'COLUMN',@level2name=N'UserID'
 GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Primary Key so that we can update, mostly update ValidationBitmap' , @level0type=N'SCHEMA',@level0name=N'STAGE', @level1type=N'TABLE',@level1name=N'ImportEvents', @level2type=N'COLUMN',@level2name=N'ImportEventID'
+GO
 EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Could be JSON of parts comprising the natural key.' , @level0type=N'SCHEMA',@level0name=N'STAGE', @level1type=N'TABLE',@level1name=N'ImportEvents', @level2type=N'COLUMN',@level2name=N'SourceID'
 GO
 EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Really, the naturalkey of the case. it will be imported as Case.NaturalKey.' , @level0type=N'SCHEMA',@level0name=N'STAGE', @level1type=N'TABLE',@level1name=N'ImportEvents', @level2type=N'COLUMN',@level2name=N'CaseID'
@@ -1528,6 +1563,19 @@ GO
 EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Default of -1 means all bits are set.' , @level0type=N'SCHEMA',@level0name=N'STAGE', @level1type=N'TABLE',@level1name=N'ImportEvents', @level2type=N'COLUMN',@level2name=N'AccessBitmap'
 GO
 EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Should be the same as CaseTypes.[Name], which is the "code" for case types.' , @level0type=N'SCHEMA',@level0name=N'STAGE', @level1type=N'TABLE',@level1name=N'ImportEvents', @level2type=N'COLUMN',@level2name=N'CaseType'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'	DECLARE @VB_EventLenOver50                    INT = 1;    -- 1
+	DECLARE @VB_CasePropertiesNotJSON             INT = 2;    -- 2
+	DECLARE @VB_BadCaseType                       INT = 4;    -- 4
+	DECLARE @VB_InvalidSourceID                   INT = 8;    -- 8
+	DECLARE @VB_EventActualPropertiesNotJSON      INT = 16;   -- 16
+	DECLARE @VB_CaseIDLenOver200                  INT = 32;   -- 32
+	DECLARE @VB_CaseTargetPropertiesNotJSON       INT = 64;   -- 64
+	DECLARE @VB_EventExpectedPropertiesNotJSON    INT = 128;  -- 128
+	DECLARE @VB_EventAggregationPropertiesNotJSON INT = 256;  -- 256
+	DECLARE @VB_EventIntendedPropertiesNotJSON    INT = 512;  -- 512
+	DECLARE @VB_EventDateNotDateTime              INT = 1024; -- 1024
+	DECLARE @VB_EventDescriptionLenOver200        INT = 2048; -- 2048' , @level0type=N'SCHEMA',@level0name=N'STAGE', @level1type=N'TABLE',@level1name=N'ImportEvents', @level2type=N'COLUMN',@level2name=N'ValidationBitmap'
 GO
 EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'This is the standard import table. everything should be loaded into this table.' , @level0type=N'SCHEMA',@level0name=N'STAGE', @level1type=N'TABLE',@level1name=N'ImportEvents'
 GO
