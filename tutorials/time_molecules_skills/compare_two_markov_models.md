@@ -219,4 +219,4 @@ To compare similarity between two Markov models in TimeSolution:
    * and persist the result in `dbo.ModelSimilarity`.
 4. Query `dbo.ModelSimilarity` later for reuse, ranking, grouping, or recommendations.
 
-If you want, I can also turn this into the GitHub-ready markdown tutorial in the same style as your adjacency-matrix tutorial.
+
