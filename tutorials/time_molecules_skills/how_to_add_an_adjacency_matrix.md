@@ -293,4 +293,4 @@ For an AI agent, the simplest rule is:
 * **Need an inline `SELECT` and legacy is acceptable?** Use `dbo.AdjacencyMatrix`.
 * **Need persistent reusable model rows in `Models` / `ModelEvents`?** Use `dbo.CreateUpdateMarkovProcess` instead.
 
-If you want, I can turn this into a GitHub-ready `.md` page in your usual documentation style.
+
