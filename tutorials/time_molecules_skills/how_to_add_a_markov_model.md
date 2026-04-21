@@ -85,6 +85,4 @@ SELECT @ModelID AS ModelID;
 
 That is the basic pattern: call the procedure, capture the returned `ModelID`, and then use that ID to inspect `Models`, `ModelEvents`, or downstream comparison routines.
 
----
 
-One caution: I based this on the current TimeSolution scripts and metadata comments, and the procedure name there is **`CreateUpdateMarkovProcess`**, not `CreateUpdateMarkovModel`. If you want, I can turn this into a polished markdown article in your usual style.
