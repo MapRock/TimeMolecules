@@ -1,7 +1,7 @@
 # TimeSolution.bak - Official SQL Server Sample Database for Time Molecules
 
 This `.bak` file is the official backup used for tutorials and examples in the book  
-**<i>Time Molecules</i> by Eugene Asahara** (Technics Publications, 2025).
+**<i>[Time Molecules](https://technicspub.com/time-molecules/)</i> by Eugene Asahara** (Technics Publications, 2025).
 
 ---
 
