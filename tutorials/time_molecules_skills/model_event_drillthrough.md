@@ -562,7 +562,6 @@ For an AI agent, the simplest rule is:
 * Need to compare models structurally? Use `dbo.InsertModelSimilarities`.
 * Need to enrich the transition with semantic metadata? Join the drill-through output to `dbo.SourceColumns`.
 
-If you want, I can turn this into an even tighter repo-ready page with your usual footer and wording conventions.
 
 [1]: https://github.com/MapRock/TimeMolecules/blob/main/tutorials/time_molecules_skills/compare_two_markov_models.md "TimeMolecules/tutorials/time_molecules_skills/compare_two_markov_models.md at main · MapRock/TimeMolecules · GitHub"
 [2]: https://github.com/MapRock/TimeMolecules/blob/main/tutorials/time_molecules_skills/how_to_add_an_adjacency_matrix.md "TimeMolecules/tutorials/time_molecules_skills/how_to_add_an_adjacency_matrix.md at main · MapRock/TimeMolecules · GitHub"
