@@ -1,6 +1,6 @@
 # Property-Level MDM and Semantic Mapping for Case and Event Properties
 
-> **Warning:** This capability is **not yet fully implemented** in Time Solution. The tables described here exist in the schema, and their intended role is clear, but the operational stewardship workflow and downstream usage are still incomplete. I plan to implement this more fully in the next refresh.
+> **Note:** This capability is **not yet fully implemented** in Time Solution. The tables described here exist in the schema, and their intended role is clear, but the operational stewardship workflow and downstream usage are still incomplete. I plan to implement this more fully in the next refresh.
 
 ## Purpose
 
@@ -12,8 +12,8 @@ Their purpose is similar in spirit to event `Transforms`, but at the **property-
 
 The parsed property tables capture what was observed:
 
-- `CasePropertiesParsed` stores case-level property values such as `PropertyName`, `PropertyValueNumeric`, `PropertyValueAlpha`, and `SourceColumnID`. :contentReference[oaicite:2]{index=2}
-- `EventPropertiesParsed` stores event-level property values with similar columns, plus `PropertySource`, `EventID`, and contextual event attributes. :contentReference[oaicite:3]{index=3}
+- `CasePropertiesParsed` stores case-level property values such as `PropertyName`, `PropertyValueNumeric`, `PropertyValueAlpha`, and `SourceColumnID`. 
+- `EventPropertiesParsed` stores event-level property values with similar columns, plus `PropertySource`, `EventID`, and contextual event attributes. 
 
 Those parsed tables are useful for filtering and analysis, but they do not by themselves provide a governed semantic identity. That is where the MDM tables come in.
 
@@ -45,7 +45,7 @@ Important columns include:
 - `SimilarityScore`
 - `MDMComparisonTypeID`
 - `MDM_Parent_CasePropertiesMDMID`
-- `MDM_IRI` :contentReference[oaicite:5]{index=5}
+- `MDM_IRI` 
 
 ### `EventPropertiesMDM`
 
@@ -53,18 +53,18 @@ Important columns include:
 
 Important columns include:
 
-- `SourceColumnID`
-- `PropertyName`
-- `PropertyValueNumeric`
-- `PropertyValueAlpha`
-- `MDMSourceColumnID`
-- `MDMName`
-- `MDMValueNumeric`
-- `MDMValueAlpha`
-- `SimilarityScore`
-- `MDMComparisonTypeID`
-- `MDM_IRI`
-- `MDM_Parent_EventPropertiesMDMID` :contentReference[oaicite:7]{index=7}
+- `SourceColumnID` — Identifies the source column associated with the original event property being standardized or matched. 
+- `PropertyName` — Name of the original event property from the source event data. 
+- `PropertyValueNumeric` — Numeric value of the original event property, when the property is represented as a number. 
+- `PropertyValueAlpha` — Text value of the original event property, when the property is represented as text. 
+- `MDMSourceColumnID` — Identifies the source column associated with the MDM-side property or standardized comparison target. 
+- `MDMName` — Standardized MDM property name corresponding to the source event property. 
+- `MDMValueNumeric` — Numeric MDM value associated with the standardized or matched property. 
+- `MDMValueAlpha` — Text MDM value associated with the standardized or matched property. 
+- `SimilarityScore` — Score indicating how closely the source property/value matches the MDM property/value. 
+- `MDMComparisonTypeID` — Identifies the comparison method or matching rule used to relate the source property to the MDM property. 
+- `MDM_IRI` — IRI for the matched MDM concept, enabling linkage to semantic web or knowledge graph representations. 
+- `MDM_Parent_EventPropertiesMDMID` — References a parent `EventPropertiesMDM` row, supporting parent-child hierarchy for drill-up and drill-down across standardized event properties. :{index=11}
 
 ## How this is intended to work
 
