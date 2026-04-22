@@ -1,0 +1,27 @@
+# ============================================================
+# Time Molecules AI Agent Skills - Python Requirements
+#
+# Intended to cover the main Python scripts in this tutorial area,
+# including:
+# - build_qdrant_index.py
+# - time_molecules_agent_demo_retrofit.py   (UI)
+# - parse_parameters_outputs.py
+# - write_to_import_events.py
+#
+# Notes:
+# - tkinter is part of standard Python on Windows and is not listed here.
+# - If "from matplotlib import text" is removed from build_qdrant_index.py
+#   and the UI does not otherwise need matplotlib, you can remove matplotlib.
+# - openai is set to the newer client line because the retrofit should be
+#   small and is worth doing.
+# ============================================================
+
+qdrant-client>=1.9.0
+openai>=1.0.0
+pyodbc>=5.0.0
+pandas>=2.0.0
+requests>=2.31.0
+ollama>=0.3.0
+python-dotenv>=1.0.0
+pandastable>=0.14.0
+matplotlib>=3.8.0
