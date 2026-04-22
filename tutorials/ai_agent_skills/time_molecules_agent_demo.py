@@ -31,7 +31,7 @@ from pandastable import Table
 import pyodbc
 
 import ollama
-import openai
+from openai import OpenAI
 from dotenv import load_dotenv
 
 import write_to_import_events as imp
@@ -85,11 +85,12 @@ CONN_DRIVER = os.getenv("TIMESOLUTION_CONNECTION_DRIVER", "ODBC Driver 18 for SQ
 
 case_id = ""
 
-if llm== "openai":
+if llm == "openai":
     if not OPENAI_API_KEY:
-        raise RuntimeError("OPENAI_API_KEY must be set in .env or environment variables to use OpenAI as LLM.")
-    else:
-        openai.api_key = OPENAI_API_KEY
+        raise RuntimeError(
+            "OPENAI_API_KEY must be set in .env or environment variables to use OpenAI as LLM."
+        )
+    OPENAI_CLIENT = OpenAI(api_key=OPENAI_API_KEY)
 
 # For logging AI agent workflow stages to TimeSolution's STAGE.ImportEvents
 workflow_name = "AI Agent Task"
@@ -212,15 +213,17 @@ class BaseAgent:
     
     def ask_llm_raw(self, prompt: str) -> str:
         if llm == "openai":
-            response = openai.ChatCompletion.create(
+            if OPENAI_CLIENT is None:
+                raise RuntimeError("OpenAI client is not initialized.")
+
+            response = OPENAI_CLIENT.chat.completions.create(
                 model=CHATGPT_MODEL,
                 messages=[
                     {"role": "user", "content": prompt},
                 ],
                 max_tokens=80,
             )
-            return response["choices"][0]["message"]["content"].strip()
-
+            return get_openai_message_text(response)
         elif llm == "ollama":
             response = OLLAMA_CLIENT.chat(
                 model=OLLAMA_CHAT_MODEL,
@@ -291,7 +294,10 @@ class BaseAgent:
 
 
         if llm == "openai":
-            response = openai.ChatCompletion.create(
+            if OPENAI_CLIENT is None:
+                raise RuntimeError("OpenAI client is not initialized.")
+
+            response = OPENAI_CLIENT.chat.completions.create(
                 model=CHATGPT_MODEL,
                 messages=[
                     {"role": "system", "content": system_prompt},
@@ -299,7 +305,7 @@ class BaseAgent:
                 ],
                 max_tokens=MAX_TOKENS,
             )
-            response_message = response["choices"][0]["message"]["content"].strip()
+            response_message = get_openai_message_text(response)
 
         elif llm == "ollama":
             response = OLLAMA_CLIENT.chat(
@@ -659,6 +665,12 @@ class PrimaryAgent(BaseAgent):
             lines.append("")
 
         return "\n".join(lines).strip()
+    
+def get_openai_message_text(response) -> str:
+    if not response or not response.choices:
+        return ""
+    message = response.choices[0].message
+    return (message.content or "").strip()
 
 
 # Gitub URL helper to convert GitHub URLs to raw content URLs when possible, especially for folders (pointing to README.md)

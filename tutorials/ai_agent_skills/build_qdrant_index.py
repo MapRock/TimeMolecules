@@ -19,7 +19,7 @@ from matplotlib import text
 from qdrant_client import QdrantClient
 from qdrant_client.models import Distance, VectorParams, PointStruct
 
-import openai
+from openai import OpenAI
 
 import hashlib
 import os
@@ -55,6 +55,8 @@ else:
 # ----------------------------
 # Config
 # ----------------------------
+
+OPENAI_CLIENT = None
 
 collection_name = "time_molecules_directory"
 
@@ -205,14 +207,16 @@ def embed_text_ollama(text: str) -> list[float]:
     
     return embeddings[0]
 
-def embed_text_openai(text):
+def embed_text_openai(text: str) -> list[float]:
+    if OPENAI_CLIENT is None:
+        raise RuntimeError("OPENAI client is not initialized.")
 
-    response = openai.Embedding.create(
+    response = OPENAI_CLIENT.embeddings.create(
         model=EMBED_MODEL,
-        input=text
+        input=text,
     )
 
-    return response["data"][0]["embedding"]
+    return response.data[0].embedding
 
 
 def make_stable_int_id(object_name: str, object_type: str) -> int:
@@ -525,9 +529,14 @@ if __name__ == "__main__":
 
     if llm == "openai":
         MAX_TOKENS = int(os.getenv("CHATGPT_MAX_RESPONSE_TOKENS", "220"))
-        openai.api_key = os.getenv("OPENAI_API_KEY")
-        EMBED_MODEL = os.getenv("CHATGPT_EMBEDDING_MODEL")
-        CHATGPT_MODEL = os.getenv("CHATGPT_MODEL")
+        OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
+        if not OPENAI_API_KEY:
+            raise RuntimeError("OPENAI_API_KEY must be set in .env or environment variables.")
+
+        OPENAI_CLIENT = OpenAI(api_key=OPENAI_API_KEY)
+
+        EMBED_MODEL = os.getenv("CHATGPT_EMBEDDING_MODEL", "text-embedding-3-large")
+        CHATGPT_MODEL = os.getenv("CHATGPT_MODEL", "gpt-4.1")
         client = QdrantClient(path=os.getenv("QDRANT_PATH", "./qdrant_data_openai"))
         print("✅ Using OpenAI for embeddings.")
     elif llm == "ollama":
