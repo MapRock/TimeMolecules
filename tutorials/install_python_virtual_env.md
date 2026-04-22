@@ -324,3 +324,144 @@ python -m pip install --upgrade pip
 pip install -r ai_agent_skills\requirements.txt
 ```
 
+Here’s a drop-in section for `tutorials/install_python_virtual_env.md`.
+
+---
+
+Yes — you’re right on both counts.
+
+I accidentally let your local setup leak into the general instructions.
+
+What needs fixing:
+
+* **`C:\python310` is not typical**. That was your machine, not a user assumption.
+* The activation path is only correct if the venv was created in **`tutorials`**. Since your file is `tutorials/install_python_virtual_env.md`, the instructions need to be explicit that the user should be **in the `tutorials` folder** when creating and activating it.
+
+Here’s a corrected, **drop-in replacement** section for that file that is user-facing and general.
+
+---
+
+# Do I need to recreate or restart the virtual environment every time?
+
+No. You only **create** the virtual environment once.
+
+From the **`tutorials`** folder, run one of these:
+
+```powershell
+py -m venv .venv
+```
+
+or, if `py` is not available but `python` is:
+
+```powershell
+python -m venv .venv
+```
+
+This creates the `.venv` folder **inside `tutorials`**.
+
+## What you do need to do each time
+
+Each time you:
+
+* reboot your laptop
+* open a new PowerShell window
+* open a new VS Code terminal
+
+you need to **activate** the virtual environment again for that session.
+
+But first, make sure you are in the **`tutorials`** folder.
+
+Then run:
+
+```powershell
+.\.venv\Scripts\Activate.ps1
+```
+
+If activation works, you will usually see something like this at the beginning of the prompt:
+
+```text
+(.venv)
+```
+
+That means the current shell is using the virtual environment.
+
+## Simple way to think about it
+
+* **Create** the virtual environment once
+* **Activate** it each time you start a new session
+
+The virtual environment stays on disk after it is created. Rebooting the computer does **not** delete it. Activation just tells the current PowerShell or VS Code terminal to use it.
+
+## Typical daily use
+
+After the virtual environment has already been created, the normal pattern is:
+
+1. Open File Explorer
+2. Go to the `tutorials` folder in the repository
+3. Type `powershell` in the address bar
+4. Press **Enter**
+5. Run:
+
+```powershell
+.\.venv\Scripts\Activate.ps1
+```
+
+That is all you need to do before running the tutorial Python files.
+
+## If PowerShell blocks activation
+
+If PowerShell says script execution is disabled, run this once:
+
+```powershell
+Set-ExecutionPolicy -Scope CurrentUser RemoteSigned
+```
+
+Then answer:
+
+```text
+Y
+```
+
+and activate again:
+
+```powershell
+.\.venv\Scripts\Activate.ps1
+```
+
+## VS Code note
+
+If you are using VS Code and have already selected the interpreter inside:
+
+```text
+tutorials\.venv\Scripts\python.exe
+```
+
+then VS Code may use that environment automatically for running Python files. Even so, it is still normal for a new terminal window to require activation if you want the terminal itself to use the same environment.
+
+## Important note
+
+These instructions assume the virtual environment was created from the **`tutorials`** folder. If you created `.venv` somewhere else, the activation path will be different.
+
+---
+
+And if you want, I’d also tighten the earlier creation section so it does **not** imply a hardcoded Python location. The safer wording is:
+
+````md
+From the `tutorials` folder, create the virtual environment with:
+
+```powershell
+py -m venv .venv
+````
+
+If `py` is not available, try:
+
+```powershell
+python -m venv .venv
+```
+
+If neither works, Python may not be installed or may not be available from your command line.
+
+```
+
+The core fix is: **instructions should be relative to `tutorials`, not to your personal Python install path.**
+```
