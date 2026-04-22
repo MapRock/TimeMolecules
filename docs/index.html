@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Time Molecules • Live Semantic Search Demo</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@xenova/transformers@2.17.2"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+    body { font-family: 'Inter', system_ui, sans-serif; }
+  </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+  <div class="max-w-5xl mx-auto p-6">
+    <div class="flex items-center justify-between mb-8">
+      <div>
+        <h1 class="text-4xl font-semibold text-gray-900 flex items-center gap-3">
+          <span class="text-blue-600">⟐</span> Time Molecules
+        </h1>
+        <p class="text-gray-600 mt-1">Live semantic search • no install • powered by your Qdrant collection</p>
+      </div>
+      <a href="https://github.com/MapRock/TimeMolecules" target="_blank"
+         class="text-gray-500 hover:text-gray-700 flex items-center gap-2">
+        <i class="fab fa-github"></i> GitHub
+      </a>
+    </div>
+
+    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 mb-8">
+      <input id="searchInput" type="text" placeholder="Ask anything about Time Molecules (e.g. 'how are Markov models created?')"
+             class="w-full px-5 py-4 text-lg border border-gray-200 focus:border-blue-500 focus:outline-none rounded-xl">
+      <button onclick="performSearch()" 
+              class="mt-4 bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-xl font-medium flex items-center gap-2">
+        <i class="fas fa-search"></i> Search
+      </button>
+    </div>
+
+    <div id="results" class="space-y-6"></div>
+  </div>
+
+  <script>
+    let pointsData = [];
+    let embedder = null;
+
+    async function loadData() {
+      const resp = await fetch('data.json');
+      pointsData = await resp.json();
+      console.log(`✅ Loaded ${pointsData.length} Time Molecules documents`);
+    }
+
+    async function getEmbedding(text) {
+      if (!embedder) {
+        embedder = await pipeline('feature-extraction', 'Xenova/nomic-embed-text-v1');
+      }
+      const output = await embedder(text, { pooling: 'mean', normalize: true });
+      return Array.from(output.data);
+    }
+
+    function cosineSimilarity(a, b) {
+      let dot = 0, normA = 0, normB = 0;
+      for (let i = 0; i < a.length; i++) {
+        dot += a[i] * b[i];
+        normA += a[i] * a[i];
+        normB += b[i] * b[i];
+      }
+      return dot / (Math.sqrt(normA) * Math.sqrt(normB));
+    }
+
+    async function performSearch() {
+      const query = document.getElementById('searchInput').value.trim();
+      if (!query) return;
+
+      const resultsDiv = document.getElementById('results');
+      resultsDiv.innerHTML = `<div class="text-center py-12"><i class="fas fa-spinner fa-spin text-4xl text-blue-600"></i><p class="mt-4 text-gray-500">Searching semantically...</p></div>`;
+
+      const queryVector = await getEmbedding(query);
+
+      const scored = pointsData.map(item => {
+        const score = cosineSimilarity(queryVector, item.payload.embedding || []);
+        return { ...item, score };
+      }).sort((a, b) => b.score - a.score).slice(0, 12);
+
+      renderResults(scored);
+    }
+
+    function renderResults(results) {
+      const div = document.getElementById('results');
+      if (!results.length) {
+        div.innerHTML = `<p class="text-gray-500">No matches found.</p>`;
+        return;
+      }
+
+      div.innerHTML = results.map(r => {
+        const p = r.payload;
+        return `
+          <div class="bg-white border border-gray-100 rounded-2xl p-6 hover:shadow-md transition">
+            <div class="flex justify-between">
+              <div class="font-medium text-lg">${p.ObjectName || 'Untitled'}</div>
+              <span class="px-3 py-1 text-xs font-medium bg-blue-100 text-blue-700 rounded-full">${p.ObjectType || 'Document'}</span>
+            </div>
+            <div class="mt-3 text-gray-600 text-sm">${(p.Description || p.Utilization || '').substring(0, 280)}${(p.Description || p.Utilization || '').length > 280 ? '...' : ''}</div>
+            ${p.URL ? `<a href="${p.URL}" target="_blank" class="mt-4 text-blue-600 hover:underline text-sm flex items-center gap-1"><i class="fas fa-external-link-alt"></i> Open in repo</a>` : ''}
+          </div>`;
+      }).join('');
+    }
+
+    // Initialize
+    window.onload = async () => {
+      await loadData();
+      // Optional: demo query on load
+      document.getElementById('searchInput').focus();
+    };
+  </script>
+</body>
+</html>
