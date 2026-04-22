@@ -465,3 +465,27 @@ If neither works, Python may not be installed or may not be available from your 
 
 The core fix is: **instructions should be relative to `tutorials`, not to your personal Python install path.**
 ```
+
+## Ollama and Qdrant
+
+Some tutorials use Ollama and Qdrant. Their Python packages are already included in `python_requirements.txt`.
+
+### Important
+
+The `ollama` Python package is only the client library. To run local Ollama models, you must also install the Ollama application/runtime separately and make sure it is running.
+
+### Install Ollama
+
+Some tutorials use Ollama for local model inference. The `ollama` Python package in `python_requirements.txt` is only the Python client. You must also install the Ollama runtime separately.
+
+Install Ollama using the official documentation:
+
+- Quickstart: https://docs.ollama.com/quickstart
+- Windows: https://docs.ollama.com/windows
+- macOS: https://docs.ollama.com/macos
+- Linux: https://docs.ollama.com/linux
+
+After installing Ollama, verify it is running and pull a model, for example:
+
+```bash
+ollama run llama3.2
