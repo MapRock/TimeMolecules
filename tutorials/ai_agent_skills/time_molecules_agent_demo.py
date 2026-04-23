@@ -8,89 +8,50 @@ Part of tutorials/ai_agent_skills
 Run build_qdrant_index.py first, then the demo.
 Uses .env + local Qdrant folder.
 """
-
 from pickle import GLOBAL
 import re
-
 import csv
-
-from qdrant_client import QdrantClient
-from qdrant_client.models import Filter, FieldCondition, MatchAny
-
 import json
 import os
 import threading
 from datetime import datetime
 from pathlib import Path
-from tkinter import Tk, Label, Button, END, BOTH, X, Frame, LEFT, BooleanVar, Checkbutton, Spinbox, IntVar
+from tkinter import Tk, Label, Button, END, BOTH, X, Frame, LEFT, BooleanVar, Checkbutton, Spinbox, IntVar, StringVar
 from tkinter.scrolledtext import ScrolledText
 from tkinter import ttk
-import requests
+
 import pandas as pd
-from pandastable import Table
 import pyodbc
+import requests
+from pandastable import Table
+from qdrant_client import QdrantClient
+from qdrant_client.models import Filter, FieldCondition, MatchAny
 
-import ollama
-from openai import OpenAI
-from dotenv import load_dotenv
-
+from shared_llm import load_env_upward, read_llm_config, SharedLLM
 import write_to_import_events as imp
 
+load_env_upward(__file__)
 
-# ----------------------------
-# Load .env (search upward)
-# ----------------------------
-current = Path(__file__).resolve()
-env_path = None
+LLM_CONFIG = read_llm_config()
+SHARED_LLM = SharedLLM(LLM_CONFIG)
 
-for parent in [current.parent, *current.parents]:
-    candidate = parent / ".env"
-    if candidate.exists():
-        env_path = candidate
-        break
+llm = LLM_CONFIG.chat_llm
+EMBED_LLM = LLM_CONFIG.embed_llm
+EMBED_MODEL = LLM_CONFIG.embed_model
+QDRANT_PATH = LLM_CONFIG.qdrant_path
+COLLECTION_NAME = LLM_CONFIG.collection_name
+MAX_TOKENS = LLM_CONFIG.max_tokens
+ctx = LLM_CONFIG.ollama_ctx
 
-if env_path:
-    load_dotenv(env_path)
-    print(f"✅ Loaded .env from: {env_path}")
-else:
-    print("⚠️ .env not found. Falling back to system environment variables.")
-
-
-# ----------------------------
-# Config
-# ----------------------------
-
-llm=os.getenv("LLM", "ollama").lower() 
-
-
-COLLECTION_NAME = os.getenv("QDRANT_COLLECTION_NAME", "time_molecules_directory")
-QDRANT_PATH = os.getenv("QDRANT_PATH", "c:/MapRock/TimeMolecules/qdrant_data_ollama")
+RESULTS_LIMIT = int(os.getenv("RESULTS_LIMIT", "5"))
 DEFAULT_OUTPUT_DIR = os.getenv("DEFAULT_OUTPUT_DIR", str(Path(__file__).resolve().parent / "output"))
 
-OLLAMA_HOST = os.getenv("OLLAMA_HOST", None)
-OLLAMA_EMBED_MODEL = os.getenv("OLLAMA_EMBED_MODEL", "nomic-embed-text")
-OLLAMA_CHAT_MODEL = os.getenv("OLLAMA_CHAT_MODEL", "llama3.2")
-RESULTS_LIMIT = int(os.getenv("RESULTS_LIMIT", "5"))
-ctx = int(os.getenv("OLLAMA_CTX", 8192))
-
-# openai config variables.
-OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
-CHATGPT_MODEL = os.getenv("CHATGPT_MODEL", "gpt-4o-mini")
-MAX_TOKENS = int(os.getenv("CHATGPT_MAX_RESPONSE_TOKENS", "500"))
-
-# Time Solution DB connection config (if you want to execute SQL against it)
 SERVER = os.getenv("TIMESOLUTION_SERVER_NAME")
 DATABASE = os.getenv("TIMESOLUTION_DATABASE_NAME")
 CONN_DRIVER = os.getenv("TIMESOLUTION_CONNECTION_DRIVER", "ODBC Driver 18 for SQL Server")
 
 case_id = ""
 
-if llm == "openai":
-    if not OPENAI_API_KEY:
-        raise RuntimeError(
-            "OPENAI_API_KEY must be set in .env or environment variables to use OpenAI as LLM."
-        )
-    OPENAI_CLIENT = OpenAI(api_key=OPENAI_API_KEY)
 
 # For logging AI agent workflow stages to TimeSolution's STAGE.ImportEvents
 workflow_name = "AI Agent Task"
@@ -209,123 +170,35 @@ class BaseAgent:
     def run(self, context):
         raise NotImplementedError("Subclasses must implement the run() method.")
     
-
-    
     def ask_llm_raw(self, prompt: str) -> str:
-        if llm == "openai":
-            if OPENAI_CLIENT is None:
-                raise RuntimeError("OpenAI client is not initialized.")
-
-            response = OPENAI_CLIENT.chat.completions.create(
-                model=CHATGPT_MODEL,
-                messages=[
-                    {"role": "user", "content": prompt},
-                ],
-                max_tokens=80,
-            )
-            return get_openai_message_text(response)
-        elif llm == "ollama":
-            response = OLLAMA_CLIENT.chat(
-                model=OLLAMA_CHAT_MODEL,
-                messages=[
-                    {"role": "user", "content": prompt},
-                ],
-                options={"num_ctx": ctx}
-            )
-            message = response.get("message", {})
-            return message.get("content", "").strip()
-
-        else:
-            raise ValueError(f"Unsupported llm: {llm}")
+        return SHARED_LLM.chat_once(
+            [{"role": "user", "content": prompt}],
+            max_tokens=80,
+        )
     
-    def embed_text(self,text: str) -> list[float]:
-
-        def _clean_for_embedding(text: str) -> str:
-            """
-            Clean text before sending to an embedding model.
-            Removes brackets and noisy punctuation while preserving meaning.
-            Expands SQL/CamelCase identifiers for better embeddings.
-            """
-            if not text:
-                return ""
-
-            text = str(text)
-
-            # 1. Replace common problematic characters with space
-            text = text.replace("[", "").replace("]", "")
-            text = text.replace("{", "").replace("}", "")
-            text = text.replace("(", "").replace(")", "")
-
-            # 2. Replace SQL/schema separators and identifier separators
-            text = text.replace("dbo.", "")
-            text = re.sub(r"[_\-]+", " ", text)
-
-            # 3. Split camelCase / PascalCase:
-            # EventPropertiesParsed -> Event Properties Parsed
-            text = re.sub(r"(?<=[a-z0-9])(?=[A-Z])", " ", text)
-
-            # 4. Split acronym followed by word:
-            # JSONPropertyValue -> JSON Property Value
-            text = re.sub(r"(?<=[A-Z])(?=[A-Z][a-z])", " ", text)
-
-            # 5. Normalize whitespace
-            text = re.sub(r"\s+", " ", text).strip()
-
-            return text
-          
-        response = OLLAMA_CLIENT.embed(model=OLLAMA_EMBED_MODEL, input=_clean_for_embedding(text))
-
-        embeddings = response.get("embeddings")
-        if not embeddings or not embeddings[0]:
-            raise ValueError("Ollama returned no embedding.")
-
-        return embeddings[0]
+    def embed_text(self, text: str) -> list[float]:
+        return SHARED_LLM.embed_text(text)
     
     def ask_llm(self, call) -> str:
         self.call_log.append(call)
 
-        chat_model = CHATGPT_MODEL if llm == "openai" else OLLAMA_CHAT_MODEL
-        print(f"Calling {llm} chat with model: {chat_model}")
-
+        print(f"Calling {llm} chat with model: {LLM_CONFIG.chat_model}")
         print(f"Prompt Length:\n{len(call.prompt)}\n")
         print(f"Context length: {len(call.context)}")
 
         self.user_prompt = prompt_template.replace("{prompt}", call.prompt).replace("{context}", call.context)
 
-
-        if llm == "openai":
-            if OPENAI_CLIENT is None:
-                raise RuntimeError("OpenAI client is not initialized.")
-
-            response = OPENAI_CLIENT.chat.completions.create(
-                model=CHATGPT_MODEL,
-                messages=[
-                    {"role": "system", "content": system_prompt},
-                    {"role": "user", "content": self.user_prompt},
-                ],
-                max_tokens=MAX_TOKENS,
-            )
-            response_message = get_openai_message_text(response)
-
-        elif llm == "ollama":
-            response = OLLAMA_CLIENT.chat(
-                model=OLLAMA_CHAT_MODEL,
-                messages=[
-                    {"role": "system", "content": system_prompt},
-                    {"role": "user", "content": self.user_prompt},
-                ],
-                options={"num_ctx": ctx}
-            )
-            message = response.get("message", {})
-            response_message = message.get("content", "").strip()
-
-        else:
-            raise ValueError(f"Unsupported llm: {llm}")
+        response_message = SHARED_LLM.chat_once(
+            [
+                {"role": "system", "content": system_prompt},
+                {"role": "user", "content": self.user_prompt},
+            ],
+            max_tokens=MAX_TOKENS,
+        )
 
         call.response = response_message
         call.end_timestamp = pd.Timestamp.now()
         return response_message
-    
 class AgentCall:
     def __init__(self, calling_agent: BaseAgent, natural_key:str, event:str, prompt:str, context: str):
         self.calling_agent = calling_agent
@@ -721,19 +594,6 @@ def is_allowed_link_url(url: str) -> bool:
 
     return any(url.startswith(prefix) for prefix in allowed_prefixes)
 
-# ----------------------------
-# Ollama helpers
-# ----------------------------
-def get_ollama_client():
-    if OLLAMA_HOST:
-        return ollama.Client(host=OLLAMA_HOST)
-    return ollama.Client()
-
-
-OLLAMA_CLIENT = get_ollama_client()
-
-
-
 
 
 def load_prompt(url: str, timeout: int = 15) -> str:
@@ -850,19 +710,22 @@ class TimeMoleculesUI:
             sql_agent=SQLAgent("SQLAgent")
         )
 
+
         self.current_hits = []
         self.selected_hit = None
+        self.selected_urls = []
+        self.selected_url_var = StringVar()
 
         top = Frame(root)
         top.pack(fill=X, padx=10, pady=10)
 
         self.mode_label = Label(
             top,
-            text=(
-                f"Qdrant collection: {COLLECTION_NAME} | "
-                f"Ollama chat model: {OLLAMA_CHAT_MODEL} | "
-                f"Ollama embed model: {OLLAMA_EMBED_MODEL}"
-            ),
+        text=(
+            f"Qdrant collection: {COLLECTION_NAME} | "
+            f"Chat backend: {llm} | "
+            f"Embed backend: {EMBED_LLM}"
+        ),
             anchor="w",
             justify="left",
         )
@@ -966,6 +829,25 @@ class TimeMoleculesUI:
         )
         self.generate_sql_button.pack(side=LEFT, padx=(0, 8))
 
+        self.url_label = Label(actions_frame, text="Linked URL:")
+        self.url_label.pack(side=LEFT, padx=(8, 4))
+
+        self.url_combo = ttk.Combobox(
+            actions_frame,
+            textvariable=self.selected_url_var,
+            state="disabled",
+            width=65,
+        )
+        self.url_combo.pack(side=LEFT, fill=X, expand=True, padx=(0, 8))
+
+        self.copy_url_button = Button(
+            actions_frame,
+            text="Copy URL",
+            command=self.on_copy_selected_url,
+            state="disabled",
+        )
+        self.copy_url_button.pack(side=LEFT)
+
         # ================== NEW: TABBED RESULTS AREA ==================
         results_label = Label(root, text="Results:")
         results_label.pack(anchor="w", padx=10, pady=(10, 0))
@@ -984,6 +866,9 @@ class TimeMoleculesUI:
         self.results_notebook.add(self.table_frame, text="Query Results")
         self.table = None  # will be created when we have data
 
+
+
+
     def clean_dataframe_for_display(self, df: pd.DataFrame) -> pd.DataFrame:
         if df is None:
             return df
@@ -999,18 +884,48 @@ class TimeMoleculesUI:
             return value
 
         return df.map(clean_value)
+    
+    def refresh_selected_urls(self):
+        self.selected_urls = self.extract_urls_from_selected_item_text()
+
+        if self.selected_urls:
+            self.url_combo["values"] = self.selected_urls
+            self.selected_url_var.set(self.selected_urls[0])
+            self.url_combo.config(state="readonly")
+            self.copy_url_button.config(state="normal")
+            self.load_link_button.config(state="normal")
+        else:
+            self.url_combo["values"] = []
+            self.selected_url_var.set("")
+            self.url_combo.config(state="disabled")
+            self.copy_url_button.config(state="disabled")
+            self.load_link_button.config(state="disabled")
 
 
-    def extract_first_url_from_selected_item_text(self) -> str | None:
+    def extract_urls_from_selected_item_text(self) -> list[str]:
         details_text = self.selected_item_box.get("1.0", END)
         if not details_text:
-            return None
+            return []
 
-        match = re.search(r"https?://[^\s)\]>\"']+", details_text)
-        if match:
-            return match.group(0)
+        matches = re.findall(r"https?://[^\s)\]>\"']+", details_text)
 
-        return None
+        seen = set()
+        urls = []
+        for url in matches:
+            if url not in seen:
+                seen.add(url)
+                urls.append(url)
+
+        return urls
+
+    def get_selected_url(self) -> str:
+        url = self.selected_url_var.get().strip()
+        if url:
+            return url
+        if self.selected_urls:
+            return self.selected_urls[0]
+        return ""
+    
     def populate_hits_tree(self, hits):
         self.current_hits = list(hits or [])
         self.selected_hit = None
@@ -1032,6 +947,11 @@ class TimeMoleculesUI:
             )
 
         self.selected_item_box.delete("1.0", END)
+        self.selected_urls = []
+        self.url_combo["values"] = []
+        self.selected_url_var.set("")
+        self.url_combo.config(state="disabled")
+        self.copy_url_button.config(state="disabled")
         self.load_link_button.config(state="disabled")
         self.generate_sql_button.config(state="disabled")
 
@@ -1040,6 +960,11 @@ class TimeMoleculesUI:
         if not selection:
             self.selected_hit = None
             self.selected_item_box.delete("1.0", END)
+            self.selected_urls = []
+            self.url_combo["values"] = []
+            self.selected_url_var.set("")
+            self.url_combo.config(state="disabled")
+            self.copy_url_button.config(state="disabled")
             self.load_link_button.config(state="disabled")
             self.generate_sql_button.config(state="disabled")
             return
@@ -1092,28 +1017,44 @@ class TimeMoleculesUI:
             lines.append(sample_code)
 
         self.selected_item_box.insert("1.0", "\n".join(lines))
+        self.refresh_selected_urls()
 
     def update_action_buttons(self):
         if not self.selected_hit:
             self.load_link_button.config(state="disabled")
+            self.copy_url_button.config(state="disabled")
+            self.url_combo.config(state="disabled")
             self.generate_sql_button.config(state="disabled")
             return
 
         payload = getattr(self.selected_hit, "payload", {}) or {}
         obj_type = payload.get("ObjectType", "")
 
-        has_url = bool(self.extract_first_url_from_selected_item_text())
+        has_url = bool(self.selected_urls)
         is_table_like = obj_type in {"Table", "Column"}
 
         self.load_link_button.config(state="normal" if has_url else "disabled")
+        self.copy_url_button.config(state="normal" if has_url else "disabled")
+        self.url_combo.config(state="readonly" if has_url else "disabled")
         self.generate_sql_button.config(state="normal" if is_table_like else "disabled")
+
+    def on_copy_selected_url(self):
+        url = self.get_selected_url()
+        if not url:
+            self.set_status("No URL available to copy.")
+            return
+
+        self.root.clipboard_clear()
+        self.root.clipboard_append(url)
+        self.root.update()
+        self.set_status("URL copied to clipboard.")
         
 
     def on_load_linked_content(self):
         if not self.selected_hit:
             return
 
-        url = self.extract_first_url_from_selected_item_text()
+        url = self.get_selected_url()
 
         if not url:
             self.show_text("No URL found for the selected item.")
@@ -1344,6 +1285,13 @@ def validate_config():
 
 
 if __name__ == "__main__":
+    print(f"✅ QDRANT_PATH: {QDRANT_PATH}")
+    print(f"✅ Using LLM for embeddings: {EMBED_LLM}")
+    print(f"✅ Chat backend: {llm}")
+    print(f"✅ Embed backend: {EMBED_LLM}")
+    print(f"✅ Embed model: {EMBED_MODEL}")
+
+
     try:
         test_cnxn = SQLAgent.get_cnxn()
         if test_cnxn:

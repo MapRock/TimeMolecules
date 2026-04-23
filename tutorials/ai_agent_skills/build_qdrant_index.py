@@ -15,11 +15,11 @@ and also to have a human-readable version of the metadata for debugging and expl
 The csv file will be overwritten each time you run the script with source="sql", so it always reflects 
 the latest data from the database at the time of running.
 """
-from matplotlib import text
 from qdrant_client import QdrantClient
 from qdrant_client.models import Distance, VectorParams, PointStruct
 
-from openai import OpenAI
+import json
+import sys
 
 import hashlib
 import os
@@ -28,38 +28,23 @@ import pandas as pd
 import re
 import requests  # ← add this import at the top of your file if not already present
 
-import ollama
+from shared_llm import load_env_upward, read_llm_config, SharedLLM, clean_for_embedding
 
-from dotenv import load_dotenv
 from pathlib import Path
 
-# ----------------------------
-# Load .env (search upward)
-# ----------------------------
-current = Path(__file__).resolve()
-env_path = None
-
-for parent in [current.parent, *current.parents]:
-    candidate = parent / ".env"
-    if candidate.exists():
-        env_path = candidate
-        break
-
-if env_path:
-    load_dotenv(env_path)
-    print(f"✅ Loaded .env from: {env_path}")
-else:
-    print("⚠️ .env not found. Falling back to system environment variables.")
-
+load_env_upward(__file__)
 
 # ----------------------------
 # Config
 # ----------------------------
 
-OPENAI_CLIENT = None
+LLM_CONFIG = read_llm_config()
+SHARED_LLM = SharedLLM(LLM_CONFIG)
 
-collection_name = "time_molecules_directory"
-
+collection_name = LLM_CONFIG.collection_name
+EMBED_LLM = LLM_CONFIG.embed_llm
+EMBED_MODEL = LLM_CONFIG.embed_model
+QDRANT_PATH = LLM_CONFIG.qdrant_path
 
 SERVER = os.getenv("TIMESOLUTION_SERVER_NAME")
 DATABASE = os.getenv("TIMESOLUTION_DATABASE_NAME")
@@ -69,7 +54,8 @@ CSV_METADATA_URL = (
     "https://raw.githubusercontent.com/MapRock/TimeMolecules/main/"
     "data/timesolution_schema/TimeMolecules_Metadata.csv"
 )
-QDRANT_PATH = os.getenv("QDRANT_PATH", "./qdrant_data")   # relative path, works on any OS
+
+
 
 
 def build_connection_string() -> str:
@@ -183,40 +169,10 @@ def get_semantic_web_llm_values_df(
     return df
 
 
-def get_ollama_client():
-    """Simple client - no model passed here"""
-    return ollama.Client()   # host defaults to http://localhost:11434
+def embed_text(text: str) -> list[float]:
+    return SHARED_LLM.embed_text(text)
 
 
-def embed_text_ollama(text: str) -> list[float]:
-    """
-    Generate embedding using a proper embedding model.
-    Works with current Ollama Python library (2026).
-    """
-    client = get_ollama_client()
-    
-    response = client.embed(
-        model=EMBED_MODEL,      # ← must be an embedding model (nomic-embed-text, mxbai-embed-large, etc.)
-        input=text              # ← current API uses 'input', not 'prompt'
-    )
-    
-    # Newer library returns {'embeddings': [[...]] } for single text
-    embeddings = response.get("embeddings")
-    if not embeddings or not embeddings[0]:
-        raise ValueError(f"Ollama returned no embedding for model {EMBED_MODEL}")
-    
-    return embeddings[0]
-
-def embed_text_openai(text: str) -> list[float]:
-    if OPENAI_CLIENT is None:
-        raise RuntimeError("OPENAI client is not initialized.")
-
-    response = OPENAI_CLIENT.embeddings.create(
-        model=EMBED_MODEL,
-        input=text,
-    )
-
-    return response.data[0].embedding
 
 
 def make_stable_int_id(object_name: str, object_type: str) -> int:
@@ -318,11 +274,10 @@ def build_weighted_text(
 
         return text
     
-    object_name = _clean_for_embedding(normalize_text(object_name))
-    description = _clean_for_embedding(normalize_text(description))
-    utilization = _clean_for_embedding(normalize_text(utilization))
-
-    # Primary semantic text
+    object_name = clean_for_embedding(normalize_text(object_name))
+    description = clean_for_embedding(normalize_text(description))
+    utilization = clean_for_embedding(normalize_text(utilization))
+        # Primary semantic text
     primary_text = utilization if utilization else description
 
     # IMPORTANT note on weighting: If both exist, weight utilization more heavily by placing it first
@@ -360,13 +315,7 @@ def build_qdrant_points(df: pd.DataFrame) -> list[PointStruct]:
         "SampleCode",
     ]
 
-    def _vectorize_text(text: str) -> list[float]:
-        if llm == "ollama":
-            return embed_text_ollama(text)
-        elif llm == "openai":
-            return embed_text_openai(text)
-        else:
-            raise ValueError(f"Unsupported LLM for embedding: {llm}")
+
     
     required = {"ObjectName", "ObjectType", "Utilization"}
     missing = required - set(df.columns)
@@ -376,6 +325,7 @@ def build_qdrant_points(df: pd.DataFrame) -> list[PointStruct]:
     points = []
 
     for _, row in df.iterrows():
+
         object_name = row["ObjectName"]
         object_type = row["ObjectType"]
         description = row["Description"]
@@ -396,10 +346,10 @@ def build_qdrant_points(df: pd.DataFrame) -> list[PointStruct]:
 
 
 
-        print(f"Embedding text for '{object_name}':\n{vector_text}\n")
 
-        vector = _vectorize_text(vector_text)
+        vector = embed_text(vector_text)
 
+        # Be sure there aren't duplicate keys. ObjectName, ObjectType.
         point_id = make_stable_int_id(str(object_name), str(object_type))
         payload = row_to_payload(
             row,
@@ -413,6 +363,8 @@ def build_qdrant_points(df: pd.DataFrame) -> list[PointStruct]:
                 payload=payload,
             )
         )
+
+        print(f"{len(points)} Embedding text for '{object_name}':\n{vector_text}\n")
 
      
 
@@ -479,15 +431,10 @@ def ingest_llm_prompts_from_github(client, collection_name: str, github_tree_url
             continue
 
         # Use the ENTIRE document as the embedding text (exactly as you asked)
-        embed_text = f"LLM Prompt / Template File: {item['name']}\n\n{content}"
+        embed_text_value = f"LLM Prompt / Template File: {item['name']}\n\n{content}"
 
         # Generate embedding using whichever backend you selected (ollama or openai)
-        if llm == "ollama":
-            vector = embed_text_ollama(embed_text)
-        elif llm == "openai":
-            vector = embed_text_openai(embed_text)
-        else:
-            continue
+        vector = embed_text(embed_text_value)
 
         # Stable integer ID (same file always gets the same point ID)
         base_name = Path(item['name']).stem
@@ -518,39 +465,90 @@ def ingest_llm_prompts_from_github(client, collection_name: str, github_tree_url
     else:
         print("⚠️ No prompt files were found/ingested from the GitHub directory.")
 
+def export_qdrant_to_static_json(client, collection_name: str, embed_model: str):
+    """
+    Export the full Qdrant collection to a static JSON file for the public demo.
+
+    Output file name:
+        ai_agent_skills_<embed_model>.json
+
+    The embedding vector is written into payload["embedding"].
+    """
+    print("\n=== Qdrant → Static JSON Export ===\n")
+
+    script_dir = Path(__file__).resolve().parent
+    repo_root = script_dir
+    while repo_root.parent != repo_root and not (repo_root / ".git").exists():
+        repo_root = repo_root.parent
+
+    output_dir = repo_root / "public_demo"
+
+    safe_embed_model = embed_model.replace("/", "_").replace(":", "_").replace("-", "_")
+    output_file = output_dir / f"ai_agent_skills_{safe_embed_model}.json"
+
+    print(f"Qdrant collection : {collection_name}")
+    print(f"Qdrant path       : {QDRANT_PATH}")
+    print(f"Output directory  : {output_dir}")
+    print(f"Output file       : {output_file}\n")
+
+    output_dir.mkdir(parents=True, exist_ok=True)
+    print("✅ Output directory ready\n")
+
+    all_points = []
+    next_offset = None
+    batch_num = 1
+
+    while True:
+        points, next_offset = client.scroll(
+            collection_name=collection_name,
+            limit=200,
+            offset=next_offset,
+            with_payload=True,
+            with_vectors=True,
+        )
+
+        print(f"✅ Batch {batch_num}: retrieved {len(points)} documents")
+        all_points.extend(points)
+        batch_num += 1
+
+        if next_offset is None:
+            break
+
+    print(f"✅ Retrieved {len(all_points)} total documents")
+
+    data = []
+    for p in all_points:
+        payload = dict(p.payload) if p.payload else {}
+
+        if hasattr(p, "vector") and p.vector is not None:
+            payload["embedding"] = (
+                p.vector.tolist() if hasattr(p.vector, "tolist") else p.vector
+            )
+
+        data.append({
+            "id": str(p.id),
+            "payload": payload,
+        })
+
+    with open(output_file, "w", encoding="utf-8") as f:
+        json.dump(data, f, ensure_ascii=False, indent=2)
+
+    print(f"\n🎉 SUCCESS! Exported {len(data)} documents")
+    print(f"   → {output_file}")
 
 if __name__ == "__main__":
     # Set parameters.
     force_refresh = True  # Will reset the qdrant-client database.
-    llm = os.getenv("EMBED_LLM", "ollama").lower()
+
     metadata_source = "sql" # "sql" or "csv" or "auto"
 
+    print(f"✅ Metadata source: {metadata_source}\n")
+    print(f"✅ QDRANT_PATH: {QDRANT_PATH}")
+    print(f"✅ Embed backend: {EMBED_LLM}")
+    print(f"✅ Embed model: {EMBED_MODEL}")
+
+    client = QdrantClient(path=QDRANT_PATH)
  
-
-    if llm == "openai":
-        MAX_TOKENS = int(os.getenv("CHATGPT_MAX_RESPONSE_TOKENS", "220"))
-        OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
-        if not OPENAI_API_KEY:
-            raise RuntimeError("OPENAI_API_KEY must be set in .env or environment variables.")
-
-        OPENAI_CLIENT = OpenAI(api_key=OPENAI_API_KEY)
-
-        EMBED_MODEL = os.getenv("CHATGPT_EMBEDDING_MODEL", "text-embedding-3-large")
-        CHATGPT_MODEL = os.getenv("CHATGPT_MODEL", "gpt-4.1")
-        client = QdrantClient(path=os.getenv("QDRANT_PATH", "./qdrant_data_openai"))
-        print("✅ Using OpenAI for embeddings.")
-    elif llm == "ollama":
-        EMBED_MODEL = os.getenv("OLLAMA_EMBED_MODEL", "nomic-embed-text")
-        OLLAMA_MODEL = os.getenv("OLLAMA_MODEL", None)
-        client = QdrantClient(path=os.getenv("QDRANT_PATH", "./qdrant_data_ollama"))
-        print(f"✅ Using Ollama for embeddings. Model: {OLLAMA_MODEL}, Embed Model: {EMBED_MODEL}")    
-
-
-    test_text = "parse case properties from json blobs and store as structured data"
-    #test_text = "find matrix adjacency of a markov model"
-    #test_text = "Given a sequence, what is the probability"
-    #test_text = "Create a markov model from time series data across cases"
-    results_limit = 5
 
     try:
         if force_refresh and client.collection_exists(collection_name=collection_name):
@@ -591,26 +589,9 @@ if __name__ == "__main__":
             # === INGEST LLM PROMPTS DIRECTLY FROM GITHUB ===
             github_url = "https://github.com/MapRock/TimeMolecules/tree/main/docs/llm_prompts"
             ingest_llm_prompts_from_github(client, collection_name, github_url)
+            export_qdrant_to_static_json(client, collection_name, EMBED_MODEL)
 
-    
-        if llm == "ollama":
-            query_vector = embed_text_ollama(test_text)
-        elif llm == "openai":
-            query_vector = embed_text_openai(test_text)
 
-        results = client.query_points(
-            collection_name=collection_name,
-            query=query_vector,
-            limit=results_limit,
-            with_payload=True,
-        ).points
-
-        print("\nSearch results:")
-        for hit in results:
-            print(f"ID: {hit.id}")
-            print(f"Score: {hit.score}")
-            print(f"Payload: {hit.payload}")
-            print("-" * 40)
 
     finally:
         client.close()
