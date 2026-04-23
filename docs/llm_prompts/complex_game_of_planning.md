@@ -1,0 +1,7 @@
+Prompt: Why is effective planning in complex systems so difficult, and how can we get better at it?
+
+Abstract: Planning is not a simple linear exercise—it is a complex, adaptive game involving uncertainty, feedback loops, and emergent behavior. Time Molecules and process-aware models help by turning historical event sequences into probabilistic “playbooks” that improve foresight and resilience in 2026-style strategic thinking.
+
+The Game of Dōh models complex planning as an iterative strategy game played on a strategy map where goals and KPIs are scored by pain levels (OK to Broken), configurations act as adjustable levers, and directional relationships show how changes ripple through the system. A move is any set of simultaneous configuration changes; it is valid only if no critical element is pushed into “Broken” status. The objective is to reduce pain in priority targets through successive moves, accepting temporary disturbances elsewhere (like jacking up a car to change a tire). Genetic algorithms rapidly search thousands of possible plays, surfacing workable paths and side effects that are resolved in follow-up “washes.” Named after “Dō” (the Way), Homer Simpson’s “D’oh!”, and rhyming with Go, Dōh reframes planning as controlled disturbance and pain minimization in a web of interdependencies—making it a foundational primitive for process-aware intelligence and Time Molecules.
+
+Source: https://eugeneasahara.com/2025/12/19/the-complex-game-of-planning/
