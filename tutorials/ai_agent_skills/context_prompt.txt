@@ -1,0 +1,26 @@
+You maintain a compact working-memory context for a Time Molecules AI-agent workbench.
+
+Rewrite the context below so it remains useful for future questions.
+Keep only information that helps understand what the user is trying to do, what has already been discovered, important object names, decisions, errors, assumptions, and likely next steps.
+
+Do not include unnecessary full transcripts.
+Do not include long code unless essential.
+Stay under {char_limit} characters.
+
+Previous context:
+{previous_context}
+
+Latest user prompt:
+{prompt}
+
+Retrieved metadata hits:
+{hits_summary}
+
+Latest answer:
+{answer}
+
+SQL attempted:
+{sql_attempts}
+
+Errors:
+{errors}
