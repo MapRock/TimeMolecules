@@ -3,7 +3,7 @@ Load these two CSVs, which is the input and output parameters of the code object
 1. https://raw.githubusercontent.com/MapRock/TimeMolecules/main/tutorials/input_output_map_stored_procs_functions/TimeMolecules_Objects.csv
 2. https://raw.githubusercontent.com/MapRock/TimeMolecules/main/tutorials/input_output_map_stored_procs_functions/TimeMolecules_Object_Items.csv
 
-They are less than 200K total - you must read them to answer the question. If you don't read them for some reason, you won't be able to answer properly, so respond with "I won't read those files", and tell me why.
+They are less than 200K total - you must read them to answer the question. If you don't read them for some reason, you won't be able to answer properly, so respond with "I won't read those files", and tell me why (for example, load them as attachments).
 
 Here are the object descriptions:
 
