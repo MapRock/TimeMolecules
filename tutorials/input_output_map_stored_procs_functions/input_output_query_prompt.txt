@@ -3,6 +3,7 @@ Load these two CSVs, which is the input and output parameters of the code object
 1. https://github.com/MapRock/TimeMolecules/blob/main/tutorials/input_output_map_stored_procs_functions/TimeMolecules_Objects.csv
 2. https://github.com/MapRock/TimeMolecules/blob/main/tutorials/input_output_map_stored_procs_functions/TimeMolecules_Object_Items.csv
 
+They are less than 200K total - you must read them to answer the question.
 
 Here are the object descriptions:
 
@@ -26,9 +27,11 @@ Key columns include:
 - DataType – the SQL type
 - Description – meaning of the item
 
+For information on what is Time Molecules, see https://github.com/MapRock/TimeMolecules/blob/main/docs/llm_prompts/what_is_Time_Molecules.md
+
 The relationship between the two files is one-to-many, joined by: [ObjectName, ObjectType]
 
-Please answer the following question in the context of Time Molecules, relying on the data in the CSV files:
+Please answer the following question in the context of using the Time Molecules objects:
 
 {question}
 
