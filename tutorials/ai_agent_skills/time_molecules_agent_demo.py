@@ -73,6 +73,11 @@ FILTER_OBJECTTYPE_PROMPT_URL = (
     "tutorials/ai_agent_skills/filter_objecttype_prompt.txt"
 )
 
+CONTEXT_PROMPT_URL = (
+    "https://raw.githubusercontent.com/MapRock/TimeMolecules/main/"
+    "tutorials/ai_agent_skills/context_prompt.txt"
+)
+
 VALID_OBJECT_TYPES = {
     "Column",
     "Instance",
@@ -156,6 +161,7 @@ class TaskContext:
         self.final_answer: str | None = None
         self.final_dataframe: pd.DataFrame | None = None
         self.status = "Ready."
+        self.app_context_summary = ""
 
 
 
@@ -261,6 +267,15 @@ class GuidanceAgent(BaseAgent):
             "Do not fabricate objects."
             f"{process_hint}"
         )
+
+        if context.app_context_summary:
+            context.retrieved_context = (
+                "Prior workbench context:\n"
+                + context.app_context_summary
+                + "\n\nRetrieved metadata context:\n"
+                + context.retrieved_context
+            )
+            
         context.current_step = f"Guidance from {llm}"
         context.final_answer = self.ask_llm(
             AgentCall(self, case_id, context.current_step, guidance_prompt + "\n\nUser request:\n" + context.user_prompt, context.retrieved_context)
@@ -611,6 +626,7 @@ def load_prompt(url: str, timeout: int = 15) -> str:
 system_prompt = load_prompt(SYSTEM_PROMPT_URL)
 prompt_template = load_prompt(PROMPT_TEMPLATE_URL)
 filter_objecttype_prompt = load_prompt(FILTER_OBJECTTYPE_PROMPT_URL)
+context_prompt = load_prompt(CONTEXT_PROMPT_URL)
 
 
 
@@ -715,6 +731,7 @@ class TimeMoleculesUI:
         self.selected_hit = None
         self.selected_urls = []
         self.selected_url_var = StringVar()
+        self.context_summary = ""
 
         top = Frame(root)
         top.pack(fill=X, padx=10, pady=10)
@@ -777,8 +794,31 @@ class TimeMoleculesUI:
         self.status_label = Label(root, text="Ready.", anchor="w", justify="left")
         self.status_label.pack(fill=X, padx=10, pady=5)
 
-        self.spinner = ttk.Progressbar(root, mode="indeterminate", length=220)
-        self.spinner.pack(anchor="w", padx=10, pady=(0, 8))
+        progress_frame = Frame(root)
+        progress_frame.pack(fill=X, padx=10, pady=(0, 8))
+
+        self.spinner = ttk.Progressbar(progress_frame, mode="indeterminate", length=220)
+        self.spinner.pack(side=LEFT, padx=(0, 12))
+
+        Label(progress_frame, text="Context chars:").pack(side=LEFT, padx=(0, 4))
+
+        self.context_char_limit_var = IntVar(value=10000)
+        self.context_char_limit_spin = Spinbox(
+            progress_frame,
+            from_=0,
+            to=50000,
+            increment=1000,
+            width=7,
+            textvariable=self.context_char_limit_var,
+        )
+        self.context_char_limit_spin.pack(side=LEFT, padx=(0, 8))
+
+        self.clear_context_button = Button(
+            progress_frame,
+            text="Clear context",
+            command=self.on_clear_context,
+        )
+        self.clear_context_button.pack(side=LEFT)
 
         hits_label = Label(root, text="Retrieved Objects:")
         hits_label.pack(anchor="w", padx=10)
@@ -866,8 +906,90 @@ class TimeMoleculesUI:
         self.results_notebook.add(self.table_frame, text="Query Results")
         self.table = None  # will be created when we have data
 
+        self.context_frame = Frame(self.results_notebook)
+        self.results_notebook.add(self.context_frame, text="Context")
 
+        self.context_box = ScrolledText(self.context_frame, wrap="word")
+        self.context_box.pack(fill=BOTH, expand=True)
 
+    def show_context(self, text: str):
+        self.context_box.delete("1.0", END)
+        self.context_box.insert("1.0", text or "")
+
+    def on_clear_context(self):
+        self.context_summary = ""
+        self.show_context("")
+        self.set_status("Context cleared.")
+
+    def summarize_hits_for_context(self, hits) -> str:
+        if not hits:
+            return "(none)"
+
+        lines = []
+        for i, hit in enumerate(hits[:10], start=1):
+            payload = getattr(hit, "payload", {}) or {}
+            lines.append(
+                f"{i}. {payload.get('ObjectName', '<unknown>')} "
+                f"[{payload.get('ObjectType', '')}] "
+                f"score={round(getattr(hit, 'score', 0), 4)}"
+            )
+
+        return "\n".join(lines)
+    
+    def update_context_summary_async(self, prompt: str, result: TaskContext):
+        try:
+            char_limit = int(self.context_char_limit_var.get())
+        except Exception:
+            char_limit = 10000
+
+        if char_limit <= 0:
+            return
+
+        previous_context = self.context_summary or ""
+        hits_summary = self.summarize_hits_for_context(result.retrieved_hits)
+        answer = result.final_answer or ""
+        sql_attempts = "\n\n".join(result.sql_attempts) if result.sql_attempts else "(none)"
+        errors = "\n".join(result.errors) if result.errors else "(none)"
+
+        filled_prompt = (
+            context_prompt
+            .replace("{char_limit}", str(char_limit))
+            .replace("{previous_context}", previous_context)
+            .replace("{prompt}", prompt)
+            .replace("{hits_summary}", hits_summary)
+            .replace("{answer}", answer)
+            .replace("{sql_attempts}", sql_attempts)
+            .replace("{errors}", errors)
+        )
+
+        def context_worker():
+            try:
+                self.root.after(0, lambda: self.set_status("Rebuilding context summary..."))
+                self.root.after(0, self.start_spinner)
+
+                new_context = SHARED_LLM.chat_once(
+                    [{"role": "user", "content": filled_prompt}],
+                    max_tokens=MAX_TOKENS,
+                )
+
+                if len(new_context) > char_limit:
+                    new_context = new_context[:char_limit]
+
+                def apply_context():
+                    self.context_summary = new_context
+                    self.show_context(new_context)
+                    self.set_status("Context summary updated.")
+
+                self.root.after(0, apply_context)
+
+            except Exception as e:
+                err = str(e)
+                self.root.after(0, lambda: self.set_status(f"Context update failed: {err}"))
+
+            finally:
+                self.root.after(0, self.stop_spinner)
+
+        threading.Thread(target=context_worker, daemon=True).start()
 
     def clean_dataframe_for_display(self, df: pd.DataFrame) -> pd.DataFrame:
         if df is None:
@@ -1219,6 +1341,8 @@ class TimeMoleculesUI:
                     on_hits_retrieved=show_hits_immediately,
                 )
 
+                task.app_context_summary = self.context_summary
+
                 result = self.primeagent.run(task)
 
                 if result.final_dataframe is not None:
@@ -1227,6 +1351,7 @@ class TimeMoleculesUI:
 
                 self.root.after(0, lambda: self.show_text(result.final_answer or "No answer returned."))
                 self.root.after(0, lambda: self.set_status(result.status))
+                self.root.after(0, lambda: self.update_context_summary_async(prompt, result))
 
             except Exception as e:
                 err = str(e)
