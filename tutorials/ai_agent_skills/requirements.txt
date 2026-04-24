@@ -40,7 +40,7 @@ ollama
 # is currently based on the older OpenAI Python package and is
 # not being migrated right now.
 # ------------------------------------------------------------
-openai>=0.28.0,<1.0.0
+openai>=2.32.0
 
 
 # ------------------------------------------------------------
