@@ -31,3 +31,8 @@ The relationship between the two files is one-to-many, joined by: [ObjectName, O
 Please answer the following question:
 
 {question}
+
+Example questions (don't answer these, they are just examples):
+
+- What data must be gathered to create a Markov Model?
+- What objects does MetricValue appear in?
