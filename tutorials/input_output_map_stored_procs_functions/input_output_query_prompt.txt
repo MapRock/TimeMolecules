@@ -1,7 +1,7 @@
 Load these two CSVs, which is the input and output parameters of the code objects of the TimeSolution SQL database:
 
-1. https://github.com/MapRock/TimeMolecules/blob/main/tutorials/input_output_map_stored_procs_functions/TimeMolecules_Objects.csv
-2. https://github.com/MapRock/TimeMolecules/blob/main/tutorials/input_output_map_stored_procs_functions/TimeMolecules_Object_Items.csv
+1. https://raw.githubusercontent.com/MapRock/TimeMolecules/main/tutorials/input_output_map_stored_procs_functions/TimeMolecules_Objects.csv
+2. https://raw.githubusercontent.com/MapRock/TimeMolecules/main/tutorials/input_output_map_stored_procs_functions/TimeMolecules_Object_Items.csv
 
 They are less than 200K total - you must read them to answer the question. If you don't read them for some reason, you won't be able to answer properly, so respond with "I won't read those files", and tell me why.
 
@@ -27,6 +27,7 @@ Key columns include:
 - DataType – the SQL type
 - Description – meaning of the item
 
+https://raw.githubusercontent.com/MapRock/TimeMolecules/main/docs/llm_prompts/what_is_Time_Molecules.md
 For information on what is Time Molecules, see https://github.com/MapRock/TimeMolecules/blob/main/docs/llm_prompts/what_is_Time_Molecules.md
 
 The relationship between the two files is one-to-many, joined by: [ObjectName, ObjectType]
