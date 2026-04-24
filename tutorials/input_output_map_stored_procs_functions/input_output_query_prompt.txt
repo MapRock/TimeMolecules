@@ -28,7 +28,7 @@ Key columns include:
 
 The relationship between the two files is one-to-many, joined by: [ObjectName, ObjectType]
 
-Please answer the following question:
+Please answer the following question in the context of Time Molecules, relying on the data in the CSV files:
 
 {question}
 
