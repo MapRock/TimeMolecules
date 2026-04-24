@@ -27,8 +27,7 @@ Key columns include:
 - DataType – the SQL type
 - Description – meaning of the item
 
-https://raw.githubusercontent.com/MapRock/TimeMolecules/main/docs/llm_prompts/what_is_Time_Molecules.md
-For information on what is Time Molecules, see https://github.com/MapRock/TimeMolecules/blob/main/docs/llm_prompts/what_is_Time_Molecules.md
+For information on what is Time Molecules, see https://raw.githubusercontent.com/MapRock/TimeMolecules/main/docs/llm_prompts/what_is_Time_Molecules.md
 
 The relationship between the two files is one-to-many, joined by: [ObjectName, ObjectType]
 
