@@ -103,6 +103,16 @@ This is important because raw metadata is often too nested or irregular for dire
 
 ---
 
+### 4. `input_output_query_prompt.txt`
+
+This is an [LLM prompt template](https://github.com/MapRock/TimeMolecules/blob/main/tutorials/input_output_map_stored_procs_functions/input_output_query_prompt.txt) that will read some metadata and answer a question.
+
+This prompt should be used for questions that will help to compose a workflow from the sprocs and functions.
+
+The parameters that must be filled:
+
+- **{question}:** The question we want to ask.
+
 ## The larger idea
 
 This directory is really about building an **interface map** for database logic.
