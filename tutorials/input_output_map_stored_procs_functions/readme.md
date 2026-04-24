@@ -113,6 +113,8 @@ The parameters that must be filled:
 
 - **{question}:** The question we want to ask.
 
+**Warning**: This template includes two URLs to CSV files. At the time (4/24/2026) ChatGPT doesn't read URLs. However Grok does.
+
 ## The larger idea
 
 This directory is really about building an **interface map** for database logic.
