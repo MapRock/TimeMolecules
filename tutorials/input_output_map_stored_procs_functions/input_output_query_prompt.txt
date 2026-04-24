@@ -1,0 +1,33 @@
+Load these two CSVs, which is the input and output parameters of the code objects of the TimeSolution SQL database:
+
+1. https://github.com/MapRock/TimeMolecules/blob/main/tutorials/input_output_map_stored_procs_functions/TimeMolecules_Objects.csv
+2. https://github.com/MapRock/TimeMolecules/blob/main/tutorials/input_output_map_stored_procs_functions/TimeMolecules_Object_Items.csv
+
+
+Here are the object descriptions:
+
+TimeMolecules_Objects.csv defines the nodes of the system.
+Each row represents a single object such as a stored procedure, table-valued function, scalar function, table, or view.
+Key columns include:
+- ObjectName – the fully qualified name (e.g., [dbo].[MarkovProcess2])
+- ObjectType – the type of object (stored procedure, function, table, etc.)
+- Description – human-readable explanation
+- ParametersJson – structured definition of inputs
+- OutputNodes – structured definition of outputs
+- ReferencedObjects – other objects this one depends on
+
+
+TimeMolecules_Object_Items.csv breaks those objects into their components—the inputs and outputs that actually move data.
+Each row represents a single parameter or output element belonging to an object.
+Key columns include:
+- ObjectName and ObjectType – linking back to the parent object
+- ItemType – whether the row is an input parameter or an output column/value
+- ItemName – the name of the parameter or output
+- DataType – the SQL type
+- Description – meaning of the item
+
+The relationship between the two files is one-to-many, joined by: [ObjectName, ObjectType]
+
+Please answer the following question:
+
+{question}
