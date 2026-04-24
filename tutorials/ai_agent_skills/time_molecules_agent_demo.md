@@ -48,3 +48,19 @@ Figure 1 shows the initial opening of the Time Molecules AI-agent workbench. The
 
 ---
 
+
+## Initial Run with Defaults
+
+
+![Figure 2 – Initial Run](https://raw.githubusercontent.com/MapRock/TimeMolecules/main/tutorials/ai_agent_skills/images/initial_run.png)
+
+*Figure 2 – The result after pressing Ask using the sample prompt.*
+
+
+After entering a prompt in the **Prompt Input Box (2)** and pressing **Ask (3)**, the system begins by embedding the prompt and retrieving the top matches from Qdrant, shown in **Retrieved Objects (12)**. As each stage progresses, the **Status Bar (8)** updates (e.g., searching Qdrant, waiting for the LLM), and the **Progress Spinner (9)** indicates active processing.
+
+If **Use LLM (5)** is enabled, the retrieved metadata is then passed to the LLM, which generates a synthesized response displayed in the **Answer tab (16)**. If relevant SQL is inferred, it may be executed and displayed in the **Query Results tab (16)**. Selecting any item in **Retrieved Objects (12)** populates **Selected Item Details (13)**, where you can inspect descriptions, utilization, parameters, and sample code, or use actions like **Generate Sample SQL (15)**.
+
+At the same time, the workbench reconstructs a rolling context summary (if **Context Size (10)** is greater than zero), which is displayed in the **Context tab (16)**. This summary captures the purpose of the query, key findings, and next steps, allowing subsequent prompts to build on prior work without replaying the full interaction history.
+
+
