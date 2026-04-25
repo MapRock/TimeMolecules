@@ -1,0 +1,13 @@
+left_CaseSet,left_CaseID,left_EventID,left_Event,left_EventDescription,left_PropertyName,left_PropertyValue,left_SourceColumn,right_CaseSet,right_CaseID,right_EventID,right_Event,right_EventDescription,right_PropertyName,right_PropertyValue,right_SourceColumn,SimilarityScore,MatchMethod,DistanceMeters
+1,1,85,bigtip,User gives a big tip,tip,70.0,,1,1,85,bigtip,User gives a big tip,tip,70.0,,0.7353,embedding_value_only_same_property_source,
+1,16,102,heavytraffic,Heavy traffic conditions,Fuel,47.0,Fuel,1,16,102,heavytraffic,Heavy traffic conditions,Fuel,47.0,Fuel,0.7119,embedding_value_only_same_property_source,
+1,25,129,moderatetraffic,Moderate traffic conditions,Fuel,34.0,Fuel,1,25,129,moderatetraffic,Moderate traffic conditions,Fuel,34.0,Fuel,0.7102,embedding_value_only_same_property_source,
+1,13,93,lighttraffic,Light traffic conditions,Fuel,57.0,Fuel,1,13,93,lighttraffic,Light traffic conditions,Fuel,57.0,Fuel,0.7081,embedding_value_only_same_property_source,
+1,16,103,arrivework,User arrives at work,Fuel,36.0,Fuel,1,16,103,arrivework,User arrives at work,Fuel,36.0,Fuel,0.7063,embedding_value_only_same_property_source,
+1,11,88,arrivework,User arrives at work,Fuel,43.0,Fuel,1,11,88,arrivework,User arrives at work,Fuel,43.0,Fuel,0.7055,embedding_value_only_same_property_source,
+1,15,99,lighttraffic,Light traffic conditions,Fuel,54.5,Fuel,1,15,99,lighttraffic,Light traffic conditions,Fuel,54.5,Fuel,0.7042,embedding_value_only_same_property_source,
+1,14,96,heavytraffic,Heavy traffic conditions,Fuel,41.0,Fuel,1,14,96,heavytraffic,Heavy traffic conditions,Fuel,41.0,Fuel,0.7028,embedding_value_only_same_property_source,
+1,15,100,arrivework,User arrives at work,Fuel,52.0,Fuel,1,21,117,heavytraffic,Heavy traffic conditions,Fuel,52.0,Fuel,0.7015,embedding_value_only_same_property_source,
+1,11,87,heavytraffic,Heavy traffic conditions,Fuel,52.0,Fuel,1,21,117,heavytraffic,Heavy traffic conditions,Fuel,52.0,Fuel,0.7015,embedding_value_only_same_property_source,
+1,21,117,heavytraffic,Heavy traffic conditions,Fuel,52.0,Fuel,1,21,117,heavytraffic,Heavy traffic conditions,Fuel,52.0,Fuel,0.7015,embedding_value_only_same_property_source,
+1,11,86,leavehome,User leaves home,point,"{""lat"":-116.2022, ""lon"":43.6150}",,2,28,140,walmart2,Walmart event 2,point,"{""lat"":-116.20234, ""lon"":43.6154}",,0.7494,gps_haversine,25.06
