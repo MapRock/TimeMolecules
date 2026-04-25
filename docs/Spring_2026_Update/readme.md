@@ -2,6 +2,8 @@
 
 Since the publication of [*Time Molecules*](https://technicspub.com/time-molecules/), May 2025, I have continued developing the ideas, the implementation, and the supporting material around it. This is not a new edition of the book, but it is more than minor cleanup. It is a meaningful refresh and expansion of the surrounding body of work.
 
+The impetus for this refresh began when my work reached a point where I needed to pull everything together. See [An interlude before the 3rd Act of the Assemblage-of-AI](https://eugeneasahara.com/2026/02/17/an-interlude-before-the-third-act-of-the-assemblage-of-ai/).
+
 > **Note:** This refresh is set for launch on **May 1, 2026**.
 
 ## What has changed
