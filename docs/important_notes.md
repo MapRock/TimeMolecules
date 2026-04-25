@@ -5,7 +5,10 @@ Notes about subjects that are prone to rapid change.
 
 ## Frontier Model Intermittently will not Read URLs in the Prompt 
 
-At the time of writing (4/24/2026), ChatGPT occasionally refuses to read links in the prompt. When ChatGPT feels like reading links, the responses are helpful, but not as much as it is with Grok. Gemini responds in the least helpful way. That inconsistency is the reason the time_molecules_agent_demo app for exploring the functionality and utilization of Time Molecules.
+Date Created: 4/24/2026
+Last Update: 4/25/2026
+
+ChatGPT occasionally refuses to read links in the prompt. When ChatGPT feels like reading links, the responses are helpful, but not as much as it is with Grok. Gemini responds in the least helpful way. That inconsistency is the reason the time_molecules_agent_demo app for exploring the functionality and utilization of Time Molecules.
 
 
 ChatGPT does not have built-in, always-on internet access. It can only read a link if the "Browsing" feature (powered by Bing) is turned on in that chat — and even then, it's flaky.
