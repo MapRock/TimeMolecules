@@ -120,24 +120,23 @@ Run it after any change to `UserAccessRole`.
 ```sql
 CREATE OR ALTER VIEW [dbo].[vwEventsFact]
 AS
-SELECT 
-    e.CaseID,
-    e.Event,
-    e.EventDate,
-    CONVERT(INT, CONVERT(VARCHAR(8), e.EventDate, 112)) AS DateKey,
-    CONVERT(INT, REPLACE(CONVERT(VARCHAR(8), e.EventDate, 108), ':', '')) AS TimeKey,
-    e.CaseOrdinal,
-    e.EventID,
-    e.SourceID,
-    e.AggregationTypeID,
-    at.Description AS AggDesc,
-    e.CreateDate
-FROM dbo.EventsFact AS e WITH (NOLOCK)
-LEFT OUTER JOIN dbo.AggregationTypes AS at WITH (NOLOCK)
-    ON at.AggregationTypeID = e.AggregationTypeID
+WITH UserSecurity AS (
+    SELECT GrantBitmap, DenyBitmap FROM UserAccessDeny()
+
+)
+SELECT
+e.CaseID,
+e.Event,
+e.EventDate,
+CONVERT(INT, CONVERT(VARCHAR(8), e.EventDate, 112)) AS DateKey,
+CONVERT(INT, REPLACE(CONVERT(VARCHAR(8), e.EventDate, 108), ':', '')) AS TimeKey,
+e.CaseOrdinal, e.EventID, e.SourceID, e.AggregationTypeID, at.Description AS AggDesc, e.CreateDate
+FROM  dbo.EventsFact AS e WITH (NOLOCK) 
+CROSS JOIN UserSecurity us
+LEFT OUTER JOIN  dbo.AggregationTypes AS at WITH (NOLOCK) ON at.AggregationTypeID = e.AggregationTypeID
 WHERE 
-    (dbo.UserAccessBitmap() & e.AccessBitmap) <> 0          -- at least one grant
-    AND (dbo.UserDenyBitmap() & e.AccessBitmap) = 0;       -- NO deny overlap
+    (us.GrantBitmap & e.AccessBitmap) <> 0      -- at least one grant
+    AND (us.DenyBitmap & e.AccessBitmap) = 0;   -- NO deny overlap
 ```
 
 **Test it:**
