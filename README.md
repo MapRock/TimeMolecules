@@ -57,6 +57,3 @@ The items in https://github.com/MapRock/TimeMolecules/tree/main/docs/llm_prompts
 
 The timesolution_schema (https://github.com/MapRock/TimeMolecules/tree/main/data/timesolution_schema) directory holds scripts on the tables, stored procedures, views, table-valued functions, and scalar functions of the TimeSolution.
 
-## Notes:
-- At the time of writing (4/24/2026), ChatGPT occasionally refuses to read links in the prompt. When ChatGPT feels like reading links, the responses are helpful, but not as much as it is with Grok. Gemini responds in the least helpful way. That inconsistency is the reason the time_molecules_agent_demo app for exploring the functionality and utilization of Time Molecules.
-
