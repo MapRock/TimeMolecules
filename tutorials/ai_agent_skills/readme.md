@@ -23,7 +23,6 @@ If the consumer stumbles on this repository, https://github.com/MapRock/TimeMole
 3. `python build_qdrant_index.py`  
 4. `python time_molecules_agent_demo.py`
 
-Note: build_qdrant_index.py automatially runs EXEC dbo.BuildTimeSolutionsMetadata.
 
 ## Consumer agents versus the Time Molecules AI Agent
 
