@@ -19,7 +19,10 @@ I will be posting blogs related to Time Molecules over the next few months after
   <li><a href="https://eugeneasahara.com/2025/06/27/analogy-and-curiosity-driven-original-thinking/">Analogy and Curiosity-Driven Original Thinking</a></li>
 </ol>
 
-Additionally, this blog category provides my larger ideas of how Time Molecules could be used: https://eugeneasahara.com/category/time-molecules/
+Additionally:
+- this blog category provides my larger ideas of how Time Molecules could be used: https://eugeneasahara.com/category/time-molecules/
+- See [important transitory notes](https://github.com/MapRock/TimeMolecules/blob/main/docs/important_notes.md).
+
 
 <p>You may contact me at <a href="mailto:eugene@softcodedlogic.com">eugene@softcodedlogic.com</a>.</p>
 
