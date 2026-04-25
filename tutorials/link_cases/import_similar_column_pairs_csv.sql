@@ -20,7 +20,7 @@ GO
 --Note: Be sure the last line in the CSV is complete.
     
 BULK INSERT dbo.SimilarSourceColumnPairs
-FROM 'C:\MapRock\TimeMolecules\similar_column_pairs.csv'
+FROM 'https://github.com/MapRock/TimeMolecules/blob/main/tutorials/link_cases/similar_column_pairs.csv'
 WITH (
     FORMAT = 'CSV',
     FIRSTROW = 2,
