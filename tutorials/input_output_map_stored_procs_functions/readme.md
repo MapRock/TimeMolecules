@@ -113,7 +113,7 @@ The parameters that must be filled:
 
 - **{question}:** The question we want to ask.
 
-**Warning**: This template includes two URLs to CSV files. At the time (4/24/2026) ChatGPT doesn't read URLs. However Grok does.
+**Warning**: This template includes two URLs to CSV files. See note on [LLMs occassionally refusing to read URL](https://github.com/MapRock/TimeMolecules/blob/main/README.md#notes)s.
 
 ## The larger idea
 
@@ -208,22 +208,7 @@ That turns a metadata catalog into an actual **composition graph**.
 
 At that point, an agent is no longer just searching for procedures. It is beginning to understand how to assemble them into workflows.
 
----
 
-## Summary
-
-This tutorial provides a normalized map of the inputs, outputs, and references of Time Molecules stored procedures, TVFs, and scalar functions.
-
-For human developers, that is useful documentation.
-
-For AI agents, it is much more than documentation. It is part of the foundational knowledge required to compose SQL objects into meaningful workflows.
-
-It is not the whole solution, but it is one of the most important building blocks.
-```
-
-The directory currently contains exactly these files: `TimeMolecules_Object_Items.csv`, `TimeMolecules_Objects.csv`, `parse_parameters_outputs.py`, The parsing script reads the main metadata CSV, filters programmable objects with parameter metadata, and emits the two normalized CSVs used by this tutorial. ([GitHub][1])
-
-A few grounded details that informed the draft: the object catalog includes fields such as `object_type`, `object_name`, `object_description`, `utilization`, and `sample_code`, while the detail catalog is organized around `Input`, `Output`, and `Reference` rows for each object. ([GitHub][2])
 
 
 [1]: https://github.com/MapRock/TimeMolecules/tree/main/tutorials/input_output_map_stored_procs_functions "TimeMolecules/tutorials/input_output_map_stored_procs_functions at main · MapRock/TimeMolecules · GitHub"
