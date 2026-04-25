@@ -1,6 +1,6 @@
 # Time Molecules AI Agent
 
-This directory is about code for a Time Molecules AI Agent serving other AI and human agents (we'll call it the **consumer**). 
+This directory is about code for a Time Molecules AI Agent, a workbench that tests this repo's ability to serve other AI and human agents (we'll call it the **consumer**). 
 
 The UI code can be run on headless mode for AI agents, and a mode with a rudimentary UI for people.
 
