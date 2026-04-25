@@ -19,4 +19,4 @@ Browsing isn't enabled → The model literally cannot open the link and will eit
 The browsing tool is unreliable → It often times out, gets blocked by the site, or returns a terrible/partial summary (especially with raw GitHub links, code files, or long pages).
 The model is lazy → Sometimes it simply ignores the link and answers from memory instead of actually triggering the browse tool.
 
-If the content is important, just copy-paste the actual text (or the full file contents) directly into your prompt. That way ChatGPT is guaranteed to see it.
+To avoid this issue, copy-paste the actual text (or the full file contents) directly into your prompt. That way ChatGPT is guaranteed to see it.
