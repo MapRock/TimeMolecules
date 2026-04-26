@@ -64,34 +64,24 @@ CHATGPT_MAX_RESPONSE_TOKENS=800
 # ============== GROK SETTINGS ==============
 XAI_API_KEY=xai-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX   # ← replace with your real xAI key
 ```
-### Run Demo with Minimal Installation
+## Installation Options for the AI Agent Demo
 
-For various reasons, you may want to play with the tutorial but not install everything, especially installing a SQL Server database (TimeSolution) or spending on AI tokens. The bare minimum for this app requires python, the qdrant-client python vector database library and nomic-embed-text through the ollama python library:
+There are two demo program versions:
 
-```python
-from qdrant_client import QdrantClient
-from qdrant_client.models import Filter, FieldCondition, MatchAny
-import ollama
-```
+- `time_molecules_agent_demo.py` — the fuller workbench version. It uses Qdrant for vector search and can optionally connect to the TimeSolution SQL Server database.
+- `time_molecules_data_json_ui.py` — the lightweight static JSON version. It does not use Qdrant or SQL Server at runtime. It searches a prebuilt JSON file containing metadata and embeddings.
 
-In order to build embeddings of Time Molecules assets without needing to install the TimeSolution SQL Server sample, I've dumped out the metadata into a file, https://github.com/MapRock/TimeMolecules/blob/main/data/timesolution_schema/TimeMolecules_Metadata.csv. It's also re-created when this python is run using `metadata_source = "sql"`:
+| Program | SQL Server Required? | Qdrant Required? | Ollama App Required? | Python `ollama` Required? | Frontier LLM/API Required? | Best Use |
+|---|---:|---:|---:|---:|---:|---|
+| `time_molecules_agent_demo.py` with SQL Server | Yes | Yes | Optional | Optional | Optional | Full demo: live TimeSolution metadata, SQL execution, richer workbench behavior |
+| `time_molecules_agent_demo.py` from CSV | No | Yes | Yes, if using local embeddings | Yes, if using local embeddings | Optional | Build/search Qdrant from `TimeMolecules_Metadata.csv` without restoring the database |
+| `time_molecules_data_json_ui.py` | No | No | Yes | Yes | No | Minimal local demo: search prebuilt `data.json` embeddings without SQL Server or Qdrant |
+| Frontier LLM variant | Optional | Depends on program | No | No | Yes | Use hosted models for chat and/or embeddings when local Ollama is not desired |
 
-```python
-if __name__ == "__main__":
-    # Set parameters.
-    force_refresh = True  # Will reset the qdrant-client database.
-    llm = os.getenv("EMBED_LLM", "ollama").lower()
-    metadata_source = "csv" # "sql" or "csv" or "auto"
-```
+### Practical Recommendation
 
-Set the metadata_source variable in time_molecules_embeddings.py to csv:
+Use `time_molecules_data_json_ui.py` for the smallest local demo. It only needs Python, the `ollama` Python library, the Ollama app/service, a pulled embedding model such as `nomic-embed-text`, and the prebuilt JSON file.
 
-```python
-if __name__ == "__main__":
-    # Set parameters.
-    force_refresh = True  # Will reset the qdrant-client database.
-    llm = os.getenv("EMBED_LLM", "ollama").lower()
-    metadata_source = "sql" # "sql" or "csv" or "auto"
-```
+Use `time_molecules_agent_demo.py` when you want the fuller AI workbench. It supports Qdrant-backed retrieval, richer context handling, linked-content loading, and optional SQL Server interaction.
 
-
+The full SQL Server setup is only needed if you want to run the actual TimeSolution database samples.
