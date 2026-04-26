@@ -162,7 +162,7 @@ def find_urls_in_payload(payload: dict) -> list[str]:
     deduped: list[str] = []
     seen: set[str] = set()
     for url in urls:
-        clean_url = url.strip().rstrip(".,;")
+        clean_url = fetchable_url_to_display_url(url.strip().rstrip(".,;"))
         if clean_url and clean_url not in seen:
             seen.add(clean_url)
             deduped.append(clean_url)
@@ -222,6 +222,32 @@ def trusted_link_to_fetchable_url(url: str) -> str:
         return url
 
     return ""
+
+
+def fetchable_url_to_display_url(url: str) -> str:
+    """
+    Prefer human-facing GitHub URLs in the UI, while still allowing Load Link
+    to fetch the raw content when needed.
+    """
+    if not url:
+        return ""
+
+    url = url.strip().rstrip("/")
+
+    if url.startswith("https://raw.githubusercontent.com/MapRock/"):
+        path = url.replace("https://raw.githubusercontent.com/", "")
+        parts = path.split("/", 3)
+
+        if len(parts) == 4:
+            owner, repo, branch, file_path = parts
+
+            if file_path.lower().endswith("/readme.md"):
+                folder_path = file_path[: -len("/readme.md")]
+                return f"https://github.com/{owner}/{repo}/tree/{branch}/{folder_path}"
+
+            return f"https://github.com/{owner}/{repo}/blob/{branch}/{file_path}"
+
+    return url
 
 
 def fetch_url_text(url: str, timeout: int = 20) -> str:
@@ -325,23 +351,17 @@ class StaticSearchUI:
         actions.pack(fill=X, padx=10, pady=5)
 
         self.count_label = Label(actions, text="0 matches")
-        self.count_label.pack(side=LEFT, padx=(0, 10))
+        self.count_label.pack(side=LEFT, padx=(0, 16))
 
-        self.open_button = Button(
-            actions,
-            text="Open Link",
-            command=self.on_open_link,
-            state="disabled",
-        )
-        self.open_button.pack(side=RIGHT)
+        Label(actions, text="Linked URL:").pack(side=LEFT, padx=(0, 4))
 
-        self.load_link_button = Button(
+        self.url_combo = ttk.Combobox(
             actions,
-            text="Load Link",
-            command=self.on_load_linked_content,
+            textvariable=self.selected_url_var,
             state="disabled",
+            width=100,
         )
-        self.load_link_button.pack(side=RIGHT, padx=(8, 0))
+        self.url_combo.pack(side=LEFT, fill=X, expand=True, padx=(0, 8))
 
         self.copy_url_button = Button(
             actions,
@@ -349,17 +369,23 @@ class StaticSearchUI:
             command=self.on_copy_selected_url,
             state="disabled",
         )
-        self.copy_url_button.pack(side=RIGHT, padx=(8, 0))
+        self.copy_url_button.pack(side=LEFT, padx=(0, 8))
 
-        self.url_combo = ttk.Combobox(
+        self.load_link_button = Button(
             actions,
-            textvariable=self.selected_url_var,
+            text="Load Link",
+            command=self.on_load_linked_content,
             state="disabled",
-            width=70,
         )
-        self.url_combo.pack(side=RIGHT, padx=(0, 8))
+        self.load_link_button.pack(side=LEFT, padx=(0, 8))
 
-        Label(actions, text="Linked URL:").pack(side=RIGHT, padx=(0, 4))
+        self.open_button = Button(
+            actions,
+            text="Open Link",
+            command=self.on_open_link,
+            state="disabled",
+        )
+        self.open_button.pack(side=LEFT)
 
         Label(root, text="Selected item:").pack(anchor="w", padx=10)
         self.details_box = ScrolledText(root, height=8, wrap="word")
