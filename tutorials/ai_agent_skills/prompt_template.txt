@@ -10,13 +10,13 @@ When information is missing, weak, or ambiguous, do not guess. Return the next a
 
 Valid next actions include:
 - search_knowledge
-- inspect_links - If links provided could provide substantial value but you can't read it, please go ahead and answer, but let us know you'd like us to provide the contents.
+- inspect_links - Evaluate which provided URLs will provide a superior answer. but you can't read it, please go ahead and answer and let us know you'd like us to provide the contents.
 - inspect_sql_object
 - discover_property
-- draft_sql
+- draft_sql - begins a workflow of draft sql, execute sql, repair_sql
 - execute_sql
 - repair_sql
-- answer_now
+- answer_now - returns the final answer.
 
 Return your response as structured JSON with exactly these fields:
 - action
