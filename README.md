@@ -1,6 +1,6 @@
 # TimeMolecules
 
-> **Important Note**: <i>This repo is in a state of refresh until May 1, 2026. However, the material directly referenced in the book should be stable.</i>
+> **Important Note**: <i>This repo is in a [state of refresh until May 1, 2026](https://github.com/MapRock/TimeMolecules/blob/main/docs/Spring_2026_Update/readme.md). However, the material directly referenced in the book should be stable.</i>
 
 Supplemental github repository for the book, <a href="https://technicspub.com/time-molecules/" target="_blank"><em>Time Molecules</em></a>.
 
