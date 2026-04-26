@@ -28,8 +28,8 @@ The demo app is a "workbench" used to test the mechanisms I've put together for 
 **Setup Process**  
 1. Install python environment, [install_python_virtual_env.md](https://github.com/MapRock/TimeMolecules/blob/main/tutorials/install_python_virtual_env.md).
 2. Copy `.env.example` → `.env` and configure  
-3. Run `python build_qdrant_index.py` - Generates the qdrant vector database.
-4. Run `python time_molecules_agent_demo.py`
+3. Run `[python build_qdrant_index.py](https://github.com/MapRock/TimeMolecules/blob/main/tutorials/ai_agent_skills/build_qdrant_index.py)` - Generates the qdrant vector database.
+4. Run `[python time_molecules_agent_demo.py](https://github.com/MapRock/TimeMolecules/blob/main/tutorials/ai_agent_skills/time_molecules_agent_demo.py)`
 5. Follow the tutorial for this app, [Time Molecules Agent Demo](https://github.com/MapRock/TimeMolecules/blob/main/tutorials/ai_agent_skills/time_molecules_agent_demo.md).
 
 
@@ -65,7 +65,15 @@ XAI_API_KEY=xai-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX   # ← replace with your r
 ```
 ### Run Demo with Minimal Installation
 
-In order to build embeddings of Time Molecules assets without needing to install the TimeSolution SQL Server sample, I've dumped out the metadata into a file, https://github.com/MapRock/TimeMolecules/blob/main/data/timesolution_schema/TimeMolecules_Metadata.csv. It's also re-created when this python is run using metadata_source = "sql":
+For various reasons, you may want to play with the tutorial but not install everything, especially installing a SQL Server database (TimeSolution) or spending on AI tokens. The bare minimum for this app requires python, the qdrant-client python vector database library and nomic-embed-text through the ollama python library:
+
+```python
+from qdrant_client import QdrantClient
+from qdrant_client.models import Filter, FieldCondition, MatchAny
+import ollama
+```
+
+In order to build embeddings of Time Molecules assets without needing to install the TimeSolution SQL Server sample, I've dumped out the metadata into a file, https://github.com/MapRock/TimeMolecules/blob/main/data/timesolution_schema/TimeMolecules_Metadata.csv. It's also re-created when this python is run using `metadata_source = "sql"`:
 
 ```python
 if __name__ == "__main__":
