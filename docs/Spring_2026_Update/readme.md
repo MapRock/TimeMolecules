@@ -109,6 +109,12 @@ If there is a single sentence that best captures the refresh, it is probably thi
 
 **Time Molecules is about making stories in the form of event sequences analyzable at scale, and using Markov models as abstractions of those stories.**
 
+## Known Issues
+
+Following are known issues that will be addressed over the next few weeks.
+
+- [Bitmap access and deny security mechanism](https://github.com/MapRock/TimeMolecules/blob/main/tutorials/time_molecules_security/accessbitmap_inheritance_path.md) isn't fully implemented - The sample database isn't intended to be up to enterprise quality plug and play. But carefully completing the implementation is still a step towards that goal.
+
 ## Selected companion material
 
 ### GitHub tutorials
