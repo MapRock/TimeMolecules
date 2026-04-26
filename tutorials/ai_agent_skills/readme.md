@@ -25,11 +25,11 @@ The demo app is a "workbench" used to test the mechanisms I've put together for 
 | `build_qdrant_index.py`    | Builds or refreshes the Qdrant vector collection from TimeSolution metadata + LLM prompts |
 | `time_molecules_agent_demo.py` | Simple Tkinter GUI for semantic search + grounded LLM answers |
 
-**Quick start**  
-1. `pip install -r requirements.txt`  
+**Setup Process**  
+1. Install python environment, [install_python_virtual_env.md](https://github.com/MapRock/TimeMolecules/blob/main/tutorials/install_python_virtual_env.md).
 2. Copy `.env.example` → `.env` and configure  
-3. `python build_qdrant_index.py`  
-4. `python time_molecules_agent_demo.py`
+3. Run `python build_qdrant_index.py` - Generates the qdrant vector database.
+4. Run `python time_molecules_agent_demo.py`
 5. Follow the tutorial for this app, [Time Molecules Agent Demo](https://github.com/MapRock/TimeMolecules/blob/main/tutorials/ai_agent_skills/time_molecules_agent_demo.md).
 
 
@@ -47,18 +47,21 @@ I discuss these issues in: https://eugeneasahara.com/should-we-use-a-private-llm
 ### .env Parameters
 
 ```env
-QDRANT_COLLECTION_NAME=time_molecules_directory
-QDRANT_PATH=c:/MapRock/TimeMolecules/qdrant_data_ollama
+RESULTS_LIMIT=5 # Default limit of the embedding results.
+QDRANT_PATH=./qdrant_data
 
-OLLAMA_HOST=
-OLLAMA_EMBED_MODEL=nomic-embed-text
+LLM="openai" # Lower case!! openai or ollama, grok.
+EMBED_LLM="opena1" # Lowerer case. openai or ollama.
 OLLAMA_CHAT_MODEL=llama3.2
-OLLAMA_CTX=8192
-RESULTS_LIMIT=5
-
-OPENAI_API_KEY=[your openai key]
-CHATGPT_MODEL=gpt-4o-mini
-CHATGPT_MAX_RESPONSE_TOKENS=500
+OLLAMA_EMBED_MODEL='nomic-embed-text'
+OLLAMA_CTX=32768
+# ChatGPT settings. Be sure to use CHATGPT_MODEL for normal LLM communication.
+OPENAI_API_KEY=XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX # ← replace with your real openai key
+CHATGPT_MODEL="gpt-4.1" 
+CHATGPT_EMBEDDING_MODEL="text-embedding-3-large"
+CHATGPT_MAX_RESPONSE_TOKENS=800
+# ============== GROK SETTINGS ==============
+XAI_API_KEY=xai-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX   # ← replace with your real xAI key
 ```
 ### Run Demo with Minimal Installation
 
