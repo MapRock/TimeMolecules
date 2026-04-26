@@ -22,6 +22,7 @@ If the consumer stumbles on this repository, https://github.com/MapRock/TimeMole
 2. Copy `.env.example` → `.env` and configure  
 3. `python build_qdrant_index.py`  
 4. `python time_molecules_agent_demo.py`
+5. Follow the tutorial for this app, [Time Molecules Agent Demo].
 
 
 ## Consumer agents versus the Time Molecules AI Agent
