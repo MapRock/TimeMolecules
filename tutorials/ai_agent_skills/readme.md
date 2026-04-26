@@ -27,10 +27,11 @@ The demo app is a "workbench" used to test the mechanisms I've put together for 
 
 **Setup Process**  
 1. Install python environment, [install_python_virtual_env.md](https://github.com/MapRock/TimeMolecules/blob/main/tutorials/install_python_virtual_env.md).
-2. Copy `.env.example` → `.env` and configure  
-3. Run `[python build_qdrant_index.py](https://github.com/MapRock/TimeMolecules/blob/main/tutorials/ai_agent_skills/build_qdrant_index.py)` - Generates the qdrant vector database.
-4. Run `[python time_molecules_agent_demo.py](https://github.com/MapRock/TimeMolecules/blob/main/tutorials/ai_agent_skills/time_molecules_agent_demo.py)`
-5. Follow the tutorial for this app, [Time Molecules Agent Demo](https://github.com/MapRock/TimeMolecules/blob/main/tutorials/ai_agent_skills/time_molecules_agent_demo.md).
+2. If you choose to use ollama (local LLM - free, local), you need to download it and have it running: https://ollama.com/download
+3. Copy `.env.example` → `.env` and configure  
+4. Run `[python build_qdrant_index.py](https://github.com/MapRock/TimeMolecules/blob/main/tutorials/ai_agent_skills/build_qdrant_index.py)` - Generates the qdrant vector database.
+5. Run `[python time_molecules_agent_demo.py](https://github.com/MapRock/TimeMolecules/blob/main/tutorials/ai_agent_skills/time_molecules_agent_demo.py)`
+6. Follow the tutorial for this app, [Time Molecules Agent Demo](https://github.com/MapRock/TimeMolecules/blob/main/tutorials/ai_agent_skills/time_molecules_agent_demo.md).
 
 
 ### openai, ollama, grok
