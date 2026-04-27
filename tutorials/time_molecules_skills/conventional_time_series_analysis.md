@@ -94,6 +94,8 @@ Time Molecules treats every **case** as a living story — a sequence of events 
 
 When a case includes regularly spaced numeric readings, **Fourier Transform (FFT)** becomes a natural and powerful conventional tool inside the Time Molecules toolkit. FFT decomposes the time series into its underlying **cycles** — the very same cycles that give processes their partial, flexible order.
 
+I discuss this in <i>[Enterprise Intelligence](https://technicspub.com/enterprise-intelligence/)</i>, page 353, Frequency Domain Analysis.
+
 #### Why FFT belongs in Time Molecules
 
 - **Cases are cycles.** The entire philosophy of Time Molecules is that business, life, and the universe itself are made of interacting processes that repeat, drift, leak, and interfere. FFT gives us an objective, mathematical way to *see* those cycles inside the raw event data.
