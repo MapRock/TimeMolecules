@@ -64,3 +64,8 @@ If **Use LLM (5)** is enabled, the retrieved metadata is then passed to the LLM,
 At the same time, the workbench reconstructs a rolling context summary (if **Context Size (10)** is greater than zero), which is displayed in the **Context tab (16)**. This summary captures the purpose of the query, key findings, and next steps, allowing subsequent prompts to build on prior work without replaying the full interaction history.
 
 
+![Figure 3 – Initial Opening](https://github.com/MapRock/TimeMolecules/blob/main/tutorials/ai_agent_skills/images/context_window.png)
+*Figure 3 – Context window.*
+
+![Figure 4 – Filter objects by type](https://github.com/MapRock/TimeMolecules/blob/main/tutorials/ai_agent_skills/images/filter_object_types.png)
+*Figure 4 – Filter objects by type.*
