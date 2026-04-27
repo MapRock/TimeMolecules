@@ -69,3 +69,19 @@ At the same time, the workbench reconstructs a rolling context summary (if **Con
 
 ![Figure 4 – Filter objects by type](https://github.com/MapRock/TimeMolecules/blob/main/tutorials/ai_agent_skills/images/filter_object_types.png)
 *Figure 4 – Filter objects by type.*
+
+![Figure 5 – Load linked URL](https://github.com/MapRock/TimeMolecules/blob/main/tutorials/ai_agent_skills/images/load_link.png)
+*Figure 5 - load linked URL for deeper dive.*
+
+![Figure 6 – Higher Retrieval Count](https://github.com/MapRock/TimeMolecules/blob/main/tutorials/ai_agent_skills/images/higher_retrieval_count.png)
+*Figure 6 - Higher retrieval count for better odds of finding the right embedding.*
+
+![Figure 7 – No Frontier Model](https://github.com/MapRock/TimeMolecules/blob/main/tutorials/ai_agent_skills/images/no_frontier_model.png)
+*Figure 7 - No utilization of frontier model, to save token costs.*
+
+
+![Figure 8 – Run SQL](https://github.com/MapRock/TimeMolecules/blob/main/tutorials/ai_agent_skills/images/run_sql.png)
+*Figure 8 - Run prompt as a SQL against TimeSolution.*
+
+
+
