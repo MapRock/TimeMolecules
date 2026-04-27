@@ -88,7 +88,41 @@ ORDER BY CaseID, EventTime;
 
 For higher-order sequences or frequent pattern mining, agents can materialize the result into a temporary table and apply further grouping (the script’s Markov helpers can be reused here if desired, but are not required).
 
-## Actionable example for an AI agent
+### 3. Frequency Domain Analysis (Fourier Transforms / FFT)
+
+Time Molecules treats every **case** as a living story — a sequence of events unfolding through time. Many of those stories contain (or *are*) time series with regular sampling intervals: sensor readings, temperature logs, machine telemetry, stock prices, vital signs, environmental measurements, and so on.
+
+When a case includes regularly spaced numeric readings, **Fourier Transform (FFT)** becomes a natural and powerful conventional tool inside the Time Molecules toolkit. FFT decomposes the time series into its underlying **cycles** — the very same cycles that give processes their partial, flexible order.
+
+#### Why FFT belongs in Time Molecules
+
+- **Cases are cycles.** The entire philosophy of Time Molecules is that business, life, and the universe itself are made of interacting processes that repeat, drift, leak, and interfere. FFT gives us an objective, mathematical way to *see* those cycles inside the raw event data.
+- It complements Markov models. While Markov models capture the probabilistic *sequence* of events (the “what happens next”), FFT reveals the **periodic structure** underneath — the hidden rhythms and frequencies that drive or constrain the process.
+- It works especially well on **regular-interval readings** (daily stock closes, hourly temperatures, minute-by-minute machine metrics). Irregular event streams can still be analyzed if you first resample or interpolate them to a consistent cadence.
+
+#### What FFT actually gives you
+
+A Fourier Transform breaks a time series into **spectral components** — tuples of the form:
+
+`(frequency, amplitude, phase)`
+
+- **Frequency** tells you *how often* a cycle repeats (e.g., yearly, semi-annual, ~294-day cycle).
+- **Amplitude** tells you *how strong* that cycle is.
+- **Phase** tells you *when* the cycle starts relative to your data.
+
+By comparing spectral components across different cases, you can discover shared cycles even when the raw numbers look unrelated. Two processes may not correlate strongly in value, yet share a dominant frequency that reveals a common underlying driver.
+
+#### Practical guidance in Time Molecules
+
+- **Minimum data** — For reliable annual seasonality you ideally want at least 3–5 full cycles (e.g., 3–5 years of daily data). Fewer cycles still work for stronger, shorter rhythms.
+- **Focus on dominant frequencies** — Usually the top 3–5 components ranked by amplitude explain the most important cyclic behavior.
+- **Use case** — Inside a TimeSolution case you can attach one or more FFT models alongside the Markov model. This gives you both the probabilistic story *and* the frequency-domain “DNA” of the process.
+
+For the deeper theory, examples (including Monsanto and Intel stock-price decompositions), and the mathematics behind spectral components, see the **Frequency Domain Analysis** chapter in my earlier book *Enterprise Intelligence* (page 353).
+
+In short: Time Molecules does not ignore conventional time-series techniques — it *embraces* them. When your cases contain regular readings, FFT lets you extract the hidden cycles that make the process understandable, comparable, and discoverable across the enterprise.
+
+#### Actionable example for an AI agent
 
 Here is a complete, copy-paste-ready workflow an agent can execute in one session:
 
