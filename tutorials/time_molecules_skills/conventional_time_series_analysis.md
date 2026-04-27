@@ -1,4 +1,4 @@
-# Using the Event Ensemble (centered on the EventsFact table) for conventional time series and sequence analysis in TimeSolution**
+# Using the Event Ensemble (centered on the EventsFact table) for conventional time series, sequence analysis, and even Fourier Transforms in TimeSolution**
 
 In TimeSolution (the SQL implementation of *Time Molecules* by Eugene Asahara / MapRock), the primary strength is **ad-hoc Markov models** — sliced, diced, and compared via the ModelEvents layer, adjacency matrices, similarity procedures, and related tools (see the companion tutorials `compare_two_markov_models.md` and `how_to_add_an_adjacency_matrix.md`).
 
