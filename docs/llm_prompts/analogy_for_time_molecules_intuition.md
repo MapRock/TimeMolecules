@@ -1,6 +1,6 @@
 **Prompt:** Analogies to describe time molecules.
 
-** Abstract: **
+**Abstract:**
 I sometimes think *Time Molecules* might have been easier to understand if I had framed it as **the chemistry of time**.
 
 Calculus becomes more intuitive when it is described not merely as a branch of mathematics, but as *the mathematics of change*. That phrase gives the subject a center of gravity. It tells us what the machinery is really for.
