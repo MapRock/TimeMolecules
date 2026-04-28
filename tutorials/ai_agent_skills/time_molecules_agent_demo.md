@@ -412,4 +412,49 @@ In Time Molecules terms, the important point is that even this small workbench c
 *Figure 9 - Agent events written the Time Molecules stage table*
 
 
+## Imported Prompt Files
+
+The demo imports several prompt files from the [`tutorials/ai_agent_skills`](https://github.com/MapRock/TimeMolecules/tree/main/tutorials/ai_agent_skills) folder. These prompts are not user-facing controls, but they strongly shape how the workbench behaves. Keeping them as `.txt` files instead of hard-coding them in Python makes the agent behavior easier to inspect, edit, and tune without changing the application logic.
+
+The relevant prompt files are:
+
+| Prompt file | Used by | Purpose |
+|---|---|---|
+| [`system_prompt.txt`](https://github.com/MapRock/TimeMolecules/blob/main/tutorials/ai_agent_skills/system_prompt.txt) | Main LLM answer generation | Establishes the LLM’s role as a Time Molecules / TimeSolution assistant. It tells the model to answer from retrieved Qdrant context when possible, admit uncertainty when context is incomplete, inspect links when needed, and stay concrete, developer-oriented, and SQL-aware. |
+| [`prompt_template.txt`](https://github.com/MapRock/TimeMolecules/blob/main/tutorials/ai_agent_skills/prompt_template.txt) | Main LLM answer generation | Wraps the user prompt and retrieved Qdrant context into the final prompt sent to the LLM. It frames the interaction as iterative agent work rather than a one-shot answer, encourages next-action reasoning when information is missing, and asks the model to distinguish among tables, views, stored procedures, scalar functions, and table-valued functions. |
+| [`filter_objecttype_prompt.txt`](https://github.com/MapRock/TimeMolecules/blob/main/tutorials/ai_agent_skills/filter_objecttype_prompt.txt) | Optional ObjectType pre-filter | Used when **Filter ObjectTypes first** is enabled. It asks the LLM to classify the user prompt into likely Qdrant `ObjectType` values, such as `Table`, `Column`, `SQL_STORED_PROCEDURE`, `SQL_TABLE_VALUED_FUNCTION`, or `LLM_PROMPT`. The result is then used to narrow the Qdrant search before retrieving matches. |
+| [`context_prompt.txt`](https://github.com/MapRock/TimeMolecules/blob/main/tutorials/ai_agent_skills/context_prompt.txt) | Rolling context summary | Used after a run completes to rebuild the compact working-memory summary shown in the **Context** tab. It keeps only information useful for future prompts: user intent, discoveries, object names, decisions, errors, assumptions, attempted SQL, and likely next steps. |
+
+### `system_prompt.txt`
+
+[`system_prompt.txt`](https://github.com/MapRock/TimeMolecules/blob/main/tutorials/ai_agent_skills/system_prompt.txt) is the high-level behavioral instruction for the LLM. It tells the model what role it is playing: a Time Molecules / TimeSolution assistant working with metadata, database objects, and SQL. It also sets expectations for grounded answers. The model should answer from retrieved Qdrant context when possible, be clear about uncertainty when the retrieved context is incomplete, and remain concrete and developer-oriented.
+
+This matters because the demo is not asking the LLM to answer from general knowledge alone. The point is to combine semantic retrieval with LLM interpretation. The system prompt keeps the model anchored to the retrieved Time Molecules material and reminds it to treat object type distinctions carefully—for example, not confusing a table-valued function with a stored procedure.
+
+### `prompt_template.txt`
+
+[`prompt_template.txt`](https://github.com/MapRock/TimeMolecules/blob/main/tutorials/ai_agent_skills/prompt_template.txt) is the main wrapper around the user’s prompt and the retrieved Qdrant context. The application inserts the retrieved context into `{context}` and the user question into `{prompt}` before sending the request to the LLM.
+
+This prompt is intentionally framed around iterative agent behavior. The LLM is told not to assume every task can be completed in one step. If more information is needed, the model should identify the best next action, such as inspecting links, inspecting SQL objects, discovering properties, drafting SQL, executing SQL, repairing SQL, or answering immediately.
+
+In the demo UI, this is why the LLM’s response often feels more like a workbench assistant than a simple chatbot answer. It is being asked to reason from retrieved assets and decide whether the current context is sufficient.
+
+### `filter_objecttype_prompt.txt`
+
+[`filter_objecttype_prompt.txt`](https://github.com/MapRock/TimeMolecules/blob/main/tutorials/ai_agent_skills/filter_objecttype_prompt.txt) is used only when **Filter ObjectTypes first** is checked. In that mode, the app makes an initial LLM call before the Qdrant search. The LLM reads the user prompt and returns the most relevant object categories to search.
+
+For example, a question about where Markov models are stored might prioritize `Table` and `Column`, while a question about how a Markov model is created might prioritize stored procedures and table-valued functions. This can improve retrieval precision because Qdrant searches within a narrower set of candidates.
+
+The trade-off is that this requires an additional LLM call. It may improve results when the first retrieval is noisy, but it adds latency and token usage.
+
+### `context_prompt.txt`
+
+[`context_prompt.txt`](https://github.com/MapRock/TimeMolecules/blob/main/tutorials/ai_agent_skills/context_prompt.txt) is used after each run to maintain a compact working-memory summary. The app passes in the previous context, the latest user prompt, retrieved hits, latest answer, attempted SQL, and errors. The LLM rewrites that into a shorter context summary that remains useful for future questions.
+
+This is what supports iterative work in the demo. Rather than sending the entire transcript back into the model each time, the app keeps a compressed summary of what has already been discovered. That summary is displayed in the **Context** tab and can be used to help later prompts build on earlier ones.
+
+The key point is that the context is not a transcript. It is meant to be working memory: enough to preserve intent, discoveries, decisions, and next steps without flooding the LLM with unnecessary history.
+
+
+
 
