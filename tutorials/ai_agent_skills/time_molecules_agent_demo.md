@@ -215,13 +215,42 @@ This output is not just an answer—it is a **compressed representation of reaso
 This summary is then used to build the **rolling context** (shown in the Context tab), allowing subsequent prompts to build on prior work without repeating the entire process. In effect, the Answer tab acts as the bridge between one step of analysis and the next, turning a single query into part of a larger workflow.
 
 
+
 ![Figure 3 – Initial Opening](https://github.com/MapRock/TimeMolecules/blob/main/tutorials/ai_agent_skills/images/context_window.png)
 
 *Figure 3 – Context window.*
 
+
+## Filtering Object Types Before Retrieval
+
+Figure 4 shows an attempt to improve retrieval accuracy by enabling **Filter ObjectTypes first (5)**. When this option is selected, the system makes an initial LLM call *before* querying Qdrant. The purpose of this call is to determine which types of objects are most relevant to the user’s prompt.
+
+Instead of searching across all object types (tables, columns, stored procedures, LLM prompts, etc.), the LLM analyzes the prompt and returns a focused set of categories—for example:
+
+* `SQL_STORED_PROCEDURE`
+* `SQL_INLINE_TABLE_VALUED_FUNCTION`
+
+These object types are then applied as a filter in the Qdrant query, which narrows the search space and increases the likelihood that the returned results are directly actionable. In this case, the results are more tightly focused on executable database objects involved in computing Markov models, rather than including explanatory tutorial content or loosely related metadata.
+
+The benefit of this approach is improved precision. By constraining the embedding search to a smaller, more relevant subset of objects, the system reduces noise and increases the relevance of the top matches.
+
+The trade-off is that this introduces an additional LLM call:
+
+* It consumes extra tokens
+* It adds latency before retrieval begins
+* It may not always be necessary, especially when the embedding search alone already produces good results
+
+As a result, this option is disabled by default and is best used when:
+
+* the initial results are too broad or noisy, or
+* the user has a strong expectation about the type of object they are looking for (e.g., “a stored procedure,” “a function,” etc.)
+
+Figure 4 illustrates that with this option enabled, the retrieved objects are more consistently aligned with the expected execution layer of the system, improving the usefulness of the results for tasks such as identifying the correct procedure to run.
+
 ![Figure 4 – Filter objects by type](https://github.com/MapRock/TimeMolecules/blob/main/tutorials/ai_agent_skills/images/filter_object_types.png)
 
 *Figure 4 – Filter objects by type.*
+
 
 ![Figure 5 – Load linked URL](https://github.com/MapRock/TimeMolecules/blob/main/tutorials/ai_agent_skills/images/load_link.png)
 
