@@ -1,9 +1,7 @@
 **Prompt:** Analogies to describe time molecules.
 
 **Abstract:**
-I sometimes think *Time Molecules* might have been easier to understand if I had framed it as **the chemistry of time**.
-
-Calculus becomes more intuitive when it is described not merely as a branch of mathematics, but as *the mathematics of change*. That phrase gives the subject a center of gravity. It tells us what the machinery is really for.
+I sometimes think *Time Molecules* might have been easier to understand if I had framed it as **the chemistry of time**, in a analogous way of describing calculus as "the mathematics of change". More broadly, the word calculus refers to a system for reasoning about a domain. In that sense, Time Molecules can be thought of as a kind of calculus—or even a chemistry—of event sequences. Calculus becomes more intuitive when it is described not merely as a branch of mathematics, but as *the mathematics of change*. That phrase gives the subject a center of gravity. It tells us what the machinery is really for.
 
 Time Molecules needs a similar intuition. It is not merely about Markov models, SQL Server, event logs, or process mining. Those are implementation details and familiar handles. The deeper idea is that time has structure, and that structure can be built from smaller pieces.
 
