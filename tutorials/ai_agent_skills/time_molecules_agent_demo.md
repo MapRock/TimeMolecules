@@ -38,9 +38,22 @@ This architecture deliberately separates concerns:
 
 The result is a flexible environment that can operate at multiple levels—from simple metadata lookup to guided exploration of the Time Molecules system.
 
-## App Initialization
+## Runtime Capability Check
 
-![Figure 0 – App Initialization](https://raw.githubusercontent.com/MapRock/TimeMolecules/main/tutorials/ai_agent_skills/images/app_init.png)
+Before the UI opens, the application prints a short runtime capability check to the console. This verifies which parts of the workbench are available in the current environment.
+
+In Figure 0, the app successfully loads the .env file, reads the configured Qdrant path, identifies the embedding and chat backends, and confirms that the Qdrant collection is available. It also detects the static embedding JSON file, which can be used as a fallback if the Qdrant collection is not available.
+
+The capability check determines how the application will run:
+
+If Qdrant is available, the app uses Qdrant for semantic retrieval.
+If Qdrant is unavailable but the static JSON file exists, the app can fall back to local JSON-based search.
+If the LLM is unavailable, LLM-dependent features such as summarization and ObjectType filtering are disabled.
+
+This startup check is useful because the demo can run in several configurations, from the full Qdrant + LLM setup to a lighter local mode using precomputed embeddings. Figure 0 shows the full retrieval path is available, with Qdrant selected as the active search mode.
+
+![Figure 0 – App Initialization](https://raw.githubusercontent.com/MapRock/TimeMolecules/main/tutorials/ai_agent_skills/images/init_app.png)
+
 *Figure 0 – Initializing application and checking for availability.*
 
 
