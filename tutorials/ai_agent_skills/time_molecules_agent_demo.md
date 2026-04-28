@@ -38,6 +38,11 @@ This architecture deliberately separates concerns:
 
 The result is a flexible environment that can operate at multiple levels—from simple metadata lookup to guided exploration of the Time Molecules system.
 
+## App Initialization
+
+![Figure 0 – App Initialization](https://raw.githubusercontent.com/MapRock/TimeMolecules/main/tutorials/ai_agent_skills/images/app_init.png)
+*Figure 0 – Initializing application and checking for availability.*
+
 
 ## Initial Opening – Control Overview
 
