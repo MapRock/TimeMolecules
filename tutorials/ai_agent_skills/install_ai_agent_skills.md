@@ -92,4 +92,4 @@ A Tkinter window will open. You can now type natural-language questions about yo
 **You're all set!**  
 The first run of the embedding script may take a minute or two (embedding ~200–300 objects).
 
-Any questions or issues? Just open an issue in the repo.
+Next step is to visit the [time_molecules_agent_demo](https://github.com/MapRock/TimeMolecules/blob/main/tutorials/ai_agent_skills/time_molecules_agent_demo.md).
