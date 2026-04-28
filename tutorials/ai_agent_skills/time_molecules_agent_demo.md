@@ -392,5 +392,24 @@ This dual capability allows users to move seamlessly from understanding the syst
 
 *Figure 8 - Run prompt as a SQL against TimeSolution.*
 
+## Logging AI Agent Workflow Events
+
+Figure 9 shows the events written by the application to the `STAGE.ImportEvents` table. Each interaction with the workbench is treated as a small workflow, with a generated `CaseID` such as `AI Agent Request 2026-04-28...`. The individual steps—checking the Qdrant collection, embedding the prompt, searching Qdrant, calling the LLM, executing SQL, and completing the request—are recorded as events.
+
+This follows the pattern discussed in **“AI Agents, Context Engineering, and Time Molecules”**, where AI-agent behavior is treated as a process that should emit observable events. The blog argues that agent steps should be retained so their context can be reconstructed later, supporting process observability, provenance, troubleshooting, and analysis over time. ([Soft Coded Logic][1])
+
+This application is not intended to be a full AI agent. It is better understood as a **workbench**. The prompt box simulates the kinds of questions an AI agent might ask while trying to solve a task, but the user is still driving the process. The workbench exposes the pieces: retrieval, LLM interpretation, SQL execution, link loading, and context summarization.
+
+That distinction matters. A full AI agent would require orchestration logic, tool selection, memory policy, retry behavior, permission boundaries, monitoring, and safety controls. There are already many ways to build that layer—OpenAI Agents SDK, LangGraph, Semantic Kernel, CrewAI, AutoGen-style frameworks, or custom orchestration around smaller tools. For this tutorial, the simpler workbench is more useful because it shows the mechanics clearly without hiding them inside a larger agent framework.
+
+In Time Molecules terms, the important point is that even this small workbench can emit event data. Once the steps are logged, they become analyzable like any other process. The AI workflow itself becomes a case, each step becomes an event, and the resulting stream can be studied using the same event-oriented ideas used elsewhere in Time Molecules.
+
+[1]: https://eugeneasahara.com/2026/03/10/ai-agents-context-engineering-and-time-molecules/ "AI Agents, Context Engineering, and Time Molecules – Soft Coded Logic"
+
+
+
+![Figure 9 – Agent Events to Time MoleculesL](https://github.com/MapRock/TimeMolecules/blob/main/tutorials/ai_agent_skills/images/agent_events.png)
+*Figure 9 - Agent events written the Time Molecules stage table*
+
 
 
