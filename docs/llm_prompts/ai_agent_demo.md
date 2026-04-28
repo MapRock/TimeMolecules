@@ -1,0 +1,5 @@
+Prompt: How can Time Molecules expose its metadata, tutorials, and database capabilities through an AI-agent-friendly workbench?
+
+Abstract: The Time Molecules AI Agent Demo is a local workbench for testing how TimeSolution metadata and tutorial content can be exposed to both human users and AI agents. It embeds descriptions of database objects, tutorials, skills, prompts, and related assets into a Qdrant vector collection, then retrieves relevant matches from a user prompt. An LLM can optionally analyze the retrieved context to explain objects, suggest next steps, generate SQL, or summarize linked material. The demo is not a full autonomous agent; it is a practical testing surface for the retrieval, grounding, prompt orchestration, context summarization, and link-inspection mechanisms an AI agent would need when working with Time Molecules.
+
+Primary location of source material to analyze (for more information): https://github.com/MapRock/TimeMolecules/blob/main/tutorials/ai_agent_skills/time_molecules_agent_demo.md
