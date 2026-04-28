@@ -312,9 +312,80 @@ Figure 6 illustrates how expanding the retrieval set surfaces additional candida
 
 *Figure 6 - Higher retrieval count for better odds of finding the right embedding.*
 
+
+## Figure 7 – Retrieval Without LLM Summarization
+
+Figure 7 shows the system with **Use LLM (2)** disabled. In this mode, the application does not call a frontier model (such as OpenAI or Grok) after retrieving results from Qdrant.
+
+Instead, the workflow stops at retrieval:
+
+* The prompt is embedded and used to search Qdrant
+* The top matches are displayed in **Retrieved Objects (5)**
+* Selecting an item still populates the **Selected Item** panel
+* Linked content can still be accessed via **Load Link (6)**
+
+The key difference is that no synthesized explanation is generated in the **Answer tab**. The system behaves more like a **semantic search tool**, returning ranked matches without interpretation.
+
+This mode has several advantages:
+
+* **Faster response time** – no additional LLM call
+* **Lower cost** – no token usage for summarization
+* **Deterministic behavior** – results are purely based on embedding similarity
+
+However, the trade-off is that the user must interpret the results manually. The system does not:
+
+* explain why an object is relevant
+* compare alternatives
+* synthesize a coherent answer
+
+As shown in Figure 7, even without the LLM, the workflow remains useful. You can still:
+
+* identify relevant objects
+* inspect metadata
+* and load linked documentation directly
+
+This makes the mode particularly valuable when:
+
+* cost or latency is a concern, or
+* the user prefers to work directly with raw results
+
+In practice, this option turns the application into a fast, local-first discovery tool, while still preserving the ability to drill into documentation through linked content.
+
+
 ![Figure 7 – No Frontier Model](https://github.com/MapRock/TimeMolecules/blob/main/tutorials/ai_agent_skills/images/no_frontier_model.png)
 
 *Figure 7 - No utilization of frontier model, to save token costs.*
+
+
+
+## Executing SQL Directly
+
+Figure 8 shows the system operating in **SQL execution mode**. In this case, a SQL query is entered directly into the **Prompt Input Box (1)**, and **Prompt is SQL (2)** is enabled.
+
+When this option is selected, the normal AI workflow is bypassed. Instead of:
+
+* embedding the prompt,
+* retrieving objects from Qdrant, and
+* invoking the LLM for interpretation,
+
+the system sends the query directly to the SQL Server database for execution.
+
+The results are returned and displayed in the **Query Results tab (3)** as a structured table. In this example, a simple query against `vwEventsFact` returns rows from the event dataset, including fields such as `CaseID`, `Event`, and `EventDate`.
+
+This mode is useful when:
+
+* the user already knows the exact query they want to run,
+* they want to validate or inspect data directly, or
+* they are transitioning from exploration to execution
+
+Although the system still performs retrieval (as shown in **Retrieved Objects**), those results are not used to generate an answer. The focus is entirely on executing the provided SQL and returning the data.
+
+In practice, this turns the workbench into a hybrid tool:
+
+* an AI-assisted discovery environment when using natural language, and
+* a direct query interface when working with SQL
+
+This dual capability allows users to move seamlessly from understanding the system to interacting with it directly.
 
 
 ![Figure 8 – Run SQL](https://github.com/MapRock/TimeMolecules/blob/main/tutorials/ai_agent_skills/images/run_sql.png)
