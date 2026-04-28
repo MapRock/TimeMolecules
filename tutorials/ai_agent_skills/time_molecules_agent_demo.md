@@ -1,6 +1,3 @@
-Here’s an intro you can drop in before the walkthrough:
-
----
 
 ## Overview of the AI Agent Workflow
 
@@ -195,6 +192,27 @@ After entering a prompt in the **Prompt Input Box (2)** and pressing **Ask (3)**
 If **Use LLM (5)** is enabled, the retrieved metadata is then passed to the LLM, which generates a synthesized response displayed in the **Answer tab (16)**. If relevant SQL is inferred, it may be executed and displayed in the **Query Results tab (16)**. Selecting any item in **Retrieved Objects (12)** populates **Selected Item Details (13)**, where you can inspect descriptions, utilization, parameters, and sample code, or use actions like **Generate Sample SQL (15)**.
 
 At the same time, the workbench reconstructs a rolling context summary (if **Context Size (10)** is greater than zero), which is displayed in the **Context tab (16)**. This summary captures the purpose of the query, key findings, and next steps, allowing subsequent prompts to build on prior work without replaying the full interaction history.
+
+
+### Answer Tab (Working Memory Context Summary)
+
+Figure 3 shows a close-up of the **Answer tab** after the **Ask** operation completes. Rather than simply returning a one-off response, the system produces a structured **working memory context summary** that captures the current state of the interaction.
+
+The response is organized into sections:
+
+* **Goal**
+  This restates the user’s intent in normalized terms. In this case, the system recognizes that the user is looking for procedures that compute Markov models without persisting them. This step is important because it reframes the original prompt into something more precise and actionable.
+
+* **Discoveries and Decisions**
+  This section summarizes what was learned from the retrieved objects. Instead of listing all matches, the LLM identifies the most relevant ones—such as `dbo.MarkovProcess2`—and explains their role in the system. It also highlights key distinctions (for example, computing results into a session-scoped table rather than persisting them).
+
+This output is not just an answer—it is a **compressed representation of reasoning**. It captures:
+
+* what the user is trying to do,
+* what objects are relevant,
+* and why those objects matter.
+
+This summary is then used to build the **rolling context** (shown in the Context tab), allowing subsequent prompts to build on prior work without repeating the entire process. In effect, the Answer tab acts as the bridge between one step of analysis and the next, turning a single query into part of a larger workflow.
 
 
 ![Figure 3 – Initial Opening](https://github.com/MapRock/TimeMolecules/blob/main/tutorials/ai_agent_skills/images/context_window.png)
