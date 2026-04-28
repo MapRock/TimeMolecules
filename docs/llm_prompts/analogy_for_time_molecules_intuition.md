@@ -17,4 +17,4 @@ So the subject is not merely “what happens next.” That is only the smallest 
 
 That is why the chemistry metaphor matters. Chemistry is not interesting because atoms exist. It is interesting because atoms combine into structures with behaviors that are not obvious from the atoms alone. Time Molecules makes the same claim about events: the value is not only in isolated events, but in the structures they form when they are connected across time.
 
-[1]: https://math.mit.edu/~djk/calculus_beginners/chapter00/section02.html?utm_source=chatgpt.com "0.2 What Is Calculus and Why do we Study it?"
+This is described in my book, <i>[Time Molecules](https://technicspub.com/time-molecules/)</i>, page 3, Intuition for Time Molecules.
