@@ -252,9 +252,61 @@ Figure 4 illustrates that with this option enabled, the retrieved objects are mo
 *Figure 4 – Filter objects by type.*
 
 
+## Loading and Viewing Linked Content
+
+Figure 5 demonstrates how to explore supporting documentation directly from the retrieved results. After selecting an item in **Retrieved Objects (1)**, any associated links are extracted and displayed in the **Linked URL dropdown (2)**.
+
+Clicking **Load Link (3)** retrieves the content from the selected URL—typically a GitHub markdown file or blog page—and displays it in the **Link Contents tab**. This allows you to review detailed explanations, examples, or tutorials without leaving the application.
+
+This step is particularly useful when the retrieved object is an **LLM prompt or tutorial**, as it provides deeper context beyond the metadata shown in the Selected Item panel. In this example, the selected item links to a tutorial on creating or updating a Markov model, and the full markdown content is loaded for inspection.
+
+Alternatively, the **Copy URL** button can be used to open the link externally in a browser. While opening directly in a browser might provide a richer viewing experience, loading the content inside the application keeps the workflow self-contained and allows the material to be used alongside the current context and results.
+
+This capability reinforces the idea of the workbench as a unified environment—combining retrieval, explanation, and reference material in a single interface.
+
+
 ![Figure 5 – Load linked URL](https://github.com/MapRock/TimeMolecules/blob/main/tutorials/ai_agent_skills/images/load_link.png)
 
 *Figure 5 - load linked URL for deeper dive.*
+
+
+
+## Figure 6 – Increasing the Retrieval Count
+
+Figure 6 shows the effect of increasing the **Top N ** value, which controls how many objects are retrieved from Qdrant. By raising this number, the system casts a wider net in the embedding space, increasing the likelihood that the correct object appears somewhere in the results.
+
+This is particularly useful when the initial retrieval does not surface the expected object. Common reasons for this include:
+
+* The prompt uses **different terminology** than the metadata (e.g., “compute” vs. “generate” vs. “build”)
+* The embedding model does not strongly associate the phrasing with the correct object
+* The relevant object has a **sparse or generic description**
+* The signal is diluted by **similar but more frequently occurring patterns**
+* The prompt is **too short or ambiguous**, providing limited semantic guidance
+* The correct object exists but is **ranked just outside the default Top N**
+* Multiple concepts are combined in the prompt, weakening the embedding match
+
+By increasing the retrieval count, these edge cases are mitigated because more candidates are available for downstream analysis.
+
+However, this comes with trade-offs:
+
+* **More tokens sent to the LLM**
+  Each retrieved object contributes metadata (description, utilization, parameters, etc.) to the prompt context.
+
+* **Increased noise**
+  Additional objects may be less relevant, making it harder for the LLM to focus on the most important ones.
+
+* **Longer response time and higher cost**
+  Larger context windows require more processing.
+
+Even for LLMs, more information is not always better—**a smaller, more precise context is generally preferable**.
+
+In practice, increasing Top N is most useful as a fallback strategy when:
+
+* the correct object is not appearing in the initial results, or
+* the prompt is exploratory and you want broader coverage of the system.
+
+Figure 6 illustrates how expanding the retrieval set surfaces additional candidates, improving recall at the expense of precision.
+
 
 ![Figure 6 – Higher Retrieval Count](https://github.com/MapRock/TimeMolecules/blob/main/tutorials/ai_agent_skills/images/higher_retrieval_count.png)
 
