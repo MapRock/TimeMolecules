@@ -1,3 +1,45 @@
+Here’s an intro you can drop in before the walkthrough:
+
+---
+
+## Overview of the AI Agent Workflow
+
+This tutorial demonstrates a lightweight AI workbench for exploring Time Molecules using a combination of vector search and large language models. The core idea is simple: instead of manually searching code, metadata, and documentation, the system embeds your question, retrieves the most relevant objects, and then uses an LLM to interpret and explain the results.
+
+At a high level, the workflow follows three steps:
+
+1. **Embed the prompt** – Your question is converted into a vector using an embedding model.
+2. **Search Qdrant** – The vector is used to retrieve the most relevant metadata objects (tables, procedures, functions, tutorials, etc.) from a Qdrant vector store.
+3. **Analyze with an LLM** – The retrieved objects are passed to a language model, which identifies what matters, explains relationships, and produces a coherent answer.
+
+Qdrant plays a critical role as the **retrieval layer**. It stores embeddings for all metadata and allows fast similarity search, making it possible to locate relevant objects without exact keyword matches. Without Qdrant, the system would lose its ability to semantically “find” the right pieces of the system.
+
+The LLM provides the **reasoning layer**. This can be:
+
+* a **local model via Ollama** (fully offline, no API cost), or
+* a **frontier model** such as OpenAI or Grok (higher quality, but with cost and external dependency)
+
+The choice of LLM affects answer quality and cost, but the overall workflow remains the same.
+
+The application itself is written in Python and is intended to be run from **Visual Studio Code**. Setup instructions for the Python environment—including installing dependencies and configuring environment variables—are provided here:
+
+[https://github.com/MapRock/TimeMolecules/blob/main/tutorials/setup_python_env.md](https://github.com/MapRock/TimeMolecules/blob/main/tutorials/setup_python_env.md)
+
+Once configured, the app runs as a local desktop UI (Tkinter-based), allowing you to:
+
+* enter prompts,
+* inspect retrieved objects,
+* load linked documentation,
+* generate and execute SQL,
+* and iteratively build context across multiple steps.
+
+This architecture deliberately separates concerns:
+
+* **Qdrant** handles retrieval,
+* the **LLM** handles interpretation,
+* and the **UI** acts as a workbench for composing and refining queries.
+
+The result is a flexible environment that can operate at multiple levels—from simple metadata lookup to guided exploration of the Time Molecules system.
 
 
 ## Initial Opening – Control Overview
@@ -9,51 +51,142 @@ Figure 1 shows the initial opening of the Time Molecules AI-agent workbench. The
 ![Figure 1 – Initial Opening](https://raw.githubusercontent.com/MapRock/TimeMolecules/main/tutorials/ai_agent_skills/images/initial_opening.png)
 *Figure 1 – Initial opening of the Time Molecules AI-agent workbench.*
 
-1. **Qdrant / Backend Status**   Displays the active Qdrant collection along with the current chat and embedding backends. Useful for confirming you are querying the expected index and models.
+Here’s a  mapping of each numbered UI element to what it does, based on your code:
 
-2. **Prompt Input Box**   The main text area where you enter a natural language question or SQL statement (if SQL mode is enabled).
 
-3. **Ask Button**   Submits the prompt and initiates the workflow: embedding → metadata retrieval → LLM reasoning → optional SQL execution.
+### Prompt & Execution
 
-4. **Results Limit**   Controls how many top matches are retrieved from Qdrant. Higher values increase context but may add noise.
+**1. Prompt box**
+Main input area. Accepts either natural language or SQL depending on the checkbox.
 
-5. **Use LLM Checkbox**   When enabled, the LLM synthesizes a final answer from retrieved metadata. When disabled, only raw retrieval results are shown.
+**2. Ask button**
+Runs the workflow:
 
-6. **Filter ObjectTypes First**   Uses an LLM classifier to narrow the Qdrant search to relevant object types (e.g., tables, procedures, prompts), improving precision.
+* embeds prompt
+* queries Qdrant
+* optionally calls LLM
+* optionally executes SQL
 
-7. **Prompt is SQL**   Treats the input as a SQL query and executes it directly, bypassing LLM interpretation.
+**3. Results limit (spinbox)**
+Controls how many Qdrant hits are retrieved.
 
-8. **Status Bar**   Displays the current stage of processing (e.g., searching Qdrant, waiting for LLM, executing SQL, errors).
+**4. Use OpenAI to summarize retrieved hits**
+If checked, runs the GuidanceAgent (LLM). If unchecked, just shows retrieved hits.
 
-9. **Progress Spinner**   Indicates active processing during LLM calls or long-running operations.
+---
 
-10. **Context Size Control**    Sets the maximum size (in characters) for the rolling context summary maintained by the workbench. A value of 0 disables context updates.
+### Retrieval Behavior Controls
 
-11. **Clear Context Button**    Resets the current working context summary, allowing you to start a new line of inquiry.
+**5. Filter ObjectTypes first**
+Uses LLM to classify which ObjectTypes to filter before querying Qdrant.
 
-12. **Retrieved Objects (Top Hits)**    Displays ranked metadata matches from Qdrant, including object names, types, and similarity scores.
+**6. Prompt is SQL**
+Treats the prompt as raw SQL and executes it directly (bypasses LLM reasoning).
 
-13. **Selected Item Details**    Shows detailed information for the selected hit, including description, utilization, parameters, sample code, and links.
+---
 
-14. **Load Linked Content**    Fetches and displays content from trusted links (GitHub or approved domains) associated with the selected item.
+### Status & Context
 
-15. **Generate Sample SQL**
-    Generates and optionally executes a basic SQL query for selected tables or columns.
+**7. Status + spinner**
+Shows current stage (e.g., “Embedding prompt”, “Done”, errors).
 
-16. **Results Tabs (Answer / Query Results / Context)**
+**8. Context chars (limit)**
+Max size of rolling context memory used for follow-up prompts.
 
-* **Answer:** LLM-generated explanation or response
-* **Query Results:** Tabular output from executed SQL
-* **Context:** Rolling summary of the current session’s purpose, findings, and state
+**9. Clear context**
+Resets accumulated context summary.
+
+---
+
+### Retrieval Results
+
+**10. Retrieved Objects (grid)**
+Qdrant hits:
+
+* ObjectName
+* ObjectType
+* similarity score
+
+Selecting a row drives the lower panel.
+
+---
+
+### Selected Object Details
+
+**11. Selected Item panel**
+Shows:
+
+* description
+* utilization
+* parameters
+* sample code
+* URLs (parsed for linking)
+
+---
+
+### Actions on Selected Object
+
+
+**12. Generate sample SQL**
+Creates and runs basic SQL for Tables/Columns.
+
+**13. Linked URL dropdown**
+All URLs extracted from selected item text.
+
+---
+
+### URL Actions
+
+**14. Copy URL**
+Copies selected URL to clipboard.
+
+**15. Load Link**
+Fetches content (GitHub raw / blog) and loads it into **Link Contents tab**.
+
+---
+
+### Results Tabs
+
+**16. Answer tab**
+LLM output or status text.
+
+**17. Query Results tab**
+Displays DataFrame results (via pandastable).
+
+**18. Context tab**
+Shows rolling context summary used across prompts.
+
+**19. Link Contents tab**
+Displays fetched content from GitHub/blog links.
+
 
 ---
 
 
 ## Initial Run with Defaults
 
+After entering a prompt in the Prompt Input Box (2) and pressing Ask (3), the system begins by embedding the prompt and retrieving the top matches from Qdrant, shown in Retrieved Objects (12). As each stage progresses, the Status Bar (8) updates (e.g., searching Qdrant, waiting for the LLM), and the Progress Spinner (9) indicates active processing.
+
+The default settings are chosen to strike a balance between accuracy, cost, and clarity of results:
+
+The Top N (3) value is set to a moderate number (e.g., 5). This is usually sufficient to capture the correct object within the embedding space while avoiding excessive context being passed to the LLM. Too few results risks missing the correct object; too many increases token usage, cost, and the chance that the LLM is distracted by less relevant matches.
+Filter ObjectTypes first (5) is disabled by default because it introduces an additional LLM call to classify object types before retrieval. While useful in some cases, this extra step adds latency and cost. In many scenarios, the embedding search alone is strong enough to surface the relevant objects without pre-filtering.
+
+Use LLM (4) is enabled so that the system does more than just return matches. Instead of forcing the user to interpret raw metadata, the LLM takes the retrieved objects and:
+
+identifies the most relevant ones,
+explains how they relate to the prompt,
+and synthesizes a coherent answer.
+
+This effectively turns the embedding search into a guided analysis rather than a lookup.
+
+Prompt is SQL (6) is disabled because the default interaction is conceptual or exploratory. The system assumes the prompt is a question about Time Molecules rather than executable SQL. Enabling this option bypasses reasoning and sends the text directly to the SQL engine, which is only appropriate when the user explicitly provides a query.
+
+If Use LLM (4) is enabled, the retrieved metadata is passed to the LLM, which generates a synthesized response displayed in the Answer tab (16). If relevant SQL is inferred, it may be executed and displayed in the Query Results tab (16). Selecting any item in Retrieved Objects (12) populates Selected Item Details (13), where you can inspect descriptions, utilization, parameters, and sample code, or use actions like Generate Sample SQL (15).
+
+At the same time, the workbench reconstructs a rolling context summary (if Context Size (10) is greater than zero), which is displayed in the Context tab (16). This summary captures the purpose of the query, key findings, and next steps, allowing subsequent prompts to build on prior work without replaying the full interaction history.
 
 ![Figure 2 – Initial Run](https://raw.githubusercontent.com/MapRock/TimeMolecules/main/tutorials/ai_agent_skills/images/initial_run.png)
-
 *Figure 2 – The result after pressing Ask using the sample prompt.*
 
 
