@@ -1,4 +1,35 @@
 ObjectType,ObjectName,Description,Utilization,ParametersJson,OutputNotes,ReferencedObjectsJson,SampleCode
+Column,CaseProperties.TargetProperties,"CaseProperties.TargetProperties. Properties related to what we targeted for the case, could be goals. ex: the goal of a delivery is to deliver at a profit. {""Spend"":1000, ""Budget"":1100}",,,,,
+Column,SourceColumns.AccessBitmap,"SourceColumns.AccessBitmap. Source columns are related to Event-level and case-level properties, which might be sensitive.",,,,,
+Column,SourceColumns.ColumnName,"SourceColumns.ColumnName. ColumnName should be 50 because that's the length I have for the ""Name"" of the table rows. See the get_semantic_web_llm_values sproc.",,,,,
+Column,SourceColumns.DataType,SourceColumns.DataType. Leave this column NULL since we may not know the data type initially. Try to use SQL Server data types since this is a SQL Server database.,,,,,
+Column,SourceColumns.Description,SourceColumns.Description. Description of what the column is semantically about. This can be used to figure out an IRI RDF class that matches the meaning of this column.,,,,,
+Column,SourceColumns.IRI,SourceColumns.IRI. The IRI (Internation Resource Identifier) is the gateway to a knowledge graph.,,,,,
+Column,SourceColumns.IsOrdinal,"SourceColumns.IsOrdinal. Is this column ordinal (1) or discrete (0)? The column can be used to correlate changes in Markov models across values of this column. If the column is continuous, it's considered ordinal.",,,,,
+Column,SourceColumns.ObserverID,"SourceColumns.ObserverID. A data source stores data observed by an observer. however, a data source might consist of multiple observers-like a person has multiple senses or a car has multiple devices emitting events.
+
+AI agents could be an observer.",,,,,
+Column,Sources.DefaultObserverID,"Sources.DefaultObserverID. A data source stores data observed by an observer. however, a data source might consist of multiple observers-like a person has multiple senses or a car has multiple devices emitting events.
+
+This is the default observer.",,,,,
+Column,Sources.DefaultTableName,"Sources.DefaultTableName. It's possible the source is ""one big table"" or a CSV. In this case, it helps to have the name of the table as a default.",,,,,
+Column,Sources.PropertiesJSONFullyQualifiedColumnName,"Sources.PropertiesJSONFullyQualifiedColumnName. Name of source fully qualified column name (schema,table.column) containing JSON of case-level properties.",,,,,
+Column,Sources.TargetJSONFullyQualifiedColumnName,"Sources.TargetJSONFullyQualifiedColumnName. Name of source fully qualified column name (schema,table.column) containing JSON of case-level properties.",,,,,
+Column,EventProperties.ActualProperties,"EventProperties.ActualProperties. Metric inputs - key/value pairs of metrics as inputs into a node.
+
+The idea behind InputProperties and OutputProperties is that something happens between entering the state and exiting. Things can also happen between exiting a state and entering another one.
+
+See the table Metrics and the scalar function, MetricValue.",,,,,
+Column,EventProperties.AggregationProperties,"EventProperties.AggregationProperties. If an Event is an aggregation, these are the properties of the aggregation. Examples of keys would be the aggregator's name, each descriptive statistic of the aggregation.
+
+See the AggregationTypes table.",,,,,
+Column,EventProperties.EventID,EventProperties.EventID. FK to EventsFact.EventID. One row per EventID,,,,,
+Column,EventProperties.ExpectedProperties,"EventProperties.ExpectedProperties. Metric inputs - key/value pairs of metrics as Outputs from a node.
+
+See description for InputProperties.
+
+If the event just a reading, there shouldn't be OutputProperties.",,,,,
+Column,EventProperties.IntendedProperties,EventProperties.IntendedProperties. Actual vs. Expected (predicted) is the subject of statisticians creating the confusion matrix. Intended is what we're shooting for.,,,,,
 Column,EventProperties.TriggerFunction,"EventProperties.TriggerFunction. What triggered this event? The function, a prolog, a rest call, etc. that triggered the function. It is the ""cause"" of the event, contrasted to ActualProperties which something about the event. For example, hunger got me to go to the store, but I actually spent $100.
 
 This is an optional value, but helps with reasoning analysis. The importance of knowing why the event triggered added reasoning and something that can help us adjust how the events are triggered- address the cause.
@@ -22,6 +53,7 @@ Column,Cases.AccessBitmap,"Cases.AccessBitmap. Bitmap of Access. Cases included 
 Column,Cases.CaseID,Cases.CaseID. PK of the Cases table.,,,,,
 Column,Cases.CaseTypeID,Cases.CaseTypeID. FK to the CaseTypes table.,,,,,
 Column,Cases.Date_SourceColumnID,Cases.Date_SourceColumnID. The SourceColumns.SourceID for the date column of EventsFact rows under this CaseID.,,,,,
+Column,Cases.Event_SourceColumnID,Cases.Event_SourceColumnID. FK to the SourceColumns.SourceColumnsID. The SourceColumns.SourceID for the event column of EventsFact rows under this CaseID.,,,,,
 Column,Cases.NaturalKey,Cases.NaturalKey. NaturalKey of the Case. This could be a json because the natural key could be made of parts. This should be the CaseID column from STAGE.ImportEevnts.,,,,,
 Column,Cases.NaturalKey_SourceColumnID,Cases.NaturalKey_SourceColumnID. The SourceColumns.SourceID for the natural key column of this case.,,,,,
 Column,Cases.SourceID,"Cases.SourceID. FK to the Sources table, Sources.SourceID",,,,,
@@ -29,8 +61,6 @@ Column,Access.AccessID,Access.AccessID. Primary Key of the Access table.,,,,,
 Column,DimAnomalyCategories.AmomalyCategoryID,DimAnomalyCategories.AmomalyCategoryID. PK of the AnomalyCategoryID table. Noted that this isn;t spelled correctly.,,,,,
 Column,DimAnomalyCategories.IRI,DimAnomalyCategories.IRI. The IRI (Internation Resource Identifier) is the gateway to a knowledge graph.,,,,,
 Column,Transforms.Description,"Transforms.Description. Intended as a prompt to an LLM in order to help link information. For example, we could prompt the description of multiple transformations (or the set of transforms - the json of mappings) and ask how they relate.",,,,,
-Column,Transforms.transforms,Transforms.transforms. JSON of the from-event to the to-event key-value pairs.,,,,,
-Column,Transforms.transformskey,Transforms.transformskey. PK of the Transforms table.,,,,,
 Column,EventSets.Description,"EventSets.Description. Intended as a prompt to an LLM in order to help link information. For example, we could prompt the description of multiple event sets (or the set of Events - the list of events in EventSet) and ask how they relate.",,,,,
 Column,EventSets.DescriptionAuthorUserID,EventSets.DescriptionAuthorUserID. UserID of the author of the description. Could be ChatGPT or a person.,,,,,
 Column,EventSets.EventSet,EventSets.EventSet. 4000 should be good for at least 200 event codes (each event code is NVARCHAR(20)).,,,,,
@@ -48,7 +78,6 @@ Column,EventSets.Length,EventSets.Length. Number of items in EventSet. This is s
 Column,CasePropertiesParsed.AccessBitmap,CasePropertiesParsed.AccessBitmap. Bitmap of roles allowed to see these case-level properties.,,,,,
 Column,CasePropertiesParsed.AddedProperty,"CasePropertiesParsed.AddedProperty. 0=This was parsed out of CaseProperties, 1=Added outside of case properties. CaseProperties is silver-level, cleansed table, not added.",,,,,
 Column,CasePropertiesParsed.CaseID,CasePropertiesParsed.CaseID. FK to the Cases table,,,,,
-Column,ModelProperties.PropertyValueNumeric,ModelProperties.PropertyValueNumeric. This should actually be PropertyValue.,,,,,
 Column,CasePropertiesParsed.PropertyName,"CasePropertiesParsed.PropertyName. Case-level properties. This is anything related to the property. For example, the customer id, the employee id of the person who served the customer. These could be used to slice and dice the cases.
 
 This is a JSON field. This is to allow for a heterogeneous mix of case and event types.
@@ -61,6 +90,8 @@ Column,CasePropertiesParsed.SortValue,"CasePropertiesParsed.SortValue. A value t
 
 {""Sizes"": {""value"": ""large"", ""sort_value"": 5}",,,,,
 Column,CasePropertiesParsed.SourceColumnID,"CasePropertiesParsed.SourceColumnID. FK to the SourceColumns table. The column of the source of the property. ex. a property, gender, from Customers.Gender column of a CRM database.",,,,,
+Column,ModelSequences.HopStDev,ModelSequences.HopStDev. Standard deviation of time between lastEvent and nextEvent.,,,,,
+Column,ModelSequences.lastEvent,ModelSequences.lastEvent. FK to DimEvents table.,,,,,
 Column,ModelSimilarity.IsMutuallyExclusive,"ModelSimilarity.IsMutuallyExclusive. Mutually exclusive means the cases comprising both models do not overlap.
 
 NULL = Hasn't been determined, 0 = No, 1 = Is Mututally exclusive.
@@ -74,11 +105,7 @@ Column,EventPropertiesParsed.EventDate,"EventPropertiesParsed.EventDate. Used li
 Column,EventPropertiesParsed.EventPropertyCountAllocation,"EventPropertiesParsed.EventPropertyCountAllocation. Count of properties for eventid. It's used to allocate count, avoiding a distinct count.",,,,,
 Column,EventPropertiesParsed.PropertySource,"EventPropertiesParsed.PropertySource. 0 = ActualProperties, 1=ExpectedProperties, 2=AggregationProperties, 3=IntendedProperties",,,,,
 Column,ModelProperties.CaseLevel,ModelProperties.CaseLevel. This is a property parsed out of Models.CaseFilterProperties. ,,,,,
-Instance,Model.27,"Cached Markov Model--Event Set: websitepages,StartDateTime: 1900-01-01,EndDateTime: 2050-12-31--Transforms: None--Case Filters: None",,,,,
-Instance,Model.28,"Cached Markov Model--Event Set: websitepages,StartDateTime: 1900-01-01,EndDateTime: 2050-12-31--Transforms: {""arnold1"":""arnold"",""arnold2"":""arnold"",""keto1"":""dietpage"",""weightwatcher1"":""dietpage"",""vanproteinbars"":""proteinbars"",""chocproteinbars"":""proteinbars""}--Case Filters: None",,,,,
-Instance,EventType.abandoncart.2,User abandons shopping cart--Code:abandoncart,,,,,
-Instance,EventType.abandonedcart.2,User abandons shopping cart--Code:abandonedcart,,,,,
-Instance,EventType.ante.1,Place a bet before the start--Code:ante,,,,,
+Column,ModelProperties.PropertyValueNumeric,ModelProperties.PropertyValueNumeric. This should actually be PropertyValue.,,,,,
 Instance,EventType.arnold1.2,Arnold event type 1--Code:arnold1,,,,,
 Instance,EventType.arnold2.2,Arnold event type 2--Code:arnold2,,,,,
 Instance,EventType.Arrhythmia.8,Event Set--Code:Arrhythmia,,,,,
@@ -94,6 +121,12 @@ Instance,EventType.bigtip.2,User gives a big tip--Code:bigtip,,,,,
 Instance,EventType.BLOOD_DRAWN.9,Event Set--Code:BLOOD_DRAWN,,,,,
 Instance,EventType.BLOOD_DRAWN.10,Event Set--Code:BLOOD_DRAWN,,,,,
 Instance,EventType.calls.1,User calls a bet--Code:calls,,,,,
+Instance,EventType.cart.2,User views shopping cart--Code:cart,,,,,
+Instance,EventType.ccdeclined.2,Credit card was declined--Code:ccdeclined,,,,,
+Instance,EventType.charged.2,User charged for a purchase--Code:charged,,,,,
+Instance,EventType.check.2,Player checks--Code:check,,,,,
+Instance,EventType.checks.1,Multiple players check--Code:checks,,,,,
+Instance,EventType.chocprotein.2,Chocolate protein product--Code:chocprotein,,,,,
 Instance,Souce Column.STAGE.poker.InputProperties.TournamentNumber-22,Unique tournament number or identifier for a specific poker tournament event.--Code:Stage.STAGE.poker.InputProperties.TournamentNumber,,,,,
 Instance,Souce Column.TableNameNotSet.Fuel-23,"Fuel consumed during the truck route, measured in gallons.--Code:UnknownDB.UnknownTable.Fuel",,,,,
 Instance,Souce Column.TableNameNotSet.Weight-24,"Total weight of the truck’s cargo, measured in pounds.--Code:UnknownDB.UnknownTable.Weight",,,,,
@@ -222,11 +255,14 @@ Notes:
     • The procedure uses GroupType = 'ModelProp' for all persisted rows, indicating that the grouping context is the model-level characteristic space rather than a time bucket or raw case stream.
 
 "
-VIEW,[dbo].[vwSimiliarSourceColumnPairs_Full],"VIEW Name: dbo.vwSimiliarSourceColumnPairs_Full: Provides a fuller view of similar source-column pairs, likely combining matched SourceColumns with additional descriptive metadata so related columns across sources can be reviewed, compared, and analyzed more easily.{""Columns"":[{""Name"":""SourceColumnID1""},{""Name"":""SourceColumnID2""},{""Name"":""SimilarityScore""},{""Name"":""Reason""},{""Name"":""TableName1""},{""Name"":""ColumnName1""},{""Name"":""ColumnDescription1""},{""Name"":""TableName2""},{""Name"":""ColumnName""},{""Name"":""ColumnDescription2""}]}",,,,,
+Instance,dbo.Metrics.Fuel,Fuel consumed between events.,,,,,
+Instance,dbo.Metrics.Weight,Weight change,,,,,
+Instance,dbo.Metrics.Close,Day over Day Closing Stock price,,,,,
+Instance,dbo.Metrics.sec,Time between the previous and current event. This is the default metric based on the EventDate,,,,,
 Instance,dbo.Metrics.liter,Fuel consumed between events.,,,,,
 Instance,dbo.Metrics.tons,Weight change,,,,,
 Instance,dbo.Metrics.NA,Day over Day Closing Stock price,,,,,
-Table,DIM.Location_Test,"DIM.Location_Test. Columns: [City,Country,Description,LocationID,State]",,,,,
+Instance,dbo.CaseTypes.Meal,"Restaurant meal service process: Captures the full customer journey in a typical sit-down restaurant, including ordering, seating, food preparation, service interactions, payments, complaints, and tipping events.",,,,,
 SQL_SCALAR_FUNCTION,[dbo].[EventSetKey],"Scalar function, [dbo].[EventSetKey]: Generates a 16-byte binary key for a comma-separated list of events, treating the list either as a set (order-agnostic) or as a sequence (order-sensitive). Uses MD5 hashing of the normalized event list plus a single-character sequence flag.","Use when you need a stable hash key for an event set or sequence so that equivalent definitions can be matched, stored, reused, or looked up consistently across models, metadata, and caching logic.","[
     {
       ""name"": ""@EventSet"",
@@ -298,15 +334,14 @@ SQL_SCALAR_FUNCTION,[dbo].[EventSetKey],"Scalar function, [dbo].[EventSetKey]: G
     SELECT dbo.EventSetKey('d,b,c', 1);
 
 "
+Instance,dbo.CaseTypes.Truck Trip,"Delivery or pickup vehicle route tracking: Represents logistics and transportation events for package delivery, garbage collection, or similar pickup/delivery operations along defined routes.",,,,,
+Instance,dbo.CaseTypes.Commute to Work,"Daily commute to work: Tracks individual or aggregated commuting patterns, routes, times, modes of transportation, and related events from home to workplace and return.",,,,,
+Instance,dbo.CaseTypes.PokerGame,"Poker game and tournament events: Records real-time or historical data from poker sessions including player count, seating, dealer button position, tournament numbers, and gameplay actions.",,,,,
+Instance,dbo.CaseTypes.DailySalesPerf,"Daily sales performance tracking for liquor retail: Iowa state liquor store sales data including store-level transactions, product movement, revenue, and sales metrics over time.",,,,,
 Instance,dbo.CaseTypes.Internet Sale,"Internet sale / e-commerce transaction: Captures online purchase events, order processing, customer interactions, and fulfillment activities from web-based retail platforms.",,,,,
-Instance,dbo.CaseTypes.Stock Day2Day,"Daily stock market performance data: End-of-day quotes, pricing, volume, and trading metrics for publicly traded stocks and securities.",,,,,
-Instance,dbo.CaseTypes.e-commerce site,"General e-commerce site events: Broad category for online retail platform activities including browsing, cart additions, purchases, and customer behavior on digital storefronts.",,,,,
-Instance,dbo.CaseTypes.Medical,"Medical and clinical patient events: Encompasses healthcare-related records from hospitals and clinics, including demographics, diagnoses, procedures, and clinical workflows.",,,,,
-Column,EventPropertiesMDM.MDMComparisonTypeID,EventPropertiesMDM.MDMComparisonTypeID. FK to  MDMComparisonType.MDMComparisonTypeID.,,,,,
-Column,EventPropertiesMDM.MDMName,EventPropertiesMDM.MDMName. MDM property name,,,,,
 SQL_SCALAR_FUNCTION,[dbo].[ModelID],"Scalar function, [dbo].[ModelID]: [
     ""Looks up an existing ModelID matching the full model definition (event set, date range, enumeration flag, transforms, grouping, metric, filters, and model type)."",
-    ""Returns the first matching ModelID or NULL if none found.""
+    ""Returns the first matching ModelID or NULL if none found. Obtaining a ModelID is the first step towards creating a model once the parameters are decided.""
   ]",Use when you want to resolve or derive a model identifier from model-defining inputs instead of hard-coding ModelID values in downstream logic.,"[
     {""name"":""@EventSet"",""type"":""NVARCHAR(MAX)"",""default"":null,""description"":""Identifier or CSV defining the event set.""},
     {""name"":""@enumerate_multiple_events"",""type"":""BIT"",""default"":null,""description"":""0 to collapse duplicates; 1 to enumerate each occurrence.""},
@@ -346,11 +381,11 @@ SQL_SCALAR_FUNCTION,[dbo].[ModelID],"Scalar function, [dbo].[ModelID]: [
 
 
 "
-Instance,dbo.CaseTypes.Meal,"Restaurant meal service process: Captures the full customer journey in a typical sit-down restaurant, including ordering, seating, food preparation, service interactions, payments, complaints, and tipping events.",,,,,
-Instance,dbo.CaseTypes.Truck Trip,"Delivery or pickup vehicle route tracking: Represents logistics and transportation events for package delivery, garbage collection, or similar pickup/delivery operations along defined routes.",,,,,
-Instance,dbo.CaseTypes.Commute to Work,"Daily commute to work: Tracks individual or aggregated commuting patterns, routes, times, modes of transportation, and related events from home to workplace and return.",,,,,
-Instance,dbo.CaseTypes.PokerGame,"Poker game and tournament events: Records real-time or historical data from poker sessions including player count, seating, dealer button position, tournament numbers, and gameplay actions.",,,,,
-Instance,dbo.CaseTypes.DailySalesPerf,"Daily sales performance tracking for liquor retail: Iowa state liquor store sales data including store-level transactions, product movement, revenue, and sales metrics over time.",,,,,
+Instance,Model.11,"Cached Markov Model--Event Set: leavehome,heavytraffic,moderatetraffic,lighttraffic,arrivework,returnhome,StartDateTime: 1900-01-01,EndDateTime: 2050-12-31--Transforms: {""heavytraffic"":""traffic"",""moderatetraffic"":""traffic"",""returnhome"":""home"",""leavehome"":""home""}--Case Filters: None",,,,,
+Instance,Model.12,"Cached Markov Model--Event Set: heavytraffic,moderatetraffic,lighttraffic,StartDateTime: 1900-01-01,EndDateTime: 2050-12-31--Transforms: None--Case Filters: None",,,,,
+Instance,Model.13,"Cached Markov Model--Event Set: leavehome,heavytraffic,lighttraffic,arrivework,StartDateTime: 1900-01-01,EndDateTime: 2050-12-31--Transforms: None--Case Filters: None",,,,,
+Instance,Model.14,"Cached Markov Model--Event Set: leavehome,heavytraffic,lighttraffic,arrivework,StartDateTime: 1900-01-01,EndDateTime: 2050-12-31--Transforms: None--Case Filters: None",,,,,
+Instance,Model.15,"Cached Markov Model--Event Set: pickuproute,StartDateTime: 1900-01-01,EndDateTime: 2050-12-31--Transforms: None--Case Filters: None",,,,,
 SQL_INLINE_TABLE_VALUED_FUNCTION,[dbo].[getTimeMoleculesObjectMetadata],"Table-valued function, [dbo].[getTimeMoleculesObjectMetadata]: Scans SQL module definitions in the TimeSolution database, extracts embedded Metadata JSON blocks from object comments, and returns both the raw JSON and selected parsed fields for easier browsing and governance.","Use when you want a searchable inventory of Time Molecules database objects and their embedded metadata. Helpful for documentation, governance, object catalogs, quality checks, and building tooling that can reason over object descriptions, parameters, and referenced objects.",[],"[
     { ""name"": ""ObjectType"", ""type"": ""NVARCHAR(60)"", ""description"": ""SQL Server object type description from sys.objects, such as SQL_SCALAR_FUNCTION, SQL_TABLE_VALUED_FUNCTION, or SQL_STORED_PROCEDURE."" },
     { ""name"": ""ObjectName"", ""type"": ""NVARCHAR(258)"", ""description"": ""Two-part object name in [schema].[object] form."" },
@@ -379,9 +414,9 @@ SQL_INLINE_TABLE_VALUED_FUNCTION,[dbo].[getTimeMoleculesObjectMetadata],"Table-v
     FROM dbo.getTimeMoleculesObjectMetadata()
     WHERE [Utilization] IS NOT NULL;
 "
-Instance,Model.23,"Cached Markov Model--Event Set: restaurantguest,StartDateTime: 1900-01-01,EndDateTime: 2050-12-31--Transforms: None--Case Filters: None",,,,,
-Instance,Model.24,"Cached Markov Model--Event Set: pickuproute,StartDateTime: 1900-01-01,EndDateTime: 2050-12-31--Transforms: None--Case Filters: None",,,,,
-Instance,Model.25,"Cached Markov Model--Event Set: cardiology,StartDateTime: 1900-01-01,EndDateTime: 2050-12-31--Transforms: None--Case Filters: None",,,,,
+Instance,Model.20,"Cached Markov Model--Event Set: pokeractions,StartDateTime: 1900-01-01,EndDateTime: 2050-12-31--Transforms: None--Case Filters: None",,,,,
+Instance,Model.21,"Cached Markov Model--Event Set: arnold1,arnold2,receipt,abandonedcart,StartDateTime: 1900-01-01,EndDateTime: 2050-12-31--Transforms: {""arnold1"":""arnold"",""arnold2"":""arnold""}--Case Filters: None",,,,,
+Instance,Model.22,"Cached Markov Model--Event Set: leavesite,returnsite,StartDateTime: 1900-01-01,EndDateTime: 2050-12-31--Transforms: None--Case Filters: None",,,,,
 SQL_INLINE_TABLE_VALUED_FUNCTION,[dbo].[ParseCSV],"Table-valued function, [dbo].[ParseCSV]: Splits a comma- or delimiter-separated NVARCHAR string into rows of individual values using STRING_SPLIT.","Use when you need a lightweight helper to split a delimited string into rows inside SQL. Helpful for reusable parameter parsing, especially when other functions or procedures accept comma-separated lists and you want a simple rowset for filtering or joining.","[
     { ""name"": ""@csv"",       ""type"": ""NVARCHAR(MAX)"", ""default"": ""NULL"", ""description"": ""Delimited string to parse into individual values."" },
     { ""name"": ""@delimiter"", ""type"": ""CHAR(1)"",       ""default"": ""','"",   ""description"": ""Single-character delimiter; defaults to comma if NULL."" }
@@ -422,12 +457,10 @@ SQL_STORED_PROCEDURE,[dbo].[DefaultModelParameters],"Stored procedure, , [dbo].[
     SELECT @Start, @End, @Ord, @Enum, @Met;
 
 "
-Column,EventPropertiesMDM.PropertyName,EventPropertiesMDM.PropertyName. Name of the raw property,,,,,
-Column,EventPropertiesMDM.SourceColumnID,EventPropertiesMDM.SourceColumnID. SourceColumnID of the raw property.,,,,,
-Column,DimObservers.Code,DimObservers.Code. Code of the observer (generator of events).,,,,,
-Column,DimObservers.Parent_ObserverID,"DimObservers.Parent_ObserverID. Observers are the devices (IoT, AI agents, cars, phones), and each can consist of a hierarchy of event emitters.
-
-Note that Observers differ from Sources in that a Source is where case and event properties can be looked up.",,,,,
+Instance,Event Set.58BE84D012195BDE1C139568CE35AF4C,Event Set--Code:None--Event Set:walmart3,,,,,
+Instance,Event Set.5D0816B650DD51E53E19B74C7771783F,Event Set--Code:None--Event Set:pokeractions,,,,,
+Instance,Event Set.pokergamestates,"Event Set--Code:pokergamestates--Event Set:GameState-0,GameState-1,GameState-2,GameState-3,GameState-4",,,,,
+Instance,Event Set.6CD99510BCA54729CBC41BBF6C6320C8,"Event Set--Code:None--Event Set:leavehome,heavytraffic,lighttraffic,arrivework",,,,,
 SQL_STORED_PROCEDURE,[dbo].[CreateUpdateMarkovProcess],"Stored procedure, , [dbo].[CreateUpdateMarkovProcess]: [
     ""Creates or refreshes a Markov process model for a given event set."",
     ""Calls InsertModel to upsert Models, clears ModelEvents, invokes MarkovProcess2 to compute transition metrics into a temp table, populates ModelEvents, updates Models.DistinctCases, and—if requested—inserts detailed sequences into ModelSequences."",
@@ -473,15 +506,18 @@ SQL_STORED_PROCEDURE,[dbo].[CreateUpdateMarkovProcess],"Stored procedure, , [dbo
        @InsertSequences = 1;
 
 "
-Instance,dbo.CaseTypes.ER-Lab,"Emergency Room Laboratory workflow: Lab test orders, processing, panels, and results originating from or associated with an Emergency Room visit.",,,,,
-Instance,dbo.CaseTypes.ER-MRI,"Emergency Room MRI / Radiology workflow: MRI imaging orders, studies, and radiology procedures initiated during or linked to an Emergency Room patient encounter.",,,,,
-Instance,dbo.CaseTypes.ER-CaseMgt,"Emergency Room Case Management: Coordination, tracking, and management activities for patients within the Emergency Department, including follow-up, disposition, and resource allocation.",,,,,
-Instance,dbo.DimAnomalyCategories.None,A null value so that the values are filled in tables.,,,,,
-Instance,dbo.DimAnomalyCategories.Metric Outlier,Metric outlier value from eventA to eventB.,,,,,
-Instance,dbo.DimAnomalyCategories.Low Prob,A low probability transition from eventA to eventB,,,,,
-Instance,dbo.DimAnomalyCategories.CaseProperty,"Not an anomaly, but a factor for Bayesian Calculations.",,,,,
-Instance,Model.1,"Cached Markov Model--Event Set: restaurantguest,StartDateTime: 1900-01-01,EndDateTime: 2050-12-31--Transforms: None--Case Filters: None",,,,,
-Instance,Model.2,"Cached Markov Model--Event Set: kitchenorder,StartDateTime: 1900-01-01,EndDateTime: 2050-12-31--Transforms: None--Case Filters: None",,,,,
+Instance,Model.23,"Cached Markov Model--Event Set: restaurantguest,StartDateTime: 1900-01-01,EndDateTime: 2050-12-31--Transforms: None--Case Filters: None",,,,,
+Instance,Model.24,"Cached Markov Model--Event Set: pickuproute,StartDateTime: 1900-01-01,EndDateTime: 2050-12-31--Transforms: None--Case Filters: None",,,,,
+Instance,Model.25,"Cached Markov Model--Event Set: cardiology,StartDateTime: 1900-01-01,EndDateTime: 2050-12-31--Transforms: None--Case Filters: None",,,,,
+Instance,Model.26,"Cached Markov Model--Event Set: cardiology,StartDateTime: 1900-01-01,EndDateTime: 2050-12-31--Transforms: None--Case Filters: None",,,,,
+Instance,EventType.folds.1,Player folds their hand--Code:folds,,,,,
+Instance,EventType.GameState-0.1,Game state event 0--Code:GameState-0,,,,,
+Instance,EventType.GameState-1.1,Game state event 1--Code:GameState-1,,,,,
+Instance,EventType.GameState-2.1,Game state event 2--Code:GameState-2,,,,,
+Instance,EventType.GameState-3.1,Game state event 3--Code:GameState-3,,,,,
+Instance,EventType.GameState-4.1,Game state event 4--Code:GameState-4,,,,,
+Instance,EventType.greeted.2,User was greeted--Code:greeted,,,,,
+Instance,EventType.heavytraffic.2,Heavy traffic conditions--Code:heavytraffic,,,,,
 SQL_STORED_PROCEDURE,[dbo].[Generate_LLM_Description_Prompts],"Stored procedure, , [dbo].[Generate_LLM_Description_Prompts]: Builds a set of natural-language prompts for various metadata objects (EventSets, Transforms, Metrics, Sources, Models, CaseTypes) to feed into an LLM for generating vector embeddings or descriptions.","Use when you want to generate prompt text for metadata objects so they can be described, embedded, or indexed for semantic search and LLM-assisted navigation.","[
     { ""name"": ""@Table"", ""type"": ""NVARCHAR(1000)"", ""default"": null, ""description"": ""Optional filter: only generate prompts for the specified table name."" }
   ]","[
@@ -510,7 +546,13 @@ SQL_STORED_PROCEDURE,[dbo].[Generate_LLM_Description_Prompts],"Stored procedure,
     EXEC dbo.Generate_LLM_Description_Prompts @Table='Models';  -- Only for Models table
 
 "
-Column,Metrics.Description,Metrics.Description. Intended as a prompt to an LLM so we can obtain more information about this.,,,,,
+Instance,EventType.HOLE_CARDS.1,Hole cards dealt in poker--Code:HOLE_CARDS,,,,,
+Instance,EventType.Holter End.8,Event Set--Code:Holter End,,,,,
+Instance,EventType.Holter Neg.8,Event Set--Code:Holter Neg,,,,,
+Instance,EventType.Holter Pos.8,Event Set--Code:Holter Pos,,,,,
+Instance,EventType.Holter Start.8,Event Set--Code:Holter Start,,,,,
+Instance,EventType.homedepot1.2,Home Depot event 1--Code:homedepot1,,,,,
+Instance,EventType.homepage.2,User views homepage--Code:homepage,,,,,
 SQL_TABLE_VALUED_FUNCTION,[dbo].[MarkovProcess],"Table-valued function, [dbo].[MarkovProcess]: Computes an Nth-order Markov chain over a specified event set and time window, returning detailed transition statistics, probabilities, entry/exit flags, ordinal metrics, and cache indicators for each tuple of prior events → next event.",,"[
     { ""name"": ""@Order"",                     ""type"": ""INT"",          ""default"": null, ""description"": ""Desired Markov order (1–3); NULL or ≤0 defaults to 1."" },
     { ""name"": ""@EventSet"",                  ""type"": ""NVARCHAR(MAX)"", ""default"": null, ""description"": ""Comma-separated events or code referencing dbo.ParseEventSet."" },
@@ -661,11 +703,10 @@ SQL_SCALAR_FUNCTION,[dbo].[PromptEventSimilarity],"Scalar function, [dbo].[Promp
 SELECT [dbo].[PromptEventSimilarity]('raises','heavytraffic',1,NULL,NULL,NULL)
 
 "
-Column,ModelSequences.length,ModelSequences.length. length of the sequence. This can be used to find the first occurance of a sequence part.,,,,,
-Column,ModelSequences.ModelID,ModelSequences.ModelID. FK to ModelID table,,,,,
-Column,ModelSequences.nextEvent,ModelSequences.nextEvent. FK to DimEvents table,,,,,
-Column,ModelSequences.SeqStDev,ModelSequences.SeqStDev. Standard deviation of time between the first event and lastEvent of the sequence.,,,,,
-Column,ModelSequences.TotalRows,ModelSequences.TotalRows. Total rows involved in calculating the sequence row.,,,,,
+Column,ImportEvents.AccessBitmap,ImportEvents.AccessBitmap. Default of -1 means all bits are set.,,,,,
+Column,ImportEvents.CaseID,"ImportEvents.CaseID. Really, the naturalkey of the case. it will be imported as Case.NaturalKey.",,,,,
+Column,ImportEvents.CaseProperties,"ImportEvents.CaseProperties. This is a flattened table, so all CaseProperties for a CaseID should be the same.",,,,,
+Column,ImportEvents.CaseTargetProperties,"ImportEvents.CaseTargetProperties. This is a flattened table, so all CaseTargetProperties for a CaseID should be the same.",,,,,
 SQL_SCALAR_FUNCTION,[dbo].[SequenceProbability],"Scalar function, [dbo].[SequenceProbability]: Computes the overall probability of observing a given event sequence under a Markov model by walking through the ModelEvents transition probabilities, starting from the stationary (eigenvector) probability of the first event and multiplying successive transition probabilities.","Use when you want the probability of one or more sequences returned as a rowset, especially when comparing multiple sequences or joining sequence probabilities into larger analyses.","[
     { ""name"": ""@Sequence"", ""type"": ""NVARCHAR(2000)"", ""default"": null, ""description"": ""Comma-separated list of events whose joint probability is to be computed."" },
     { ""name"": ""@ModelID"",  ""type"": ""INT"",          ""default"": null, ""description"": ""Identifier of the Markov model (in ModelEvents) to use for transition probabilities."" }
@@ -703,10 +744,11 @@ SQL_STORED_PROCEDURE,[dbo].[InsertTransforms],"Stored procedure, , [dbo].[Insert
     SELECT @tkey AS TransformsKey;
 
 "
-Instance,Souce Column.TableNameNotSet.Study-78,Specific MRI study or imaging procedure code/description.--Code:EHR.UnknownTable.Study,,,,,
-Instance,Souce Column.TableNameNotSet.VisitID-79,Unique hospital visit or encounter identifier linked to this MRI imaging order.--Code:EHR.UnknownTable.VisitID,,,,,
-Instance,Souce Column.Tickets.Event-83,Event of a guest service process.--Code:Main.Tickets.Event,,,,,
-Instance,Souce Column.Location.Description-84,Location description--Code:UnknownDB.Location.Description,,,,,
+Column,DimObservers.SourceID,DimObservers.SourceID. The storage place of event generated by the observer. This is where the Events Ensemble reads the events. ,,,,,
+Column,Metrics.Description,Metrics.Description. Intended as a prompt to an LLM so we can obtain more information about this.,,,,,
+Column,ModelSequences.nextEvent,ModelSequences.nextEvent. FK to DimEvents table,,,,,
+Column,ModelSequences.SeqStDev,ModelSequences.SeqStDev. Standard deviation of time between the first event and lastEvent of the sequence.,,,,,
+Column,ModelSequences.TotalRows,ModelSequences.TotalRows. Total rows involved in calculating the sequence row.,,,,,
 SQL_STORED_PROCEDURE,[dbo].[get_semantic_web_llm_values],"Stored procedure, , [dbo].[get_semantic_web_llm_values]: Dynamically discovers all tables with Description and IRI columns (plus optional EventsFact entries), and returns a unified result set of object name, type, description, IRI, code column name, and code value for semantic-web and LLM embedding purposes. Usefull for setting up 'Time Molecules skills'. See dbo.getTimeMoleculesObjectMetadata() for sprocs, tvf, and udfs.","Use when exporting or preparing Time Molecules metadata values for embeddings, semantic search, or LLM-oriented catalog generation.","[
     { ""name"": ""@IncludeEventsAndCases"", ""type"": ""BIT"", ""default"": ""0"", ""description"": ""1 to include EventsFact rows with their properties as additional entries; 0 to skip them."" }
   ]","[
@@ -734,6 +776,9 @@ SQL_STORED_PROCEDURE,[dbo].[get_semantic_web_llm_values],"Stored procedure, , [d
     EXEC dbo.get_semantic_web_llm_values 1;        -- include EventsFact entries
 
 "
+Instance,EventType.FLOP.1,Flop in poker game--Code:FLOP,,,,,
+Instance,Souce Column.STAGE.poker.InputProperties.Round_turn-20,Indicates the turn within the current round of the game.--Code:Stage.STAGE.poker.InputProperties.Round_turn,,,,,
+Instance,Souce Column.STAGE.poker.InputProperties.seats-21,Number of seats occupied or available at the poker table during the game event.--Code:Stage.STAGE.poker.InputProperties.seats,,,,,
 SQL_SCALAR_FUNCTION,[dbo].[ModelEventKey],"Scalar function, [dbo].[ModelEventKey]: [
     ""Generates a 16-byte MD5 hash representing the combination of model-level parameters and filters."",
     ""Enables linking of events across different models (e.g., Markov vs. Bayesian) by hashing the canonicalized parameter set.""
@@ -764,15 +809,24 @@ SQL_SCALAR_FUNCTION,[dbo].[ModelEventKey],"Scalar function, [dbo].[ModelEventKey
     SELECT @key AS HashedModelEventKey;
 
 "
-Instance,Model.11,"Cached Markov Model--Event Set: leavehome,heavytraffic,moderatetraffic,lighttraffic,arrivework,returnhome,StartDateTime: 1900-01-01,EndDateTime: 2050-12-31--Transforms: {""heavytraffic"":""traffic"",""moderatetraffic"":""traffic"",""returnhome"":""home"",""leavehome"":""home""}--Case Filters: None",,,,,
-Instance,Model.12,"Cached Markov Model--Event Set: heavytraffic,moderatetraffic,lighttraffic,StartDateTime: 1900-01-01,EndDateTime: 2050-12-31--Transforms: None--Case Filters: None",,,,,
-Instance,Model.13,"Cached Markov Model--Event Set: leavehome,heavytraffic,lighttraffic,arrivework,StartDateTime: 1900-01-01,EndDateTime: 2050-12-31--Transforms: None--Case Filters: None",,,,,
-Instance,Model.14,"Cached Markov Model--Event Set: leavehome,heavytraffic,lighttraffic,arrivework,StartDateTime: 1900-01-01,EndDateTime: 2050-12-31--Transforms: None--Case Filters: None",,,,,
-Instance,Model.15,"Cached Markov Model--Event Set: pickuproute,StartDateTime: 1900-01-01,EndDateTime: 2050-12-31--Transforms: None--Case Filters: None",,,,,
-Instance,Model.16,"Cached Markov Model--Event Set: websitepages,StartDateTime: 1900-01-01,EndDateTime: 2050-12-31--Transforms: None--Case Filters: None",,,,,
-Instance,EventType.lighttraffic.2,Light traffic conditions--Code:lighttraffic,,,,,
-Instance,EventType.Low Prob.0,Low probability in segment of a Markov Model--Code:Low Prob,,,,,
-Instance,Model.17,"Cached Markov Model--Event Set: websitepages,StartDateTime: 1900-01-01,EndDateTime: 2050-12-31--Transforms: {""arnold1"":""arnold"",""arnold2"":""arnold"",""keto1"":""dietpage"",""weightwatcher1"":""dietpage"",""vanproteinbars"":""proteinbars"",""chocproteinbars"":""proteinbars""}--Case Filters: None",,,,,
+Instance,EventType.intro.2,Introduction event--Code:intro,,,,,
+Instance,EventType.keto1.2,Keto diet event 1--Code:keto1,,,,,
+Instance,EventType.LAB_ORDERED.9,Event Set--Code:LAB_ORDERED,,,,,
+Instance,EventType.LAB_ORDERED.10,Event Set--Code:LAB_ORDERED,,,,,
+Instance,EventType.LAB_POSTED.9,Event Set--Code:LAB_POSTED,,,,,
+Instance,EventType.LAB_POSTED.10,Event Set--Code:LAB_POSTED,,,,,
+Instance,EventType.leavehome.2,User leaves home--Code:leavehome,,,,,
+Instance,EventType.leavesite.2,User leaves website--Code:leavesite,,,,,
+Instance,EventType.lv-csv1.2,Leaving - CVS drug store event 1--Code:lv-csv1,,,,,
+Instance,EventType.lv-csv2.2,Leaving - CVS drug store event 2--Code:lv-csv2,,,,,
+Instance,EventType.lv-csv4.2,Leaving - CVS drug store event 4--Code:lv-csv4,,,,,
+Instance,EventType.lv-csv5.2,Leaving - CVS drug store event 5--Code:lv-csv5,,,,,
+Instance,EventType.lv-homedepot1.2,Leaving - Home Depot event 1--Code:lv-homedepot1,,,,,
+Instance,EventType.lv-walmart1.2,Leaving - Walmart event 1--Code:lv-walmart1,,,,,
+Instance,EventType.lv-walmart2.2,Leaving - Walmart event 2--Code:lv-walmart2,,,,,
+Instance,EventType.lv-walmart3.2,Leaving - Walmart event 3--Code:lv-walmart3,,,,,
+Instance,EventType.MD_EVAL_START.9,Event Set--Code:MD_EVAL_START,,,,,
+Instance,EventType.Metric Outlier.0,Metric outlier within a Markov Model--Code:Metric Outlier,,,,,
 SQL_SCALAR_FUNCTION,[dbo].[MetricValue],"Scalar function, [dbo].[MetricValue]: [
     ""Calculates a metric value based on the specified method:"",
     ""0: Direct current value (like an odometer reading), which means return the value as is."",
@@ -808,14 +862,9 @@ SQL_SCALAR_FUNCTION,[dbo].[SortKeyValueJSON],"Scalar function, [dbo].[SortKeyVal
     SELECT dbo.SortKeyValueJSON('{""harry"":""Carry"",""ally"":""smith"",""barry"":""carter""}');
 
 "
-Instance,Model.26,"Cached Markov Model--Event Set: cardiology,StartDateTime: 1900-01-01,EndDateTime: 2050-12-31--Transforms: None--Case Filters: None",,,,,
-Instance,EventType.folds.1,Player folds their hand--Code:folds,,,,,
-Instance,EventType.GameState-0.1,Game state event 0--Code:GameState-0,,,,,
-Instance,EventType.GameState-1.1,Game state event 1--Code:GameState-1,,,,,
-Instance,EventType.GameState-2.1,Game state event 2--Code:GameState-2,,,,,
-Instance,EventType.GameState-3.1,Game state event 3--Code:GameState-3,,,,,
-Instance,EventType.GameState-4.1,Game state event 4--Code:GameState-4,,,,,
-Instance,EventType.greeted.2,User was greeted--Code:greeted,,,,,
+Instance,Souce Column.STAGE.poker.OutputProperties.all-in-1,Indicator of whether the player went all-in during the current round.--Code:Stage.STAGE.poker.OutputProperties.all-in,,,,,
+Instance,Souce Column.STAGE.poker.InputProperties.Amount-2,"The amount bet by the player during the current round, measured in chips.--Code:Stage.STAGE.poker.InputProperties.Amount",,,,,
+Instance,Souce Column.STAGE.poker.OutputProperties.bet-3,The total bet placed by the player in the current game.--Code:Stage.STAGE.poker.OutputProperties.bet,,,,,
 SQL_STORED_PROCEDURE,[dbo].[sp_CasePropertyProfiling],"Stored procedure, , [dbo].[sp_CasePropertyProfiling]: Profiles parsed case properties by property name, case type, source, and source column mapping. Returns counts of cases and counts of distinct observed values for each grouped property context.","Use when you want to understand how case properties are distributed across case types and sources, especially for metadata cleanup, source-column mapping, semantic profiling, and identifying which properties have high or low cardinality.",[],"[
     {
       ""name"": ""PropertyName"",
@@ -903,14 +952,14 @@ SQL_STORED_PROCEDURE,[dbo].[sp_CasePropertyProfiling],"Stored procedure, , [dbo]
     EXEC dbo.sp_CasePropertyProfiling;
 
 "
-Instance,EventType.heavytraffic.2,Heavy traffic conditions--Code:heavytraffic,,,,,
-Instance,EventType.HOLE_CARDS.1,Hole cards dealt in poker--Code:HOLE_CARDS,,,,,
-Instance,EventType.Holter End.8,Event Set--Code:Holter End,,,,,
-Instance,EventType.Holter Neg.8,Event Set--Code:Holter Neg,,,,,
-Instance,EventType.Holter Pos.8,Event Set--Code:Holter Pos,,,,,
-Instance,EventType.Holter Start.8,Event Set--Code:Holter Start,,,,,
-Instance,EventType.homedepot1.2,Home Depot event 1--Code:homedepot1,,,,,
-Instance,EventType.homepage.2,User views homepage--Code:homepage,,,,,
+Instance,EventType.moderatetraffic.2,Moderate traffic conditions--Code:moderatetraffic,,,,,
+Instance,EventType.MRI_FINAL.9,Event Set--Code:MRI_FINAL,,,,,
+Instance,EventType.MRI_FINAL.11,Event Set--Code:MRI_FINAL,,,,,
+Instance,EventType.MRI_ORDERED.9,Event Set--Code:MRI_ORDERED,,,,,
+Instance,EventType.MRI_ORDERED.11,Event Set--Code:MRI_ORDERED,,,,,
+Instance,EventType.MRI_START.9,Event Set--Code:MRI_START,,,,,
+Instance,EventType.MRI_START.11,Event Set--Code:MRI_START,,,,,
+Instance,EventType.NEW_GAME.1,New game started--Code:NEW_GAME,,,,,
 SQL_STORED_PROCEDURE,[dbo].[UpdateTransform],"Stored procedure, , [dbo].[UpdateTransform]: Updates an existing transforms entry by computing its key, ensuring the code is unique for that key, updating its code and description, and logs the update event.","Use when changing an existing transform definition without manually editing metadata tables, especially when event normalization rules evolve.","[
     { ""name"": ""@Transforms"",   ""type"": ""NVARCHAR(MAX)"", ""default"": ""NULL"", ""description"": ""JSON mapping definitions for event name transformations."" },
     { ""name"": ""@Code"",         ""type"": ""NVARCHAR(20)"",   ""default"": ""NULL"", ""description"": ""Short code or identifier for this transforms set."" },
@@ -1023,23 +1072,23 @@ SQL_STORED_PROCEDURE,[dbo].[InsertCase],"Stored procedure, , [dbo].[InsertCase]:
         @SourceID = 3;
 
 "
-Instance,EventType.intro.2,Introduction event--Code:intro,,,,,
-Instance,EventType.keto1.2,Keto diet event 1--Code:keto1,,,,,
-Instance,EventType.LAB_ORDERED.9,Event Set--Code:LAB_ORDERED,,,,,
-Instance,EventType.LAB_ORDERED.10,Event Set--Code:LAB_ORDERED,,,,,
-Instance,EventType.LAB_POSTED.9,Event Set--Code:LAB_POSTED,,,,,
-Instance,EventType.LAB_POSTED.10,Event Set--Code:LAB_POSTED,,,,,
-Instance,EventType.leavehome.2,User leaves home--Code:leavehome,,,,,
-Instance,EventType.leavesite.2,User leaves website--Code:leavesite,,,,,
-Instance,EventType.lv-csv1.2,Leaving - CVS drug store event 1--Code:lv-csv1,,,,,
-Instance,EventType.lv-csv2.2,Leaving - CVS drug store event 2--Code:lv-csv2,,,,,
-Instance,EventType.lv-csv4.2,Leaving - CVS drug store event 4--Code:lv-csv4,,,,,
-Instance,EventType.lv-csv5.2,Leaving - CVS drug store event 5--Code:lv-csv5,,,,,
-Instance,EventType.lv-homedepot1.2,Leaving - Home Depot event 1--Code:lv-homedepot1,,,,,
-Instance,EventType.lv-walmart1.2,Leaving - Walmart event 1--Code:lv-walmart1,,,,,
-Instance,EventType.lv-walmart2.2,Leaving - Walmart event 2--Code:lv-walmart2,,,,,
-Instance,EventType.lv-walmart3.2,Leaving - Walmart event 3--Code:lv-walmart3,,,,,
-Instance,EventType.MD_EVAL_START.9,Event Set--Code:MD_EVAL_START,,,,,
+Instance,EventType.No Move.6,Event Set--Code:No Move,,,,,
+Instance,EventType.NoImplant-Ineligible.8,Event Set--Code:NoImplant-Ineligible,,,,,
+Instance,EventType.NoImplant-InsDecline.8,Event Set--Code:NoImplant-InsDecline,,,,,
+Instance,EventType.NoImplant-PatDecline.8,Event Set--Code:NoImplant-PatDecline,,,,,
+Instance,EventType.Normal Sales Day.3,Event Set--Code:Normal Sales Day,,,,,
+Instance,EventType.order.2,User places an order--Code:order,,,,,
+Instance,EventType.order_cook.4,Event Set--Code:order_cook,,,,,
+Instance,EventType.order_qlty_check.4,Event Set--Code:order_qlty_check,,,,,
+Instance,EventType.order_queue.4,Event Set--Code:order_queue,,,,,
+Instance,EventType.order_ready.4,Event Set--Code:order_ready,,,,,
+Instance,EventType.order_received.4,Event Set--Code:order_received,,,,,
+Instance,EventType.order_start_prep.4,Event Set--Code:order_start_prep,,,,,
+Instance,EventType.Pacemaker Implant.8,Event Set--Code:Pacemaker Implant,,,,,
+Instance,EventType.raises.1,Player raises a bet--Code:raises,,,,,
+Instance,EventType.receipt.2,User receives a receipt--Code:receipt,,,,,
+Instance,EventType.returnhome.2,User returns home--Code:returnhome,,,,,
+Instance,EventType.returnsite.2,User returns to website--Code:returnsite,,,,,
 SQL_TABLE_VALUED_FUNCTION,[dbo].[ConditionalProbabilityTable],"Table-valued function, [dbo].[ConditionalProbabilityTable]: For each case or time-group (CASEID/DAY/MONTH/YEAR), counts occurrences of two event sequences A and B so you can compute conditional probabilities across cases.","Use when you want grouped counts of sequence A and sequence B by case, day, month, or year so you can compute conditional probabilities or compare how the relationship changes over time.","[
     { ""name"": ""@SeqA"",                   ""type"": ""NVARCHAR(MAX)"", ""default"": null, ""description"": ""CSV list defining sequence A."" },
     { ""name"": ""@SeqB"",                   ""type"": ""NVARCHAR(MAX)"", ""default"": null, ""description"": ""CSV list defining sequence B."" },
@@ -1059,11 +1108,30 @@ SQL_TABLE_VALUED_FUNCTION,[dbo].[ConditionalProbabilityTable],"Table-valued func
     { ""name"": ""dbo.EventSetByCode"",    ""type"": ""Scalar Function"",        ""description"": ""Resolves EventSet code to CSV of events."" },
     { ""name"": ""STRING_SPLIT"",          ""type"": ""Built-in TVF"",           ""description"": ""Splits CSV into rows."" }
   ]",
-Instance,Souce Column.STAGE.poker.InputProperties.button-4,Indicator or flag representing the dealer button position or key game action in poker events.--Code:Stage.STAGE.poker.InputProperties.button,,,,,
-Instance,Souce Column.STAGE.poker.InputProperties.Cards-5,Cards held by the player in their hand during the current game.--Code:Stage.STAGE.poker.InputProperties.Cards,,,,,
-Instance,Souce Column.STAGE.poker.InputProperties.cards_on_table-6,The number of community cards currently on the table during the round.--Code:Stage.STAGE.poker.InputProperties.cards_on_table,,,,,
-Instance,Souce Column.STAGE.poker.InputProperties.cards_on_table_value-7,"The total value of the community cards on the table, in chips.--Code:Stage.STAGE.poker.InputProperties.cards_on_table_value",,,,,
-Instance,Souce Column.STAGE.poker.InputProperties.chips_remaining-8,The total number of chips remaining for the player in the current game.--Code:Stage.STAGE.poker.InputProperties.chips_remaining,,,,,
+SQL_INLINE_TABLE_VALUED_FUNCTION,[dbo].[UserAccessDeny],"Table-valued function, [dbo].[UserAccessDeny]: [
+    ""Returns the current SQL Server user's grant and deny access bitmaps as a single-row table-valued result."",
+    ""This function provides a compact access-control lookup for queries, views, procedures, or functions that need both positive access rights and explicit deny rights.""
+  ]",Use this inline table-valued function when a query needs to evaluate both dbo.UserAccessBitmap() and dbo.UserDenyBitmap() in a relational form.,[],"[
+    {
+      ""ColumnName"": ""GrantBitmap"",
+      ""DataType"": ""BIGINT"",
+      ""Description"": ""Bitmap representing the access rights granted to the current SQL Server user.""
+    },
+    {
+      ""ColumnName"": ""DenyBitmap"",
+      ""DataType"": ""BIGINT"",
+      ""Description"": ""Bitmap representing the access rights explicitly denied to the current SQL Server user.""
+    }
+  ]",,"
+
+SELECT * FROM [dbo].[UserAccessDeny]()
+
+"
+Instance,EventType.RIVER.1,River card dealt in poker--Code:RIVER,,,,,
+Instance,EventType.seated.2,User takes a seat--Code:seated,,,,,
+Instance,EventType.served.2,User is served--Code:served,,,,,
+Instance,EventType.shoppmt.2,Shopping payment event--Code:shoppmt,,,,,
+Instance,EventType.SHOW DOWN.1,Showdown in poker game--Code:SHOW DOWN,,,,,
 SQL_INLINE_TABLE_VALUED_FUNCTION,[dbo].[SeqProb],"Table-valued function, [dbo].[SeqProb]: Calculates the probability of a given next event following any sequence that starts with the specified start event, for a particular model or across all models.","Use when you need the probability of a specific sequence and want a scalar result that can be embedded in a larger query, scorecard, or rule.","[
     { ""name"": ""@ModelID"",     ""type"": ""INT"",           ""default"": ""NULL"", ""description"": ""Identifier of the model to filter; NULL returns results for all models."" },
     { ""name"": ""@StartEvent"",  ""type"": ""NVARCHAR(20)"",  ""default"": ""NULL"", ""description"": ""Prefix of the sequence to match; e.g. 'arrive' matches any sequence starting with 'arrive...'."" },
@@ -1099,14 +1167,6 @@ SQL_SCALAR_FUNCTION,[dbo].[SequenceKey],"Scalar function, [dbo].[SequenceKey]: G
   SELECT dbo.SequenceKey('arrive,greeted,seated,intro', 'drinks');
 
 "
-Instance,EventType.Metric Outlier.0,Metric outlier within a Markov Model--Code:Metric Outlier,,,,,
-Instance,EventType.moderatetraffic.2,Moderate traffic conditions--Code:moderatetraffic,,,,,
-Instance,EventType.MRI_FINAL.9,Event Set--Code:MRI_FINAL,,,,,
-Instance,EventType.MRI_FINAL.11,Event Set--Code:MRI_FINAL,,,,,
-Instance,EventType.MRI_ORDERED.9,Event Set--Code:MRI_ORDERED,,,,,
-Instance,EventType.MRI_ORDERED.11,Event Set--Code:MRI_ORDERED,,,,,
-Instance,EventType.MRI_START.9,Event Set--Code:MRI_START,,,,,
-Instance,EventType.MRI_START.11,Event Set--Code:MRI_START,,,,,
 SQL_STORED_PROCEDURE,[dbo].[InsertSource],"Stored procedure, , [dbo].[InsertSource]: [
     ""Inserts a new source definition if one with the given Name does not already exist."",
     ""If the source exists, returns its existing SourceID; otherwise creates a new row in Sources and outputs the new SourceID."",
@@ -1135,25 +1195,19 @@ SQL_STORED_PROCEDURE,[dbo].[InsertSource],"Stored procedure, , [dbo].[InsertSour
     SELECT @NewID AS SourceID;
 
 "
-Instance,EventType.NEW_GAME.1,New game started--Code:NEW_GAME,,,,,
-Instance,EventType.No Move.6,Event Set--Code:No Move,,,,,
-Instance,EventType.NoImplant-Ineligible.8,Event Set--Code:NoImplant-Ineligible,,,,,
-Instance,EventType.NoImplant-InsDecline.8,Event Set--Code:NoImplant-InsDecline,,,,,
-Instance,EventType.NoImplant-PatDecline.8,Event Set--Code:NoImplant-PatDecline,,,,,
-Instance,EventType.Normal Sales Day.3,Event Set--Code:Normal Sales Day,,,,,
-Instance,EventType.order.2,User places an order--Code:order,,,,,
-Instance,EventType.order_cook.4,Event Set--Code:order_cook,,,,,
-Instance,EventType.order_qlty_check.4,Event Set--Code:order_qlty_check,,,,,
-Instance,EventType.order_queue.4,Event Set--Code:order_queue,,,,,
-Instance,EventType.order_ready.4,Event Set--Code:order_ready,,,,,
-Instance,EventType.order_received.4,Event Set--Code:order_received,,,,,
-Instance,EventType.order_start_prep.4,Event Set--Code:order_start_prep,,,,,
-Instance,EventType.Pacemaker Implant.8,Event Set--Code:Pacemaker Implant,,,,,
-Instance,EventType.raises.1,Player raises a bet--Code:raises,,,,,
-Instance,EventType.receipt.2,User receives a receipt--Code:receipt,,,,,
-Instance,EventType.returnhome.2,User returns home--Code:returnhome,,,,,
-Instance,EventType.returnsite.2,User returns to website--Code:returnsite,,,,,
-Instance,EventType.RIVER.1,River card dealt in poker--Code:RIVER,,,,,
+Instance,Event Set.7447CED91DCCF7B553493E939027E522,"Event Set--Code:None--Event Set:heavytraffic,moderatetraffic,lighttraffic",,,,,
+Instance,Event Set.commute,"Event Set--Code:commute--Event Set:leavehome,heavytraffic,moderatetraffic,lighttraffic,arrivework",,,,,
+Instance,Event Set.81ABDE6DFA4033576E85930FE417D600,Event Set--Code:None--Event Set:Holter Pos,,,,,
+Instance,Event Set.825604E51A843EE181BA50DC7DEDD5F8,"Event Set--Code:None--Event Set:arrive,depart",,,,,
+Instance,Event Set.pickuproute,"Event Set--Code:pickuproute--Event Set:leavesite,walmart1,lv-walmart1,walmart2,lv-walmart2,csv1,lv-csv1,csv4,lv-csv4,csv5,lv-csv5,walmart3,lv-walmart3,homedepot1,lv-homedepot1, csv2,lv-csv2,returnsite",,,,,
+Instance,Event Set.90B7DF3889E6F89A1DFDB66C452BC83A,Event Set--Code:None--Event Set:walmart2,,,,,
+Instance,Event Set.90D6F0A2C2274876EE60E686C037EE04,Event Set--Code:None--Event Set:Pacemaker Implant,,,,,
+Instance,Event Set.932F9CC0030CC46291C6FDD8B8D055B9,Event Set--Code:None--Event Set:kitchenorder,,,,,
+Instance,Event Set.9CEEC3F35F692AF3E36147F67E8A3BED,Event Set--Code:None--Event Set:Pacemaker Implant,,,,,
+Instance,Event Set.9CEFF06A049CFA042C10BE4D19C3B82D,Event Set--Code:None--Event Set:pickuproute,,,,,
+Instance,Event Set.9DE13992AFDFAF8295228CFCA1AF216B,"Event Set--Code:None--Event Set:leavesite,returnsite",,,,,
+Instance,Event Set.A2323469FAAE9B14FC636BBCDECF50EA,Event Set--Code:None--Event Set:bigtip,,,,,
+Instance,Event Set.AC0684FB8F41E7CFE621A8C5DEA771A1,Event Set--Code:None--Event Set:walmart3,,,,,
 SQL_TABLE_VALUED_FUNCTION,[dbo].[SequenceSegments],"Table-valued function, [dbo].[SequenceSegments]: Identifies and aggregates all event sequences in raw event data that begin with a specified start event and end with a specified end event, computing basic statistics (min, max, avg, stdev, sum) on the elapsed time between those events and listing the cases in which they occur.",,"[
     { ""name"": ""@StartEvent"",               ""type"": ""NVARCHAR(20)"",  ""default"": ""NULL"", ""description"": ""Name of the event at which sequences must begin."" },
     { ""name"": ""@EndEvent"",                 ""type"": ""NVARCHAR(20)"",  ""default"": ""NULL"", ""description"": ""Name of the event at which sequences must end."" },
@@ -1183,9 +1237,8 @@ SELECT * FROM dbo.[SequenceSegments]('drinks','depart','arrive,greeted,seated,in
 
 
 "
-Instance,EventType.seated.2,User takes a seat--Code:seated,,,,,
-Instance,EventType.served.2,User is served--Code:served,,,,,
-Instance,EventType.shoppmt.2,Shopping payment event--Code:shoppmt,,,,,
+Instance,Event Set.ADA917F5BB5962376E592F5E1A9F8551,"Event Set--Code:None--Event Set:arrive,greeted",,,,,
+Instance,Event Set.BA4904D3ABA9BBEAB3130B1CC72D26F9,Event Set--Code:None--Event Set:TIA,,,,,
 SQL_STORED_PROCEDURE,[dbo].[DeleteCase],"Stored procedure, , [dbo].[DeleteCase]: [
     ""Deletes all data associated with a given CaseID, including event facts, parsed and raw properties, case properties, and the case record itself.""
   ]",Use when you need to remove a case and its related dependent data in a controlled way rather than manually deleting from multiple tables.,"[
@@ -1222,15 +1275,12 @@ SQL_STORED_PROCEDURE,[dbo].[DeleteModel],"Stored procedure, , [dbo].[DeleteModel
 EXEC dbo.DeleteModel @ModelID = 42;
 
 "
-Instance,EventType.SHOW DOWN.1,Showdown in poker game--Code:SHOW DOWN,,,,,
-Instance,EventType.small_blind.1,Player posts small blind--Code:small_blind,,,,,
-Instance,EventType.Stroke.8,Event Set--Code:Stroke,,,,,
-Instance,EventType.Syncope.8,Event Set--Code:Syncope,,,,,
-Instance,EventType.TIA.8,Event Set--Code:TIA,,,,,
-Instance,EventType.TRIAGE_DONE.9,Event Set--Code:TRIAGE_DONE,,,,,
-Instance,EventType.TRIAGE_START.9,Event Set--Code:TRIAGE_START,,,,,
-Instance,EventType.TURN.1,Turn card dealt in poker--Code:TURN,,,,,
-Instance,EventType.turnto.1,Event Set--Code:turnto,,,,,
+Instance,Event Set.BD23A78FC79F9CB0E798F435CF6DD4C9,"Event Set--Code:None--Event Set:bigtip,drinks",,,,,
+Instance,Event Set.myworkday,"Event Set--Code:myworkday--Event Set:wakeup,coffee,emails,breakfast,coding,lunch,writing,dinner,sleep",,,,,
+Instance,Event Set.C12F0F41D384511ABC6B5D809F0B4B80,Event Set--Code:None--Event Set:walmart2,,,,,
+Instance,Event Set.C49473D4BF2F4DA2A8A4FF2D6F789C60,Event Set--Code:None--Event Set:poker,,,,,
+Instance,Event Set.C87DC9835A4FC6421B983C7E9CC22654,Event Set--Code:None--Event Set:pokergamestates,,,,,
+Instance,Event Set.C8C33FF5348163B33628FC10F8CC0845,Event Set--Code:None--Event Set:cardiology,,,,,
 SQL_STORED_PROCEDURE,[dbo].[sp_Sequences],"Stored procedure, , [dbo].[sp_Sequences]: Computes all successive event‐sequence statistics (per‐sequence and per‐hop) for a given event set over a time window, optionally using cached results for performance.","Use when you want sequence discovery or sequence extraction materialized procedurally, especially when the output needs to feed work tables or later pipeline steps.","[
     { ""name"": ""@EventSet"",                 ""type"": ""NVARCHAR(MAX)"", ""default"": ""NULL"", ""description"": ""Comma-separated events or code referencing dbo.ParseEventSet."" },
     { ""name"": ""@enumerate_multiple_events"",""type"": ""INT"",           ""default"": ""NULL"", ""description"": ""When >0, appends sequence numbers to duplicate events in a case."" },
@@ -1289,9 +1339,8 @@ SQL_STORED_PROCEDURE,[dbo].[sp_Sequences],"Stored procedure, , [dbo].[sp_Sequenc
       );
 
 "
-Instance,Souce Column.STAGE.poker.InputProperties.game_bet-12,The total bet placed in the game pot for the current round.--Code:Stage.STAGE.poker.InputProperties.game_bet,,,,,
-Instance,Souce Column.STAGE.poker.InputProperties.game_state_cluster-13,Cluster that represents the current state of the game based on predefined categories.--Code:Stage.STAGE.poker.InputProperties.game_state_cluster,,,,,
-Instance,Souce Column.STAGE.poker.InputProperties.game_turn-14,"Indicates the current turn in the game (pre-flop, flop, turn, river).--Code:Stage.STAGE.poker.InputProperties.game_turn",,,,,
+Table,dbo.BayesianProbabilities,"dbo.BayesianProbabilities.Stores a calculated conditional probability-a Bayesian-ish probability. This is prob A given B. For example, the count of getting big tips (A) given that the waiter probably introduced himself to the customer (B) Columns: [A_Int_BCount,ACount,AnomalyCategoryIDA,AnomalyCategoryIDB,BCount,CreateDate,EventSetAKey,EventSetBKey,GroupType,LastUpdate,ModelID,PA,PA|B,PB,PB|A,TotalCases]",,,,,
+Table,dbo.CaseProperties,"dbo.CaseProperties.This is decoupled from the Cases table because it's JSON that is more of a storage than used at query time. CasePropertiesParsed is a relational table (key/value). Columns: [CaseID,CreateDate,Properties,TargetProperties]",,,,,
 SQL_STORED_PROCEDURE,[dbo].[UpdateCaseFromEvents],"Stored procedure, , [dbo].[UpdateCaseFromEvents]: Recalculates and updates the EventCount, StartDateTime, and EndDateTime in the Cases table based on the EventsFact entries, optionally for a single case or all cases.","Use when case-level metadata should be refreshed from the events that belong to the case, especially after new event loads or corrections.","[
     { ""name"": ""@CaseID"", ""type"": ""INT"", ""default"": ""NULL"", ""description"": ""Identifier of the case to update; NULL to update all cases."" }
   ]","[
@@ -1324,12 +1373,9 @@ SQL_STORED_PROCEDURE,[dbo].[sp_DrillThroughToModelEvents],"Stored procedure, , [
     EXEC sp_DrillThroughToModelEvents 24
 
 "
-Instance,EventType.vanproteinbars.2,Vanilla protein bars product--Code:vanproteinbars,,,,,
-Instance,EventType.walmart1.2,Walmart event 1--Code:walmart1,,,,,
-Instance,EventType.walmart2.2,Walmart event 2--Code:walmart2,,,,,
-Instance,EventType.walmart3.2,Walmart event 3--Code:walmart3,,,,,
-Instance,EventType.weightwatcher1.2,Weight Watcher event 1--Code:weightwatcher1,,,,,
-Instance,Event Set.0834DF9BF267F65C34D8C53905E0BDEF,Event Set--Code:None--Event Set:arrive,,,,,
+Instance,EventTransform.C770BBCA21A3457DA37A9B60855D31D0,"Event from-to: {""heavytraffic"":""traffic"",""moderatetraffic"":""traffic"",""returnhome"":""home"",""leavehome"":""home""}",,,,,
+Instance,EventTransform.CABA46EC39DAF9D421E40FFFB6CA6060,"Event from-to: {""arnold1"":""arnold"",""arnold2"":""arnold""}",,,,,
+Instance,EventTransform.merge-heavy-mod,"Event from-to: {""heavytraffic"":""traffic"", ""moderatetraffic"":""traffic""}",,,,,
 SQL_INLINE_TABLE_VALUED_FUNCTION,[dbo].[SegmentComparison],"Table-valued function, [dbo].[SegmentComparison]: Filters and returns detailed transition metrics for a given event pair (EventA → EventB) across models sliced by specified property values, enabling comparative analysis of different segments.","Use when you want to compare similar segments across models, slices, or conditions to see where probabilities, timing, or other metrics differ.","[
     { ""name"": ""@EventA"",           ""type"": ""NVARCHAR(20)"", ""default"": ""NULL"", ""description"": ""First event in the transition pair; NULL returns all."" },
     { ""name"": ""@EventB"",           ""type"": ""NVARCHAR(20)"", ""default"": ""NULL"", ""description"": ""Second event in the pair; NULL returns all."" },
@@ -1375,17 +1421,6 @@ SELECT *
   );
 
 "
-Instance,Event Set.0888B97F18FEB280485557D2B0A778A6,"Event Set--Code:None--Event Set:leavehome,heavytraffic,moderatetraffic,lighttraffic,arrivework,returnhome",,,,,
-Instance,Event Set.0C9294682D92CC4CF747B36DE8AB499B,Event Set--Code:None--Event Set:websitepages,,,,,
-Instance,Event Set.cardiology,"Event Set--Code:cardiology--Event Set:Arrhythmia, Echo, Holter End, Holter Neg, Holter Pos, Holter Start, NoImplant-Ineligible, NoImplant-InsDecline, NoImplant-PatDecline, Pacemaker Implant, Stroke, Syncope, TIA",,,,,
-Instance,Event Set.1B16469693CB94A683B8C0DFB4C81949,Event Set--Code:None--Event Set:arrive,,,,,
-Instance,Event Set.216292242C05511EF5E58B9E70EC58F5,Event Set--Code:None--Event Set:Holter Pos,,,,,
-Instance,Event Set.pokeractions,"Event Set--Code:pokeractions--Event Set:raises,folds,calls,bets,checks",,,,,
-Instance,Event Set.384060D658FDAE2CB57186A008234AF6,"Event Set--Code:None--Event Set:arrive,bigtip,drinks,greeted,order,check,seated,served,depart",,,,,
-Instance,Event Set.kitchenorder,"Event Set--Code:kitchenorder--Event Set:order_received, order_queue, order_start_prep, order_cook, order_qlty_check, order_ready",,,,,
-Instance,Event Set.3F1D525210BD17E5B8DA291D78553E06,Event Set--Code:None--Event Set:bigtip,,,,,
-Instance,Event Set.restaurantguest_full,"Event Set--Code:restaurantguest_full--Event Set:arrive,greeted,seated,intro,drinks,ccdeclined,charged,order,check,seated,served,bigtip,depart,order_received, order_queue, order_start_prep, order_cook, order_qlty_check, order_ready",,,,,
-Instance,Event Set.510AB328E43FF6BA4BC5E6D10CD74AB2,"Event Set--Code:None--Event Set:arnold1,arnold2,receipt,abandonedcart",,,,,
 SQL_STORED_PROCEDURE,[dbo].[sp_ConditionalProbabilityTable],"Stored procedure, , [dbo].[sp_ConditionalProbabilityTable]: For each case or time-group (CASEID/DAY/MONTH/YEAR), counts occurrences of two event sequences A and B so you can compute conditional probabilities across cases.","Use when you want the conditional-probability table logic exposed as a stored procedure, especially for workflows that prefer procedural invocation or writing results to work tables.","[
     { ""name"": ""@SeqA"",                   ""type"": ""NVARCHAR(MAX)"", ""default"": null, ""description"": ""CSV list defining sequence A."" },
     { ""name"": ""@SeqB"",                   ""type"": ""NVARCHAR(MAX)"", ""default"": null, ""description"": ""CSV list defining sequence B."" },
@@ -1405,12 +1440,6 @@ SQL_STORED_PROCEDURE,[dbo].[sp_ConditionalProbabilityTable],"Stored procedure, ,
     { ""name"": ""dbo.EventSetByCode"",    ""type"": ""Scalar Function"",        ""description"": ""Resolves EventSet code to CSV of events."" },
     { ""name"": ""STRING_SPLIT"",          ""type"": ""Built-in TVF"",           ""description"": ""Splits CSV into rows."" }
   ]",
-Instance,Souce Column.STAGE.poker.OutputProperties.Player-15,Unique identifier for the player participating in the current game.--Code:Stage.STAGE.poker.OutputProperties.Player,,,,,
-Instance,Souce Column.STAGE.poker.InputProperties.Players-16,Number of players participating in a poker tournament or game session.--Code:Stage.STAGE.poker.InputProperties.Players,,,,,
-Instance,Souce Column.STAGE.poker.InputProperties.Players_In-17,Number of players who are still in the hand (have not folded) in the current round.--Code:Stage.STAGE.poker.InputProperties.Players_In,,,,,
-Instance,Souce Column.STAGE.poker.InputProperties.Pot-18,The total amount of chips in the pot during the current game.--Code:Stage.STAGE.poker.InputProperties.Pot,,,,,
-Instance,Souce Column.STAGE.poker.InputProperties.round-19,The current round number in the game.--Code:Stage.STAGE.poker.InputProperties.round,,,,,
-Instance,Souce Column.STAGE.poker.InputProperties.Round_turn-20,Indicates the turn within the current round of the game.--Code:Stage.STAGE.poker.InputProperties.Round_turn,,,,,
 SQL_STORED_PROCEDURE,[dbo].[DeleteEventBatch],"Stored procedure, , [dbo].[DeleteEventBatch]: [
     ""Deletes all events and related properties for the given BatchID, including fact rows, raw and parsed event properties, and any cases affected by those events (case records and their properties)."",
     ""Should log success or failure to ProcErrorLog with BatchID context.""
@@ -1463,10 +1492,6 @@ SELECT * FROM [dbo].[CasesWithProperties]('EmployeeID,CustomerID,OrderID')
 SELECT * FROM [dbo].[CasesWithProperties]('Players,seats, button')
 
 "
-Instance,Event Set.527C1854FE4C32C22484FAA8B87A7A10,Event Set--Code:None--Event Set:restaurantguest,,,,,
-Instance,Event Set.poker,"Event Set--Code:poker--Event Set:NEW_GAME,collected,GameState-0,GameState-1,GameState-2,GameState-3,GameState-4,calls,bets,raises,folds,checks",,,,,
-Instance,Event Set.55957956CFC033CA49CB5A6A15053BA6,Event Set--Code:None--Event Set:TIA,,,,,
-Instance,Event Set.58BE84D012195BDE1C139568CE35AF4C,Event Set--Code:None--Event Set:walmart3,,,,,
 SQL_INLINE_TABLE_VALUED_FUNCTION,[dbo].[ParseEventSet],"Table-valued function, [dbo].[ParseEventSet]: Parses a named event set code (or literal comma-delimited list) into individual event names, resolving sequence sets and trimming whitespace.","Use when you want to resolve an event-set code into its underlying events, or treat a literal comma-separated event list the same way. Helpful for normalizing event-set inputs so downstream logic can work with a rowset of event names regardless of whether the caller passed a code or a literal list.","[
     { ""name"": ""@EventSet"",    ""type"": ""NVARCHAR(MAX)"", ""default"": ""NULL"", ""description"": ""EventSetCode or comma-delimited list of events; if value matches a code in EventSets and IsSequence matches, uses that definition."" },
     { ""name"": ""@IsSequence"",   ""type"": ""BIT"",           ""default"": ""0"",    ""description"": ""Flag indicating whether to resolve sequence definitions (1) or simple sets (0)."" }
@@ -1481,6 +1506,23 @@ SELECT * FROM dbo.ParseEventSet('kitchenorder', 0);
 SELECT * FROM dbo.ParseEventSet('restaurantguest', 0);
 
 
+
+"
+SQL_INLINE_TABLE_VALUED_FUNCTION,[dbo].[EventSetInclusion],"Table-valued function, [dbo].[EventSetInclusion]: Determines which defined event sets include all of the events from the provided EventSet expression, returning metadata about each matching set. Rewritten as an inline table-valued function for better Azure Synapse compatibility.","Use when you have a candidate event set and want to know which named event sets already contain those events. Helpful for reuse discovery, taxonomy cleanup, and mapping a new process fragment to existing definitions.","[
+    { ""name"": ""@EventSet"", ""type"": ""NVARCHAR(MAX)"", ""default"": null, ""description"": ""Comma-separated list or code of events to test for inclusion in existing EventSets."" }
+  ]","[
+    { ""name"": ""EventSetKey"",   ""type"": ""VARBINARY(16)"", ""description"": ""Unique MD5-based key identifying the event set."" },
+    { ""name"": ""EventSet"",      ""type"": ""NVARCHAR(MAX)"", ""description"": ""Comma-separated definition of the event set."" },
+    { ""name"": ""EventSetCode"",  ""type"": ""NVARCHAR(20)"",  ""description"": ""Short code for the event set."" },
+    { ""name"": ""Description"",   ""type"": ""NVARCHAR(500)"", ""description"": ""Human-readable description of the event set."" },
+    { ""name"": ""IsSequence"",    ""type"": ""BIT"",           ""description"": ""Flag indicating whether the EventSet should be treated as an ordered sequence (1) or unordered set (0)."" }
+  ]","[
+    { ""name"": ""dbo.EventSets"",     ""type"": ""Table"",                 ""description"": ""Master list of defined event sets with metadata."" },
+    { ""name"": ""dbo.ParseEventSet"", ""type"": ""Table-Valued Function"", ""description"": ""Parses an EventSet string or code into individual event rows."" }
+  ]","
+
+    SELECT *
+    FROM dbo.EventSetInclusion('served,order');
 
 "
 SQL_STORED_PROCEDURE,[dbo].[sp_ModelDrillThrough],"Stored procedure, , [dbo].[sp_ModelDrillThrough]: Retrieves paired events (EventA -> EventB) and their details for a specified Markov model, including elapsed minutes, rank, and occurrence counts.","Use when you want paired EventA→EventB rows behind a specific model, especially for inspecting real case evidence behind a transition and explaining how a model behaves.","[
@@ -1517,11 +1559,6 @@ SQL_STORED_PROCEDURE,[dbo].[sp_ModelDrillThrough],"Stored procedure, , [dbo].[sp
 
 
 "
-Instance,Event Set.5D0816B650DD51E53E19B74C7771783F,Event Set--Code:None--Event Set:pokeractions,,,,,
-Instance,Event Set.pokergamestates,"Event Set--Code:pokergamestates--Event Set:GameState-0,GameState-1,GameState-2,GameState-3,GameState-4",,,,,
-Instance,Event Set.6CD99510BCA54729CBC41BBF6C6320C8,"Event Set--Code:None--Event Set:leavehome,heavytraffic,lighttraffic,arrivework",,,,,
-Instance,Event Set.7447CED91DCCF7B553493E939027E522,"Event Set--Code:None--Event Set:heavytraffic,moderatetraffic,lighttraffic",,,,,
-Instance,Event Set.commute,"Event Set--Code:commute--Event Set:leavehome,heavytraffic,moderatetraffic,lighttraffic,arrivework",,,,,
 SQL_TABLE_VALUED_FUNCTION,[dbo].[ModelEventsByProperty],"Table-valued function, [dbo].[ModelEventsByProperty]: Retrieves transition metrics (Min, Max, Avg, Sum, Rows, Prob, entry/exit flags) for all Markov models matching the specified event set, time window, transforms, grouping, metric, and filter properties.","Use when you want transition rows for all models that share a given parameter set, rather than for just one model ID. Helpful for comparing model-event metrics across related models, retrieving transition statistics by model family, or supporting reports that need EventA→EventB metrics filtered by model-definition parameters.","[
     { ""name"": ""@EventSet"",                ""type"": ""NVARCHAR(MAX)"", ""default"": ""NULL"", ""description"": ""Comma-separated list of events or code for dbo.ParseEventSet to define the event set."" },
     { ""name"": ""@enumerate_multiple_events"",""type"": ""INT"",           ""default"": ""NULL"", ""description"": ""Flag (0/1) controlling enumeration of repeated events within a case."" },
@@ -1569,16 +1606,10 @@ SQL_TABLE_VALUED_FUNCTION,[dbo].[ModelEventsByProperty],"Table-valued function, 
       );
 
 "
-SQL_STORED_PROCEDURE,[dbo].[utility_Set_CaseOrdinal],"Stored procedure, , [dbo].[utility_Set_CaseOrdinal]: Recalculates and updates the CaseOrdinal for every event in EventsFact so that each CaseID’s events are sequentially numbered by EventDate.","Use when case event order needs to be recalculated or repaired so sequence-based logic, drill-through, and model building all see correct event ordinals.",[],"[
-    { ""name"": ""Updated Rows"", ""type"": ""N/A"", ""description"": ""Updates EventsFact.CaseOrdinal in place; no resultset returned."" }
-  ]","[
-    { ""name"": ""dbo.EventsFact"", ""type"": ""Table"", ""description"": ""Fact table of events containing CaseID, EventDate, and CaseOrdinal."" }
-  ]","
-    EXEC dbo.utility_Set_CaseOrdinal;
-
-"
-Instance,Event Set.81ABDE6DFA4033576E85930FE417D600,Event Set--Code:None--Event Set:Holter Pos,,,,,
-Instance,Event Set.825604E51A843EE181BA50DC7DEDD5F8,"Event Set--Code:None--Event Set:arrive,depart",,,,,
+Instance,Souce Column.STAGE.poker.InputProperties.chips_remaining-8,The total number of chips remaining for the player in the current game.--Code:Stage.STAGE.poker.InputProperties.chips_remaining,,,,,
+Instance,Souce Column.STAGE.poker.InputProperties.current_bet-9,The current bet that a player needs to match or raise.--Code:Stage.STAGE.poker.InputProperties.current_bet,,,,,
+Instance,Souce Column.STAGE.poker.InputProperties.current_leader-10,Indicates the player who is currently leading in the game.--Code:Stage.STAGE.poker.InputProperties.current_leader,,,,,
+Instance,Souce Column.STAGE.poker.InputProperties.current_leader_chips-11,The number of chips the current leader has in the game.--Code:Stage.STAGE.poker.InputProperties.current_leader_chips,,,,,
 SQL_STORED_PROCEDURE,[dbo].[sp_AdjacencyMatrix],"Stored procedure, , [dbo].[sp_AdjacencyMatrix]: Generates an adjacency matrix from a given event set by calling dbo.MarkovProcess2 and then returning, for each EventA→EventB pair, the conditional probability P(B|A), total occurrences of EventA, and raw transition counts.",Use when you want the stored-procedure version of dbo.AdjacencyMatrix so the logic can rely on the temp/work-table implementation path used by dbo.MarkovProcess2. This is more compatible with the newer Time Molecules stored-proc architecture and is friendlier to Azure Synapse style processing than depending on the legacy TVF chain.,"[
     { ""name"": ""@EventSet"",                 ""type"": ""NVARCHAR(MAX)"",     ""default"": ""NULL"", ""description"": ""Comma-separated list or code defining the set of events to include."" },
     { ""name"": ""@enumerate_multiple_events"",""type"": ""INT"",               ""default"": ""0"",    ""description"": ""1 to treat repeated events separately; 0 to collapse duplicates."" },
@@ -1602,15 +1633,14 @@ SQL_STORED_PROCEDURE,[dbo].[sp_AdjacencyMatrix],"Stored procedure, , [dbo].[sp_A
     EXEC dbo.sp_AdjacencyMatrix @EventSet='restaurantguest', @enumerate_multiple_events=1, @transforms=NULL;
 
 "
-Instance,Event Set.pickuproute,"Event Set--Code:pickuproute--Event Set:leavesite,walmart1,lv-walmart1,walmart2,lv-walmart2,csv1,lv-csv1,csv4,lv-csv4,csv5,lv-csv5,walmart3,lv-walmart3,homedepot1,lv-homedepot1, csv2,lv-csv2,returnsite",,,,,
-Instance,Event Set.90B7DF3889E6F89A1DFDB66C452BC83A,Event Set--Code:None--Event Set:walmart2,,,,,
-Instance,Event Set.90D6F0A2C2274876EE60E686C037EE04,Event Set--Code:None--Event Set:Pacemaker Implant,,,,,
-Instance,Event Set.932F9CC0030CC46291C6FDD8B8D055B9,Event Set--Code:None--Event Set:kitchenorder,,,,,
-Instance,Event Set.9CEEC3F35F692AF3E36147F67E8A3BED,Event Set--Code:None--Event Set:Pacemaker Implant,,,,,
-Instance,Event Set.9CEFF06A049CFA042C10BE4D19C3B82D,Event Set--Code:None--Event Set:pickuproute,,,,,
-Instance,Event Set.9DE13992AFDFAF8295228CFCA1AF216B,"Event Set--Code:None--Event Set:leavesite,returnsite",,,,,
-Instance,Event Set.A2323469FAAE9B14FC636BBCDECF50EA,Event Set--Code:None--Event Set:bigtip,,,,,
-Instance,Event Set.AC0684FB8F41E7CFE621A8C5DEA771A1,Event Set--Code:None--Event Set:walmart3,,,,,
+SQL_STORED_PROCEDURE,[dbo].[utility_Set_CaseOrdinal],"Stored procedure, , [dbo].[utility_Set_CaseOrdinal]: Recalculates and updates the CaseOrdinal for every event in EventsFact so that each CaseID’s events are sequentially numbered by EventDate.","Use when case event order needs to be recalculated or repaired so sequence-based logic, drill-through, and model building all see correct event ordinals.",[],"[
+    { ""name"": ""Updated Rows"", ""type"": ""N/A"", ""description"": ""Updates EventsFact.CaseOrdinal in place; no resultset returned."" }
+  ]","[
+    { ""name"": ""dbo.EventsFact"", ""type"": ""Table"", ""description"": ""Fact table of events containing CaseID, EventDate, and CaseOrdinal."" }
+  ]","
+    EXEC dbo.utility_Set_CaseOrdinal;
+
+"
 SQL_STORED_PROCEDURE,[dbo].[sp_SelectedEvents],"Stored procedure, , [dbo].[sp_SelectedEvents]: [
     ""Retrieves all events for a specified event set and optional filters, returning CaseID, Event name, timestamp, sequence rank, occurrence count, EventID, and metric values."",
     ""Uses inline table variable (@result) to collect and return results; supports both stored-proc and TVF usage patterns.""
@@ -1683,8 +1713,8 @@ EXEC dbo.sp_SelectedEvents NULL,0, NULL,NULL,NULL,1,NULL,'{""LocationID"":1,""Cu
 
 
 "
-Instance,Event Set.ADA917F5BB5962376E592F5E1A9F8551,"Event Set--Code:None--Event Set:arrive,greeted",,,,,
-Instance,Event Set.BA4904D3ABA9BBEAB3130B1CC72D26F9,Event Set--Code:None--Event Set:TIA,,,,,
+Column,ImportEvents.CaseType,"ImportEvents.CaseType. Should be the same as CaseTypes.[Name], which is the ""code"" for case types.",,,,,
+Column,ImportEvents.ImportEventID,"ImportEvents.ImportEventID. Primary Key so that we can update, mostly update ValidationBitmap",,,,,
 SQL_STORED_PROCEDURE,[dbo].[sp_CaseCharacteristics],"Stored procedure, , [dbo].[sp_CaseCharacteristics]: Retrieves both anomaly-derived event-pair metrics and case-level properties for a given model, consolidating them into a single result set for downstream association analysis. Stored-proc version of dbo.CaseCharacteristics using dbo.sp_ModelDrillThrough to derive the case population.","Use when you want one result set that mixes model-derived anomaly signals with case properties for the same population of cases, while following the newer stored-procedure architecture.","[
     { ""name"": ""@ModelID"", ""type"": ""INT"", ""default"": ""NULL"", ""description"": ""Identifier of the model whose characteristics are to be returned."" }
   ]","[
@@ -1704,14 +1734,10 @@ SQL_STORED_PROCEDURE,[dbo].[sp_CaseCharacteristics],"Stored procedure, , [dbo].[
     { ""name"": ""PropertyValueNumeric"", ""type"": ""FLOAT"",          ""description"": ""Numeric value of case property; NULL for anomalies."" },
     { ""name"": ""PropertyValueAlpha"",   ""type"": ""NVARCHAR(1000)"", ""description"": ""Text value of case property; NULL for anomalies."" }
   ]",,
-Instance,Event Set.BD23A78FC79F9CB0E798F435CF6DD4C9,"Event Set--Code:None--Event Set:bigtip,drinks",,,,,
-Instance,Event Set.C12F0F41D384511ABC6B5D809F0B4B80,Event Set--Code:None--Event Set:walmart2,,,,,
-Instance,Event Set.C49473D4BF2F4DA2A8A4FF2D6F789C60,Event Set--Code:None--Event Set:poker,,,,,
-Instance,Event Set.C87DC9835A4FC6421B983C7E9CC22654,Event Set--Code:None--Event Set:pokergamestates,,,,,
-Instance,Event Set.C8C33FF5348163B33628FC10F8CC0845,Event Set--Code:None--Event Set:cardiology,,,,,
-Instance,Event Set.restaurantguest,"Event Set--Code:restaurantguest--Event Set:arrive,greeted,seated,intro,drinks,ccdeclined,charged,order,check,seated,served,bigtip,depart",,,,,
-Instance,Event Set.websitepages,"Event Set--Code:websitepages--Event Set:homepage,chocprotein,arnold1,keto1,chocproteinbars,cart,shoppmt,creditcard,receipt,arnold2,vanproteinbars,abandonedcart,weightwatcher1,chocproteinbars",,,,,
-Instance,Event Set.FC5807F34A7F74A155BB2EB73CEE2DB0,"Event Set--Code:None--Event Set:arrive,greeted",,,,,
+Instance,Souce Column.STAGE.poker.InputProperties.game_bet-12,The total bet placed in the game pot for the current round.--Code:Stage.STAGE.poker.InputProperties.game_bet,,,,,
+Instance,Souce Column.STAGE.poker.InputProperties.game_state_cluster-13,Cluster that represents the current state of the game based on predefined categories.--Code:Stage.STAGE.poker.InputProperties.game_state_cluster,,,,,
+Instance,Souce Column.STAGE.poker.InputProperties.game_turn-14,"Indicates the current turn in the game (pre-flop, flop, turn, river).--Code:Stage.STAGE.poker.InputProperties.game_turn",,,,,
+Instance,Souce Column.STAGE.poker.OutputProperties.Player-15,Unique identifier for the player participating in the current game.--Code:Stage.STAGE.poker.OutputProperties.Player,,,,,
 SQL_INLINE_TABLE_VALUED_FUNCTION,[dbo].[EntryAndExitPoints],"Table-valued function, [dbo].[EntryAndExitPoints]: Identifies the entry and exit handoff points for a given event set by comparing each event in a case to its predecessor and successor, counting how often an event enters or exits the defined process.","Use when you want to find where a defined process tends to begin and end relative to surrounding events. Helpful for boundary discovery, handoff analysis, and understanding how a process connects to upstream and downstream workflows.","[
     { ""name"": ""@EventSet"",               ""type"": ""NVARCHAR(MAX)"", ""default"": null, ""description"": ""CSV or code defining the set of events to analyze."" },
     { ""name"": ""@enumerate_multiple_events"",""type"": ""INT"",         ""default"": null, ""description"": ""Flag (0/1) indicating whether to treat repeated events separately."" },
@@ -1739,10 +1765,6 @@ Note that this sproc looks at the events of the restaurantguest (dining area) an
 a single case. The two event sets split the events of a case into two groups.
 
 "
-Instance,EventTransform.arnold,"merge different arnolds and combine keto, weightwatchers to dietpage",,,,,
-Instance,EventTransform.C770BBCA21A3457DA37A9B60855D31D0,"Event from-to: {""heavytraffic"":""traffic"",""moderatetraffic"":""traffic"",""returnhome"":""home"",""leavehome"":""home""}",,,,,
-Instance,EventTransform.CABA46EC39DAF9D421E40FFFB6CA6060,"Event from-to: {""arnold1"":""arnold"",""arnold2"":""arnold""}",,,,,
-Instance,EventTransform.merge-heavy-mod,"Event from-to: {""heavytraffic"":""traffic"", ""moderatetraffic"":""traffic""}",,,,,
 SQL_STORED_PROCEDURE,[dbo].[InsertModel],"Stored procedure, , [dbo].[InsertModel]: Inserts or updates a model definition in the Models table based on parameters including event set, metric, case/event filters, and transformations. Generates a unique ParamHash to identify distinct model configurations, handles model deduplication, and populates ModelProperties with parsed case- and event-level properties.",Use when persisting a newly defined model and its associated metadata rather than leaving the model as a purely ad hoc query result.,"[
 	  {""name"": ""@ModelID"", ""type"": ""INT"", ""default value"": ""NULL"", ""description"": ""Optional input/output parameter. If NULL, a new model is created. If provided, updates the model with the given ID.""},
 	  {""name"": ""@EventSet"", ""type"": ""NVARCHAR(MAX)"", ""default value"": ""NULL"", ""description"": ""Comma-delimited list of events for the model definition.""},
@@ -1798,26 +1820,9 @@ SQL_STORED_PROCEDURE,[dbo].[InsertModel],"Stored procedure, , [dbo].[InsertModel
         @ModelType = 'MarkovChain';
 
 "
-Instance,Souce Column.STAGE.poker.OutputProperties.all-in-1,Indicator of whether the player went all-in during the current round.--Code:Stage.STAGE.poker.OutputProperties.all-in,,,,,
-Instance,Souce Column.STAGE.poker.InputProperties.Amount-2,"The amount bet by the player during the current round, measured in chips.--Code:Stage.STAGE.poker.InputProperties.Amount",,,,,
-Instance,Souce Column.STAGE.poker.OutputProperties.bet-3,The total bet placed by the player in the current game.--Code:Stage.STAGE.poker.OutputProperties.bet,,,,,
-SQL_INLINE_TABLE_VALUED_FUNCTION,[dbo].[EventSetInclusion],"Table-valued function, [dbo].[EventSetInclusion]: Determines which defined event sets include all of the events from the provided EventSet expression, returning metadata about each matching set. Rewritten as an inline table-valued function for better Azure Synapse compatibility.","Use when you have a candidate event set and want to know which named event sets already contain those events. Helpful for reuse discovery, taxonomy cleanup, and mapping a new process fragment to existing definitions.","[
-    { ""name"": ""@EventSet"", ""type"": ""NVARCHAR(MAX)"", ""default"": null, ""description"": ""Comma-separated list or code of events to test for inclusion in existing EventSets."" }
-  ]","[
-    { ""name"": ""EventSetKey"",   ""type"": ""VARBINARY(16)"", ""description"": ""Unique MD5-based key identifying the event set."" },
-    { ""name"": ""EventSet"",      ""type"": ""NVARCHAR(MAX)"", ""description"": ""Comma-separated definition of the event set."" },
-    { ""name"": ""EventSetCode"",  ""type"": ""NVARCHAR(20)"",  ""description"": ""Short code for the event set."" },
-    { ""name"": ""Description"",   ""type"": ""NVARCHAR(500)"", ""description"": ""Human-readable description of the event set."" },
-    { ""name"": ""IsSequence"",    ""type"": ""BIT"",           ""description"": ""Flag indicating whether the EventSet should be treated as an ordered sequence (1) or unordered set (0)."" }
-  ]","[
-    { ""name"": ""dbo.EventSets"",     ""type"": ""Table"",                 ""description"": ""Master list of defined event sets with metadata."" },
-    { ""name"": ""dbo.ParseEventSet"", ""type"": ""Table-Valued Function"", ""description"": ""Parses an EventSet string or code into individual event rows."" }
-  ]","
-
-    SELECT *
-    FROM dbo.EventSetInclusion('served,order');
-
-"
+Instance,Souce Column.STAGE.poker.InputProperties.round-19,The current round number in the game.--Code:Stage.STAGE.poker.InputProperties.round,,,,,
+Table,dbo.Access,"dbo.Access.The access roles of the system. Each AccessID represents a bitmap in the AccessBitmap columns throughout the system. Columns: [AccessID,Description,IsActive]",,,,,
+Table,dbo.AggregationTypes,"dbo.AggregationTypes.An EventFact could be an aggregation of a type of event. For example, if an IoT device sends very many events during the day, say on an hourly basis, we might want to compare data on just some daily calculation such as last value or max value. Columns: [AggregationTypeID,Description,IsNative,Metadata]",,,,,
 SQL_INLINE_TABLE_VALUED_FUNCTION,[dbo].[HiddenMarkovModels],"Table-valued function, [dbo].[HiddenMarkovModels]: Returns a unified list of transition probabilities for both Bayesian and standard Markov models, filtered to single-event sequences for hidden Markov model comparison. Rewritten as an inline table-valued function for better Azure Synapse compatibility.","Use when you want a Hidden Markov-style view or related state-sequence output for analysis, especially when exploring latent-state interpretations of observed event sequences.",[],"[
     { ""name"": ""ModelID"",       ""type"": ""INT"",           ""description"": ""Identifier of the model."" },
     { ""name"": ""ModelType"",     ""type"": ""NVARCHAR(50)"",  ""description"": ""Type of the model (e.g., 'BayesianProbability' or other Markov type)."" },
@@ -1837,7 +1842,24 @@ SQL_INLINE_TABLE_VALUED_FUNCTION,[dbo].[HiddenMarkovModels],"Table-valued functi
     ORDER BY ParamHash;
 
 "
-Table,dbo.DimTime,"dbo.DimTime.Time by the second. Related to dimDate. Columns: [Hour,Minute,Second,TimeKey]",,,,,
+SQL_INLINE_TABLE_VALUED_FUNCTION,[dbo].[ParseTransforms],"Table-valued function, [dbo].[ParseTransforms]: Parses and validates a JSON object of key→value event mappings, ensuring each source key appears only once and selecting the alphabetically first target if duplicates occur. Rewritten as an inline table-valued function for better Azure Synapse compatibility.","Use when you want to turn a transforms JSON object into a normalized rowset of source-event to target-event mappings. Helpful for validating transform definitions, generating stable transform keys, inspecting event-name remapping rules, or feeding transform logic into downstream modeling functions in a Synapse-friendly way.","[
+    { ""name"": ""@transforms"", ""type"": ""NVARCHAR(MAX)"", ""default"": ""NULL"", ""description"": ""JSON object of mappings from original event keys to transformed keys, or a Code referencing the Transforms table."" }
+  ]","[
+    { ""name"": ""fromkey"", ""type"": ""NVARCHAR(20)"", ""description"": ""Original event key as specified in the JSON or looked up from Transforms."" },
+    { ""name"": ""tokey"",   ""type"": ""NVARCHAR(20)"", ""description"": ""Selected target key for that fromkey; if multiple values exist, the alphabetically first is chosen."" }
+  ]","[
+    { ""name"": ""dbo.Transforms"", ""type"": ""Table"", ""description"": ""Optional lookup of stored transform JSON by Code."" },
+    { ""name"": ""OPENJSON"",       ""type"": ""Built-in Function"", ""description"": ""Parses the JSON text into key/value pairs."" }
+  ]","
+
+    SELECT * FROM [dbo].[ParseTransforms]('{""heavytraffic"":""traffic"",""heavytraffic"":""bigtraffic""}');
+
+    SELECT * FROM [dbo].[ParseTransforms]('{""moderatetraffic"":""traffic"",""heavytraffic"":""traffic"",""lighttraffic"":""traffic"",""heavytraffic"":""bigtraffic""}');
+    SELECT * FROM [dbo].[ParseTransforms]('arnld');
+
+"
+Column,EventPairAnomalies.MetricID,EventPairAnomalies.MetricID. FK of the Metrics table.,,,,,
+Column,EventPairAnomalies.ModelID,EventPairAnomalies.ModelID. FK of the Models.ModelID that these segments relate to.,,,,,
 SQL_STORED_PROCEDURE,[dbo].[sp_SelectEventsbyProperties],"Stored procedure, , [dbo].[sp_SelectEventsbyProperties]: Returns events from dbo.EventPropertiesParsed that belong to the specified EventSet, fall within the effective datetime window, and match all property names supplied in the JSON property filter. The procedure expands the EventSet into distinct event names, parses the property filter JSON, and returns one row per matching event occurrence.","Use when you want to find actual event occurrences that match a named event set and a JSON property filter, especially for targeted drill-through, validation, or event-level troubleshooting.","[
     {
       ""name"": ""@EventSet"",
@@ -1906,11 +1928,11 @@ SQL_STORED_PROCEDURE,[dbo].[sp_SelectEventsbyProperties],"Stored procedure, , [d
       ""description"": ""Stores parsed event properties used to identify matching event occurrences.""
     }
   ]",
-Instance,Model.18,"Cached Markov Model--Event Set: poker,StartDateTime: 1900-01-01,EndDateTime: 2050-12-31--Transforms: None--Case Filters: None",,,,,
-Instance,Model.19,"Cached Markov Model--Event Set: pokergamestates,StartDateTime: 1900-01-01,EndDateTime: 2050-12-31--Transforms: None--Case Filters: None",,,,,
-Instance,Model.20,"Cached Markov Model--Event Set: pokeractions,StartDateTime: 1900-01-01,EndDateTime: 2050-12-31--Transforms: None--Case Filters: None",,,,,
-Instance,Model.21,"Cached Markov Model--Event Set: arnold1,arnold2,receipt,abandonedcart,StartDateTime: 1900-01-01,EndDateTime: 2050-12-31--Transforms: {""arnold1"":""arnold"",""arnold2"":""arnold""}--Case Filters: None",,,,,
-Instance,Model.22,"Cached Markov Model--Event Set: leavesite,returnsite,StartDateTime: 1900-01-01,EndDateTime: 2050-12-31--Transforms: None--Case Filters: None",,,,,
+Instance,dbo.CaseTypes.Stock Day2Day,"Daily stock market performance data: End-of-day quotes, pricing, volume, and trading metrics for publicly traded stocks and securities.",,,,,
+Instance,dbo.CaseTypes.e-commerce site,"General e-commerce site events: Broad category for online retail platform activities including browsing, cart additions, purchases, and customer behavior on digital storefronts.",,,,,
+Instance,dbo.CaseTypes.Medical,"Medical and clinical patient events: Encompasses healthcare-related records from hospitals and clinics, including demographics, diagnoses, procedures, and clinical workflows.",,,,,
+Instance,EventType.chocproteinbars.2,Chocolate protein bars product--Code:chocproteinbars,,,,,
+Instance,EventType.collected.1,Items were collected--Code:collected,,,,,
 SQL_INLINE_TABLE_VALUED_FUNCTION,[dbo].[ModelsWithProperties],"Table-valued function, [dbo].[ModelsWithProperties]: Retrieves models that have at least one of the specified custom properties, returning up to five property names and their numeric or alpha values for each model.","Use when you need to pivot a small set of model properties into a wide row per model so those properties can be filtered, displayed, or joined more easily. Helpful for browsing models by custom metadata, exporting model catalogs, or combining selected model properties with other model-level result sets.","[
     { ""name"": ""@SelectedProperties"", ""type"": ""NVARCHAR(MAX)"", ""default"": ""NULL"", ""description"": ""Comma-separated list of property names to include; if NULL, returns a placeholder row with ModelID = -1."" }
   ]","[
@@ -1941,6 +1963,13 @@ SQL_INLINE_TABLE_VALUED_FUNCTION,[dbo].[ModelsWithProperties],"Table-valued func
 
 
 "
+Instance,EventType.csv5.2,CVS drug store event 5--Code:csv5,,,,,
+Instance,EventType.depart.2,User departs from location--Code:depart,,,,,
+Instance,EventType.DISCH_DONE.9,Event Set--Code:DISCH_DONE,,,,,
+Instance,EventType.DISP_SET.9,Event Set--Code:DISP_SET,,,,,
+Instance,EventType.drinks.2,User orders drinks--Code:drinks,,,,,
+Instance,EventType.Echo.8,Event Set--Code:Echo,,,,,
+Instance,EventType.ER_CHECKIN.9,Event Set--Code:ER_CHECKIN,,,,,
 SQL_STORED_PROCEDURE,[dbo].[InsertCaseProperties],"Stored procedure, , [dbo].[InsertCaseProperties]: Parses JSON case-level properties from dbo.CaseProperties, maps them to source columns when possible, applies default MDM overrides from dbo.CasePropertiesMDM, and inserts the results into dbo.CasePropertiesParsed. Supports full refresh or selective refresh by CaseID.","Use when case property bags are stored as JSON and need to be parsed into structured rows for filtering, joins, reporting, or downstream model logic.","[
     {
       ""name"": ""@CompleteRefresh"",
@@ -2017,26 +2046,12 @@ SQL_STORED_PROCEDURE,[dbo].[InsertCaseProperties],"Stored procedure, , [dbo].[In
       ""description"": ""Provides default MDM-standardized overrides for parsed property values.""
     }
   ]",
-Instance,Souce Column.STAGE.poker.InputProperties.current_bet-9,The current bet that a player needs to match or raise.--Code:Stage.STAGE.poker.InputProperties.current_bet,,,,,
-Instance,Souce Column.STAGE.poker.InputProperties.current_leader-10,Indicates the player who is currently leading in the game.--Code:Stage.STAGE.poker.InputProperties.current_leader,,,,,
-Instance,Souce Column.STAGE.poker.InputProperties.current_leader_chips-11,The number of chips the current leader has in the game.--Code:Stage.STAGE.poker.InputProperties.current_leader_chips,,,,,
-Column,ImportEvents.CaseTargetProperties,"ImportEvents.CaseTargetProperties. This is a flattened table, so all CaseTargetProperties for a CaseID should be the same.",,,,,
-SQL_INLINE_TABLE_VALUED_FUNCTION,[dbo].[ParseTransforms],"Table-valued function, [dbo].[ParseTransforms]: Parses and validates a JSON object of key→value event mappings, ensuring each source key appears only once and selecting the alphabetically first target if duplicates occur. Rewritten as an inline table-valued function for better Azure Synapse compatibility.","Use when you want to turn a transforms JSON object into a normalized rowset of source-event to target-event mappings. Helpful for validating transform definitions, generating stable transform keys, inspecting event-name remapping rules, or feeding transform logic into downstream modeling functions in a Synapse-friendly way.","[
-    { ""name"": ""@transforms"", ""type"": ""NVARCHAR(MAX)"", ""default"": ""NULL"", ""description"": ""JSON object of mappings from original event keys to transformed keys, or a Code referencing the Transforms table."" }
-  ]","[
-    { ""name"": ""fromkey"", ""type"": ""NVARCHAR(20)"", ""description"": ""Original event key as specified in the JSON or looked up from Transforms."" },
-    { ""name"": ""tokey"",   ""type"": ""NVARCHAR(20)"", ""description"": ""Selected target key for that fromkey; if multiple values exist, the alphabetically first is chosen."" }
-  ]","[
-    { ""name"": ""dbo.Transforms"", ""type"": ""Table"", ""description"": ""Optional lookup of stored transform JSON by Code."" },
-    { ""name"": ""OPENJSON"",       ""type"": ""Built-in Function"", ""description"": ""Parses the JSON text into key/value pairs."" }
-  ]","
-
-    SELECT * FROM [dbo].[ParseTransforms]('{""heavytraffic"":""traffic"",""heavytraffic"":""bigtraffic""}');
-
-    SELECT * FROM [dbo].[ParseTransforms]('{""moderatetraffic"":""traffic"",""heavytraffic"":""traffic"",""lighttraffic"":""traffic"",""heavytraffic"":""bigtraffic""}');
-    SELECT * FROM [dbo].[ParseTransforms]('arnld');
-
-"
+Instance,Model.16,"Cached Markov Model--Event Set: websitepages,StartDateTime: 1900-01-01,EndDateTime: 2050-12-31--Transforms: None--Case Filters: None",,,,,
+Instance,EventType.lighttraffic.2,Light traffic conditions--Code:lighttraffic,,,,,
+Instance,EventType.Low Prob.0,Low probability in segment of a Markov Model--Code:Low Prob,,,,,
+Instance,Model.17,"Cached Markov Model--Event Set: websitepages,StartDateTime: 1900-01-01,EndDateTime: 2050-12-31--Transforms: {""arnold1"":""arnold"",""arnold2"":""arnold"",""keto1"":""dietpage"",""weightwatcher1"":""dietpage"",""vanproteinbars"":""proteinbars"",""chocproteinbars"":""proteinbars""}--Case Filters: None",,,,,
+Instance,Model.18,"Cached Markov Model--Event Set: poker,StartDateTime: 1900-01-01,EndDateTime: 2050-12-31--Transforms: None--Case Filters: None",,,,,
+Instance,Model.19,"Cached Markov Model--Event Set: pokergamestates,StartDateTime: 1900-01-01,EndDateTime: 2050-12-31--Transforms: None--Case Filters: None",,,,,
 SQL_SCALAR_FUNCTION,[dbo].[EventSetByCode],"Scalar function, [dbo].[EventSetByCode]: Given an EventSetCode and a flag indicating set versus sequence, looks up and returns the corresponding EventSet definition as a comma-separated list of events from dbo.EventSets.","Use when callers may provide a short event-set code instead of a literal event list and you want to resolve it into the actual comma-separated definition before filtering, model building, or event-set parsing.","[
     {
       ""name"": ""@EventSetCode"",
@@ -2103,11 +2118,6 @@ SQL_SCALAR_FUNCTION,[ETL].[StockMove],"Scalar function, [ETL].[StockMove]: Evalu
 	   SELECT ETL.StockMove(105.0, 200.0, 0.05); 
 
 "
-Table,dbo.CasePropertiesParsed,"dbo.CasePropertiesParsed.Case properties that are in JSON in the CaseProperties table, are flattened into one row per case property to avoid run-time json parsing. It also stores some data redundantly (StartDateTime, EndDateTime) to this table could act as a kind of covering index to narrow the property space without joining to the Cases table. Columns: [AccessBitmap,AddedProperty,CaseID,CreateDate,EndDateTime,LastUpdate,PropertyName,PropertyValueAlpha,PropertyValueNumeric,SortValue,SourceColumnID,StartDateTime]",,,,,
-Table,dbo.Cases,"dbo.Cases.A cycle of a case type. A case is the holder for a set of events that occur. for example, a case is a patient getting a surgery. each event is related to that case. Columns: [AccessBitmap,BatchID,CaseID,CaseTypeID,CreateDate,Date_SourceColumnID,EndDateTime,Event_SourceColumnID,EventCount,NaturalKey,NaturalKey_SourceColumnID,SourceID,StartDateTime]",,,,,
-Table,dbo.CaseTypes,"dbo.CaseTypes.Hierarchy of Case Types. The primary table for case types, with PK of CaseTypeID. A case type is really a kind of process. for example, serving a customer in a restaurant is a process, a complete sales cycle, a surgery. Columns: [AccessBitmap,CaseTypeID,Description,IRI,Name,ParentCaseTypeID]",,,,,
-Table,dbo.DimAnomalyCategories,"dbo.DimAnomalyCategories.Anomaly categories. these are events in a markov model that exceed some threshold. Columns: [AmomalyCategoryID,Code,Description,IRI]",,,,,
-Table,dbo.DimDate,"dbo.DimDate. Columns: [DateKey,Day,Dow,FullDate,Month,Quarter,Year]",,,,,
 SQL_STORED_PROCEDURE,[dbo].[sp_SequenceSegments],"Stored procedure, , [dbo].[sp_SequenceSegments]: Identifies and aggregates all event sequences in raw event data that begin with a specified start event and end with a specified end event, computing basic statistics (min, max, avg, stdev, sum) on the elapsed time between those events and listing the cases in which they occur.","Use when you want segment-level sequence output produced procedurally, especially for downstream comparison, caching, or staging into work tables.","[
     { ""name"": ""@StartEvent"",               ""type"": ""NVARCHAR(20)"",  ""default"": ""NULL"", ""description"": ""Name of the event at which sequences must begin."" },
     { ""name"": ""@EndEvent"",                 ""type"": ""NVARCHAR(20)"",  ""default"": ""NULL"", ""description"": ""Name of the event at which sequences must end."" },
@@ -2199,6 +2209,8 @@ SQL_INLINE_TABLE_VALUED_FUNCTION,[dbo].[ModelEventAnomalies],"Table-valued funct
 		ModelEventAnomalies(@ModelID)
 
 "
+Table,DIM.Location_Test,"DIM.Location_Test. Columns: [City,Country,Description,LocationID,State]",,,,,
+Table,STAGE.ImportEvents,"STAGE.ImportEvents.This is the standard import table. everything should be loaded into this table. Columns: [AccessBitmap,CaseID,CaseProperties,CaseTargetProperties,CaseType,DateAdded,Event,EventActualProperties,EventAggregationProperties,EventDate,EventDescription,EventExpectedProperties,EventIntendedProperties,ImportEventID,NaturalKey_SourceColumnID,SourceID,ValidationBitmap]",,,,,
 SQL_STORED_PROCEDURE,[dbo].[utility_Bad_Data],"Stored procedure, , [dbo].[utility_Bad_Data]: Performs a series of data‐quality checks across event and metadata tables: identifies cases with duplicate timestamps, non-unique EventSetCode values, and cases missing valid source or property mappings.","Use when scanning for, logging, or correcting known bad-data patterns in the Time Molecules environment, especially during ETL hygiene and troubleshooting.","[
     { ""name"": ""@IncludeCases"", ""type"": ""BIT"", ""default"": ""0"", ""description"": ""If 1, include detailed case/property rows in the missing‐source check; otherwise only return summary issues."" }
   ]","[
@@ -2213,19 +2225,6 @@ SQL_STORED_PROCEDURE,[dbo].[utility_Bad_Data],"Stored procedure, , [dbo].[utilit
     { ""name"": ""dbo.Sources"",                  ""type"": ""Table"",                 ""description"": ""Registered data sources with connection metadata."" }
   ]","
     EXEC dbo.utility_Bad_Data @IncludeCases = 1;
-
-"
-SQL_STORED_PROCEDURE,[dbo].[BuildTimeSolutionsMetadata],"Stored procedure, , [dbo].[BuildTimeSolutionsMetadata]: Refreshes WORK.semantic_web_llm_values and dbo.TimeSolutionsMetadata by truncating both tables, repopulating WORK.semantic_web_llm_values from dbo.get_semantic_web_llm_values, and then rebuilding dbo.TimeSolutionsMetadata from dbo.getTimeMoleculesObjectMetadata() plus the WORK table.","Use when you want to fully refresh the metadata tables used for embeddings, semantic search, or LLM-oriented object discovery.",[],"[
-    { ""name"": ""WORK.semantic_web_llm_values"", ""type"": ""Table"", ""description"": ""Reloaded from dbo.get_semantic_web_llm_values."" },
-    { ""name"": ""dbo.TimeSolutionsMetadata"", ""type"": ""Table"", ""description"": ""Reloaded from dbo.getTimeMoleculesObjectMetadata() and WORK.semantic_web_llm_values."" }
-  ]","[
-    { ""name"": ""dbo.getTimeMoleculesObjectMetadata"", ""type"": ""Table-Valued Function"", ""description"": ""Returns metadata for views, scalar functions, stored procedures, and table-valued functions."" },
-    { ""name"": ""dbo.get_semantic_web_llm_values"", ""type"": ""Stored Procedure"", ""description"": ""Returns semantic-web / LLM rows used to populate WORK.semantic_web_llm_values."" },
-    { ""name"": ""WORK.semantic_web_llm_values"", ""type"": ""Table"", ""description"": ""Intermediate table holding semantic-web / LLM values."" },
-    { ""name"": ""dbo.TimeSolutionsMetadata"", ""type"": ""Table"", ""description"": ""Destination table for combined metadata."" }
-  ]","
-
-    EXEC dbo.BuildTimeSolutionsMetadata;
 
 "
 SQL_INLINE_TABLE_VALUED_FUNCTION,[dbo].[EventPropertiesSource],"Table-valued function, [dbo].[EventPropertiesSource]: Retrieves all metadata about properties associated with a specific event, including property values, source table/column context, case natural key, and associated date column information.","Use when you need to understand which source columns or source systems contribute particular event properties, especially for lineage, mapping, and semantic cleanup.","[
@@ -2259,6 +2258,9 @@ SQL_INLINE_TABLE_VALUED_FUNCTION,[dbo].[EventPropertiesSource],"Table-valued fun
     FROM dbo.EventPropertiesSource(435820);
 
 "
+Instance,Souce Column.TableNameNotSet.Study-78,Specific MRI study or imaging procedure code/description.--Code:EHR.UnknownTable.Study,,,,,
+Instance,Souce Column.TableNameNotSet.VisitID-79,Unique hospital visit or encounter identifier linked to this MRI imaging order.--Code:EHR.UnknownTable.VisitID,,,,,
+Instance,Souce Column.Tickets.Event-83,Event of a guest service process.--Code:Main.Tickets.Event,,,,,
 SQL_STORED_PROCEDURE,[dbo].[sp_CompareEventProximities],"Stored procedure, , [dbo].[sp_CompareEventProximities]: [
     ""Compares the event footprints of two tuple-defined populations and returns the event properties found for both selections."",
     ""Helps identify where two tuple-defined activity streams may intersect through shared event properties, objects, actors, or sources.""
@@ -2288,13 +2290,8 @@ SQL_STORED_PROCEDURE,[dbo].[sp_CompareEventProximities],"Stored procedure, , [db
     { ""name"": ""[dbo].Sources"",                ""type"": ""Table"",            ""description"": ""Metadata about source systems."" }
   ]","
 
-EXEC [dbo].[sp_CompareEventProximities]
-    @CaseFilterProperties1 = '{""LocationID"":1,""EmployeeID"":1}',
-    @CaseFilterProperties2 = '{""LocationID"":1,""EmployeeID"":4}',
-    @StartDateTime = NULL,
-    @EndDateTime = NULL,
-	@ReturnOnlyMatchedProperties=0 --0 means return all property values, then LLM will evaluate what is similar.
-
+--This is the primary mode (@ReturnOnlyMatchedProperties=1) returning only matched property values.
+--But it is an exact match.
 EXEC [dbo].[sp_CompareEventProximities]
     @CaseFilterProperties1 = '{""LocationID"":1,""CustomerID"":2}',
     @CaseFilterProperties2 = '{""LocationID"":1,""CustomerID"":4}',
@@ -2302,7 +2299,58 @@ EXEC [dbo].[sp_CompareEventProximities]
     @EndDateTime = '2025-12-31',
 	@ReturnOnlyMatchedProperties=1
 
+--This returns a list of properties, but we need to use a more robust method for fuzzy matching.
+EXEC [dbo].[sp_CompareEventProximities]
+    @CaseFilterProperties1 = '{""LocationID"":1,""EmployeeID"":1}',
+    @CaseFilterProperties2 = '{""LocationID"":1,""EmployeeID"":4}',
+    @StartDateTime = NULL,
+    @EndDateTime = NULL,
+	@ReturnOnlyMatchedProperties=0 --0 means return all property values, then LLM will evaluate what is similar.
+--Next run through py script that runs similarities between values and returns not-exact matches.
+
+
 "
+Instance,Souce Column.STAGE.poker.InputProperties.Players-16,Number of players participating in a poker tournament or game session.--Code:Stage.STAGE.poker.InputProperties.Players,,,,,
+Instance,Souce Column.STAGE.poker.InputProperties.Players_In-17,Number of players who are still in the hand (have not folded) in the current round.--Code:Stage.STAGE.poker.InputProperties.Players_In,,,,,
+Instance,Souce Column.STAGE.poker.InputProperties.Pot-18,The total amount of chips in the pot during the current game.--Code:Stage.STAGE.poker.InputProperties.Pot,,,,,
+SQL_STORED_PROCEDURE,[dbo].[BuildTimeSolutionsMetadata],"Stored procedure, , [dbo].[BuildTimeSolutionsMetadata]: Refreshes WORK.semantic_web_llm_values and dbo.TimeSolutionsMetadata by truncating both tables, repopulating WORK.semantic_web_llm_values from dbo.get_semantic_web_llm_values, and then rebuilding dbo.TimeSolutionsMetadata from dbo.getTimeMoleculesObjectMetadata() plus the WORK table. Note: build_qdrant_index.py automatially runs EXEC dbo.BuildTimeSolutionsMetadata.","Use when you want to fully refresh the metadata tables used for embeddings, semantic search, or LLM-oriented object discovery.",[],"[
+    { ""name"": ""WORK.semantic_web_llm_values"", ""type"": ""Table"", ""description"": ""Reloaded from dbo.get_semantic_web_llm_values."" },
+    { ""name"": ""dbo.TimeSolutionsMetadata"", ""type"": ""Table"", ""description"": ""Reloaded from dbo.getTimeMoleculesObjectMetadata() and WORK.semantic_web_llm_values."" }
+  ]","[
+    { ""name"": ""dbo.getTimeMoleculesObjectMetadata"", ""type"": ""Table-Valued Function"", ""description"": ""Returns metadata for views, scalar functions, stored procedures, and table-valued functions."" },
+    { ""name"": ""dbo.get_semantic_web_llm_values"", ""type"": ""Stored Procedure"", ""description"": ""Returns semantic-web / LLM rows used to populate WORK.semantic_web_llm_values."" },
+    { ""name"": ""WORK.semantic_web_llm_values"", ""type"": ""Table"", ""description"": ""Intermediate table holding semantic-web / LLM values."" },
+    { ""name"": ""dbo.TimeSolutionsMetadata"", ""type"": ""Table"", ""description"": ""Destination table for combined metadata."" }
+  ]","
+
+    EXEC dbo.BuildTimeSolutionsMetadata;
+
+"
+SQL_STORED_PROCEDURE,[dbo].[InsertEventProperties],"Stored procedure, , [dbo].[InsertEventProperties]: Parses and extracts key-value property pairs from JSON-formatted ActualProperties and ExpectedProperties in the EventProperties table and inserts them into EventPropertiesParsed, mapping to SourceColumns when possible. If @CompleteRefresh is 1, the table is truncated before insert.",Use when raw event property payloads need to be parsed and materialized into structured event-property rows for downstream filtering and analysis.,"[
+  {""name"": ""@CompleteRefresh"", ""type"": ""BIT"", ""default value"": ""0"", ""description"": ""Set to 1 to clear EventPropertiesParsed before repopulating. Defaults to 0 for incremental insert.""}
+]",[],"[
+  {""name"": ""dbo.EventProperties"", ""type"": ""Table"", ""description"": ""Source of JSON-formatted property data per event.""},
+  {""name"": ""dbo.EventPropertiesParsed"", ""type"": ""Table"", ""description"": ""Stores parsed and typed property data by event and source column.""},
+  {""name"": ""dbo.EventsFact"", ""type"": ""Table"", ""description"": ""Fact table that links EventID to SourceID.""},
+  {""name"": ""dbo.SourceColumns"", ""type"": ""Table"", ""description"": ""Metadata table describing columns by SourceID for property linkage.""}
+]","
+
+    EXEC dbo.InsertEventProperties @CompleteRefresh = 1;
+
+"
+SQL_SCALAR_FUNCTION,[dbo].[UserAccessBitmap],"Scalar function, [dbo].[UserAccessBitmap]: Returns the access bitmap for the current SQL Server login (SUSER_NAME or SUSER_SID). Encapsulates access control logic by hiding the Users table from direct queries.",Use when enforcing row-level or model-level access rules based on the current user’s bitmap permissions inside queries or procedures.,[],"[
+    { ""name"": ""Return Value"", ""type"": ""BIGINT"", ""description"": ""Bitmap representing the access rights granted to the current user."" }
+  ]","[
+    { ""name"": ""dbo.Users"", ""type"": ""Table"", ""description"": ""Stores user records with an AccessBitmap column keyed by SUSER_NAME."" }
+  ]","
+
+    SELECT dbo.UserAccessBitmap();
+
+"
+Instance,EventType.small_blind.1,Player posts small blind--Code:small_blind,,,,,
+Instance,EventType.Stroke.8,Event Set--Code:Stroke,,,,,
+Instance,EventType.Syncope.8,Event Set--Code:Syncope,,,,,
+Instance,EventType.TIA.8,Event Set--Code:TIA,,,,,
 SQL_INLINE_TABLE_VALUED_FUNCTION,[dbo].[SourceColumnsByCaseType],"Table-valued function, [dbo].[SourceColumnsByCaseType]: Returns, for each case type, the count of cases and their associated data source columns (including keys and ordinals), by joining Cases → CaseTypes → Sources → SourceColumns filtered to those actually used in CasePropertiesParsed.","Use when you want to see which source-system columns are actually populated for each case type, along with how many cases use them. Helpful for metadata discovery, source-to-case-type documentation, property-governance work, and understanding which case attributes are really present in loaded data.",[],"[
     { ""name"": ""CaseTypeID"",           ""type"": ""INT"",          ""description"": ""Identifier of the case type."" },
     { ""name"": ""CaseTypeDescription"",  ""type"": ""NVARCHAR(500)"", ""description"": ""Human-readable description of the case type."" },
@@ -2328,15 +2376,6 @@ SQL_INLINE_TABLE_VALUED_FUNCTION,[dbo].[SourceColumnsByCaseType],"Table-valued f
     SELECT *
       FROM dbo.SourceColumnsByCaseType()
      ORDER BY CaseTypeID, SourceID, TableName, ColumnName;
-
-"
-SQL_SCALAR_FUNCTION,[dbo].[UserAccessBitmap],"Scalar function, [dbo].[UserAccessBitmap]: Returns the access bitmap for the current SQL Server login (SUSER_NAME or SUSER_SID). Encapsulates access control logic by hiding the Users table from direct queries.",Use when enforcing row-level or model-level access rules based on the current user’s bitmap permissions inside queries or procedures.,[],"[
-    { ""name"": ""Return Value"", ""type"": ""BIGINT"", ""description"": ""Bitmap representing the access rights granted to the current user."" }
-  ]","[
-    { ""name"": ""dbo.Users"", ""type"": ""Table"", ""description"": ""Stores user records with an AccessBitmap column keyed by SUSER_NAME."" }
-  ]","
-
-    SELECT dbo.UserAccessBitmap();
 
 "
 SQL_TABLE_VALUED_FUNCTION,[dbo].[BayesianProbability],"Table-valued function, [dbo].[BayesianProbability]: Calculates the joint and conditional probabilities of two event sequences occurring within the same case over a specified time range, returning counts and P(B|A), P(A|B), P(A), P(B).","Use when you want to measure how often one event sequence co-occurs with another within the same case or time bucket. Helpful for questions like 'given A, how likely is B,' especially in exploratory process intelligence or causal-hypothesis work.","[
@@ -2417,10 +2456,6 @@ SQL_STORED_PROCEDURE,[dbo].[MarkovProcess2],"Stored procedure, , [dbo].[MarkovPr
       @ModelID=@ModelID OUTPUT;
 
 "
-Instance,Souce Column.STAGE.poker.InputProperties.seats-21,Number of seats occupied or available at the poker table during the game event.--Code:Stage.STAGE.poker.InputProperties.seats,,,,,
-Table,dbo.Access,"dbo.Access.The access roles of the system. Each AccessID represents a bitmap in the AccessBitmap columns throughout the system. Columns: [AccessID,Description,IsActive]",,,,,
-Table,dbo.AggregationTypes,"dbo.AggregationTypes.An EventFact could be an aggregation of a type of event. For example, if an IoT device sends very many events during the day, say on an hourly basis, we might want to compare data on just some daily calculation such as last value or max value. Columns: [AggregationTypeID,Description,IsNative,Metadata]",,,,,
-Table,dbo.BayesianProbabilities,"dbo.BayesianProbabilities.Stores a calculated conditional probability-a Bayesian-ish probability. This is prob A given B. For example, the count of getting big tips (A) given that the waiter probably introduced himself to the customer (B) Columns: [A_Int_BCount,ACount,AnomalyCategoryIDA,AnomalyCategoryIDB,BCount,CreateDate,EventSetAKey,EventSetBKey,GroupType,LastUpdate,ModelID,PA,PA|B,PB,PB|A,TotalCases]",,,,,
 SQL_INLINE_TABLE_VALUED_FUNCTION,[dbo].[SourceColumnsByEventType],"Table-valued function, [dbo].[SourceColumnsByEventType]: Returns, for each event type, the count of event occurrences and their associated data source columns (including keys and ordinals), by joining EventsFact → DimEvents → Sources → SourceColumns filtered to those actually used in EventPropertiesParsed.","Use when you want to see which source-system columns are actually populated for each event type, along with how many event rows use them. Helpful for metadata discovery, event-property governance, source-column documentation, and understanding which event attributes are truly present in the loaded event data.",[],"[
     { ""name"": ""Event"",               ""type"": ""NVARCHAR(20)"",   ""description"": ""Event code."" },
     { ""name"": ""EventDescription"",    ""type"": ""NVARCHAR(500)"",  ""description"": ""Human-readable description of the event."" },
@@ -2448,10 +2483,6 @@ SQL_INLINE_TABLE_VALUED_FUNCTION,[dbo].[SourceColumnsByEventType],"Table-valued 
      ORDER BY [Event];
 
 "
-Table,dbo.DimEvents,"dbo.DimEvents.This data stores extra data on event codes - which I just refer to as events. That's sort of confusing because an event is a fact, but the fields name event refer to a type of event.
-
-Event codes of EventFact do not need to be in here. This is because new facts may come in. However, it's good to have it here so that new sources know an event code already exists and so they should name the new event code something else. Columns: [CreateDate,Description,Event,IRI,IsState,LastUpdated,Properties,SourceID]",,,,,
-Table,dbo.DimObservers,"dbo.DimObservers.Observer of events. Could be an IoT device, AI agent, person, or some sort of system. Differs from Sources, which are where EventFacts are stored, not generated. Columns: [Code,Description,IRI,NaturalKey,ObserverID,Parent_ObserverID,SourceID]",,,,,
 SQL_TABLE_VALUED_FUNCTION,[dbo].[CaseCharacteristics],"Table-valued function, [dbo].[CaseCharacteristics]: Retrieves both anomaly-derived event-pair metrics and case-level properties for a given model, consolidating them into a single result set for downstream association analysis.","Use when you want one result set that mixes model-derived anomaly signals with case properties for the same population of cases. Helpful for downstream association analysis, clustering, or finding which case attributes travel with anomalous behavior.","[
     { ""name"": ""@ModelID"", ""type"": ""INT"", ""default"": ""NULL"", ""description"": ""Identifier of the model whose characteristics are to be returned."" }
   ]","[
@@ -2510,8 +2541,6 @@ SQL_TABLE_VALUED_FUNCTION,[dbo].[ModelSimilaritySegments],"Table-valued function
     ORDER BY AbsProbDiff DESC, EventA, EventB;
 
 "
-Table,dbo.EventPairAnomalies,"dbo.EventPairAnomalies.Anomalies between events, such as the time between is stanard deviation of more than 3. Columns: [AnomalyCode,CaseID,CreateDate,EventA,EventAIsEntry,EventB,EventBIsExit,EventIDA,EventIDB,metric_value,metric_zscore,MetricID,ModelID,transistion_prob]",,,,,
-Table,dbo.EventProperties,"dbo.EventProperties.A series of json the have variables for each event by actual properties, expected properties, and intended properties. also properties of the aggregation of the event metric. Columns: [ActualProperties,AggregationProperties,CreateDate,EventID,ExpectedProperties,IntendedProperties,LastUpdated,TriggerFunction]",,,,,
 SQL_TABLE_VALUED_FUNCTION,[dbo].[Sequences],"Table-valued function, [dbo].[Sequences]: Computes all successive event‐sequence statistics (per‐sequence and per‐hop) for a given event set over a time window, optionally using cached results for performance.",,"[
     { ""name"": ""@EventSet"",                 ""type"": ""NVARCHAR(MAX)"", ""default"": ""NULL"", ""description"": ""Comma-separated events or code referencing dbo.ParseEventSet."" },
     { ""name"": ""@enumerate_multiple_events"",""type"": ""INT"",           ""default"": ""NULL"", ""description"": ""When >0, appends sequence numbers to duplicate events in a case."" },
@@ -2565,12 +2594,6 @@ SQL_TABLE_VALUED_FUNCTION,[dbo].[Sequences],"Table-valued function, [dbo].[Seque
       );
 
 "
-VIEW,[dbo].[vwEventPropertiesParsed],"VIEW Name: dbo.vwEventPropertiesParsed: Presents parsed event properties together with source metadata by joining EventPropertiesParsed to SourceColumns and Sources, exposing property values, JSON flag, property-source label, source identifiers, and source column names in one result set.{""Columns"":[{""Name"":""EventID""},{""Name"":""PropertyName""},{""Name"":""PropertySource""},{""Name"":""PropertyValueNumeric""},{""Name"":""PropertyValueAlpha""},{""Name"":""ValueIsJSON""},{""Name"":""SourceColumnID""},{""Name"":""SourceID""},{""Name"":""SourceDescription""},{""Name"":""SourceName""},{""Name"":""SourceColumnName""}]}",,,,,
-Instance,dbo.Metrics.Time Between,Time between the previous and current event. This is the default metric based on the EventDate,,,,,
-Instance,dbo.Metrics.Fuel,Fuel consumed between events.,,,,,
-Instance,dbo.Metrics.Weight,Weight change,,,,,
-Instance,dbo.Metrics.Close,Day over Day Closing Stock price,,,,,
-Instance,dbo.Metrics.sec,Time between the previous and current event. This is the default metric based on the EventDate,,,,,
 SQL_STORED_PROCEDURE,[dbo].[ImportEventsFromStage],"Stored procedure, , [dbo].[ImportEventsFromStage]: Imports staged event rows into the TimeSolution event ensemble beginning at an optional import date threshold. Resolves source context, applies user access defaults, and loads core event-level structures used later for property parsing, process analysis, and Markov model creation.","Use as the main ETL entry point for moving rows from STAGE into the core Time Molecules event ensemble. This is the procedure to run after stage tables have been populated and you want the imported events to become available for downstream case/event analysis, parsed properties, drill-through, and model generation.","[
     { ""name"": ""@ImportFromDate"", ""type"": ""DATETIME"", ""default"": ""NULL"", ""description"": ""Optional lower-bound date for staged rows to import. NULL means import according to the procedure's normal logic without a date filter."" }
   ]","[
@@ -2686,22 +2709,12 @@ SQL_INLINE_TABLE_VALUED_FUNCTION,[dbo].[TimeIntelligenceWindow],"Table-valued fu
       AND e.EventDate <  ti.WindowEnd;
 
 "
-Column,EventPairAnomalies.MetricID,EventPairAnomalies.MetricID. FK of the Metrics table.,,,,,
-Column,EventPairAnomalies.ModelID,EventPairAnomalies.ModelID. FK of the Models.ModelID that these segments relate to.,,,,,
-Column,Models.AccessBitmap,Models.AccessBitmap. the effective access scope to use when selecting facts for that model run or model drill-through.,,,,,
-Column,Models.ByCase,"Models.ByCase. 0=Create models by caseid. this is the default. 1=Use a date bucket: hour, day, month, year.",,,,,
-SQL_STORED_PROCEDURE,[dbo].[InsertEventProperties],"Stored procedure, , [dbo].[InsertEventProperties]: Parses and extracts key-value property pairs from JSON-formatted ActualProperties and ExpectedProperties in the EventProperties table and inserts them into EventPropertiesParsed, mapping to SourceColumns when possible. If @CompleteRefresh is 1, the table is truncated before insert.",Use when raw event property payloads need to be parsed and materialized into structured event-property rows for downstream filtering and analysis.,"[
-  {""name"": ""@CompleteRefresh"", ""type"": ""BIT"", ""default value"": ""0"", ""description"": ""Set to 1 to clear EventPropertiesParsed before repopulating. Defaults to 0 for incremental insert.""}
-]",[],"[
-  {""name"": ""dbo.EventProperties"", ""type"": ""Table"", ""description"": ""Source of JSON-formatted property data per event.""},
-  {""name"": ""dbo.EventPropertiesParsed"", ""type"": ""Table"", ""description"": ""Stores parsed and typed property data by event and source column.""},
-  {""name"": ""dbo.EventsFact"", ""type"": ""Table"", ""description"": ""Fact table that links EventID to SourceID.""},
-  {""name"": ""dbo.SourceColumns"", ""type"": ""Table"", ""description"": ""Metadata table describing columns by SourceID for property linkage.""}
-]","
-
-    EXEC dbo.InsertEventProperties @CompleteRefresh = 1;
-
-"
+Instance,EventType.TRIAGE_DONE.9,Event Set--Code:TRIAGE_DONE,,,,,
+Instance,EventType.TRIAGE_START.9,Event Set--Code:TRIAGE_START,,,,,
+Instance,EventType.TURN.1,Turn card dealt in poker--Code:TURN,,,,,
+Instance,EventType.turnto.1,Event Set--Code:turnto,,,,,
+Instance,EventType.vanproteinbars.2,Vanilla protein bars product--Code:vanproteinbars,,,,,
+Instance,EventType.walmart1.2,Walmart event 1--Code:walmart1,,,,,
 SQL_STORED_PROCEDURE,[dbo].[InsertEvent],"Stored procedure, , [dbo].[InsertEvent]: Adds a new event to the DimEvents table only if the event name does not already exist. This ensures that event names are unique across the dimension table, and stores optional metadata including description, JSON properties, and an IRI.","Use when inserting events through a standard database entry point rather than direct table writes, especially when you want consistent handling of event metadata and linked case information.","[
   {""name"": ""@Event"", ""type"": ""NVARCHAR(20)"", ""default value"": ""NULL"", ""description"": ""The name of the event. Must be unique in DimEvents.""},
   {""name"": ""@Description"", ""type"": ""NVARCHAR(500)"", ""default value"": ""NULL"", ""description"": ""Free-text description of the event.""},
@@ -2718,6 +2731,19 @@ SQL_STORED_PROCEDURE,[dbo].[InsertEvent],"Stored procedure, , [dbo].[InsertEvent
          @IRI = 'http://example.org/event/appointmentconfirmed';
 
 "
+Instance,dbo.CaseTypes.Parsed Photo,"Parsed photo / computer vision object detection events: Images processed by object detection models where each recognized object (people, items, text, symbols) becomes an individual event with associated metadata, all linked to the original photo as the parent case.",,,,,
+Instance,dbo.CaseTypes.Unknown,Unknown or unclassified case type: Placeholder for events or cases that have not been mapped to a specific known business process or domain.,,,,,
+Instance,dbo.CaseTypes.ER,"Emergency Room (ER) patient encounters: Core emergency department visits including registration, triage, chief complaints, arrival mode, patient demographics, and initial assessment in a hospital setting.",,,,,
+Instance,dbo.CaseTypes.ER-Lab,"Emergency Room Laboratory workflow: Lab test orders, processing, panels, and results originating from or associated with an Emergency Room visit.",,,,,
+Instance,dbo.CaseTypes.ER-MRI,"Emergency Room MRI / Radiology workflow: MRI imaging orders, studies, and radiology procedures initiated during or linked to an Emergency Room patient encounter.",,,,,
+Instance,dbo.CaseTypes.ER-CaseMgt,"Emergency Room Case Management: Coordination, tracking, and management activities for patients within the Emergency Department, including follow-up, disposition, and resource allocation.",,,,,
+Instance,dbo.DimAnomalyCategories.None,A null value so that the values are filled in tables.,,,,,
+Instance,dbo.DimAnomalyCategories.Metric Outlier,Metric outlier value from eventA to eventB.,,,,,
+Instance,dbo.DimAnomalyCategories.Low Prob,A low probability transition from eventA to eventB,,,,,
+Instance,dbo.DimAnomalyCategories.CaseProperty,"Not an anomaly, but a factor for Bayesian Calculations.",,,,,
+Instance,Model.1,"Cached Markov Model--Event Set: restaurantguest,StartDateTime: 1900-01-01,EndDateTime: 2050-12-31--Transforms: None--Case Filters: None",,,,,
+Instance,Model.2,"Cached Markov Model--Event Set: kitchenorder,StartDateTime: 1900-01-01,EndDateTime: 2050-12-31--Transforms: None--Case Filters: None",,,,,
+Instance,Model.3,"Cached Markov Model--Event Set: bigtip,drinks,StartDateTime: 1900-01-01,EndDateTime: 2050-12-31--Transforms: None--Case Filters: None",,,,,
 SQL_INLINE_TABLE_VALUED_FUNCTION,[dbo].[BayesianRelationships_Full],"Table-valued function, [dbo].[BayesianRelationships_Full]: Produces a flattened table of all Bayesian probability relationships, enriched with event-set labels, anomaly category codes, and metric metadata for use in downstream graph generation.","Use when you want a flattened, analysis-ready list of Bayesian relationships across models, including the resolved event sets, anomaly-category labels, and metric names. Helpful for graph loading, metadata browsing, reporting, or downstream queries that need Bayesian relationships without repeatedly joining BayesianProbabilities to Models, EventSets, anomaly categories, and Metrics.",[],"[
     { ""name"": ""ModelID"",               ""type"": ""INT"",    ""description"": ""Identifier of the Bayesian model."" },
     { ""name"": ""GroupType"",             ""type"": ""NVARCHAR"",   ""description"": ""Grouping dimension (CASEID/DAY/MONTH/YEAR)."" },
@@ -2750,6 +2776,7 @@ SQL_INLINE_TABLE_VALUED_FUNCTION,[dbo].[BayesianRelationships_Full],"Table-value
     SELECT * FROM dbo.BayesianRelationships_Full();
 
 "
+Column,DimEvents.SourceID,"DimEvents.SourceID. SourceID enables us to create events in a ""namespace"". This is so if different DWs or other sources have the same event with different meanings.",,,,,
 SQL_SCALAR_FUNCTION,[dbo].[SourceID],"Scalar function, [dbo].[SourceID]: Looks up and returns the SourceID for a given server and database combination from the Sources table, or NULL if not found.","Use when you know the server and database names and want to resolve the corresponding SourceID for inserts, metadata joins, or ETL setup.","[
     { ""name"": ""@ServerName"",   ""type"": ""NVARCHAR(400)"", ""default"": ""NULL"", ""description"": ""Name of the SQL Server instance (e.g., 'DESKTOP-N5ISJJF\\MSSQLSERVER01')."" },
     { ""name"": ""@DatabaseName"", ""type"": ""NVARCHAR(400)"", ""default"": ""NULL"", ""description"": ""Name of the database within the server (e.g., 'Stocks')."" }
@@ -2781,13 +2808,12 @@ SQL_INLINE_TABLE_VALUED_FUNCTION,[dbo].[AdjacencyMatrix],"Table-valued function,
 SELECT * FROM  [dbo].[AdjacencyMatrix]('restaurantguest',1,NULL)
 
 "
-Instance,EventType.cart.2,User views shopping cart--Code:cart,,,,,
-Instance,EventType.ccdeclined.2,Credit card was declined--Code:ccdeclined,,,,,
-Instance,EventType.charged.2,User charged for a purchase--Code:charged,,,,,
-Instance,EventType.check.2,Player checks--Code:check,,,,,
-Instance,EventType.checks.1,Multiple players check--Code:checks,,,,,
-Instance,EventType.chocprotein.2,Chocolate protein product--Code:chocprotein,,,,,
-Instance,EventType.chocproteinbars.2,Chocolate protein bars product--Code:chocproteinbars,,,,,
+Column,EventPropertiesMDM.SimilarityScore,EventPropertiesMDM.SimilarityScore. How similar? 1=Exact Master Golden record.,,,,,
+Column,EventPropertiesMDM.SourceColumnID,EventPropertiesMDM.SourceColumnID. SourceColumnID of the raw property.,,,,,
+Column,DimObservers.Code,DimObservers.Code. Code of the observer (generator of events).,,,,,
+Column,DimObservers.Parent_ObserverID,"DimObservers.Parent_ObserverID. Observers are the devices (IoT, AI agents, cars, phones), and each can consist of a hierarchy of event emitters.
+
+Note that Observers differ from Sources in that a Source is where case and event properties can be looked up.",,,,,
 SQL_STORED_PROCEDURE,[dbo].[AddEventToCaseProperties],"Stored procedure, , [dbo].[AddEventToCaseProperties]: For every case containing the specified event, upsert a case‐level property (named by @PropertyName or the event) with either the existing metric value or a default, marking it as added post‐ETL and timestamping the update; errors are logged to ProcErrorLog.","Use when an event should also update or enrich case-level properties, especially when important event information needs to become part of the case’s lasting metadata.","[
     { ""name"": ""@Event"",            ""type"": ""NVARCHAR(20)"", ""default"": null, ""description"": ""Name of the event to find in EventsFact (required)."" },
     { ""name"": ""@PropertyName"",     ""type"": ""NVARCHAR(20)"", ""default"": null, ""description"": ""Name of the case property column to upsert (defaults to @Event)."" },
@@ -2862,6 +2888,12 @@ SQL_STORED_PROCEDURE,[dbo].[RefreshUserAccessBitmaps],"Stored procedure, , [dbo]
         @DisplayResults = 1;
 
 "
+Instance,Model.4,"Cached Markov Model--Event Set: bigtip,drinks,StartDateTime: 1900-01-01,EndDateTime: 2050-12-31--Transforms: None--Case Filters: None",,,,,
+Instance,Model.6,"Cached Markov Model--Event Set: restaurantguest,StartDateTime: 1900-01-01,EndDateTime: 2050-12-31--Transforms: None--Case Filters: {""EmployeeID"":1,""CustomerID"":2,""LocationID"":1}",,,,,
+Instance,Model.7,"Cached Markov Model--Event Set: restaurantguest,StartDateTime: 1900-01-01,EndDateTime: 2050-12-31--Transforms: None--Case Filters: {""EmployeeID"":1,""CustomerID"":2}",,,,,
+Instance,Model.8,"Cached Markov Model--Event Set: arrive,depart,StartDateTime: 1900-01-01,EndDateTime: 2050-12-31--Transforms: None--Case Filters: None",,,,,
+Instance,Model.9,"Cached Markov Model--Event Set: arrive,bigtip,drinks,greeted,order,check,seated,served,depart,StartDateTime: 1900-01-01,EndDateTime: 2050-12-31--Transforms: None--Case Filters: None",,,,,
+Instance,Model.10,"Cached Markov Model--Event Set: leavehome,heavytraffic,moderatetraffic,lighttraffic,arrivework,returnhome,StartDateTime: 1900-01-01,EndDateTime: 2050-12-31--Transforms: None--Case Filters: None",,,,,
 SQL_STORED_PROCEDURE,[dbo].[CreateUpdateBayesianProbabilities],"Stored procedure, , [dbo].[CreateUpdateBayesianProbabilities]: Creates or refreshes Bayesian probability records by finding or inserting the appropriate model, invoking BayesianProbability2 to compute joint and conditional counts and probabilities for two sequences, and upserting the results into the BayesianProbabilities table.","Use when you want to build or refresh stored Bayesian probability results rather than calculating them ad hoc every time. Helpful for caching, scheduled refresh, and downstream reporting.","[
     { ""name"": ""@SeqA"",                   ""type"": ""NVARCHAR(MAX)"", ""default"": null, ""description"": ""CSV defining sequence A."" },
     { ""name"": ""@SeqB"",                   ""type"": ""NVARCHAR(MAX)"", ""default"": null, ""description"": ""CSV defining sequence B."" },
@@ -2906,10 +2938,8 @@ SQL_STORED_PROCEDURE,[dbo].[CreateUpdateBayesianProbabilities],"Stored procedure
         @GroupType = NULL;
 
 "
-Instance,EventType.collected.1,Items were collected--Code:collected,,,,,
-Instance,EventType.creditcard.2,Credit card event--Code:creditcard,,,,,
-Instance,EventType.csv1.2,CVS drug store event 1--Code:csv1,,,,,
-Instance,EventType.csv2.2,CVS drug store event 2--Code:csv2,,,,,
+Column,Models.AccessBitmap,Models.AccessBitmap. the effective access scope to use when selecting facts for that model run or model drill-through.,,,,,
+Column,Models.ByCase,"Models.ByCase. 0=Create models by caseid. this is the default. 1=Use a date bucket: hour, day, month, year.",,,,,
 SQL_STORED_PROCEDURE,[dbo].[SetUserAccessBitmap],"Stored procedure, , [dbo].[SetUserAccessBitmap]: Inserts or updates a user’s AccessBitmap in the Users table based on login name, and optionally returns the detailed granted permissions.",Use when assigning or updating bitmap-based access permissions for a user so model and metadata visibility can be enforced consistently.,"[
     { ""name"": ""@SUSER_NAME"",           ""type"": ""NVARCHAR(50)"", ""default"": ""NULL"", ""description"": ""Login name; defaults to current SUSER_NAME()."" },
     { ""name"": ""@AccessBitmap"",         ""type"": ""BIGINT"",        ""default"": ""NULL"", ""description"": ""Bitmap value representing the user’s permissions."" },
@@ -2944,11 +2974,15 @@ SQL_SCALAR_FUNCTION,[dbo].[bigint_to_binary_string],"Scalar function, [dbo].[big
     SELECT dbo.bigint_to_binary_string(13);  -- returns '000...01101'
 
 "
-Table,dbo.CaseProperties,"dbo.CaseProperties.This is decoupled from the Cases table because it's JSON that is more of a storage than used at query time. CasePropertiesParsed is a relational table (key/value). Columns: [CaseID,CreateDate,Properties,TargetProperties]",,,,,
-Table,dbo.CasePropertiesMDM,"dbo.CasePropertiesMDM.For CaseProperties that are parsed into CasePropertiesParsed, they can be transformed to a common MDM value. This table can enable rollup (MDM_Parent_CasePropertiesMDMID), master data, semantic web (IRI column), aspect of BI. Columns: [CasePropertiesMDMID,CreateDate,LastUpdate,MDM_IRI,MDM_Parent_CasePropertiesMDMID,MDMComparisonTypeID,MDMName,MDMSourceColumnID,MDMValueAlpha,MDMValueNumeric,MDMVersionID,PropertyName,PropertyValueAlpha,PropertyValueNumeric,SimilarityScore,SourceColumnID]",,,,,
-Column,ImportEvents.CaseType,"ImportEvents.CaseType. Should be the same as CaseTypes.[Name], which is the ""code"" for case types.",,,,,
-Column,ImportEvents.ImportEventID,"ImportEvents.ImportEventID. Primary Key so that we can update, mostly update ValidationBitmap",,,,,
-Column,ImportEvents.SourceID,ImportEvents.SourceID. Could be JSON of parts comprising the natural key.,,,,,
+Instance,EventType.walmart2.2,Walmart event 2--Code:walmart2,,,,,
+Instance,EventType.walmart3.2,Walmart event 3--Code:walmart3,,,,,
+Instance,EventType.weightwatcher1.2,Weight Watcher event 1--Code:weightwatcher1,,,,,
+Instance,Event Set.0834DF9BF267F65C34D8C53905E0BDEF,Event Set--Code:None--Event Set:arrive,,,,,
+Instance,Event Set.0888B97F18FEB280485557D2B0A778A6,"Event Set--Code:None--Event Set:leavehome,heavytraffic,moderatetraffic,lighttraffic,arrivework,returnhome",,,,,
+Instance,Event Set.0C9294682D92CC4CF747B36DE8AB499B,Event Set--Code:None--Event Set:websitepages,,,,,
+Instance,Event Set.cardiology,"Event Set--Code:cardiology--Event Set:Arrhythmia, Echo, Holter End, Holter Neg, Holter Pos, Holter Start, NoImplant-Ineligible, NoImplant-InsDecline, NoImplant-PatDecline, Pacemaker Implant, Stroke, Syncope, TIA",,,,,
+Instance,Event Set.1B16469693CB94A683B8C0DFB4C81949,Event Set--Code:None--Event Set:arrive,,,,,
+Instance,Event Set.216292242C05511EF5E58B9E70EC58F5,Event Set--Code:None--Event Set:Holter Pos,,,,,
 SQL_INLINE_TABLE_VALUED_FUNCTION,[dbo].[EventSegments],"Table-valued function, [dbo].[EventSegments]: Finds the starting positions (CaseOrdinal indices) in each case where a given sequence of events (EventSegment) occurs within the allowed EventSet and date range.","Use when you want to locate where an exact event segment begins inside cases, based on raw event order within a date range and event set. Helpful for finding repeated sub-processes, validating whether a known pattern occurs in cases, or using segment start positions as input to deeper drillthrough or sequence analysis.","[
     { ""name"": ""@EventSegment"", ""type"": ""NVARCHAR(1000)"", ""default"": null, ""description"": ""Comma-separated list of events defining the target segment to locate."" },
     { ""name"": ""@EventSet"",     ""type"": ""NVARCHAR(1000)"", ""default"": null, ""description"": ""Comma-separated list or code of all valid events for context; used to filter EventsFact before matching."" },
@@ -2980,9 +3014,8 @@ SQL_INLINE_TABLE_VALUED_FUNCTION,[dbo].[DecodeAccessBitmap],"Table-valued functi
     SELECT * FROM dbo.DecodeAccessBitmap(6);
 
 "
-VIEW,[dbo].[vwEventsFact],"VIEW Name: dbo.vwEventsFact: Provides a reporting-oriented view of EventsFact that exposes core event rows in a more browsable form, likely enriching the base fact records with descriptive attributes useful for downstream querying, metadata browsing, or ad hoc analysis.{""Columns"":[{""Name"":""CaseID""},{""Name"":""Event""},{""Name"":""EventDate""},{""Name"":""DateKey""},{""Name"":""TimeKey""},{""Name"":""CaseOrdinal""},{""Name"":""EventID""},{""Name"":""SourceID""},{""Name"":""AggregationTypeID""},{""Name"":""AggDesc""},{""Name"":""CreateDate""}]}",,,,,
-Column,ModelSequences.HopStDev,ModelSequences.HopStDev. Standard deviation of time between lastEvent and nextEvent.,,,,,
-Column,ModelSequences.lastEvent,ModelSequences.lastEvent. FK to DimEvents table.,,,,,
+VIEW,[dbo].[vwEventPropertiesParsed],"VIEW Name: dbo.vwEventPropertiesParsed: Presents parsed event properties together with source metadata by joining EventPropertiesParsed to SourceColumns and Sources, exposing property values, JSON flag, property-source label, source identifiers, and source column names in one result set.{""Columns"":[{""Name"":""EventID""},{""Name"":""PropertyName""},{""Name"":""PropertySource""},{""Name"":""PropertyValueNumeric""},{""Name"":""PropertyValueAlpha""},{""Name"":""ValueIsJSON""},{""Name"":""SourceColumnID""},{""Name"":""SourceID""},{""Name"":""SourceDescription""},{""Name"":""SourceName""},{""Name"":""SourceColumnName""}]}",,,,,
+Instance,dbo.Metrics.Time Between,Time between the previous and current event. This is the default metric based on the EventDate,,,,,
 SQL_INLINE_TABLE_VALUED_FUNCTION,[dbo].[ModelEventsByOrdinalMean],"Table-valued function, [dbo].[ModelEventsByOrdinalMean]: Aggregates transition statistics by source event, computing total occurrences and average ordinal metrics for each EventA in the specified Markov model.","Use when you want a compact summary of how often each source event appears in a model and roughly where in the process it tends to occur. Helpful for identifying early-, middle-, and late-stage events, comparing process shape by EventA, or building simplified visualizations from ModelEvents.","[
     { ""name"": ""@ModelID"", ""type"": ""INT"", ""default"": ""NULL"", ""description"": ""Identifier of the Markov model whose events should be aggregated."" }
   ]","[
@@ -3019,9 +3052,10 @@ Notes:
     • If any segment’s Prob is zero, the denominator SUM([Rows]/Prob) will error or return NULL—consider validating or filtering zero‐prob entries.
 
 "
-Instance,dbo.CaseTypes.Parsed Photo,"Parsed photo / computer vision object detection events: Images processed by object detection models where each recognized object (people, items, text, symbols) becomes an individual event with associated metadata, all linked to the original photo as the parent case.",,,,,
-Instance,dbo.CaseTypes.Unknown,Unknown or unclassified case type: Placeholder for events or cases that have not been mapped to a specific known business process or domain.,,,,,
-Instance,dbo.CaseTypes.ER,"Emergency Room (ER) patient encounters: Core emergency department visits including registration, triage, chief complaints, arrival mode, patient demographics, and initial assessment in a hospital setting.",,,,,
+Instance,Event Set.restaurantguest,"Event Set--Code:restaurantguest--Event Set:arrive,greeted,seated,intro,drinks,ccdeclined,charged,order,check,seated,served,bigtip,depart",,,,,
+Instance,Event Set.websitepages,"Event Set--Code:websitepages--Event Set:homepage,chocprotein,arnold1,keto1,chocproteinbars,cart,shoppmt,creditcard,receipt,arnold2,vanproteinbars,abandonedcart,weightwatcher1,chocproteinbars",,,,,
+Instance,Event Set.FC5807F34A7F74A155BB2EB73CEE2DB0,"Event Set--Code:None--Event Set:arrive,greeted",,,,,
+Instance,EventTransform.arnold,"merge different arnolds and combine keto, weightwatchers to dietpage",,,,,
 SQL_TABLE_VALUED_FUNCTION,[dbo].[SelectedEvents],"Table-valued function, [dbo].[SelectedEvents]: Retrieves a time-ordered, ranked sequence of events filtered and transformed per user parameters, supporting event-set selection, date windowing, case and event property filters, custom transforms, metric extraction, and optional enumeration of repeated events.",,"[
     { ""name"": ""@EventSet"",               ""type"": ""NVARCHAR(MAX)"",  ""default"": ""NULL"", ""description"": ""Comma-delimited events or code referencing dbo.ParseEventSet; required."" },
     { ""name"": ""@enumerate_multiple_events"",""type"": ""INT"",           ""default"": ""NULL"", ""description"": ""If >0, appends sequence numbers to repeated event names; otherwise duplicates remain identical."" },
@@ -3081,7 +3115,7 @@ Notes:
     • @Metric defaults to 'Time Between' when omitted.
 
 "
-Table,dbo.Users,"dbo.Users. Columns: [AccessBitmap,CreateDate,Description,IRI,IsActive,LastUpdate,SQLLoginName,SUSER_NAME,UserID]",,,,,
+Instance,Event Set.pokeractions,"Event Set--Code:pokeractions--Event Set:raises,folds,calls,bets,checks",,,,,
 SQL_STORED_PROCEDURE,[dbo].[InsertModelSimilarities],"Stored procedure, , [dbo].[InsertModelSimilarities]: Compares two Markov models based on their event transition segments, calculating Jaccard-style overlap, cosine similarity of transition probabilities, and t-test for average transition times. Stores the similarity metrics in the ModelSimilarity table. Optionally outputs segment-level comparison details.","Use when you want to compute and store similarities between models so related models can be compared, grouped, or recommended later.","[
 	  {""name"": ""@ModelID1"", ""type"": ""INT"", ""default value"": ""NULL"", ""description"": ""ID of the first model to compare. Must exist in ModelEvents.""},
 	  {""name"": ""@ModelID2"", ""type"": ""INT"", ""default value"": ""NULL"", ""description"": ""ID of the second model to compare. Must exist in ModelEvents.""},
@@ -3117,8 +3151,10 @@ SQL_STORED_PROCEDURE,[dbo].[utility_LogProcError],"Stored procedure, , [dbo].[ut
   ]","[
     { ""name"": ""dbo.ProcErrorLog"", ""type"": ""Table"", ""description"": ""Procedure event/error log table."" }
   ]",
-Column,EventPropertiesMDM.MDM_IRI,"EventPropertiesMDM.MDM_IRI. IRI value of this row. This column is optional, but it does help to link the row to a semantic web knowledge graph.",,,,,
-Column,EventPropertiesMDM.MDM_Parent_EventPropertiesMDMID,EventPropertiesMDM.MDM_Parent_EventPropertiesMDMID. Parent ID of this MDM rows.,,,,,
+Instance,EventType.creditcard.2,Credit card event--Code:creditcard,,,,,
+Instance,EventType.csv1.2,CVS drug store event 1--Code:csv1,,,,,
+Instance,EventType.csv2.2,CVS drug store event 2--Code:csv2,,,,,
+Instance,EventType.csv4.2,CVS drug store event 4--Code:csv4,,,,,
 SQL_TABLE_VALUED_FUNCTION,[dbo].[ModelDrillThrough],"Table-valued function, [dbo].[ModelDrillThrough]: Retrieves paired events (EventA -> EventB) and their details for a specified Markov model, including elapsed minutes, rank, and occurrence counts.",,"[
     { ""name"": ""@ModelID"",  ""type"": ""INT"",            ""default"": null, ""description"": ""Identifier of the Markov model to drill through."" },
     { ""name"": ""@EventA"",   ""type"": ""NVARCHAR(20)"",   ""default"": null, ""description"": ""Optional filter for the first event; null returns all."" },
@@ -3146,13 +3182,14 @@ SQL_TABLE_VALUED_FUNCTION,[dbo].[ModelDrillThrough],"Table-valued function, [dbo
     SELECT * FROM dbo.ModelDrillThrough(24,'lv-csv1','homedepot1');
 
 "
-Instance,Model.3,"Cached Markov Model--Event Set: bigtip,drinks,StartDateTime: 1900-01-01,EndDateTime: 2050-12-31--Transforms: None--Case Filters: None",,,,,
-Instance,Model.4,"Cached Markov Model--Event Set: bigtip,drinks,StartDateTime: 1900-01-01,EndDateTime: 2050-12-31--Transforms: None--Case Filters: None",,,,,
-Instance,Model.6,"Cached Markov Model--Event Set: restaurantguest,StartDateTime: 1900-01-01,EndDateTime: 2050-12-31--Transforms: None--Case Filters: {""EmployeeID"":1,""CustomerID"":2,""LocationID"":1}",,,,,
-Instance,Model.7,"Cached Markov Model--Event Set: restaurantguest,StartDateTime: 1900-01-01,EndDateTime: 2050-12-31--Transforms: None--Case Filters: {""EmployeeID"":1,""CustomerID"":2}",,,,,
-Instance,Model.8,"Cached Markov Model--Event Set: arrive,depart,StartDateTime: 1900-01-01,EndDateTime: 2050-12-31--Transforms: None--Case Filters: None",,,,,
-Instance,Model.9,"Cached Markov Model--Event Set: arrive,bigtip,drinks,greeted,order,check,seated,served,depart,StartDateTime: 1900-01-01,EndDateTime: 2050-12-31--Transforms: None--Case Filters: None",,,,,
-Instance,Model.10,"Cached Markov Model--Event Set: leavehome,heavytraffic,moderatetraffic,lighttraffic,arrivework,returnhome,StartDateTime: 1900-01-01,EndDateTime: 2050-12-31--Transforms: None--Case Filters: None",,,,,
+Instance,Event Set.384060D658FDAE2CB57186A008234AF6,"Event Set--Code:None--Event Set:arrive,bigtip,drinks,greeted,order,check,seated,served,depart",,,,,
+Instance,Event Set.kitchenorder,"Event Set--Code:kitchenorder--Event Set:order_received, order_queue, order_start_prep, order_cook, order_qlty_check, order_ready",,,,,
+Instance,Event Set.3E652120B9AEFE5F7196E26B25494B6B,"Event Set--Code:None--Event Set:leavesite,walmart1,lv-walmart1,walmart2,lv-walmart2,csv1,lv-csv1,csv4,
+       lv-csv4,csv5,lv-csv5,walmart3,lv-walmart3,homedepot1,lv-homedepot1,csv2,
+       lv-csv2,returnsite",,,,,
+Instance,Event Set.3F1D525210BD17E5B8DA291D78553E06,Event Set--Code:None--Event Set:bigtip,,,,,
+Instance,Event Set.restaurantguest_full,"Event Set--Code:restaurantguest_full--Event Set:arrive,greeted,seated,intro,drinks,ccdeclined,charged,order,check,seated,served,bigtip,depart,order_received, order_queue, order_start_prep, order_cook, order_qlty_check, order_ready",,,,,
+Instance,Event Set.510AB328E43FF6BA4BC5E6D10CD74AB2,"Event Set--Code:None--Event Set:arnold1,arnold2,receipt,abandonedcart",,,,,
 SQL_SCALAR_FUNCTION,[dbo].[TransformsKey],"Scalar function, [dbo].[TransformsKey]: Generates a stable 16-byte MD5 hash for a JSON mapping of event transforms by sorting key/value pairs to ensure consistent ordering regardless of input order.","Use when you need a stable canonical key for a transforms JSON payload so logically identical mappings resolve to the same identifier even if the JSON property order differs. Helpful for deduplicating transform definitions, looking up cached models by transforms set, or storing transform metadata consistently.","[
     { ""name"": ""@Transforms"", ""type"": ""NVARCHAR(MAX)"", ""default"": ""NULL"", ""description"": ""JSON object of event transform mappings (e.g. {\""source\"":\""target\"",…})."" }
   ]","[
@@ -3168,6 +3205,27 @@ SQL_SCALAR_FUNCTION,[dbo].[TransformsKey],"Scalar function, [dbo].[TransformsKey
     SELECT dbo.TransformsKey('{""moderatetraffic"":""traffic"",""heavytraffic"":""traffic"",""lighttraffic"":""traffic"",""LAtraffic"":""reallybadtraffce""}');
 
 "
+SQL_SCALAR_FUNCTION,[dbo].[IsMutuallyExclusive],"Scalar function, [dbo].[IsMutuallyExclusive]: [
+    ""Determines whether two models’ time ranges do not overlap (i.e., are mutually exclusive)."",
+    ""Returns 1 if Model1 ends before Model2 starts or Model2 ends before Model1 starts; otherwise 0.""
+  ]","Use when checking whether two events, properties, or conditions should be treated as incompatible in the same analytical context, especially when validating event-set or model design.","[
+    {""name"":""@ModelID1"",""type"":""BIGINT"",""default"":null,""description"":""The first ModelID to compare.""},
+    {""name"":""@ModelID2"",""type"":""BIGINT"",""default"":null,""description"":""The second ModelID to compare.""}
+  ]","[
+    {""name"":""Return Value"",""type"":""BIT"",""description"":""1 if date ranges are mutually exclusive; 0 otherwise.""}
+  ]","[
+    {""name"":""dbo.Models"",""type"":""Table"",""description"":""Holds model metadata, including StartDateTime and EndDateTime columns.""}
+  ]","
+
+    -- Check if models 1 and 2 have non‐overlapping time ranges
+    SELECT dbo.IsMututallyExclusive(1, 2) AS AreExclusive;
+
+"
+Instance,Souce Column.STAGE.poker.InputProperties.button-4,Indicator or flag representing the dealer button position or key game action in poker events.--Code:Stage.STAGE.poker.InputProperties.button,,,,,
+Instance,Souce Column.STAGE.poker.InputProperties.Cards-5,Cards held by the player in their hand during the current game.--Code:Stage.STAGE.poker.InputProperties.Cards,,,,,
+Instance,Souce Column.STAGE.poker.InputProperties.cards_on_table-6,The number of community cards currently on the table during the round.--Code:Stage.STAGE.poker.InputProperties.cards_on_table,,,,,
+Instance,Souce Column.STAGE.poker.InputProperties.cards_on_table_value-7,"The total value of the community cards on the table, in chips.--Code:Stage.STAGE.poker.InputProperties.cards_on_table_value",,,,,
+Instance,Souce Column.Location.Description-84,Location description--Code:UnknownDB.Location.Description,,,,,
 SQL_STORED_PROCEDURE,[dbo].[BayesianProbability2],"Stored procedure, , [dbo].[BayesianProbability2]: Computes Bayesian-style conditional probabilities between two event sequences over a specified time window, using the selected event stream to determine how often sequence A occurs, how often sequence B occurs, how often both occur in the same grouped unit, and the resulting conditional and marginal probabilities.","Use when you want to measure how strongly one sequence is associated with another within the same case or time bucket. Helpful for questions such as 'given sequence A, how likely is sequence B,' especially in exploratory process analysis, branch co-occurrence analysis, or hypothesis testing across filtered populations.","[
     {
       ""name"": ""@SeqA"",
@@ -3369,22 +3427,6 @@ Notes:
     • The current code constructs @EventSet from SeqA and SeqB when it is NULL; an in-code note suggests the standalone @EventSet parameter may no longer be necessary.
 
 "
-SQL_SCALAR_FUNCTION,[dbo].[IsMutuallyExclusive],"Scalar function, [dbo].[IsMutuallyExclusive]: [
-    ""Determines whether two models’ time ranges do not overlap (i.e., are mutually exclusive)."",
-    ""Returns 1 if Model1 ends before Model2 starts or Model2 ends before Model1 starts; otherwise 0.""
-  ]","Use when checking whether two events, properties, or conditions should be treated as incompatible in the same analytical context, especially when validating event-set or model design.","[
-    {""name"":""@ModelID1"",""type"":""BIGINT"",""default"":null,""description"":""The first ModelID to compare.""},
-    {""name"":""@ModelID2"",""type"":""BIGINT"",""default"":null,""description"":""The second ModelID to compare.""}
-  ]","[
-    {""name"":""Return Value"",""type"":""BIT"",""description"":""1 if date ranges are mutually exclusive; 0 otherwise.""}
-  ]","[
-    {""name"":""dbo.Models"",""type"":""Table"",""description"":""Holds model metadata, including StartDateTime and EndDateTime columns.""}
-  ]","
-
-    -- Check if models 1 and 2 have non‐overlapping time ranges
-    SELECT dbo.IsMututallyExclusive(1, 2) AS AreExclusive;
-
-"
 SQL_SCALAR_FUNCTION,[dbo].[GetViewColumns],"Scalar function, [dbo].[GetViewColumns]: Returns a JSON document that lists the columns of a specified SQL Server view in ordinal order.","Use when you want a lightweight JSON description of a view's output columns for metadata inspection, LLM prompts, documentation, or object-to-object mapping.","[
     { ""name"": ""@ViewName"", ""type"": ""NVARCHAR(256)"", ""default"": ""NULL"", ""description"": ""Name of the view to inspect. May be schema-qualified such as 'dbo.vwModels' or unqualified, in which case schema dbo is assumed."" }
   ]","[
@@ -3402,6 +3444,9 @@ SELECT dbo.GetViewColumns('dbo.vwModels');
 "
 VIEW,[dbo].[vwSourceColumnsFull],"VIEW Name: dbo.vwSourceColumnsFull: Provides an expanded view of SourceColumns by combining source-column metadata with related source-level descriptive information, making it easier to browse columns, their parent sources, and associated documentation in a single rowset.{""Columns"":[{""Name"":""SourceColumnID""},{""Name"":""SourceID""},{""Name"":""TableName""},{""Name"":""ColumnName""},{""Name"":""IsKey""},{""Name"":""IsOrdinal""},{""Name"":""DataType""},{""Name"":""ColumnDescription""},{""Name"":""ColumnIRI""},{""Name"":""ObserverID""},{""Name"":""DatabaseName""},{""Name"":""DefaultTableName""},{""Name"":""SourceIRI""},{""Name"":""SourceDescription""}]}",,,,,
 VIEW,[dbo].[vwEventInputPropertiesFlattened],"VIEW Name: dbo.vwEventInputPropertiesFlattened: Flattens JSON event input properties into one row per property by joining EventProperties to EventsFact and expanding ActualProperties with OPENJSON, returning the event name, EventID, event date, property name, and property value.{""Columns"":[{""Name"":""Event""},{""Name"":""EventID""},{""Name"":""eventdate""},{""Name"":""property_name""},{""Name"":""property_value""}]}",,,,,
+VIEW,[dbo].[vwEventsFact],"VIEW Name: dbo.vwEventsFact: Provides a reporting-oriented view of EventsFact that exposes core event rows in a more browsable form, likely enriching the base fact records with descriptive attributes useful for downstream querying, metadata browsing, or ad hoc analysis.{""Columns"":[{""Name"":""CaseID""},{""Name"":""Event""},{""Name"":""EventDate""},{""Name"":""DateKey""},{""Name"":""TimeKey""},{""Name"":""CaseOrdinal""},{""Name"":""EventID""},{""Name"":""SourceID""},{""Name"":""AggregationTypeID""},{""Name"":""AggDesc""},{""Name"":""CreateDate""}]}",,,,,
+VIEW,[dbo].[vwSimiliarSourceColumnPairs_Full],"VIEW Name: dbo.vwSimiliarSourceColumnPairs_Full: Provides a fuller view of similar source-column pairs, likely combining matched SourceColumns with additional descriptive metadata so related columns across sources can be reviewed, compared, and analyzed more easily.{""Columns"":[{""Name"":""SourceColumnID1""},{""Name"":""SourceColumnID2""},{""Name"":""SimilarityScore""},{""Name"":""Reason""},{""Name"":""TableName1""},{""Name"":""ColumnName1""},{""Name"":""ColumnDescription1""},{""Name"":""TableName2""},{""Name"":""ColumnName""},{""Name"":""ColumnDescription2""}]}",,,,,
+Instance,Event Set.527C1854FE4C32C22484FAA8B87A7A10,Event Set--Code:None--Event Set:restaurantguest,,,,,
 VIEW,[dbo].[vwBayesianProbabilities_TCW],"VIEW Name: dbo.vwBayesianProbabilities_TCW: Returns Bayesian probability relationships for event‐set pairs in the Tuple Correlation Web (TCW), including raw counts, conditional probabilities (P(B|A), P(A|B)), model filter context, time bounds, and server/database identifiers.{""Columns"":[{""Name"":""ModelID""},{""Name"":""GroupType""},{""Name"":""EventSetAKey""},{""Name"":""EventSetA""},{""Name"":""EventSetBKey""},{""Name"":""EventSetB""},{""Name"":""ACount""},{""Name"":""BCount""},{""Name"":""A_Int_BCount""},{""Name"":""PB_A""},{""Name"":""PA_B""},{""Name"":""TotalCases""},{""Name"":""PA""},{""Name"":""PB""},{""Name"":""CreateDate""},{""Name"":""CaseFilterProperties""},{""Name"":""EventFilterProperties""},{""Name"":""StartDateTime""},{""Name"":""EndDateTime""},{""Name"":""Server""},{""Name"":""Database""},{""Name"":""EventA_Hash""},{""Name"":""EventA_Description""},{""Name"":""EventB_Hash""},{""Name"":""EventB_Description""},{""Name"":""EventSetTable""},{""Name"":""EventSetColumn""}]}",,,,,
 VIEW,[dbo].[vwCaseTypeEventCounts],"VIEW Name: dbo.vwCaseTypeEventCounts: Aggregates visible event occurrences by case type and event, returning counts along with case type metadata and event descriptions. Access is filtered through the current user's access bitmap, while rows marked with AccessBitmap = -1 are treated as unrestricted.{""Columns"":[{""Name"":""CaseTypeID""},{""Name"":""CaseTypeName""},{""Name"":""CaseTypeDescription""},{""Name"":""CaseTypeIRI""},{""Name"":""Event""},{""Name"":""EventDescription""},{""Name"":""Occurrences""}]}",,,,,
 VIEW,[dbo].[vwTimeSolutionsMetadata],"VIEW Name: dbo.vwTimeSolutionsMetadata: View the TimeSolutionsMetadata.{""Columns"":[{""Name"":""ObjectType""},{""Name"":""ObjectName""},{""Name"":""Description""},{""Name"":""Utilization""},{""Name"":""ParametersJson""},{""Name"":""OutputNotes""},{""Name"":""ReferencedObjectsJson""},{""Name"":""IRI""},{""Name"":""CodeColumn""},{""Name"":""Code""},{""Name"":""AccessBitmap""},{""Name"":""SampleCode""}]}",,,,,
@@ -3412,13 +3457,28 @@ Notes on columns:
 - CreatedBy_AccessBitmap - This is actually a parameter of the model since it was used restict events by the access of the user that created it.
 - AccessBitMap - This is a bitmap granting access by role (dbo.Access table). This value is not returned to the end user. AccessBitmap could be more inclusive than CreatedBy_AccessBitmap, but it should never be more inclusive.{""Columns"":[{""Name"":""modelid""},{""Name"":""ModelType""},{""Name"":""StartDateTime""},{""Name"":""EndDateTime""},{""Name"":""EventSetKey""},{""Name"":""enumerate_multiple_events""},{""Name"":""transformskey""},{""Name"":""ByCase""},{""Name"":""MetricID""},{""Name"":""CaseFilterProperties""},{""Name"":""CreatedBy_AccessBitmap""},{""Name"":""Order""},{""Name"":""CreateDate""},{""Name"":""EventFilterProperties""},{""Name"":""Description""},{""Name"":""IRI""},{""Name"":""DistinctCases""},{""Name"":""LastUpdate""},{""Name"":""CreationDuration""},{""Name"":""EventFactRows""},{""Name"":""ParamHash""}]}",,,,,
 VIEW,[dbo].[vwCasePropertiesParsed],"VIEW Name: dbo.vwCasePropertiesParsed: Exposes parsed case‐level properties with their numeric or textual values, indicates if the value is valid JSON, and enriches each property with its source column and source metadata (SourceID, SourceName, Description).{""Columns"":[{""Name"":""CaseID""},{""Name"":""PropertyName""},{""Name"":""PropertyValueNumeric""},{""Name"":""PropertyValueAlpha""},{""Name"":""ValueIsJson""},{""Name"":""SourceColumnID""},{""Name"":""TableName""},{""Name"":""ColumnName""},{""Name"":""SourceID""},{""Name"":""SourceDescription""},{""Name"":""SourceName""}]}",,,,,
-Column,EventPropertiesMDM.MDMSourceColumnID,EventPropertiesMDM.MDMSourceColumnID. SourceColumnID of the MDM property.,,,,,
-Column,EventPropertiesMDM.MDMValueAlpha,EventPropertiesMDM.MDMValueAlpha. property value if alpha.,,,,,
-Column,EventPropertiesMDM.MDMValueNumeric,EventPropertiesMDM.MDMValueNumeric. property value if numeric.,,,,,
+Instance,Event Set.poker,"Event Set--Code:poker--Event Set:NEW_GAME,collected,GameState-0,GameState-1,GameState-2,GameState-3,GameState-4,calls,bets,raises,folds,checks",,,,,
+Instance,Event Set.55957956CFC033CA49CB5A6A15053BA6,Event Set--Code:None--Event Set:TIA,,,,,
+Table,dbo.CasePropertiesMDM,"dbo.CasePropertiesMDM.For CaseProperties that are parsed into CasePropertiesParsed, they can be transformed to a common MDM value. This table can enable rollup (MDM_Parent_CasePropertiesMDMID), master data, semantic web (IRI column), aspect of BI. Columns: [CasePropertiesMDMID,CreateDate,LastUpdate,MDM_IRI,MDM_Parent_CasePropertiesMDMID,MDMComparisonTypeID,MDMName,MDMSourceColumnID,MDMValueAlpha,MDMValueNumeric,MDMVersionID,PropertyName,PropertyValueAlpha,PropertyValueNumeric,SimilarityScore,SourceColumnID]",,,,,
+Table,dbo.CasePropertiesParsed,"dbo.CasePropertiesParsed.Case properties that are in JSON in the CaseProperties table, are flattened into one row per case property to avoid run-time json parsing. It also stores some data redundantly (StartDateTime, EndDateTime) to this table could act as a kind of covering index to narrow the property space without joining to the Cases table. Columns: [AccessBitmap,AddedProperty,CaseID,CreateDate,EndDateTime,LastUpdate,PropertyName,PropertyValueAlpha,PropertyValueNumeric,SortValue,SourceColumnID,StartDateTime]",,,,,
+Table,dbo.Cases,"dbo.Cases.A cycle of a case type. A case is the holder for a set of events that occur. for example, a case is a patient getting a surgery. each event is related to that case. Columns: [AccessBitmap,BatchID,CaseID,CaseTypeID,CreateDate,Date_SourceColumnID,EndDateTime,Event_SourceColumnID,EventCount,NaturalKey,NaturalKey_SourceColumnID,SourceID,StartDateTime]",,,,,
+Table,dbo.CaseTypes,"dbo.CaseTypes.Hierarchy of Case Types. The primary table for case types, with PK of CaseTypeID. A case type is really a kind of process. for example, serving a customer in a restaurant is a process, a complete sales cycle, a surgery. Columns: [AccessBitmap,CaseTypeID,Description,IRI,Name,ParentCaseTypeID]",,,,,
+Table,dbo.DimAnomalyCategories,"dbo.DimAnomalyCategories.Anomaly categories. these are events in a markov model that exceed some threshold. Columns: [AmomalyCategoryID,Code,Description,IRI]",,,,,
+Table,dbo.DimDate,"dbo.DimDate. Columns: [DateKey,Day,Dow,FullDate,Month,Quarter,Year]",,,,,
+Table,dbo.DimEvents,"dbo.DimEvents.This data stores extra data on event codes - which I just refer to as events. That's sort of confusing because an event is a fact, but the fields name event refer to a type of event.
+
+Event codes of EventFact do not need to be in here. This is because new facts may come in. However, it's good to have it here so that new sources know an event code already exists and so they should name the new event code something else. Columns: [CreateDate,Description,Event,IRI,IsState,LastUpdated,Properties,SourceID]",,,,,
+Table,dbo.DimObservers,"dbo.DimObservers.Observer of events. Could be an IoT device, AI agent, person, or some sort of system. Differs from Sources, which are where EventFacts are stored, not generated. Columns: [Code,Description,IRI,NaturalKey,ObserverID,Parent_ObserverID,SourceID]",,,,,
+Table,dbo.DimTime,"dbo.DimTime.Time by the second. Related to dimDate. Columns: [Hour,Minute,Second,TimeKey]",,,,,
+Table,dbo.EventPairAnomalies,"dbo.EventPairAnomalies.Anomalies between events, such as the time between is stanard deviation of more than 3. Columns: [AnomalyCode,CaseID,CreateDate,EventA,EventAIsEntry,EventB,EventBIsExit,EventIDA,EventIDB,metric_value,metric_zscore,MetricID,ModelID,transistion_prob]",,,,,
+Table,dbo.EventProperties,"dbo.EventProperties.A series of json the have variables for each event by actual properties, expected properties, and intended properties. also properties of the aggregation of the event metric. Columns: [ActualProperties,AggregationProperties,CreateDate,EventID,ExpectedProperties,IntendedProperties,LastUpdated,TriggerFunction]",,,,,
+Column,ModelSequences.length,ModelSequences.length. length of the sequence. This can be used to find the first occurance of a sequence part.,,,,,
+Column,ModelSequences.ModelID,ModelSequences.ModelID. FK to ModelID table,,,,,
 Table,dbo.EventPropertiesMDM,"dbo.EventPropertiesMDM.When EventProperties are parsed into EventPropertiesParsed, they are transformed to a common MDM value. This is set up as a parent-child hierarchy by the MDM value.  Columns: [CreateDate,EventPropertiesMDMID,LastUpdate,MDM_IRI,MDM_Parent_EventPropertiesMDMID,MDMComparisonTypeID,MDMName,MDMSourceColumnID,MDMValueAlpha,MDMValueNumeric,PropertyName,PropertyValueAlpha,PropertyValueNumeric,SimilarityScore,SourceColumnID]",,,,,
+Table,dbo.EventPropertiesParsed,"dbo.EventPropertiesParsed.Stores properties parsed out of the json value in the EventProperties tables. It stores a few pieces of data redundantly, acting as a sort of covering index (EventDate, Event, CaseID). Columns: [AccessBitmap,CaseID,CreateDate,Event,EventDate,EventID,EventPropertyCountAllocation,IsJSON,LastUpdate,PropertyName,PropertySource,PropertyValueAlpha,PropertyValueNumeric,SourceColumnID]",,,,,
+Column,ImportEvents.SourceID,ImportEvents.SourceID. Could be JSON of parts comprising the natural key.,,,,,
 Column,EventPropertiesMDM.PropertyValueAlpha,EventPropertiesMDM.PropertyValueAlpha. property value if alpha.,,,,,
 Column,EventPropertiesMDM.PropertyValueNumeric,EventPropertiesMDM.PropertyValueNumeric. property value is numeric.,,,,,
-Table,dbo.EventPropertiesParsed,"dbo.EventPropertiesParsed.Stores properties parsed out of the json value in the EventProperties tables. It stores a few pieces of data redundantly, acting as a sort of covering index (EventDate, Event, CaseID). Columns: [AccessBitmap,CaseID,CreateDate,Event,EventDate,EventID,EventPropertyCountAllocation,IsJSON,LastUpdate,PropertyName,PropertySource,PropertyValueAlpha,PropertyValueNumeric,SourceColumnID]",,,,,
 Table,dbo.EventSets,"dbo.EventSets.Sets of Events that usually are included in a process, restricting what is included in a Markov Model. Differs from case types, which really define the process. The event set could be referenced by an EventSetCode. The events are in the EventSet column as a coma-separated list. Columns: [CreateDate,CreatedByUserID,Description,DescriptionAuthorUserID,EventSet,EventSetCode,EventSetKey,IRI,IsCaseProperty,IsSequence,LastUpdate,Length]",,,,,
 Table,dbo.EventsFact,"dbo.EventsFact.Central table of the Event Ensemble of Time Solution. All events are stored here, and Markov models and bayesian probabilities are created from this. Columns: [AccessBitmap,AggregationTypeID,BatchID,CaseID,CaseOrdinal,CreateDate,Event,EventDate,EventID,ParentCaseID,SourceID]",,,,,
 Table,dbo.MDMComparisonTypes,"dbo.MDMComparisonTypes.Applies to the CasePropertiesMDM and EventPropertiesMDM tables. Those two tables hold a ""golden value"" for case and event properties, respectively. Some, such as GPS coordinates probably will not be exact, so we assign a value between 0-1. For the case of GPS coordinates, it's a distance which should be normalized into a value between 0-1. Columns: [Description,MDMComparisonTypeID]",,,,,
@@ -3428,7 +3488,6 @@ Table,dbo.ModelEvents,"dbo.ModelEvents.Stores EventA -> EventB segments of a Mar
 Table,dbo.ModelProperties,"dbo.ModelProperties.A lookup table that signifies models that have a particular property in the Models.CaseFilterProperties and Models.EventFilterProperties JSON fields. This prevents needing to parse through those JSON fields at querytime to filter models. Columns: [CaseLevel,ModelID,PropertyName,PropertyValueAlpha,PropertyValueNumeric]",,,,,
 Table,dbo.Models,"dbo.Models.The primary table of the Markov Model ensemble of TimeSolution. This table holds the parameters of the markov models created from the events in dbo.EventFacts. The Markov model segments are in the ModelEvents table. Columns: [AccessBitmap,ByCase,CaseFilterProperties,CreateDate,CreatedBy_AccessBitmap,CreatedBy_UserID,CreationDuration,Description,DistinctCases,EndDateTime,enumerate_multiple_events,EventFactRows,EventFilterProperties,EventSetKey,IRI,LastUpdate,MetricID,modelid,ModelType,Order,ParamHash,StartDateTime,transformskey]",,,,,
 Table,dbo.ModelSequences,"dbo.ModelSequences.Stores statistics on sequences of events that actually have occurred, in the EventsFact table. For example, arrive->greeted->seated. It's good to know how often a sequence happens, along with other information. Columns: [Cases,CreateDate,HopAvg,HopMax,HopMin,HopStDev,lastEvent,length,ModelID,nextEvent,Prob,Rows,Seq,SeqAvg,SeqKey,SeqMax,SeqMin,SeqStDev,SeqSum,TermRows,TotalRows]",,,,,
-Column,EventPropertiesMDM.SimilarityScore,EventPropertiesMDM.SimilarityScore. How similar? 1=Exact Master Golden record.,,,,,
 Table,dbo.ModelSimilarity,"dbo.ModelSimilarity.Scores the difference between two markov models. This is one of the prime use cases for time molecules. This is done using the InsertModelSimilarities stored procedure. Columns: [CombinedUniqueSegments,CosineSimilarity,IsMutuallyExclusive,Model1Segments,Model2Segments,ModelID1,ModelID2,PercentSameSegments,SameSegments_ttest]",,,,,
 Table,dbo.ProcErrorLog,"dbo.ProcErrorLog.Log file of events from the time molecules solution itself. Columns: [binaryID,ErrorLine,ErrorLogID,ErrorMessage,ErrorNumber,EventName,ID,LoggedAt,MetricName,ProcedureName,PropertyName]",,,,,
 Table,dbo.SimilarSourceColumnPairs,"dbo.SimilarSourceColumnPairs.This looks at the SourceColumn table, along with values like the description and IRI of the column. There is a score for the similarity. See the python script: source_column_semantic_similarity.py, It uses an LLM to determine the score and reason. This is a very valuable feature that enables us to figure out processes by matching properties. Columns: [Reason,SimilarityScore,SourceColumnID1,SourceColumnID2]",,,,,
@@ -3440,7 +3499,7 @@ Table,dbo.TimeSolutionsMetadata,"dbo.TimeSolutionsMetadata. Columns: [AccessBitm
 Table,dbo.Transforms,"dbo.Transforms.Event Transforms - Events could be aggregated together. Columns: [AccessBitmap,Code,CreateDate,CreatedByUserID,Description,LastUpdate,transforms,transformskey]",,,,,
 Instance,Model.5,"Cached Markov Model--Event Set: restaurantguest,StartDateTime: 1900-01-01,EndDateTime: 2050-12-31--Transforms: None--Case Filters: {""EmployeeID"":1,""LocationID"":1}",,,,,
 Table,dbo.UserAccessRole,"dbo.UserAccessRole.This is the primary table that maps users to access ids. it's more interpretable than just the bitmap. but this is the information from which we construct the Users.AccessBitmap columns. Columns: [AccessID,CreateDate,Granted,LastUpdate,UserID]",,,,,
-Table,STAGE.ImportEvents,"STAGE.ImportEvents.This is the standard import table. everything should be loaded into this table. Columns: [AccessBitmap,CaseID,CaseProperties,CaseTargetProperties,CaseType,DateAdded,Event,EventActualProperties,EventAggregationProperties,EventDate,EventDescription,EventExpectedProperties,EventIntendedProperties,ImportEventID,NaturalKey_SourceColumnID,SourceID,ValidationBitmap]",,,,,
+Table,dbo.Users,"dbo.Users. Columns: [AccessBitmap,CreateDate,DenyBitmap,Description,IRI,IsActive,LastUpdate,SQLLoginName,SUSER_NAME,UserID]",,,,,
 Table,STAGE.sales_event_data,"STAGE.sales_event_data. Columns: [CaseTypeName,datekey,dice,endDate,Measure,product_class,QueryDefID,sale_dollars,Sales_Event,SourceCatalog,SourceID,SourceSchema,SourceServer,startDate,Store]",,,,,
 Table,WORK.BayesianProbability,"WORK.BayesianProbability.Holding area for bayesian probabilities procedure to pass back to caller. Columns: [A_Int_BCount,ACount,BCount,EventSetKeyA,EventSetKeyB,PA,PA|B,PB,PB|A,SessionID,TotalCases]",,,,,
 Table,WORK.CaseCharacteristics,"WORK.CaseCharacteristics. Columns: [Attribute,CaseID,Category,EventA,EventAIsEntry,EventB,EventBIsExit,EventIDA,EventIDB,metric_value,metric_zscore,ModelID,PropertyValueAlpha,PropertyValueNumeric,SessionID,transistion_prob]",,,,,
@@ -3452,25 +3511,16 @@ Table,WORK.ModelDrillThrough,"WORK.ModelDrillThrough. Columns: [CaseID,EventA,Ev
 Table,WORK.SelectedEvents,"WORK.SelectedEvents. Columns: [CaseID,Event,EventDate,EventID,EventOccurence,MetricInputValue,MetricOutputValue,Rank,SessionID]",,,,,
 Table,WORK.semantic_web_llm_values,"WORK.semantic_web_llm_values. Columns: [AccessBitmap,Code,CodeColumn,Description,IRI,ObjectName,ObjectType,SampleCode,Utilization]",,,,,
 Table,WORK.Sequences,"WORK.Sequences. Columns: [Cases,ExitRows,FromCache,HopAvg,HopMax,HopMin,HopStDev,lastEvent,length,ModelID,nextEvent,Prob,Rows,Seq,SeqAvg,SeqMax,SeqMin,SeqStDev,SeqSum,SessionID,TotalRows]",,,,,
-Instance,EventType.csv4.2,CVS drug store event 4--Code:csv4,,,,,
-Instance,EventType.csv5.2,CVS drug store event 5--Code:csv5,,,,,
-Instance,EventType.depart.2,User departs from location--Code:depart,,,,,
-Instance,EventType.DISCH_DONE.9,Event Set--Code:DISCH_DONE,,,,,
-Instance,EventType.DISP_SET.9,Event Set--Code:DISP_SET,,,,,
-Instance,EventType.drinks.2,User orders drinks--Code:drinks,,,,,
-Instance,EventType.Echo.8,Event Set--Code:Echo,,,,,
-Instance,EventType.ER_CHECKIN.9,Event Set--Code:ER_CHECKIN,,,,,
-Instance,EventType.FLOP.1,Flop in poker game--Code:FLOP,,,,,
+Instance,Model.27,"Cached Markov Model--Event Set: websitepages,StartDateTime: 1900-01-01,EndDateTime: 2050-12-31--Transforms: None--Case Filters: None",,,,,
+Instance,Model.28,"Cached Markov Model--Event Set: websitepages,StartDateTime: 1900-01-01,EndDateTime: 2050-12-31--Transforms: {""arnold1"":""arnold"",""arnold2"":""arnold"",""keto1"":""dietpage"",""weightwatcher1"":""dietpage"",""vanproteinbars"":""proteinbars"",""chocproteinbars"":""proteinbars""}--Case Filters: None",,,,,
+Instance,EventType.abandoncart.2,User abandons shopping cart--Code:abandoncart,,,,,
+Instance,EventType.abandonedcart.2,User abandons shopping cart--Code:abandonedcart,,,,,
+Instance,EventType.ante.1,Place a bet before the start--Code:ante,,,,,
 Column,DimEvents.Description,DimEvents.Description. Intended as a prompt to an LLM so we can obtain more information about this.,,,,,
 Column,DimEvents.Event,DimEvents.Event. PK of the DimEvents table.,,,,,
 Column,DimEvents.IRI,DimEvents.IRI. The IRI (Internation Resource Identifier) is the gateway to a knowledge graph.,,,,,
-Column,DimObservers.SourceID,DimObservers.SourceID. The storage place of event generated by the observer. This is where the Events Ensemble reads the events. ,,,,,
 Column,DimEvents.IsState,"DimEvents.IsState. Although the TimeMolecules events are events, we could create events that are really states. For example, in poker, after a player takes an action (an event), the state of the game changes. The next player (a good player) should react to the new state of the game, not the last action.",,,,,
 Column,DimEvents.Properties,DimEvents.Properties. json document of properties. Intended to describe attributes of entities that are involved. In a Markov System.,,,,,
-Column,DimEvents.SourceID,"DimEvents.SourceID. SourceID enables us to create events in a ""namespace"". This is so if different DWs or other sources have the same event with different meanings.",,,,,
-Column,ImportEvents.AccessBitmap,ImportEvents.AccessBitmap. Default of -1 means all bits are set.,,,,,
-Column,ImportEvents.CaseID,"ImportEvents.CaseID. Really, the naturalkey of the case. it will be imported as Case.NaturalKey.",,,,,
-Column,ImportEvents.CaseProperties,"ImportEvents.CaseProperties. This is a flattened table, so all CaseProperties for a CaseID should be the same.",,,,,
 Column,ImportEvents.ValidationBitmap,"ImportEvents.ValidationBitmap. 	DECLARE @VB_EventLenOver50                    INT = 1;    -- 1
 	DECLARE @VB_CasePropertiesNotJSON             INT = 2;    -- 2
 	DECLARE @VB_BadCaseType                       INT = 4;    -- 4
@@ -3498,6 +3548,14 @@ Column,EventsFact.ParentCaseID,EventsFact.ParentCaseID. This is used to connect 
 Column,AggregationTypes.AggregationTypeID,AggregationTypes.AggregationTypeID. Primary key of the AggregationTypes table.,,,,,
 Column,AggregationTypes.IsNative,"AggregationTypes.IsNative. 0=Aggregation is custom,  some ETL package.",,,,,
 Column,AggregationTypes.Metadata,"AggregationTypes.Metadata. This is a json of metadata regarding the aggregation. It can include things such as the ETL package, function, or program that created it, and required parameters.",,,,,
+Column,EventPropertiesMDM.MDM_IRI,"EventPropertiesMDM.MDM_IRI. IRI value of this row. This column is optional, but it does help to link the row to a semantic web knowledge graph.",,,,,
+Column,EventPropertiesMDM.MDM_Parent_EventPropertiesMDMID,EventPropertiesMDM.MDM_Parent_EventPropertiesMDMID. Parent ID of this MDM rows.,,,,,
+Column,EventPropertiesMDM.MDMComparisonTypeID,EventPropertiesMDM.MDMComparisonTypeID. FK to  MDMComparisonType.MDMComparisonTypeID.,,,,,
+Column,EventPropertiesMDM.MDMName,EventPropertiesMDM.MDMName. MDM property name,,,,,
+Column,EventPropertiesMDM.MDMSourceColumnID,EventPropertiesMDM.MDMSourceColumnID. SourceColumnID of the MDM property.,,,,,
+Column,EventPropertiesMDM.MDMValueAlpha,EventPropertiesMDM.MDMValueAlpha. property value if alpha.,,,,,
+Column,EventPropertiesMDM.MDMValueNumeric,EventPropertiesMDM.MDMValueNumeric. property value if numeric.,,,,,
+Column,EventPropertiesMDM.PropertyName,EventPropertiesMDM.PropertyName. Name of the raw property,,,,,
 Column,Metrics.Method,"Metrics.Method. Integer code that specifies how the metric is calculated from event data, rather than what the metric is named. Supported values are 0 = direct current reading, 1 = change from the prior event’s actual value, 2 = expected minus actual at the current event (often useful for leak, friction, slippage, or other process loss), 3 = current actual value interpreted as backlog, bottleneck, queue, or load, and 4 = percentage change from the previous event. This makes the metric framework suitable for multiple kinds of process intelligence, from simple state measurement to change, deviation, accumulation, and flow behavior. 
 
 See stored proc MarkovProcess2 to see how this is used.",,,,,
@@ -3545,7 +3603,6 @@ Column,Models.ModelType,"Models.ModelType. 1. BayesianProbability - Conditional 
 Column,Models.Order,"Models.Order. A ""proper"" Markov model is first order (1), which means the next event depends on only the current event. That's the default. We can also specify 2nd and 3rd order models, meaning the next event depends on the n-1 and n event (2nd order), or n-2, n-1, and n event for 3rd order.",,,,,
 Column,Models.ParamHash,Models.ParamHash. This is a hash of the model-level parameters. This mostly helps to link Model events that are bayesian probabilities with markov models. This helps enable hidden markov model so we can link an event from a markov model to an event from a bayesian pair (specifically Event A).,,,,,
 Column,Models.transformskey,Models.transformskey. The hash key to the transforms table. it is a set of key-value pairs converting an event to another.,,,,,
-Column,Cases.Event_SourceColumnID,Cases.Event_SourceColumnID. FK to the SourceColumns.SourceColumnsID. The SourceColumns.SourceID for the event column of EventsFact rows under this CaseID.,,,,,
 Column,ModelEvents.CoefVar,"ModelEvents.CoefVar. Coefficient of Variance - Statistical measure that represents the ratio of the standard deviation to the mean of a dataset, expressed as a percentage.",,,,,
 Column,ModelEvents.IsEntry,ModelEvents.IsEntry. How many times was this the entry point?,,,,,
 Column,ModelEvents.IsExit,ModelEvents.IsExit. How many times was this the exit?,,,,,
@@ -3556,34 +3613,5 @@ Column,ModelEvents.Skew,"ModelEvents.Skew. Many distibutions between events will
 It actually requires yet another pass AFTER getting StDev (it needs StDev).",,,,,
 Column,CaseProperties.CaseID,CaseProperties.CaseID. Foreign key to the Cases table (Case.CaseID). One row per CaseID.,,,,,
 Column,CaseProperties.Properties,"CaseProperties.Properties. Case-level properties in a JSON format. ex {""EmployeeID"":1, ""LocationID"":2}",,,,,
-Column,CaseProperties.TargetProperties,"CaseProperties.TargetProperties. Properties related to what we targeted for the case, could be goals. ex: the goal of a delivery is to deliver at a profit. {""Spend"":1000, ""Budget"":1100}",,,,,
-Column,SourceColumns.AccessBitmap,"SourceColumns.AccessBitmap. Source columns are related to Event-level and case-level properties, which might be sensitive.",,,,,
-Column,SourceColumns.ColumnName,"SourceColumns.ColumnName. ColumnName should be 50 because that's the length I have for the ""Name"" of the table rows. See the get_semantic_web_llm_values sproc.",,,,,
-Column,SourceColumns.DataType,SourceColumns.DataType. Leave this column NULL since we may not know the data type initially. Try to use SQL Server data types since this is a SQL Server database.,,,,,
-Column,SourceColumns.Description,SourceColumns.Description. Description of what the column is semantically about. This can be used to figure out an IRI RDF class that matches the meaning of this column.,,,,,
-Column,SourceColumns.IRI,SourceColumns.IRI. The IRI (Internation Resource Identifier) is the gateway to a knowledge graph.,,,,,
-Column,SourceColumns.IsOrdinal,"SourceColumns.IsOrdinal. Is this column ordinal (1) or discrete (0)? The column can be used to correlate changes in Markov models across values of this column. If the column is continuous, it's considered ordinal.",,,,,
-Column,SourceColumns.ObserverID,"SourceColumns.ObserverID. A data source stores data observed by an observer. however, a data source might consist of multiple observers-like a person has multiple senses or a car has multiple devices emitting events.
-
-AI agents could be an observer.",,,,,
-Column,Sources.DefaultObserverID,"Sources.DefaultObserverID. A data source stores data observed by an observer. however, a data source might consist of multiple observers-like a person has multiple senses or a car has multiple devices emitting events.
-
-This is the default observer.",,,,,
-Column,Sources.DefaultTableName,"Sources.DefaultTableName. It's possible the source is ""one big table"" or a CSV. In this case, it helps to have the name of the table as a default.",,,,,
-Column,Sources.PropertiesJSONFullyQualifiedColumnName,"Sources.PropertiesJSONFullyQualifiedColumnName. Name of source fully qualified column name (schema,table.column) containing JSON of case-level properties.",,,,,
-Column,Sources.TargetJSONFullyQualifiedColumnName,"Sources.TargetJSONFullyQualifiedColumnName. Name of source fully qualified column name (schema,table.column) containing JSON of case-level properties.",,,,,
-Column,EventProperties.ActualProperties,"EventProperties.ActualProperties. Metric inputs - key/value pairs of metrics as inputs into a node.
-
-The idea behind InputProperties and OutputProperties is that something happens between entering the state and exiting. Things can also happen between exiting a state and entering another one.
-
-See the table Metrics and the scalar function, MetricValue.",,,,,
-Column,EventProperties.AggregationProperties,"EventProperties.AggregationProperties. If an Event is an aggregation, these are the properties of the aggregation. Examples of keys would be the aggregator's name, each descriptive statistic of the aggregation.
-
-See the AggregationTypes table.",,,,,
-Column,EventProperties.EventID,EventProperties.EventID. FK to EventsFact.EventID. One row per EventID,,,,,
-Column,EventProperties.ExpectedProperties,"EventProperties.ExpectedProperties. Metric inputs - key/value pairs of metrics as Outputs from a node.
-
-See description for InputProperties.
-
-If the event just a reading, there shouldn't be OutputProperties.",,,,,
-Column,EventProperties.IntendedProperties,EventProperties.IntendedProperties. Actual vs. Expected (predicted) is the subject of statisticians creating the confusion matrix. Intended is what we're shooting for.,,,,,
+Column,Transforms.transforms,Transforms.transforms. JSON of the from-event to the to-event key-value pairs.,,,,,
+Column,Transforms.transformskey,Transforms.transformskey. PK of the Transforms table.,,,,,
