@@ -1,3 +1,14 @@
-* Prompt: How do I perform conventional time series volume trends and event sequence analysis with lag calculations using the EventsFact table in the TimeSolution database?
-* Abstract: In TimeSolution, the Event Ensemble centered on the EventsFact table supports conventional time series, sequence analysis and Fourier transforms on raw event streams. EventsFact stores individual events with fields including EventID, CaseID (linking to Cases), CaseTypeID, EventName, EventTime, and optional metrics. Time-series analysis groups events by time buckets such as CAST(EventTime AS DATE), counts occurrences by EventName, and computes aggregates while filtering by CaseTypeID and date ranges using parameterized queries. Sequence analysis applies the LAG window function OVER (PARTITION BY CaseID ORDER BY EventTime) to retrieve the previous event and calculates time deltas with DATEDIFF in seconds or minutes between consecutive events within each case. Direct SELECT statements against EventsFact, combined with indexes on (CaseID, EventTime) and (EventTime), deliver exact historical volumes, trends, seasonality detection, ordered event paths, and gap analysis. These patterns complement the database’s Markov model layer by providing granular, exact-count history without probabilistic compression.
-* Primary location of source material to analyze (for more information): https://github.com/MapRock/TimeMolecules/blob/main/tutorials/time_molecules_skills/conventional_time_series_analysis.md
+# Conventional Time Analysis vs Time Molecules
+
+**Prompt:**  
+How does traditional time-series analysis differ from the Time Molecules approach?
+
+**Abstract:**  
+Conventional time analysis (time-series forecasting, Fourier transforms, autocorrelation, trend charts, etc.) treats time as a continuous variable or a simple dimension for aggregation. It is excellent for measuring *what happened* but does not naturally expose *how* processes unfold, drift, or interact across domains.  
+
+Time Molecules starts with discrete event sequences as first-class objects, compresses them into comparable Markov models, and adds full OLAP-style slicing and dicing on the probabilistic patterns themselves. The result is shared, discoverable process memory that works at enterprise scale and integrates cleanly with Data Vault, semantic layers, and AI agents.
+
+**Primary location of source material to analyze (for more information):**  
+https://github.com/MapRock/TimeMolecules/tree/main/tutorials/diced_markov_models  
+https://github.com/MapRock/TimeMolecules/tree/main/tutorials/compare_event_transitions  
+https://github.com/MapRock/TimeMolecules/tree/main/tutorials/preaggregate_markov_models
