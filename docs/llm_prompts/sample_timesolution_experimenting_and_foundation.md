@@ -1,5 +1,16 @@
-Prompt: How can a sample implementation be simple enough for readers to experiment with, while still being shaped in ways that move it closer to a foundation for a real scalable production architecture?
+# Sample TimeSolution – Experimenting and Foundation
 
-Abstract: TimeSolution is designed with two practical goals in mind. It needs to remain approachable enough that readers can install the sample, follow the ideas, and experiment with the code without needing a large distributed environment. At the same time, it is intended to move in the direction of a more scalable architecture rather than staying locked into patterns that work only as a small demonstration. This creates a natural tension between tutorial simplicity and production-oriented structure. Refactors such as moving important logic into stored procedures and materializing intermediate results are part of that balancing act. They make the sample a little less lightweight, but they also nudge it toward patterns that can better support larger workloads and more scalable platforms. In that sense, TimeSolution acts as both a teaching sample and an early architectural bridge toward a more realistic large-scale implementation.
+**Prompt:**  
+How do I connect to, explore, and begin using a live TimeSolution instance as an AI agent or developer?
 
-Primary location of source material to analyze (for more information): https://github.com/MapRock/TimeMolecules/blob/main/docs/sp_SelectedEvents_MPP_refactor_20260321.md
+**Abstract:**  
+This is the foundational “hello world” guidance for anyone (human or AI agent) starting with a live TimeSolution database. After receiving valid credentials, the very first action is to run `EXEC dbo.BuildTimeSolutionsMetadata` to populate the metadata that powers discovery, vector search, and AI-agent skills.  
+
+All access must go through curated interface objects only (views, stored procedures, table-valued functions, scalar functions). Direct base-table access is denied by design. The system now includes mature patterns for Qdrant vector indexing, Kyvos semantic-layer registration, diced Markov models, and AI-agent-friendly skills.  
+
+This file replaces the older experimental tone with current Spring 2026 production-leaning architecture.
+
+**Primary location of source material to analyze (for more information):**  
+https://github.com/MapRock/TimeMolecules/tree/main/tutorials/time_molecules_skills  
+https://github.com/MapRock/TimeMolecules/tree/main/tutorials/ai_agent_skills  
+https://github.com/MapRock/TimeMolecules/tree/main/data/timesolution_schema
