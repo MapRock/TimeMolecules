@@ -17,9 +17,9 @@ Many organizations already operate mature traditional BI environments (star sche
 - Applies business rules and cleansing once (silver/business layer).
 - Feeds both existing BI marts *and* new domain data products.
 
-This mirrors exactly what the author described in the blog *Embedding a Data Vault in a Data Mesh*:
+This mirrors exactly what I described in the blog *[Embedding a Data Vault in a Data Mesh](https://eugeneasahara.com/2022/01/02/data-vault-data-mesh/)*:
 
-> “The Data Vault layer provides a versatile data structure where data from many domains and stages can exist in one place, while allowing flexibility required by domains. The Data Vault is comprised of two parts: 1. The Raw Data Vault. It holds a historic, mostly unaltered version of data extracted from the OLTP sources. 2. The Business Vault (consumer-facing layer). It is a set of transformed tables built solely from the tables of the Raw Data Vault.”
+> The Data Vault layer provides a versatile data structure where data from many domains and stages can exist in one place, while allowing flexibility required by domains. The Data Vault is comprised of two parts: 1. The Raw Data Vault. It holds a historic, mostly unaltered version of data extracted from the OLTP sources. 2. The Business Vault (consumer-facing layer). It is a set of transformed tables built solely from the tables of the Raw Data Vault.
 
 The pattern also directly supports the user’s point about onboarding: raw event data lands immediately (“it’s there now—not pretty, but it’s there”), and transformations to silver/gold levels happen over time via the Business Vault.
 
@@ -54,29 +54,6 @@ Star-schema Data Marts  ←→  Kyvos Semantic Layer (customer-facing)
 
 This is an *extension* of the star-schema tutorial: instead of directly building `FACT.Fuel_Weight`, you first land everything in Data Vault so the same data can serve multiple BI consumers and future domains.
 
-### What is in this directory (and how to use it)
-
-
-- **`raw_to_vault_example.sql`** – Example SQL showing how to load `dbo.EventsFact` and parsed properties into Data Vault Hubs/Links/Satellites (or views that map to an *existing* external Data Vault).
-- **`business_vault_to_star_example.sql`** – How Business Vault tables feed conventional fact/dimension tables (extending the star-schema fact_table_example.sql).
-- **`kyvos_registration.sql`** – Stored-proc calls to register the final semantic layer (see below).
-
-### How to register the Kyvos Semantic Layer as the customer-facing view
-
-Once Data Vault (or the Business Vault) is populated, the *only* layer business users see is the Kyvos semantic layer. Register it exactly as shown in the dedicated tutorial:
-
-```sql
--- 1. Register Kyvos as the primary property / consumer source
-EXEC dbo.InsertSource
-    @SourceName = 'Kyvos_Semantic_Model',
-    @SourceType = 'KYVOS_SEMANTIC_LAYER',
-    @ConnectionString = 'kyvos://your-kyvos-server/semantics/your-model-id',
-    @Description = 'Enterprise unified semantic model – curated measures, dimensions, hierarchies, and KPIs from Kyvos',
-    @IsPropertySource = 1;
-```
-
-(Full details and additional `InsertSourceColumns` examples are in `[/tutorials/kyvos_semantic_layer_as_source](https://github.com/MapRock/TimeMolecules/tree/main/tutorials/kyvos_semantic_layer_as_source)`—highly recommended read. Kyvos delivers sub-second performance on billions of rows, centralized governance, and consistent business definitions—perfect for the “one view, one meaning” that Data Mesh demands.)
-
 ### When to use this pattern
 
 - You have (or plan to build) a Data Vault and want TimeSolution events to participate in it.
@@ -97,8 +74,4 @@ Data Vault is the *bridge*, not the destination. The distinctive value of Time M
 
 That sequence gives you the best of all worlds: Time Molecules for process intelligence + Data Vault for scalable integration + Data Mesh for domain ownership + Kyvos for the modern, customer-facing semantic layer.
 
-
-
-For Kyvos registration details:  
-`/tutorials/kyvos_semantic_layer_as_source` (and the official Kyvos Unified Semantic Foundation documentation).
 
