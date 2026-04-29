@@ -18,6 +18,8 @@ In Time Molecules terms, the Kyvos semantic layer is your **primary property sou
 
 While Time Molecules focuses on the *time-side* (event sequences + Markov abstractions), Kyvos supplies the high-quality *thing-side* facts and dimensions that make those stories meaningful and comparable across the enterprise.
 
+<i>**To clarify:** Kyvos is not Time Molecules. As a semantic layer, it can serve as a powerful data source, providing hooks into enterprise data, to Time Molecules (via "event properties" and "case properties"), to the a wide-breadth event processing system.</i>
+
 **Best official explanation** (highly recommended read):  
 [Kyvos Unified Semantic Foundation](https://www.kyvosinsights.com/semantic-layer/unified-semantic-foundation/)
 
