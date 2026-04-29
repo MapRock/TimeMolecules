@@ -73,7 +73,5 @@ By using Kyvos as the primary property source, you get the best of both worlds:
 
 Together they create true **process-aware intelligence** at enterprise scale.
 
-**Shout-out to the Kyvos team** — your semantic layer is exactly the kind of mature, high-performance, governed foundation that makes advanced process analysis practical at real-world scale.
 
-For more details on connecting external semantic layers, see `docs/sources/property_sources.md` and the LLM prompts in `docs/llm_prompts/`.
 
