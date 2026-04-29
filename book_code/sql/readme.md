@@ -1,3 +1,7 @@
+SQL code from the <i>[Time Molecules](https://technicspub.com/time-molecules/)</i> book. The file names match the captions.
+
+For the most part, the code should be run in order, as per the progressive nature of a book.
+
 TimeMolecules_Code04.sql through TimeMolecules_Code75.sql reflect SQL code in the book, Time Molecules. Each is:
 
 1. Run from the TimeSolution database (restored from TimeSolution.bak). My intent is to use SQL Server Management Studio (SSMS) as the "query tool" for these SQL snippets.
@@ -16,3 +20,5 @@ In the book, I say that all the SQL code is consolidated into the file, time_mol
 Code 72 in the book has a typo. In the SELECT, it refers to [CaseType], which should be [GroupType]. That change is reflected in the code in this directory (TimeMolecules_Code72.sql).
     </li>
 </ul>
+
+
