@@ -1,5 +1,14 @@
-Prompt: How do the Tuple Correlation Web and Time Molecules together create a complete enterprise knowledge graph?
+# Tuple Correlation Web in Time Molecules
 
-Abstract: The Tuple Correlation Web (thing-oriented correlations from Enterprise Intelligence) combined with the Hidden Markov Models of Time Molecules (process-oriented flows) forms a unified space-time knowledge graph. This integration connects static facts and relationships with dynamic event sequences, transition probabilities, and process patterns, delivering a richer, fully process-aware enterprise intelligence layer that supports both traditional BI and next-generation process mining.
+**Prompt:**  
+What is the tuple correlation web concept in Time Molecules and how is it implemented?
 
-Primary location: https://eugeneasahara.com/2025/07/18/link_between_my_two_books/
+**Abstract:**  
+In Time Molecules, individual events (tuples) are not isolated facts — they participate in a dynamic correlation web created by shared properties, case linking, and Markov transitions. This web is made explicit and queryable through IRI-based property MDM, cross-system case linking, and adjacency-matrix / Markov-model techniques.  
+
+The correlation web turns fragmented event streams into a true enterprise process graph that can be explored, compared, and reasoned over by both humans and AI agents.
+
+**Primary location of source material to analyze (for more information):**  
+https://github.com/MapRock/TimeMolecules/tree/main/tutorials/link_cases  
+https://github.com/MapRock/TimeMolecules/tree/main/tutorials/property_mdm_iri_rollup  
+https://github.com/MapRock/TimeMolecules/tree/main/tutorials/knowledge_graph_integration_IRI
