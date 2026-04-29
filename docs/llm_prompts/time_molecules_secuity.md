@@ -11,7 +11,6 @@ TimeSolution uses a deliberate two-layer security model designed for both human 
 AI agents and users must connect only through curated interface objects: approved views, stored procedures, table-valued functions, and scalar functions. The stored procedure `dbo.RefreshUserAccessBitmaps` keeps the bitmasks current. Onboarding an agent is simple: create a SQL login/user, grant execute/select only on approved surfaces, insert appropriate rows into `UserAccessRole`, and run `RefreshUserAccessBitmaps`.
 
 **Primary location of source material to analyze (for more information):**  
-`/tutorials/time_molecules_security/readme.md`  
-`/tutorials/time_molecules_skills/connecting_to_time_molecules.md`  
-`data/timesolution_schema/timesolution_views_funcs.sql` (for `dbo.UserAccessBitmap` and `dbo.UserDenyBitmap`)  
-`data/timesolution_schema/timesolution_stored_procedures.sql` (for `dbo.RefreshUserAccessBitmaps`)
+https://github.com/MapRock/TimeMolecules/tree/main/tutorials/time_molecules_security  
+https://github.com/MapRock/TimeMolecules/tree/main/tutorials/time_molecules_skills  
+https://github.com/MapRock/TimeMolecules/tree/main/data/timesolution_schema
