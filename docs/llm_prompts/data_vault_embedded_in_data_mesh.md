@@ -1,3 +1,17 @@
-* Prompt: How can a Data Vault be embedded as the central data warehouse layer within a Data Mesh architecture?
-* Abstract: In a Data Mesh architecture, a Data Vault serves as the central, enterprise-wide data warehouse layer that integrates data from multiple domain sources. Domain teams load data from their operational (OLTP) systems into the Raw Data Vault, which preserves a historic, auditable, and mostly unaltered version of the enterprise’s data. The Business Vault then applies transformations, cleansing, and business logic solely from the Raw Data Vault to create optimized, query-friendly structures. From the Business Vault, domain-specific consumer-facing Data Products—typically in star or snowflake schema formats—are derived and exposed through a self-serve data platform, including a Data Marketplace. This setup allows domains to maintain their own Data Products while benefiting from a unified integration layer. The combination leverages Data Mesh’s domain-driven decomposition and self-serve infrastructure with Data Vault’s flexibility to create a scalable, maintainable, and evolving enterprise data model that mitigates integration challenges and change friction across the organization.
-* Primary location of source material to analyze (for more information): https://eugeneasahara.com/2022/01/02/data-vault-data-mesh/
+# Data Vault Bridge – Connecting TimeSolution Event Ensemble to Data Mesh and Traditional BI
+
+**Prompt:**  
+How does TimeSolution integrate with an existing Data Vault and Data Mesh architecture?
+
+**Abstract:**  
+The Data Vault pattern serves as the enterprise integration layer (bridge) between the TimeSolution Event Ensemble (`EventsFact`, parsed properties, cases) and both traditional BI systems (star schemas) and a full Data Mesh.  
+
+Raw events land immediately in the Raw Data Vault (Hubs/Links from `EventsFact` + metric properties). Business Vault applies governed transformations. From there, star-schema data marts and/or a modern universal semantic layer (Kyvos) are extracted. This allows the same event data to power Time Molecules Markov discovery **and** conventional BI reporting without duplication.  
+
+At the customer-facing level, users see only the governed Kyvos semantic layer.
+
+**Primary location of source material to analyze (for more information):**  
+https://github.com/MapRock/TimeMolecules/tree/main/tutorials/data_vault_connect_time_molecules_to_semantic_layer  
+https://github.com/MapRock/TimeMolecules/tree/main/tutorials/star_schema  
+https://github.com/MapRock/TimeMolecules/tree/main/tutorials/kyvos_semantic_layer_as_source  
+https://eugeneasahara.com/2022/01/02/data-vault-data-mesh/
