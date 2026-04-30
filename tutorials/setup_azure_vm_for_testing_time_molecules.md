@@ -1,201 +1,97 @@
-## Running Time Molecules on an Azure VM
 
-This guide walks through setting up a clean Windows virtual machine (VM) in Azure to install and test Time Molecules end-to-end. This is especially useful for validating the full setup, tutorials, and fallback modes in a fresh environment.
+# Setup Azure Windows VM for TimeMolecules (Full Book + Tutorial Environment)
 
----
+**Last Updated:** April 30, 2026
 
-### Why use an Azure VM?
-
-- Simulates a **new user installation**
-- Catches missing dependencies and unclear steps
-- Lets you test multiple configurations:
-  - Full setup (SQL Server + Qdrant + LLM)
-  - Partial setup (no Qdrant, JSON fallback)
-  - Minimal setup (local embeddings only)
+This guide shows you how to create a clean Azure Virtual Machine with the **complete TimeMolecules development environment**.  
+It is the recommended method for:
+- Readers of the book who need the full install (SQL Server + SSMS + Neo4j + restored database)
+- People following the AI Agent tutorial
+- Anyone who wants a 100% fresh test environment
 
 ---
 
-## 1. Create the Virtual Machine
+## Why Use an Azure VM?
 
-In the Azure Portal:
-
-1. Go to **Virtual Machines**
-2. Click **Create → Azure Virtual Machine**
-
-### Recommended settings
-
-**Image**
-- `Windows 11 Pro` *(preferred for development)*
-  - or `Windows Server 2022`
-
-**Size**
-- Recommended: `Standard B4ms`
-  - 4 vCPU, 16 GB RAM
-  - Good balance of cost and performance
-
-**Disk**
-- 128 GB Standard SSD is sufficient
-
-**Networking**
-- Allow **RDP (port 3389)**
-
-Create a username and password, then deploy.
+- Completely clean Windows environment (no conflicts with your local machine)
+- Easy to reset or share with others
+- Can be captured as a reusable public image so others can deploy in minutes
+- Perfect for validating installation instructions
 
 ---
 
-## 2. Connect to the VM
+## 1. Create the Virtual Machine (Recommended Settings)
 
-1. After deployment, open the VM in Azure Portal
-2. Click **Connect → RDP**
-3. Download the `.rdp` file
-4. Open it and log in
+In the Azure Portal, go to **Virtual machines** → **Create** → **Azure Virtual Machine**.
 
-You now have a full Windows desktop.
+Use these exact settings:
 
----
+| Setting                          | Recommended Value                                      | Notes |
+|----------------------------------|--------------------------------------------------------|-------|
+| **Image**                        | Windows 11 Pro, version 25H2 - Gen2                   | Best compatibility |
+| **Size**                         | **Standard D4ds v4** (4 vCPU, 16 GiB memory)         | Ideal for SQL Server, Ollama, Neo4j |
+| **OS Disk**                      | Standard SSD LRS, Image default (128 GB+)             | — |
+| **Username**                     | `timemolecules` or `devuser`                          | Use a generic name (not your personal name) |
+| **Public inbound ports**         | RDP (3389)                                            | Only for testing |
+| **Already have a Windows license?** | **Yes** (Windows Client)                           | Keeps hourly cost lower |
+| **Region**                       | West US (or closest to you)                           | — |
+| **Azure Spot**                   | No                                                    | — |
 
-## 3. Install Required Software
-
-Inside the VM:
-
-### Core tools
-- Git
-- Visual Studio Code
-- Python 3.10+
-
-### Time Molecules
-```bash
-git clone https://github.com/MapRock/TimeMolecules.git
-cd TimeMolecules/tutorials
-python -m venv .venv
-.venv\Scripts\activate
-pip install -r requirements.txt
-````
-
-### Data layer
-
-* Install **SQL Server Developer Edition**
-* Restore the **TimeSolution** database
-
-### AI / embeddings
-
-* Install **Ollama** (full runtime required, not just Python library)
-* Pull embedding model (example):
-
-```bash
-ollama pull nomic-embed-text
-```
-
-### Optional
-
-* Install **Qdrant** if testing full semantic retrieval
+**Expected hourly cost while running:** ~$0.266 USD/hr (you are only charged while the VM is **Running**).
 
 ---
 
-## 4. Run the Demo
+## 2. Cost Management (Very Important)
 
-From the tutorials directory:
-
-```bash
-python ai_agent_skills/time_molecules_agent_demo.py
-```
-
-The app will:
-
-* Detect available components (LLM, Qdrant, JSON fallback)
-* Adjust features automatically
-* Log decisions in the console
+- You are **only charged** while the VM status shows **Running**.
+- As soon as the VM finishes deploying, **immediately click Stop** in the Azure Portal (this deallocates it).
+- Compute cost drops to **$0.00/hr**.
+- All files, databases, and installed software remain safe.
+- Only start the VM again when you need to work on it.
 
 ---
 
-## 5. Understanding VM Costs (Important)
+## 3. Connect to the VM and Install the Full Environment
 
-### Running VM
+1. In Azure Portal, start the VM (if it is stopped).
+2. Click **Connect** → **RDP** and log in with the username and password you chose.
+3. Inside the VM, follow the main installation guide:
 
-You are billed for:
+   → **[docs/install_timemolecules_dev_env.md](../docs/install_timemolecules_dev_env.md)**
 
-* CPU and memory (~$0.15–0.20/hour for B4ms)
-* Disk storage (~$5–10/month)
+This installs everything needed:
+- SQL Server Developer Edition + **SSMS**
+- Restore the `TimeSolution.bak` database
+- Python 3.12 + virtual environment
+- Visual Studio Code + extensions
+- Git + full TimeMolecules repo
+- Ollama + required models (`nomic-embed-text`, `llama3.2`)
+- Neo4j Desktop (optional but included)
 
-### Stopping the VM
-
-There are **two types of stop**:
-
-#### ❌ Shutdown inside Windows
-
-* VM still allocated
-* **You are still charged**
-
-#### ✅ Stop (Deallocate) in Azure Portal
-
-* Releases CPU and memory
-* **Compute cost drops to $0**
-* Disk and files are preserved
-
-To deallocate:
-
-1. Go to VM in Azure Portal
-2. Click **Stop**
-3. Wait for status:
-
-   > `Stopped (deallocated)`
+**Tip:** Create the folder `C:\MapRock\TimeMolecules` and clone the repo there.
 
 ---
 
-## 6. What Happens When Deallocated?
+## 4. (Optional but Recommended) Capture as Reusable Public Image
 
-### You keep:
+Once everything is installed and you have tested the tutorial and book demos:
 
-* All files
-* Installed software
-* SQL Server databases
-* Python environment
-* Time Molecules setup
+1. **Inside the VM** (run as Administrator):
+   - Open Command Prompt and run:
+     ```cmd
+     %windir%\system32\sysprep\sysprep.exe /oobe /generalize /shutdown
+     ```
+   - The VM will shut down automatically.
 
-### You lose:
+2. Back in the Azure Portal:
+   - Select the VM → click **Capture**
+   - Choose **Community Gallery** (makes it public)
+   - Give the image a clear name and description, for example:
+     - Image definition: `TimeMolecules-Full-Dev-Environment`
+     - Version: `1.0.0`
+     - Description: “Pre-configured Windows VM with full TimeMolecules book + tutorial environment (SQL Server, SSMS, Python, Ollama, Neo4j)”
 
-* Running processes
-* Temporary in-memory state
 
-### Note:
 
-* Public IP address may change on restart
-
----
-
-## 7. Restarting the VM
-
-1. Click **Start** in Azure Portal
-2. Wait ~30–60 seconds
-3. Reconnect via RDP
-
-Everything resumes where you left off.
-
----
-
-## 8. Recommended Usage Pattern
-
-* Start VM when testing
-* Stop (deallocate) when finished
-
-Typical cost:
-
-* ~$10–$40/month depending on usage
-
----
-
-## 9. Optional: Snapshot for Reuse
-
-Once setup is complete:
-
-* Create a VM image or snapshot
-* Quickly spin up fresh environments for testing
-
----
-
-## Summary
-
-Running Time Molecules on an Azure VM provides a clean, controlled environment to validate installation, tutorials, and fallback modes. By using **Stop (Deallocate)** when not in use, you can keep costs low while maintaining a fully configured test system.
-
-```
+Would you like me to also add a short link to this file from the main consolidated tutorial guide?
 ```
