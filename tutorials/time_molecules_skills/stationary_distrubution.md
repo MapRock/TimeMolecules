@@ -23,7 +23,7 @@ The function reads the transition matrix for a model, computes the stationary di
 
 ## Prerequisites
 
-- Full book development environment is installed (`docs/install_timemolecules_dev_env.md`)
+- Full book development environment is installed ([docs/install_timemolecules_dev_env.md](https://github.com/MapRock/TimeMolecules/blob/main/docs/install_timemolecules_dev_env.md))
 - A valid `.env` file with SQL Server connection details
 - At least one Markov model already exists in the database (see skill [find_model_id.md](https://github.com/MapRock/TimeMolecules/blob/main/tutorials/time_molecules_skills/find_model_id.md) if you need a ModelID)
 
