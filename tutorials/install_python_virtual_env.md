@@ -9,9 +9,9 @@
 
 ---
 
-### Quick-Start Options
-**Option A – Local machine** (most people) → follow steps below  
-**Option B – Azure Windows VM** (cleanest test) → jump to the Azure section at the bottom
+### Deployment Options
+**Local machine** (no Azure cost) → Go to Step 1.  
+**Azure Windows VM** (a little cost, but less risky) → see [setup_azure_vm_for_testing_time_molecules.md](https://github.com/MapRock/TimeMolecules/blob/main/tutorials/setup_azure_vm_for_testing_time_molecules.md) for instructions on procuring an Azure Windows VM. After installing the Windows VM, go to Step 1.
 
 ---
 
