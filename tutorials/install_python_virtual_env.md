@@ -1,491 +1,227 @@
 
-
-# Windows Setup for the Python Tutorials
-
-These steps explain how to get the Python-based tutorials running on Windows, starting from scratch.
-
-It assumes:
-
-* you already downloaded or cloned the `TimeMolecules` repository
-* you want to work from the `tutorials` folder
-* you may **not** already have Python installed
+### Key Design Decisions (so you know why it’s built this way)
+- **Python virtual environment is mandatory** (never optional).
+- **SQL Server is optional** → the build script falls back to a public CSV snapshot. You can explore everything without installing SQL Server.
+- **Ollama is strongly recommended** (free, private, local LLM – no API keys or costs).
+- **Visual Studio Code** is the recommended editor (makes running Python trivial).
+- **Azure VM** is an excellent clean-test option (I tested it myself), but it costs money → use only when you want a 100% fresh Windows environment.
+- Everything runs in one folder: `tutorials/ai_agent_skills`.
 
 ---
 
-## Before you start
-
-Some of the tutorials use Python.
-
-If Python is **not** already installed on your machine, install **Python 3.10 or later** first.
-
-### How to install Python
-
-1. Go to **python.org**
-2. Download **Python 3.10 or later** for Windows
-3. Run the installer
-
-During installation, if you see an option like:
-
-```text
-Add Python to PATH
-```
-
-check it if you want. But if you do not, that is okay. These instructions will still work.
-
-If you have the choice, installing Python to a simple location such as:
-
-```text
-C:\python310
-```
-
-is fine.
+### Quick-Start Options
+**Option A – Local machine** (most people) → follow steps below  
+**Option B – Azure Windows VM** (cleanest test) → jump to the Azure section at the bottom
 
 ---
 
-# Step 1: Open the correct folder
+## Step 1: Install the Base Tools (do this once)
 
-After downloading or cloning the repository, open **File Explorer** and go to the `tutorials` folder.
+1. **Python 3.11 or 3.12** (recommended)  
+   → https://www.python.org/downloads/  
+   **Important:** On Windows, **check “Add python.exe to PATH”** during install.
 
-For example:
+2. **Git**  
+   → https://git-scm.com/downloads
 
-```text
-C:\maprock\timemolecules\tutorials
-```
+3. **Visual Studio Code** (strongly recommended)  
+   → https://code.visualstudio.com/  
+   After installing, open VS Code → Extensions (Ctrl+Shift+X) → install the official **Python** extension by Microsoft.
 
-This `tutorials` folder is the base for the Python environment.
+4. **Ollama** (local LLM – highly recommended)  
+   - Windows PowerShell (run as Administrator):  
+     ```powershell
+     irm https://ollama.com/install.ps1 | iex
+     ```
+   - Or download from https://ollama.com/download  
+   After Ollama is installed, open a terminal and run:
+     ```powershell
+     ollama pull nomic-embed-text     # embedding model
+     ollama pull llama3.2             # chat model (you can swap later)
+     ```
 
----
-
-# Step 2: Open PowerShell in that folder
-
-While you are in the `tutorials` folder in File Explorer:
-
-1. Click in the **address bar**
-2. Type:
-
-```text
-powershell
-```
-
-3. Press **Enter**
-
-This opens a PowerShell window already pointed at the correct folder.
-
-You will type the commands below into that PowerShell window.
+5. **Optional but nice: Microsoft ODBC Driver 18 for SQL Server** (only if you want to use your own SQL Server later)  
+   → https://aka.ms/downloadmsodbcsql
 
 ---
 
-# Step 3: Create the virtual environment
+## Step 2: Get the Code
 
-If Python is installed at `C:\python310`, run:
-
-```powershell
-C:\python310\python.exe -m venv .venv
-```
-
-This creates a local Python environment named `.venv` inside the `tutorials` folder.
-
-You only need to do this once.
-
-## If Python was installed somewhere else
-
-Use that full path instead. For example:
+Open PowerShell (or Git Bash / terminal) and run:
 
 ```powershell
-C:\Path\To\Python\python.exe -m venv .venv
+git clone https://github.com/MapRock/TimeMolecules.git
+cd TimeMolecules\tutorials\ai_agent_skills
 ```
 
-## If you are not sure where Python is installed
+(If you prefer downloading a ZIP instead of Git, download the repo ZIP, extract it, and navigate into the `ai_agent_skills` folder.)
 
-Try one of these commands:
+---
 
-```powershell
-py --version
-```
+## Step 3: Create the Python Virtual Environment (do this once)
 
-or
+**Always** use a venv for this tutorial.
 
-```powershell
-python --version
-```
-
-If one of those works, you can try:
-
-```powershell
-py -m venv .venv
-```
-
-or
+In the `ai_agent_skills` folder, run:
 
 ```powershell
 python -m venv .venv
 ```
 
-If neither works, then Python is either not installed or not easy to find on that machine. In that case, install Python first and then come back to this step.
-
----
-
-# Step 4: Activate the virtual environment
-
-Still in the `tutorials` folder, run:
+**Activate it** (you must do this every new session):
 
 ```powershell
 .\.venv\Scripts\Activate.ps1
 ```
 
-If it works, you should usually see something like this at the start of the prompt:
+You should see `(.venv)` at the start of your prompt.
 
-```text
-(.venv)
-```
-
-That means the virtual environment is active.
-
----
-
-# Step 5: If PowerShell blocks activation
-
-Some Windows machines block PowerShell scripts the first time.
-
-If you get an error saying that script execution is disabled, run:
+**If PowerShell complains about execution policy** (first time only):
 
 ```powershell
 Set-ExecutionPolicy -Scope CurrentUser RemoteSigned
 ```
 
-When PowerShell asks for confirmation, type:
-
-```text
-Y
-```
-
-Then activate the environment again:
-
-```powershell
-.\.venv\Scripts\Activate.ps1
-```
-
-You usually only need to do the execution-policy step once.
+Then activate again.
 
 ---
 
-# Step 6: Upgrade pip
+## Step 4: Install Python Packages
 
-After the virtual environment is active, run:
+While the venv is active:
 
 ```powershell
 python -m pip install --upgrade pip
-```
-
----
-
-# Step 7: Install the Python requirements
-
-From the `tutorials` folder, install the requirements for the tutorial you want to run.
-
-For example, for the AI agent tutorial:
-
-```powershell
-pip install -r ai_agent_skills\requirements.txt
-```
-
-If you are already inside `tutorials\ai_agent_skills`, use:
-
-```powershell
 pip install -r requirements.txt
+pip install pandas pyodbc requests   # extra packages the build script may need
 ```
 
 ---
 
-# Step 8: Test that the environment is working
+## Step 5: Create the `.env` File (very important)
 
-You can test Python itself with:
+Create a file named exactly `.env` (no .txt) **inside the `ai_agent_skills` folder**.
 
-```powershell
-python --version
+Copy-paste the following (you can edit later):
+
+```env
+# LLM choice (ollama or openai)
+LLM=ollama
+
+# === Ollama Settings ===
+OLLAMA_EMBED_MODEL=nomic-embed-text
+OLLAMA_CHAT_MODEL=llama3.2
+OLLAMA_CTX=8192
+OLLAMA_HOST=                     # leave empty for default localhost:11434
+
+# === OpenAI Settings (only if you want to use GPT instead) ===
+# OPENAI_API_KEY=sk-your-key-here
+# CHATGPT_MODEL=gpt-4o-mini
+
+# === Qdrant Settings ===
+QDRANT_COLLECTION_NAME=time_molecules_directory
+QDRANT_PATH=C:/MapRock/TimeMolecules/qdrant_data_ollama   # change if you want
+
+# === Search Settings ===
+RESULTS_LIMIT=8
 ```
 
-If you have a small checker script such as `test_requirements.py`, you can run:
-
-```powershell
-python test_requirements.py
-```
-
-That is a quick way to see whether the required packages are importable.
+**Security note**: Never commit `.env` to GitHub. Add `.env` to `.gitignore` if you ever push changes.
 
 ---
 
-# Step 9: Each time you come back later
-
-You do **not** need to recreate the virtual environment every time.
-
-When you come back later:
-
-1. Open File Explorer
-2. Go to the `tutorials` folder
-3. Type `powershell` in the address bar
-4. Press Enter
-5. Activate the environment:
+## Step 6: Build the Vector Database (run once)
 
 ```powershell
-.\.venv\Scripts\Activate.ps1
+python build_qdrant_index.py
 ```
 
-That is all.
+This script:
+- Pulls metadata (from SQL Server **if** configured, otherwise from a public CSV on GitHub)
+- Creates embeddings with Ollama
+- Stores everything in a local Qdrant collection
+
+First run takes 1–3 minutes (embedding ~200–300 objects). Subsequent runs are fast.
 
 ---
 
-# Running the tutorial Python in VS Code
+## Step 7: Run the AI Agent Demo
 
-If you want to run the Python files in **Visual Studio Code**, do this.
-
-## 1. Open the `tutorials` folder in VS Code
-
-Use:
-
-* **File > Open Folder**
-
-and choose:
-
-```text
-C:\maprock\timemolecules\tutorials
+```powershell
+python time_molecules_agent_demo.py
 ```
 
-## 2. Select the Python interpreter
+A nice Tkinter GUI window opens. Type natural-language questions about TimeSolution objects and watch the agent answer.
 
-In VS Code:
-
-1. Press **Ctrl+Shift+P**
-2. Type:
-
-```text
-Python: Select Interpreter
-```
-
-3. Choose the interpreter at:
-
-```text
-C:\maprock\timemolecules\tutorials\.venv\Scripts\python.exe
-```
-
-If you do not see it, choose:
-
-```text
-Enter interpreter path
-```
-
-and browse to it manually.
-
-## 3. Run the file
-
-Open the Python file you want to run and use:
-
-* **Run Python File**
-* or right-click and choose **Run Python File in Terminal**
-
-That will run it using the virtual environment you selected.
+**Lightweight / zero-dependency option** (no Qdrant, no SQL, no build step):
+- Download the pre-built JSON file from the OneDrive link in `install_ai_agent_skills.md` (or just try the script – it has fallback logic).
+- Run: `python time_molecules_data_json_ui.py`
 
 ---
 
-# If `python` still is not recognized
+## Optional: Install SQL Server Developer Edition (trade-offs explained)
 
-On some Windows systems, Python may be installed but not available as `python` in PowerShell.
+**You do NOT need SQL Server** to explore the tutorial. The build script falls back gracefully to a public CSV snapshot.
 
-If that happens, use the full path directly, for example:
+**When you might want it**:
+- You already have or plan to restore the TimeSolution database.
+- You want live metadata instead of the snapshot.
 
-```powershell
-C:\python310\python.exe -m venv .venv
-```
+**Install steps (Windows)**:
+1. Go to https://www.microsoft.com/en-us/sql-server/sql-server-downloads
+2. Download **Developer Edition** (free)
+3. Run the installer → choose **Basic** installation
+4. Note your instance name (usually `MSSQLSERVER`)
+5. Install the ODBC Driver 18 (link in Step 1)
 
-Also note: if you are standing in `C:\python310` and want to run `python.exe` from there, PowerShell often requires:
-
-```powershell
-.\python.exe --version
-```
-
-not just:
-
-```powershell
-python.exe --version
-```
-
-That is a PowerShell behavior, not a Python problem.
+The demo will automatically detect and use it if configured in `.env`.
 
 ---
 
-# Summary
+## Option B: Azure Windows VM (clean test environment – recommended for validation)
 
-From the `tutorials` folder, the usual Windows setup is:
+Use this when you want a 100% fresh Windows machine with zero interference from your local setup.
 
-```powershell
-C:\python310\python.exe -m venv .venv
-.\.venv\Scripts\Activate.ps1
-python -m pip install --upgrade pip
-pip install -r ai_agent_skills\requirements.txt
-```
+1. In Azure Portal → Create → Azure Virtual Machine
+   - Image: **Windows 11 Pro** (or Windows Server 2022)
+   - Size: **Standard B4ms** (4 vCPU, 16 GB RAM) – good price/performance
+   - Disk: 128 GB SSD
+   - Allow RDP (port 3389)
 
-Here’s a drop-in section for `tutorials/install_python_virtual_env.md`.
+2. After creation, connect via RDP.
 
----
+3. **Inside the VM**, repeat Steps 1–7 above (install Python, Git, VS Code, Ollama, clone, venv, etc.).
 
-Yes — you’re right on both counts.
-
-I accidentally let your local setup leak into the general instructions.
-
-What needs fixing:
-
-* **`C:\python310` is not typical**. That was your machine, not a user assumption.
-* The activation path is only correct if the venv was created in **`tutorials`**. Since your file is `tutorials/install_python_virtual_env.md`, the instructions need to be explicit that the user should be **in the `tutorials` folder** when creating and activating it.
-
-Here’s a corrected, **drop-in replacement** section for that file that is user-facing and general.
+**Cost warning**:
+- ~$0.15–$0.20 per hour while running.
+- **Always** use **Stop (deallocate)** from the Azure Portal (not just shutdown inside Windows) when you’re done. This drops compute cost to $0 while keeping all files.
 
 ---
 
-# Do I need to recreate or restart the virtual environment every time?
+## Visual Studio Code Tips (highly recommended)
 
-No. You only **create** the virtual environment once.
-
-From the **`tutorials`** folder, run one of these:
-
-```powershell
-py -m venv .venv
-```
-
-or, if `py` is not available but `python` is:
-
-```powershell
-python -m venv .venv
-```
-
-This creates the `.venv` folder **inside `tutorials`**.
-
-## What you do need to do each time
-
-Each time you:
-
-* reboot your laptop
-* open a new PowerShell window
-* open a new VS Code terminal
-
-you need to **activate** the virtual environment again for that session.
-
-But first, make sure you are in the **`tutorials`** folder.
-
-Then run:
-
-```powershell
-.\.venv\Scripts\Activate.ps1
-```
-
-If activation works, you will usually see something like this at the beginning of the prompt:
-
-```text
-(.venv)
-```
-
-That means the current shell is using the virtual environment.
-
-## Simple way to think about it
-
-* **Create** the virtual environment once
-* **Activate** it each time you start a new session
-
-The virtual environment stays on disk after it is created. Rebooting the computer does **not** delete it. Activation just tells the current PowerShell or VS Code terminal to use it.
-
-## Typical daily use
-
-After the virtual environment has already been created, the normal pattern is:
-
-1. Open File Explorer
-2. Go to the `tutorials` folder in the repository
-3. Type `powershell` in the address bar
-4. Press **Enter**
-5. Run:
-
-```powershell
-.\.venv\Scripts\Activate.ps1
-```
-
-That is all you need to do before running the tutorial Python files.
-
-## If PowerShell blocks activation
-
-If PowerShell says script execution is disabled, run this once:
-
-```powershell
-Set-ExecutionPolicy -Scope CurrentUser RemoteSigned
-```
-
-Then answer:
-
-```text
-Y
-```
-
-and activate again:
-
-```powershell
-.\.venv\Scripts\Activate.ps1
-```
-
-## VS Code note
-
-If you are using VS Code and have already selected the interpreter inside:
-
-```text
-tutorials\.venv\Scripts\python.exe
-```
-
-then VS Code may use that environment automatically for running Python files. Even so, it is still normal for a new terminal window to require activation if you want the terminal itself to use the same environment.
-
-## Important note
-
-These instructions assume the virtual environment was created from the **`tutorials`** folder. If you created `.venv` somewhere else, the activation path will be different.
+1. Open the `ai_agent_skills` folder in VS Code (`File → Open Folder`).
+2. Press `Ctrl+Shift+P` → type **Python: Select Interpreter** → choose the one inside `.venv\Scripts\python.exe`.
+3. Open any `.py` file → click the Run button or right-click → “Run Python File in Terminal”.
 
 ---
 
-And if you want, I’d also tighten the earlier creation section so it does **not** imply a hardcoded Python location. The safer wording is:
+## Common Problems & Fixes
 
-````md
-From the `tutorials` folder, create the virtual environment with:
+- **“.env not found”** → make sure it’s in the `ai_agent_skills` folder (not one level up).
+- **ODBC / SQL connection errors** → install Microsoft ODBC Driver 18.
+- **Ollama not responding** → make sure `ollama` is running in the background (it starts automatically after install).
+- **Venv not active** → you should see `(.venv)` in the prompt.
+- **First build is slow** → normal.
 
-```powershell
-py -m venv .venv
-````
+---
 
-If `py` is not available, try:
+## Next Steps & Where to Go From Here
 
-```powershell
-python -m venv .venv
-```
+- Read `tutorials/ai_agent_skills/time_molecules_agent_demo.md` for how to use the demo.
+- If you later buy the book and want the full dev environment (SQL restore, Neo4j, etc.), use `docs/install_timemolecules_dev_env.md`.
 
-If neither works, Python may not be installed or may not be available from your command line.
+You now have a **bullet-proof**, self-contained setup that works for curious explorers, AI agents, and clean testing on Azure.
 
-```
-
-The core fix is: **instructions should be relative to `tutorials`, not to your personal Python install path.**
-```
-
-## Ollama and Qdrant
-
-Some tutorials use Ollama and Qdrant. Their Python packages are already included in `python_requirements.txt`.
-
-### Important
-
-The `ollama` Python package is only the client library. To run local Ollama models, you must also install the Ollama application/runtime separately and make sure it is running.
-
-### Install Ollama
-
-Some tutorials use Ollama for local model inference. The `ollama` Python package in `python_requirements.txt` is only the Python client. You must also install the Ollama runtime separately.
-
-Install Ollama using the official documentation:
-
-- Quickstart: https://docs.ollama.com/quickstart
-- Windows: https://docs.ollama.com/windows
-- macOS: https://docs.ollama.com/macos
-- Linux: https://docs.ollama.com/linux
-
-After installing Ollama, verify it is running and pull a model, for example:
-
-```bash
-ollama run llama3.2
+Enjoy exploring TimeMolecules!  
+Any questions or issues → just open an issue on the repo or ask in the demo itself.
