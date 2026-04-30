@@ -4,7 +4,7 @@
 
 These steps explain how to get the Python-based tutorials running on Windows, starting from scratch.
 
-They assume:
+It assumes:
 
 * you already downloaded or cloned the `TimeMolecules` repository
 * you want to work from the `tutorials` folder
