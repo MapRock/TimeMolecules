@@ -95,7 +95,7 @@ if __name__ == "__main__":
     conn.close()
 
     conn = open_connection()
-    sql = f'SELECT DISTINCT ModelID FROM Models'
+    sql = f'SELECT DISTINCT ModelID FROM vwModels'
     df = execute_query(conn, sql)
     conn.close()
 
