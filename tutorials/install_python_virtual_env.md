@@ -5,13 +5,13 @@
 - **Ollama is strongly recommended** (free, private, local LLM – no API keys or costs).
 - **Visual Studio Code** is the recommended editor (makes running Python trivial).
 - **Azure VM** is an excellent clean-test option (I tested it myself), but it costs money → use only when you want a 100% fresh Windows environment.
-- Everything runs in one folder: `tutorials/ai_agent_skills`.
+- Everything runs in one folder: [ai_agent_skills](https://github.com/MapRock/TimeMolecules/tree/main/tutorials/ai_agent_skills)
 
 ---
 
 ### Deployment Options
-**Local machine** (no Azure cost) → Go to Step 1.  
-**Azure Windows VM** (a little cost, but less risky) → see [setup_azure_vm_for_testing_time_molecules.md](https://github.com/MapRock/TimeMolecules/blob/main/tutorials/setup_azure_vm_for_testing_time_molecules.md) for instructions on procuring an Azure Windows VM. After installing the Windows VM, go to Step 1.
+- **Local machine** (no Azure cost) → Go to Step 1.  
+- **Azure Windows VM** (a little cost, but less risky) → see [setup_azure_vm_for_testing_time_molecules.md](https://github.com/MapRock/TimeMolecules/blob/main/tutorials/setup_azure_vm_for_testing_time_molecules.md) for instructions on procuring an Azure Windows VM. After installing the Windows VM, go to Step 1.
 
 ---
 
@@ -54,7 +54,7 @@ git clone https://github.com/MapRock/TimeMolecules.git
 cd TimeMolecules\tutorials\ai_agent_skills
 ```
 
-(If you prefer downloading a ZIP instead of Git, download the repo ZIP, extract it, and navigate into the `ai_agent_skills` folder.)
+(If you prefer downloading a ZIP instead of Git, download the repo ZIP, extract it, and navigate into the ai_agent_skills folder.)
 
 ---
 
@@ -137,7 +137,7 @@ python build_qdrant_index.py
 ```
 
 This script:
-- Pulls metadata (from SQL Server **if** configured, otherwise from a public CSV on GitHub)
+- Pulls metadata (from SQL Server **if** configured, otherwise from a [public CSV on GitHub](https://github.com/MapRock/TimeMolecules/blob/main/data/timesolution_schema/TimeMolecules_Metadata.csv))
 - Creates embeddings with Ollama
 - Stores everything in a local Qdrant collection
 
@@ -161,7 +161,7 @@ A nice Tkinter GUI window opens. Type natural-language questions about TimeSolut
 
 ## Optional: Install SQL Server Developer Edition (trade-offs explained)
 
-**You do NOT need SQL Server** to explore the tutorial. The build script falls back gracefully to a public CSV snapshot.
+**You do NOT need SQL Server** to explore the tutorial. The build script falls back gracefully to a [public CSV snapshot](https://github.com/MapRock/TimeMolecules/blob/main/data/timesolution_schema/TimeMolecules_Metadata.csv).
 
 **When you might want it**:
 - You already have or plan to restore the TimeSolution database.
@@ -200,7 +200,7 @@ Use this when you want a 100% fresh Windows machine with zero interference from 
 
 ## Visual Studio Code Tips (highly recommended)
 
-1. Open the `ai_agent_skills` folder in VS Code (`File → Open Folder`).
+1. Open the `[ai_agent_skills](https://github.com/MapRock/TimeMolecules/tree/main/tutorials/ai_agent_skills)` folder in VS Code (`File → Open Folder`).
 2. Press `Ctrl+Shift+P` → type **Python: Select Interpreter** → choose the one inside `.venv\Scripts\python.exe`.
 3. Open any `.py` file → click the Run button or right-click → “Run Python File in Terminal”.
 
@@ -208,7 +208,7 @@ Use this when you want a 100% fresh Windows machine with zero interference from 
 
 ## Common Problems & Fixes
 
-- **“.env not found”** → make sure it’s in the `ai_agent_skills` folder (not one level up).
+- **“.env not found”** → make sure it’s in the `ai_agent_skills` (not one level up).
 - **ODBC / SQL connection errors** → install Microsoft ODBC Driver 18.
 - **Ollama not responding** → make sure `ollama` is running in the background (it starts automatically after install).
 - **Venv not active** → you should see `(.venv)` in the prompt.
@@ -218,7 +218,7 @@ Use this when you want a 100% fresh Windows machine with zero interference from 
 
 ## Next Steps & Where to Go From Here
 
-- Read `tutorials/ai_agent_skills/time_molecules_agent_demo.md` for how to use the demo.
+- Read `[time_molecules_agent_demo.md](https://github.com/MapRock/TimeMolecules/blob/main/tutorials/ai_agent_skills/time_molecules_agent_demo.md)` for how to use the demo.
 - If you later buy the book and want the full dev environment (SQL restore, Neo4j, etc.), use `docs/install_timemolecules_dev_env.md`.
 
 You now have a **bullet-proof**, self-contained setup that works for curious explorers, AI agents, and clean testing on Azure.
