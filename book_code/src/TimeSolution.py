@@ -1,21 +1,36 @@
 """
+TimeSolution.py - Central Utility Module for the TimeSolution Framework
+=======================================================================
+
+This file is part of the book "Time Molecules" by Eugene Asahara.
+
+**Design Intent (important for readers):**
+This module was intentionally written as a **single Python script** that can perform
+many different operations on TimeSolution objects and Markov models stored in the
+SQL Server database.
+
+The original vision was to keep everything in one easy-to-import file so book readers
+would have a clean, consistent "Swiss Army knife" for working with the framework.
+New functions can be added here over time as more capabilities are introduced in
+later chapters (for example: absorption probabilities, journey simulation,
+model validation, sensitivity analysis, export utilities, etc.).
+
+**Current State:**
+At this stage in the book, the file contains only **one primary function**:
+- `stationary_distribution()` — which calculates the long-run (stationary) probability
+  distribution for each Markov model and writes the results back to the database.
+
+Future editions of the book or framework updates will expand this same file with
+additional functions. The existing code and structure will not be altered so that
+book examples remain stable and reproducible.
+
+**Usage Notes:**
+- Requires a `.env` file with SQL Server connection details (see book for details).
+- Designed to be run directly or imported by other book code examples.
+- Do not refactor or split this file — it is intentionally kept as one module.
+
 Author: Eugene Asahara
-
-This Python script, associated with the book, Time Molecules. It computes the stationary 
-distribution for each Markov model stored in the SQL Server–based TimeSolution framework. 
-
-It first connects to the database using credentials stored in a .env file, then retrieves 
-the transition matrix for each model via the [dbo].[ModelMatrix](ModelID) 
-table-valued function. After validating the matrix (checking for missing events or zero 
-probabilities), it calculates the long-run steady-state distribution by iteratively 
-multiplying the transition matrix by a probability vector until convergence. 
-The resulting vector—representing the stationary distribution—is written back to the 
-dbo.Model_Stationary_Distribution table for further analysis. 
-
-This allows users to understand long-term behavior in customer journeys, workflows, 
-or other modeled processes. The script loops through all existing models in the 
-Models table, automatically processing each one.
-
+Book reference: Chapter on Markov models and stationary distributions
 """
 import pyodbc
 import pandas as pd
