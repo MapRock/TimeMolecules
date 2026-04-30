@@ -73,5 +73,5 @@ ORDER BY Probability DESC;
 ## Links
 
 - [TimeSolution.py (full source code)](https://github.com/MapRock/TimeMolecules/blob/main/book_code/src/TimeSolution.py)
-- Book reference: *Time Molecules*, page 49 – Stationary distribution
+- Book reference: *[Time Molecules](https://technicspub.com/time-molecules/)*, page 49 – Stationary distribution
 
