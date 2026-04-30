@@ -1,7 +1,21 @@
+# Python Virtual Environment Setup for TimeMolecules Tutorials
+
+## Introduction
+
+Welcome! This guide walks you through setting up a clean **Python virtual environment** on Windows so you can run the TimeMolecules tutorial code — especially the **AI Agent Skills demo** located in [tutorials/ai_agent_skills](https://github.com/MapRock/TimeMolecules/tree/main/tutorials/ai_agent_skills). The target audience are people who simply wish to explore concepts and capabilities about Time Molecules before purchasing the [Time Molecules](https://technicspub.com/time-molecules/) book for a fuller, foundational understanding.
+
+**Note** that for readers of the <i>[Time Molecules](https://technicspub.com/time-molecules/)</i> book, the installation is a little bit more complicated. Please refer to [install_timemolecules_dev_env.md](https://github.com/MapRock/TimeMolecules/blob/main/docs/install_timemolecules_dev_env.md) for the install instructions for book readers.
+
+---
+
+## Prerequisites
+
+- Windows 10 or 11
+
 
 ### Key Design Decisions (so you know why it’s built this way)
 - **Python virtual environment is mandatory** (never optional).
-- **SQL Server is optional** → the build script falls back to a public CSV snapshot. You can explore everything without installing SQL Server.
+- **SQL Server is optional** → the build script falls back to a [public CSV snapshot](https://github.com/MapRock/TimeMolecules/blob/main/data/timesolution_schema/TimeMolecules_Metadata.csv). You can explore everything without installing SQL Server.
 - **Ollama is strongly recommended** (free, private, local LLM – no API keys or costs).
 - **Visual Studio Code** is the recommended editor (makes running Python trivial).
 - **Azure VM** is an excellent clean-test option (I tested it myself), but it costs money → use only when you want a 100% fresh Windows environment.
@@ -15,7 +29,26 @@
 
 ---
 
-## Step 1: Install the Base Tools (do this once)
+## Step 1:  Get the code
+
+Either clone the repo:
+
+```bash
+git clone https://github.com/MapRock/TimeMolecules.git
+cd TimeMolecules
+````
+
+Or download the ZIP from GitHub and extract it, then open a terminal in the extracted `TimeMolecules` folder.
+
+1. Open the repository page in your web browser.
+2. Go to the main page of the repository:
+   `https://github.com/MapRock/TimeMolecules`
+3. Above the list of files, click the **Code** button.
+4. In the menu that opens, click **Download ZIP**.
+5. Save the ZIP file to your computer.
+6. After the download finishes, extract the ZIP to a folder such as:
+
+## Step 2: Install the Base Tools (do this once)
 
 1. **Python 3.11 or 3.12** (recommended)  
    → https://www.python.org/downloads/  
@@ -45,7 +78,7 @@
 
 ---
 
-## Step 2: Get the Code
+## Step 3: Get the Code
 
 Open PowerShell (or Git Bash / terminal) and run:
 
@@ -58,7 +91,7 @@ cd TimeMolecules\tutorials\ai_agent_skills
 
 ---
 
-## Step 3: Create the Python Virtual Environment (do this once)
+## Step 4: Create the Python Virtual Environment (do this once)
 
 **Always** use a venv for this tutorial.
 
@@ -86,7 +119,7 @@ Then activate again.
 
 ---
 
-## Step 4: Install Python Packages
+## Step 5: Install Python Packages
 
 While the venv is active:
 
@@ -98,7 +131,7 @@ pip install pandas pyodbc requests   # extra packages the build script may need
 
 ---
 
-## Step 5: Create the `.env` File (very important)
+## Step 6: Create the `.env` File (very important)
 
 Create a file named exactly `.env` (no .txt) **inside the `ai_agent_skills` folder**.
 
@@ -130,7 +163,7 @@ RESULTS_LIMIT=8
 
 ---
 
-## Step 6: Build the Vector Database (run once)
+## Step 7: Build the Vector Database (run once)
 
 ```powershell
 python build_qdrant_index.py
@@ -145,7 +178,7 @@ First run takes 1–3 minutes (embedding ~200–300 objects). Subsequent runs ar
 
 ---
 
-## Step 7: Run the AI Agent Demo
+## Step 8: Run the AI Agent Demo
 
 ```powershell
 python time_molecules_agent_demo.py
@@ -175,26 +208,6 @@ A nice Tkinter GUI window opens. Type natural-language questions about TimeSolut
 5. Install the ODBC Driver 18 (link in Step 1)
 
 The demo will automatically detect and use it if configured in `.env`.
-
----
-
-## Option B: Azure Windows VM (clean test environment – recommended for validation)
-
-Use this when you want a 100% fresh Windows machine with zero interference from your local setup.
-
-1. In Azure Portal → Create → Azure Virtual Machine
-   - Image: **Windows 11 Pro** (or Windows Server 2022)
-   - Size: **Standard B4ms** (4 vCPU, 16 GB RAM) – good price/performance
-   - Disk: 128 GB SSD
-   - Allow RDP (port 3389)
-
-2. After creation, connect via RDP.
-
-3. **Inside the VM**, repeat Steps 1–7 above (install Python, Git, VS Code, Ollama, clone, venv, etc.).
-
-**Cost warning**:
-- ~$0.15–$0.20 per hour while running.
-- **Always** use **Stop (deallocate)** from the Azure Portal (not just shutdown inside Windows) when you’re done. This drops compute cost to $0 while keeping all files.
 
 ---
 
