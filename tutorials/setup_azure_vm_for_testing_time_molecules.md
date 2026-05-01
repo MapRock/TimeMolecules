@@ -92,7 +92,7 @@ Once everything is installed and you have tested the tutorial and book demos:
      - Description: “Pre-configured Windows VM with full TimeMolecules book + tutorial environment (SQL Server, SSMS, Python, Ollama, Neo4j)”
 
 
-## TimeMolecules VM – Complete Daily Workflow & Update Checklist
+## TimeMolecules VM – Complete Daily Workflow
 
 ### 1. Daily Startup – How to Get to Work on the VM
 
