@@ -16,7 +16,7 @@ import os
 import threading
 from datetime import datetime
 from pathlib import Path
-from tkinter import Tk, Label, Button, END, BOTH, X, Frame, LEFT, BooleanVar, Checkbutton, Spinbox, IntVar, StringVar
+from tkinter import Tk, Label, Button, END, BOTH, X, Frame, LEFT, BooleanVar, Checkbutton, Spinbox, IntVar, StringVar, Toplevel
 from tkinter.scrolledtext import ScrolledText
 from tkinter import ttk
 
@@ -1073,10 +1073,19 @@ class TimeMoleculesUI:
         self.results_notebook = ttk.Notebook(root)
         self.results_notebook.pack(fill=BOTH, expand=True, padx=10, pady=5)
 
-        # Tab 1: Text Answer
+        # Tab 1: Text Answer (made much larger + pop-out support)
         self.answer_frame = Frame(self.results_notebook)
         self.results_notebook.add(self.answer_frame, text="Answer")
-        self.answer_box = ScrolledText(self.answer_frame, wrap="word")
+
+        answer_top = Frame(self.answer_frame)
+        answer_top.pack(fill=X, padx=5, pady=2)
+
+        Button(answer_top, text="Pop Out Answer (big window)", 
+               command=self.pop_out_answer).pack(side=LEFT)
+        Button(answer_top, text="Open in Browser", 
+               command=self.open_answer_in_browser).pack(side=LEFT, padx=(8, 0))
+
+        self.answer_box = ScrolledText(self.answer_frame, wrap="word", height=25)
         self.answer_box.pack(fill=BOTH, expand=True)
 
         # Tab 2: Data Table (will hold pandastable)
@@ -1633,6 +1642,56 @@ class TimeMoleculesUI:
             self.show_text(f"SQL execution failed:\n{e}\n\nSQL was:\n{sql}")
             return None
 
+    def pop_out_answer(self):
+        """Open the current answer in a large, resizable separate window."""
+        if not self.answer_box.get("1.0", END).strip():
+            self.set_status("Nothing to pop out yet.")
+            return
+
+        popup = Toplevel(self.root)
+        popup.title("Time Molecules — Answer (Full Window)")
+        popup.geometry("1200x800")          # nice big default size
+        popup.minsize(800, 600)
+
+        text = ScrolledText(popup, wrap="word", font=("Consolas", 11))
+        text.pack(fill=BOTH, expand=True, padx=10, pady=10)
+        text.insert("1.0", self.answer_box.get("1.0", END))
+        text.config(state="disabled")       # read-only
+
+        # Optional: make it even nicer with a close button
+        Button(popup, text="Close Window", command=popup.destroy).pack(pady=5)
+
+    def open_answer_in_browser(self):
+        """Save current answer as HTML and open in default browser (great for markdown)."""
+        content = self.answer_box.get("1.0", END).strip()
+        if not content:
+            self.set_status("No answer to open.")
+            return
+
+        import tempfile
+        import webbrowser
+
+        # Safer way: use normal string + .format() to avoid f-string brace issues
+        html = """<html>
+<head>
+    <style>
+        body {{ font-family: Arial, sans-serif; margin: 40px; line-height: 1.6; }}
+        pre {{ background: #f4f4f4; padding: 15px; border-radius: 6px; overflow: auto; }}
+        code {{ font-family: Consolas, monospace; }}
+    </style>
+</head>
+<body>
+{answer}
+</body>
+</html>
+""".format(answer=content.replace("\n", "<br>"))
+
+        with tempfile.NamedTemporaryFile(mode="w", suffix=".html", delete=False, encoding="utf-8") as f:
+            f.write(html)
+            temp_path = f.name
+
+        webbrowser.open(f"file://{temp_path}")
+        self.set_status("Answer opened in your web browser.")
 
 # ----------------------------
 # Main
