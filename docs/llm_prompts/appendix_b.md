@@ -1,0 +1,5 @@
+Prompt: How do LLMs and Markov models complement each other in Time Molecules?
+
+Abstract: LLMs and Markov models both model sequences but serve complementary roles. LLMs excel at understanding unstructured text, nuance, and generating human-readable explanations through high-dimensional probabilistic mappings. Markov models capture exact transition probabilities and timing statistics from structured event logs in a fully deterministic and lightweight way. In Time Molecules, Markov models provide precise, reproducible process predictions and probabilities that ground the LLM, while the LLM enriches those predictions with narrative, alternative scenarios, and chain-of-thought reasoning. This hybrid approach combines the fuzzy strength of LLMs with the hard-number reliability of Markov models for robust process-aware AI.
+
+Primary Location (for more information): https://github.com/MapRock/TimeMolecules/blob/main/docs/Time_Molecules_Book_Eugene_Asahara_Appendices.md#appendix-b---comparing-llms-and-markov-models
