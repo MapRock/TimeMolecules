@@ -1,81 +1,125 @@
+**Recommended Notes: Procuring & Using the TimeMolecules Ready-to-Run Azure VM**  
+*(Strongly optimized for best experience with cloud LLMs)*
 
-# How to Use the TimeMolecules Ready-to-Run Azure VM Image
+**Last Updated:** May 1, 2026
 
-**Last Updated:** April 30, 2026
+This is the **easiest and fastest** way to run the TimeMolecules tutorials and book examples. You get your own fully pre-configured Windows 11 VM with VS Code, Python, SQL Server, and all dependencies already installed.
 
-This is the **easiest way** for readers to try the TimeMolecules tutorials and book examples.
+**Important Recommendation on LLM Choice**  
+The VM image was deliberately chosen on the **Standard D4ds v4** size to give you the best balance of **cost** (~$0.27/hour) and **speed**.  
+**Ollama (local LLM) does NOT perform well on this VM** — it feels sluggish and is not recommended.  
 
-You will get your **own personal copy** of a fully pre-configured Windows 11 machine with everything already installed.
-
-**All you really need to do is open Visual Studio Code and run the demo.**
+**Strongly use OpenAI or Grok instead.**  
+Just set your `OPENAI_API_KEY` (works for both OpenAI and Grok via the OpenAI-compatible endpoint) and you’ll get fast, high-quality responses with zero local overhead. This is the intended and smoothest experience.
 
 ---
 
-## Step 1: Create Your Own VM from the Image (5 minutes)
+### Step 1: Create Your VM (≈5 minutes)
 
-1. Go to [https://portal.azure.com](https://portal.azure.com) and sign in (free account is fine).
-2. Search for **"Virtual machines"** → **Create** → **Azure Virtual Machine**.
+1. Go to [https://portal.azure.com](https://portal.azure.com) and sign in (free trial account works fine).
+2. Search for **“Virtual machines”** → **Create** → **Azure Virtual Machine**.
 3. On the **Basics** tab:
-   - **Image**: Search for and select the image named **`TimeSolution-Book-Tutorial-V1`** (or the exact name the author publishes)
-   - **Size**: Start with **Standard D4ds v4** (you can resize later for faster performance)
-   - **Username**: `tmuser` (this is the pre-configured username on the image)
-   - **Password**: Choose a strong password you will remember
-   - **Public inbound ports**: RDP should already be selected
-
+   - **Image**: Search for and select **TimeSolution-Book-Tutorial-V1** (or the exact name published by the author).
+   - **Size**: Start with **Standard D4ds v4** (perfect cost/speed balance).
+   - **Username**: `tmuser`
+   - **Password**: Choose a strong password you’ll remember.
+   - **Public inbound ports**: RDP should already be selected.
 4. Click **Review + create** → **Create**.
 
 ---
 
-## Step 2: Connect to Your VM
+### Step 2: Connect to Your VM
 
-1. After the VM is created, click **Start** on the Overview page.
-2. Once it says **Running**, click **Connect** → **RDP** → **Download RDP file**.
-3. Open the downloaded file and log in with:
+1. After creation, click **Start** on the Overview page.
+2. When status shows **Running**, click **Connect** → **RDP** → **Download RDP file**.
+3. Open the RDP file and log in as:
    - **Username**: `tmuser`
-   - **Password**: the one you chose in Step 1
+   - **Password**: the one you set.
 
 ---
 
-## Step 3: Get Started (Super Simple)
+### Step 3: Activate the Virtual Environment & Get Started
 
-When you log in you will see:
-- Visual Studio Code is already open in the correct folder:  
-  `C:\MapRock\TimeMolecules\tutorials\ai_agent_skills`
+When you first log in, Visual Studio Code should already be open in the correct folder:  
+`C:\MapRock\TimeMolecules\tutorials\ai_agent_skills`
 
-**To run the AI Agent Demo:**
+The Python virtual environment (`.venv`) lives in this folder (or its `scripts` subfolder as noted below).
 
-1. In the terminal at the bottom of VS Code you should already see `(.venv)` (the virtual environment is active).
-2. If not, run this once:
+#### Option A: Activate .venv in Visual Studio Code (Recommended)
+1. VS Code should already show **(.venv)** in the bottom-left terminal prompt.  
+   If it doesn’t, open the integrated terminal (`Ctrl + ``) and run:
    ```powershell
    .\.venv\Scripts\Activate.ps1
    ```
-3. Run the demo:
+2. You’re now ready to run Python code inside VS Code.
+
+#### Option B: Activate .venv in PowerShell (Standalone)
+If you prefer a separate PowerShell window or need to run scripts outside VS Code:
+
+1. Open **PowerShell** (search for it in the Start menu).
+2. Navigate to the scripts folder:
    ```powershell
-   python time_molecules_agent_demo.py
+   cd C:\MapRock\TimeMolecules\tutorials\ai_agent_skills\scripts
    ```
-
-A GUI window will open. Start asking questions!
-
----
-
-## Step 4: Stop the VM When You’re Done (Important!)
-
-You are only charged while the VM is **Running** (~$0.27/hour for the default size).
-
-- When finished, go back to the Azure Portal → select your VM → click **Stop**.
-- This drops your cost to $0.
-- You can start it again anytime — all your work is saved.
+3. Activate the virtual environment:
+   ```powershell
+   .\.venv\Scripts\Activate.ps1
+   ```
+4. You will see `(.venv)` appear at the start of your prompt.
 
 ---
 
-## Optional Tips
+### Step 4: Run the AI Agent Demo (Super Simple)
 
-- **Make it faster**: In Azure Portal → your VM → **Size** → change to **Standard D8ds v4** (8 vCPU). Recommended if Ollama feels slow.
-- **Use your own OpenAI or Grok key**: Edit the `.env` file in VS Code if you prefer cloud LLM instead of local Ollama.
+With the `.venv` activated:
+
+```powershell
+python time_molecules_agent_demo.py
+```
+
+A GUI window will open — start chatting with the agent!
 
 ---
 
-**Questions or problems?**  
+### Step 5: Configure OpenAI or Grok (Critical for Best Performance)
+
+1. In VS Code, open the `.env` file (it’s in the project root).
+2. Set your key like this:
+   ```env
+   OPENAI_API_KEY=sk-proj-....................................
+   ```
+   (You can use either your OpenAI key **or** Grok API key — both work seamlessly through the OpenAI client.)
+
+3. Save the file. No restart needed — the demo will automatically use the cloud LLM.
+
+**Why this is strongly recommended**: Ollama runs poorly on the cost-balanced D4ds v4 VM. Cloud models (OpenAI/Grok) are dramatically faster, more reliable, and require zero extra VM resources.
+
+---
+
+### Step 6: Using SQL Server Management Studio (SSMS)
+
+The VM comes with **SQL Server** and **SQL Server Management Studio** pre-installed.
+
+1. Search for **“SQL Server Management Studio”** in the Windows Start menu and launch it.
+2. Connect using:
+   - **Server name**: `.` or `localhost`
+   - **Authentication**: Windows Authentication (no extra credentials needed)
+3. You can now run any SQL queries side-by-side with your Python code in VS Code.
+
+---
+
+### Step 7: Stop the VM When Finished (Save Money!)
+
+You are only charged while the VM is **Running**.
+
+- Go back to the Azure Portal → select your VM → click **Stop**.
+- Cost drops to **$0**.
+- Start it again anytime — everything you saved is still there.
+
+**Optional performance boost**: If you want even snappier responses, resize the VM to **Standard D8ds v4** (8 vCPU) in the Azure Portal. Still very affordable.
+
+---
+
+**Questions or issues?**  
 Open an issue on the GitHub repo: https://github.com/MapRock/TimeMolecules
 
-Enjoy exploring Time Molecules!
