@@ -92,3 +92,45 @@ Once everything is installed and you have tested the tutorial and book demos:
      - Description: “Pre-configured Windows VM with full TimeMolecules book + tutorial environment (SQL Server, SSMS, Python, Ollama, Neo4j)”
 
 
+## TimeMolecules VM – Complete Daily Workflow & Update Checklist
+
+### 1. Daily Startup – How to Get to Work on the VM
+
+1. **Log into the VM**  
+   - On your local computer, open **Remote Desktop Connection** (search for “RDP” in the Windows Start menu).  
+   - Connect using the VM’s IP address or hostname and your login credentials.
+
+2. **Open SQL Server Management Studio (SSMS)**  
+   - Click the Windows **Start** button.  
+   - Type `SSMS` and press **Enter**.  
+   - Open **Microsoft SQL Server Management Studio**.  
+   - Connect to the server using `.` or `localhost` (or your instance name).
+
+3. **Open PowerShell and navigate to the project**  
+   - Press `Windows key`, type `PowerShell`, right-click **Windows PowerShell**, and choose **Run as administrator** (recommended).  
+   - Navigate to your TimeMolecules folder (change the path if yours is different):
+     ```powershell
+     cd C:\MapRock\TimeMolecules\tutorials\ai_agent_skills
+     ```
+     (or wherever you cloned the repo)
+
+4. **Activate the Python virtual environment**
+   ```powershell
+   .\venv\Scripts\Activate.ps1
+   ```
+   - You should see `(venv)` appear at the start of the prompt when it’s activated.
+
+5. **Open the project in Visual Studio Code**
+   ```powershell
+   code .
+   ```
+   - This opens VS Code directly in the TimeMolecules folder.
+
+**Quick one-line startup command** (after you’re logged in):
+```powershell
+cd C:\MapRock\TimeMolecules\tutorials\ai_agent_skills; .\venv\Scripts\Activate.ps1; code .
+```
+
+
+
+
