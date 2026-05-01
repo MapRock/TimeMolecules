@@ -125,6 +125,8 @@ Once everything is installed and you have tested the tutorial and book demos:
    code .
    ```
    - This opens VS Code directly in the TimeMolecules folder.
+  
+6. REMEMBER to STOP the VM when you're finished!!! See [Cost Management](#2-cost-management-very-important)
 
 **Quick one-line startup command** (after you’re logged in):
 ```powershell
