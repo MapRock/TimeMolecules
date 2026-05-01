@@ -10,7 +10,7 @@ Uses .env + local Qdrant folder.
 """
 from pickle import GLOBAL
 import re
-import csv
+import math
 import json
 import os
 import threading
@@ -24,6 +24,35 @@ import pandas as pd
 import pyodbc
 import requests
 from pandastable import Table
+
+
+# Patch pandastable for Python 3.12 / newer numpy compatibility.
+# pandastable.adjustColumnWidths can compute numpy.float64 values and pass them to range(),
+# which raises: TypeError: 'numpy.float64' object cannot be interpreted as an integer.
+try:
+    from pandastable.core import Table as PandasTableCore
+
+    _original_adjust_column_widths = PandasTableCore.adjustColumnWidths
+
+    def _safe_adjust_column_widths(self, limit=30):
+        try:
+            return _original_adjust_column_widths(self, limit=int(limit))
+        except TypeError as e:
+            if "numpy.float64" not in str(e):
+                raise
+
+            # Fallback: assign reasonable integer widths and redraw.
+            for col in self.model.df.columns:
+                self.columnwidths[col] = int(120)
+
+            return
+
+    PandasTableCore.adjustColumnWidths = _safe_adjust_column_widths
+
+except Exception as e:
+    print(f"⚠️ Could not patch pandastable column width behavior: {e}")
+
+
 from qdrant_client import QdrantClient
 from qdrant_client.models import Filter, FieldCondition, MatchAny
 
@@ -42,6 +71,15 @@ QDRANT_PATH = LLM_CONFIG.qdrant_path
 COLLECTION_NAME = LLM_CONFIG.collection_name
 MAX_TOKENS = LLM_CONFIG.max_tokens
 ctx = LLM_CONFIG.ollama_ctx
+
+APP_DIR = Path(__file__).resolve().parent
+STATIC_JSON_PATH = APP_DIR / "ai_agent_skills_nomic_embed_text.json"
+
+LLM_AVAILABLE = False
+QDRANT_AVAILABLE = False
+STATIC_JSON_AVAILABLE = False
+SEARCH_MODE = "none"  # qdrant | static_json | none
+STATIC_RECORDS = []
 
 RESULTS_LIMIT = int(os.getenv("RESULTS_LIMIT", "5"))
 DEFAULT_OUTPUT_DIR = os.getenv("DEFAULT_OUTPUT_DIR", str(Path(__file__).resolve().parent / "output"))
@@ -275,7 +313,7 @@ class GuidanceAgent(BaseAgent):
                 + "\n\nRetrieved metadata context:\n"
                 + context.retrieved_context
             )
-            
+
         context.current_step = f"Guidance from {llm}"
         context.final_answer = self.ask_llm(
             AgentCall(self, case_id, context.current_step, guidance_prompt + "\n\nUser request:\n" + context.user_prompt, context.retrieved_context)
@@ -326,31 +364,58 @@ class DiscoveryAgent(BaseAgent):
         limit: int = RESULTS_LIMIT,
         use_objecttype_filter: bool = False,
     ):
-        client = get_qdrant_client()
-        try:
-            if use_objecttype_filter:
-                object_types = self.classify_object_type_filter(prompt)
-                qdrant_filter = self.build_qdrant_object_type_filter(object_types)
-                print(f"Qdrant ObjectType filter: {object_types if object_types else 'ALL'}")
-            else:
-                object_types = None
-                qdrant_filter = None
-                print("Qdrant ObjectType filter: BYPASSED")
+        if SEARCH_MODE == "qdrant":
+            client = get_qdrant_client()
+            try:
+                if use_objecttype_filter and LLM_AVAILABLE:
+                    object_types = self.classify_object_type_filter(prompt)
+                    qdrant_filter = self.build_qdrant_object_type_filter(object_types)
+                    print(f"Qdrant ObjectType filter: {object_types if object_types else 'ALL'}")
+                else:
+                    qdrant_filter = None
+                    print("Qdrant ObjectType filter: BYPASSED")
+
+                query_vector = self.embed_text(prompt)
+
+                return client.query_points(
+                    collection_name=COLLECTION_NAME,
+                    query=query_vector,
+                    query_filter=qdrant_filter,
+                    limit=limit,
+                    with_payload=True,
+                ).points
+
+            finally:
+                client.close()
+
+        if SEARCH_MODE == "static_json":
+            print("Static JSON search mode: BYPASSED Qdrant")
+            print("Static JSON search mode: ObjectType pre-filter unavailable")
 
             query_vector = self.embed_text(prompt)
 
-            results = client.query_points(
-                collection_name=COLLECTION_NAME,
-                query=query_vector,
-                query_filter=qdrant_filter,
-                limit=limit,
-                with_payload=True,
-            ).points
+            scored = []
+            for record in STATIC_RECORDS:
+                score = cosine_similarity(query_vector, record["embedding"])
+                scored.append((score, record))
 
-            return results
+            scored.sort(key=lambda x: x[0], reverse=True)
 
-        finally:
-            client.close()
+            # lightweight object to mimic Qdrant hit shape
+            class StaticHit:
+                def __init__(self, payload, score):
+                    self.payload = payload
+                    self.score = score
+
+            return [
+                StaticHit(record["payload"], score)
+                for score, record in scored[:limit]
+            ]
+
+        raise RuntimeError(
+            "No search backend available. Build the Qdrant collection or place "
+            "ai_agent_skills_nomic_embed_text.json next to this script."
+        )
 
     def run(self, context: TaskContext):
         hits = self.search_metadata(
@@ -457,8 +522,12 @@ class PrimaryAgent(BaseAgent):
                 ""
             )
 
-        _change_context_status("Checking Qdrant collection...")
-        ensure_collection_exists()
+        _change_context_status(f"Checking search backend: {SEARCH_MODE}")
+
+        if SEARCH_MODE == "none":
+            raise RuntimeError(
+                "No search backend available. Build Qdrant or provide ai_agent_skills_nomic_embed_text.json."
+            )
 
         _change_context_status("Embedding prompt and searching Qdrant")
 
@@ -554,6 +623,93 @@ class PrimaryAgent(BaseAgent):
 
         return "\n".join(lines).strip()
     
+def cosine_similarity(a: list[float], b: list[float]) -> float:
+    if not a or not b or len(a) != len(b):
+        return float("-inf")
+
+    dot = 0.0
+    norm_a = 0.0
+    norm_b = 0.0
+
+    for x, y in zip(a, b):
+        dot += x * y
+        norm_a += x * x
+        norm_b += y * y
+
+    if norm_a == 0.0 or norm_b == 0.0:
+        return float("-inf")
+
+    return dot / (math.sqrt(norm_a) * math.sqrt(norm_b))
+
+def check_llm_available() -> bool:
+    try:
+        SHARED_LLM.chat_once(
+            [{"role": "user", "content": "Reply with OK only."}],
+            max_tokens=5,
+        )
+        print("✅ LLM available for summarization and ObjectType filtering.")
+        return True
+    except Exception as e:
+        print(f"⚠️ LLM unavailable. Summarization and ObjectType filtering disabled: {e}")
+        return False
+
+
+def check_qdrant_available() -> bool:
+    try:
+        client = get_qdrant_client()
+        try:
+            exists = client.collection_exists(collection_name=COLLECTION_NAME)
+            if exists:
+                print(f"✅ Qdrant collection available: {COLLECTION_NAME}")
+                return True
+
+            print(f"⚠️ Qdrant client works, but collection not found: {COLLECTION_NAME}")
+            return False
+        finally:
+            client.close()
+    except Exception as e:
+        print(f"⚠️ Qdrant unavailable: {e}")
+        return False
+
+
+def check_static_json_available() -> bool:
+    if STATIC_JSON_PATH.exists():
+        print(f"✅ Static embedding JSON found: {STATIC_JSON_PATH}")
+        return True
+
+    print(f"⚠️ Static embedding JSON not found: {STATIC_JSON_PATH}")
+    return False
+
+# ----------------------------
+# Static data loading
+# ----------------------------
+def load_data_json(path: str) -> list[dict]:
+    p = Path(path)
+    if not p.exists():
+        raise FileNotFoundError(f"Could not find data.json at: {p}")
+
+    with p.open("r", encoding="utf-8") as f:
+        raw = json.load(f)
+
+    records: list[dict] = []
+    for item in raw:
+        payload = item.get("payload", {}) or {}
+        embedding = payload.get("embedding")
+        if not embedding:
+            continue
+
+        records.append({
+            "id": item.get("id"),
+            "payload": payload,
+            "embedding": embedding,
+        })
+
+    if not records:
+        raise ValueError("No records with payload.embedding were found in data.json.")
+
+    return records
+
+
 def get_openai_message_text(response) -> str:
     if not response or not response.choices:
         return ""
@@ -707,7 +863,27 @@ Utilization: {utilization}
 
     return "\n\n" + ("\n\n" + ("-" * 70) + "\n\n").join(parts)
 
+def initialize_runtime_capabilities():
+    global LLM_AVAILABLE, QDRANT_AVAILABLE, STATIC_JSON_AVAILABLE, SEARCH_MODE, STATIC_RECORDS
 
+    print("\n=== Runtime capability check ===")
+
+    LLM_AVAILABLE = check_llm_available()
+    QDRANT_AVAILABLE = check_qdrant_available()
+    STATIC_JSON_AVAILABLE = check_static_json_available()
+
+    if QDRANT_AVAILABLE:
+        SEARCH_MODE = "qdrant"
+        print("✅ Search mode selected: Qdrant")
+    elif STATIC_JSON_AVAILABLE:
+        SEARCH_MODE = "static_json"
+        STATIC_RECORDS = load_data_json(str(STATIC_JSON_PATH))
+        print(f"✅ Search mode selected: static JSON ({len(STATIC_RECORDS)} records)")
+    else:
+        SEARCH_MODE = "none"
+        print("❌ No search backend available. Build Qdrant or provide static JSON.")
+
+    print("=== End runtime capability check ===\n")
 
 
 # ----------------------------
@@ -739,8 +915,9 @@ class TimeMoleculesUI:
         self.mode_label = Label(
             top,
         text=(
+            f"Search mode: {SEARCH_MODE} | "
             f"Qdrant collection: {COLLECTION_NAME} | "
-            f"Chat backend: {llm} | "
+            f"Chat backend: {llm if LLM_AVAILABLE else 'disabled'} | "
             f"Embed backend: {EMBED_LLM}"
         ),
             anchor="w",
@@ -853,13 +1030,6 @@ class TimeMoleculesUI:
         actions_frame = Frame(root)
         actions_frame.pack(fill=X, padx=10, pady=5)
 
-        self.load_link_button = Button(
-            actions_frame,
-            text="Load linked content",
-            command=self.on_load_linked_content,
-            state="disabled",
-        )
-        self.load_link_button.pack(side=LEFT, padx=(0, 8))
 
         self.generate_sql_button = Button(
             actions_frame,
@@ -886,7 +1056,15 @@ class TimeMoleculesUI:
             command=self.on_copy_selected_url,
             state="disabled",
         )
-        self.copy_url_button.pack(side=LEFT)
+        self.copy_url_button.pack(side=LEFT, padx=(0, 8))
+
+        self.load_link_button = Button(
+            actions_frame,
+            text="Load Link",
+            command=self.on_load_linked_content,
+            state="disabled",
+        )
+        self.load_link_button.pack(side=LEFT)
 
         # ================== NEW: TABBED RESULTS AREA ==================
         results_label = Label(root, text="Results:")
@@ -911,6 +1089,34 @@ class TimeMoleculesUI:
 
         self.context_box = ScrolledText(self.context_frame, wrap="word")
         self.context_box.pack(fill=BOTH, expand=True)
+
+        self.link_contents_frame = Frame(self.results_notebook)
+        self.results_notebook.add(self.link_contents_frame, text="Link Contents")
+
+        self.link_contents_box = ScrolledText(self.link_contents_frame, wrap="word")
+        self.link_contents_box.pack(fill=BOTH, expand=True)
+
+        if not LLM_AVAILABLE:
+            self.use_llm_var.set(False)
+            self.use_llm_checkbox.config(state="disabled")
+
+            self.use_objecttype_filter_var.set(False)
+            self.use_objecttype_filter_checkbox.config(state="disabled")
+
+        if SEARCH_MODE != "qdrant":
+            self.use_objecttype_filter_var.set(False)
+            self.use_objecttype_filter_checkbox.config(state="disabled")
+
+        # Better defaults and labeling when using slow local models like Ollama
+        if "ollama" in str(llm).lower():
+            self.use_llm_var.set(False)                    # default OFF for Ollama
+            self.use_llm_checkbox.config(
+                text=f"Use {llm} (slow) to summarize + build context"
+            )
+        else:
+            self.use_llm_checkbox.config(
+                text=f"Use {llm} to summarize retrieved hits + build context"
+            )
 
     def show_context(self, text: str):
         self.context_box.delete("1.0", END)
@@ -937,6 +1143,10 @@ class TimeMoleculesUI:
         return "\n".join(lines)
     
     def update_context_summary_async(self, prompt: str, result: TaskContext):
+
+        if not LLM_AVAILABLE:
+            self.set_status("Context summary skipped because LLM is unavailable.")
+            return
         try:
             char_limit = int(self.context_char_limit_var.get())
         except Exception:
@@ -1197,10 +1407,10 @@ class TimeMoleculesUI:
             resp.raise_for_status()
             text = resp.text
 
-            self.show_text(text)
-            self.set_status("Linked content loaded.")
+            self.show_link_contents(text)
+            self.set_status("Linked content loaded into Link Contents tab.")
         except Exception as e:
-            self.show_text(f"Failed to load linked content:\n{e}")
+            self.show_link_contents(f"Failed to load linked content:\n{e}")
             self.set_status(f"Error loading link: {e}")
 
     def on_generate_sample_sql(self):
@@ -1250,6 +1460,11 @@ class TimeMoleculesUI:
         self.status_label.config(text=text)
         self.root.update_idletasks()
 
+    def show_link_contents(self, text: str):
+        self.link_contents_box.delete("1.0", END)
+        self.link_contents_box.insert("1.0", text or "")
+        self.results_notebook.select(self.link_contents_frame)
+
     # New helper: show text in Answer tab
     def show_text(self, text: str):
         self.answer_box.delete("1.0", END)
@@ -1267,10 +1482,29 @@ class TimeMoleculesUI:
             return
             
 
-        self.table = Table(self.table_frame, dataframe=df,
-                           showtoolbar=True, showstatusbar=True)
+        self.table = Table(
+            self.table_frame,
+            dataframe=df,
+            showtoolbar=True,
+            showstatusbar=True,
+            showindex=True,
+        )
+
         self.results_notebook.select(self.table_frame)
-        self.table.show()
+
+        try:
+            self.table.show()
+        except TypeError as e:
+            # pandastable can fail in adjustColumnWidths when it receives numpy.float64 widths.
+            # Show the table without letting the UI crash.
+            print(f"⚠️ pandastable show() failed: {e}")
+            self.show_text(
+                "SQL executed, but pandastable failed while rendering the result grid.\n\n"
+                f"{e}\n\n"
+                "The DataFrame was returned successfully; this is a UI rendering issue."
+            )
+            return
+
 
         self.results_notebook.select(self.table_frame)   # switch to table tab
         self.table.redraw()
@@ -1351,7 +1585,10 @@ class TimeMoleculesUI:
 
                 self.root.after(0, lambda: self.show_text(result.final_answer or "No answer returned."))
                 self.root.after(0, lambda: self.set_status(result.status))
-                self.root.after(0, lambda: self.update_context_summary_async(prompt, result))
+
+                # Only update context summary if user actually wants LLM help
+                if LLM_AVAILABLE and self.use_llm_var.get():
+                    self.root.after(0, lambda: self.update_context_summary_async(prompt, result))
 
             except Exception as e:
                 err = str(e)
@@ -1426,6 +1663,7 @@ if __name__ == "__main__":
         TIMESOLUTION_AVAILABLE = False
         print("⚠️ TimeSolution unavailable at startup. Stage import logging will fall back to CSV.")
 
+    initialize_runtime_capabilities()
 
     validate_config()
 
