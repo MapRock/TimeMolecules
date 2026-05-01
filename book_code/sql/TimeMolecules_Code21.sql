@@ -16,5 +16,5 @@ SELECT Event1A, EventB, Prob,[Rows] FROM dbo.[MarkovProcess](@Order,
 
 --Same result as the SELECT above, but all columns, and using sproc, which is more conducive to MPP.
 EXEC MarkovProcess2 @Order=@Order, @EventSet=@EventSet, @Transforms=@Transforms
-
+--Should return 7 rows.
 --[END Code 21]

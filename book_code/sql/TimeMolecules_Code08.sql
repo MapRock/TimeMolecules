@@ -12,4 +12,5 @@ print @EventSetKey
 
 --Should have only one row.
 SELECT * FROM dbo.EventSets WHERE EventSetKey=@EventSetKey
+--EventSetKey should be 0xBF33317B1586BC497130A7C7E1D07F0A
 --[END Code 8]

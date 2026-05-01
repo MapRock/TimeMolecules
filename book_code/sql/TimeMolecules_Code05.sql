@@ -5,7 +5,7 @@ GO
 -- Use the EventSet code, restaurantguest, which maps to all the events above.
 --Mistakenly called "Code 4a" in the book.
 /*
---Deprecated for sp_SelectedEvents.
+--2026-04-30 dbo.SelectedEvents is Deprecated due to portability issues to MPP.
 SELECT
 	* 
 FROM 

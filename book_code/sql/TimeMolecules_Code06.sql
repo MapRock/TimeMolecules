@@ -20,4 +20,8 @@ EXEC [dbo].[InsertEventSets]
 	@EventSetKey=@EventSetKey OUTPUT, 
 	@IsSequence=0 -- IsSequence is a set, not a sequence.
 PRINT @EventSetKey
+
+--Should have only one row.
+SELECT * FROM dbo.EventSets WHERE EventSetKey=@EventSetKey
+--EventSetKey should be 0x3E652120B9AEFE5F7196E26B25494B6B
 --[END Code 6]

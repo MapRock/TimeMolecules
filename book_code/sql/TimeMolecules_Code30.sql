@@ -5,7 +5,7 @@ GO
 DECLARE @FM_Transforms NVARCHAR(1000)='{"arnold1":"arnold","arnold2":"arnold",
 "keto1":"dietpage","weightwatcher1":"dietpage","vanproteinbars":"proteinbars","chocproteinbars":"proteinbars"}'
 /*
---Deprecated.
+--MarkovProcess TVF deprecated due to complication with migration to MPP.
 SELECT
 	ModelID,Event1A,EventB,
 	[Max],[Avg],[Min],[StDev],CoefVar,[Sum],
@@ -15,5 +15,6 @@ FROM dbo.[MarkovProcess](0,'websitepages',0,NULL,NULL,@FM_Transforms,1,NULL,NULL
 
 --MarkovProcess2 calculates a Markov process on the fly, but it doesn't store it.
 --Use [dbo].[CreateUpdateMarkovProcess] to create/update one.
-EXEC MarkovProcess2 0,'websitepages',0,NULL,NULL,@FM_Transforms,1,NULL,NULL,NULL,0
+DECLARE @EventSet NVARCHAR(100)='websitepages'
+EXEC MarkovProcess2 0,@EventSet,0,NULL,NULL,@FM_Transforms,1,NULL,NULL,NULL,0
 --[END Code 30]
