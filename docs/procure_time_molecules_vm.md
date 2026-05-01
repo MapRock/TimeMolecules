@@ -102,7 +102,7 @@ The VM comes with **SQL Server** and **SQL Server Management Studio** pre-instal
 
 1. Search for **“SQL Server Management Studio”** in the Windows Start menu and launch it.
 2. Connect using:
-   - **Server name**: `.` or `localhost`
+   - **Server name**: `.` or `TimeSolution-Bo`
    - **Authentication**: Windows Authentication (no extra credentials needed)
 3. You can now run any SQL queries side-by-side with your Python code in VS Code.
 
