@@ -9,7 +9,7 @@ This is the **easiest and fastest** way to run the TimeMolecules tutorials and b
 The VM image was deliberately chosen on the **Standard D4ds v4** size to give you the best balance of **cost** (~$0.27/hour) and **speed**.  
 **Ollama (local LLM) does NOT perform well on this VM** — it feels sluggish and is not recommended.  
 
-**Strongly use OpenAI or Grok instead.**  
+**Strongly recommend using OpenAI or Grok instead.**  
 Just set your `OPENAI_API_KEY` (works for both OpenAI and Grok via the OpenAI-compatible endpoint) and you’ll get fast, high-quality responses with zero local overhead. This is the intended and smoothest experience.
 
 ---
