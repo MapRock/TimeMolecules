@@ -5,6 +5,8 @@
 - The .py code in the subdirectories will read the .env.example file in this parent directory.
 - The code that is in the [Time Molecules](https://technicspub.com/time-molecules/) book is in: https://github.com/MapRock/TimeMolecules/tree/main/book_code
 - Place the primary text in readme.md (all lower-case).
+- As of May 5, 2026, **for the easiest tutorial experience**, please use the Azure Virtual Machine I created. Please see [procure_time_molecules_vm.md](https://github.com/MapRock/TimeMolecules/blob/main/docs/) for instructions on how to procure and use it.
+
 
 ## Information for AI Agents
 
