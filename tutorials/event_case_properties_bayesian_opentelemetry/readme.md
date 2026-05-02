@@ -858,6 +858,3 @@ Dimensional models, Data Vault, and semantic layers make the result usable.
 ```
 
 
-
-```
-```
