@@ -10,7 +10,9 @@ The entire pipeline is production-ready today in Azure and maps 1:1 to the Time 
 - Markov/HMM ensembles for sequence modeling
 - Bayesian/conditional layering for context
 
-You can copy-paste this tutorial straight into a notebook, share it with your team, or use it as the basis for a quick proof-of-concept. I’ve included **exact Azure service names**, **MLflow integration**, and **step-by-step pipeline diagrams** so your Data Engineering / Data Science team can implement it immediately.
+At its core, this is an event-processing and complex-event-processing (CEP) problem. We gather raw events and their rich payloads from a wide variety of sources—transaction logs, sensor data, video feeds, external APIs, weather services, injury reports, and more. Using Azure AI services such as Computer Vision, Video Indexer, and Language services, we automatically parse and enrich those events, extracting specified, inferred, and even deduced properties (for example, facial micro-expressions or body-language tells from poker table video). The result is a very rich, open-schema event database containing tens of thousands of features per event or case. From this expansive feature fabric, Azure Machine Learning workflows then automate the discovery of coherent feature sets, identify strong correlations (both supervised and unsupervised), and surface the precise combinations that correlate to meaningful outcomes—via techniques such as clustering, association rule mining, decision trees, regressions, dimensionality reduction, and sequence modeling. This is exactly how we close the “intuition and domain-knowledge gap” that most teams struggle with when moving from raw events to actionable hidden states.
+
+I’ve included **exact Azure service names**, **MLflow integration**, and **step-by-step pipeline diagrams**.
 
 ## 1. Poker in Time Molecules – The Foundation
 In the book we treat each player **action** as an atomic event:
