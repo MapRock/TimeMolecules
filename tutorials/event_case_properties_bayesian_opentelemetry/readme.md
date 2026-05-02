@@ -1,13 +1,16 @@
-
 # Event and Case Properties: OpenTelemetry, Bayesian Probabilities, and Hidden States
 
-**Tutorial ID:** `event_case_properties_opentelemetry_bayesian`  
-**Version:** Spring 2026 Refresh  
-**Related tutorials:**
+## Introduction
 
-- `tutorials/star_schema/`
-- `tutorials/data_vault_connect_time_molecules_to_semantic_layer/`
-- `tutorials/property_mdm_iri_rollup/`
+<i>[Time Molecules](https://technicspub.com/time-molecules/)</i> begins with events, but the event name is only the starting point. In real systems, events usually arrive with payloads: telemetry attributes, source fields, JSON fragments, observations, intended values, expected values, and contextual facts about the larger case. OpenTelemetry makes this pattern familiar by treating events as timestamped observations with structured attributes. Time Molecules takes that same basic idea and brings it into a process-intelligence and BI-oriented architecture.
+
+Event properties describe what was observed at a specific point in the process. Case properties describe the larger process instance that the event belongs to. Together, they provide the context that a plain event sequence cannot express. A Markov model can tell us what usually follows what, but event and case properties let us ask the more useful conditional question: **given these conditions, what is likely to happen next?**
+
+That is where Bayesian probabilities enter the picture. Properties are not just descriptive metadata. They can become probability conditions. They can help explain why one transition is likely in one situation but unlikely in another. They can also help infer hidden states: fatigue, drift, deterioration, strategy, risk, compensation, bottlenecks, or other process conditions that are not directly recorded as events but are implied by the surrounding evidence.
+
+This tutorial ties those pieces together. OpenTelemetry-style payloads provide the ingestion pattern. Event and case properties preserve the contextual detail. `Sources` and `SourceColumns` preserve lineage. Bayesian probabilities use those properties as conditions. Hidden states emerge from sequences, properties, and related processes. The same enriched structures can then feed star schemas, Data Vault models, semantic layers, MDM/IRI rollups, knowledge graphs, and AI-agent analysis.
+
+The larger point is simple: Time Molecules is not only a way to model event sequences. It is a way to turn integrated events and their properties into reusable process knowledge.
 
 ## Purpose
 
