@@ -144,12 +144,19 @@ Case-level payloads are stored in `dbo.CaseProperties`.
 
 The verified columns are:
 
-```text
-CaseID
-Properties
-TargetProperties
-CreateDate
-```
+Case-level payloads are stored in `dbo.CaseProperties`.
+
+The verified columns are:
+
+| Column | Description |
+|---|---|
+| `CaseID` | The identifier of the case or process instance that these properties describe. This is the primary key of `dbo.CaseProperties` and links the property payload to a specific case. |
+| `Properties` | A JSON-style payload of descriptive case-level properties. These are the contextual attributes of the case, such as customer, machine, location, shift, game, visit, encounter, or other process-level characteristics. |
+| `TargetProperties` | A JSON-style payload of target, intended, desired, or comparison properties for the case. These can represent goals, expected case-level outcomes, planned values, or values used for later comparison against actual case behavior. |
+| `CreateDate` | The datetime when the case-property row was created. |
+|
+
+These properties describe the larger context of the case rather than a single event. For example, if the case is a production run, `Properties` might describe the machine, shift, product, or plant. `TargetProperties` might describe the intended output, expected throughput, or target quality level for that run.
 
 A simple inspection query is:
 
@@ -202,40 +209,44 @@ The parsed event-property table is `dbo.EventPropertiesParsed`.
 
 The verified columns are:
 
-```text
-EventID
-PropertyName
-PropertySource
-PropertyValueNumeric
-PropertyValueAlpha
-IsJSON
-SourceColumnID
-CreateDate
-LastUpdate
-EventPropertyCountAllocation
-EventDate
-Event
-CaseID
-AccessBitmap
-```
+| Column | Description |
+|---|---|
+| `EventID` | The identifier of the event that the parsed property belongs to. This links the property back to the source event in the event stream. |
+| `PropertyName` | The name of the parsed property extracted from the event payload. Examples might include values such as temperature, vibration, pitch type, warning code, location, or outcome, depending on the source event. |
+| `PropertySource` | Indicates which event-property payload the value came from. In the current schema, this maps through `dbo.PropertySource`, where `0 = InputProperties`, `1 = OutputProperties`, and `2 = AggregationProperties`. Conceptually, this distinguishes different classes of event payload values. |
+| `PropertyValueNumeric` | The numeric value of the property, when the property can be represented as a number. This supports filtering, comparison, aggregation, statistical analysis, metrics, and probability calculations. |
+| `PropertyValueAlpha` | The text value of the property, when the property is categorical, descriptive, coded, or otherwise non-numeric. |
+| `IsJSON` | Indicates whether the parsed property value itself is JSON. This allows a property to contain a nested structure rather than a simple scalar value. |
+| `SourceColumnID` | The source-column lineage identifier for the property, when known. This links the parsed property back to `dbo.SourceColumns`, helping preserve where the property came from in the original source data. |
+| `CreateDate` | The datetime when the parsed event-property row was created. |
+| `LastUpdate` | The datetime when the parsed event-property row was last updated. |
+| `EventPropertyCountAllocation` | A count-allocation value used when event properties participate in aggregation or probability calculations. This helps distribute event-property contribution when a property participates in counted analytical structures. |
+| `EventDate` | The datetime of the event associated with this parsed property. This allows property-level analysis by time without always joining back to the event table. |
+| `Event` | The event name associated with this parsed property. This allows the property to be analyzed in the context of the event type or event label. |
+| `CaseID` | The identifier of the case or process instance containing the event. This links the parsed event property back to the larger process instance. |
+| `AccessBitmap` | Security bitmap used to support access filtering. This allows property-level rows to participate in the Time Molecules access-control pattern. |
+
+These parsed rows turn event payload JSON into queryable relational values. That is what allows event properties to participate in filtering, Bayesian probability generation, dimensional modeling, Data Vault structures, semantic-layer mapping, and hidden-state inference.
 
 There is also a view named `dbo.vwEventPropertiesParsed`.
 
 The verified columns exposed by the view are:
 
-```text
-EventID
-PropertyName
-PropertySource
-PropertyValueNumeric
-PropertyValueAlpha
-ValueIsJSON
-SourceColumnID
-SourceID
-SourceDescription
-SourceName
-SourceColumnName
-```
+| Column | Description |
+|---|---|
+| `EventID` | The identifier of the event that the parsed property belongs to. This links the property back to the source event in the event stream. |
+| `PropertyName` | The name of the parsed property extracted from the event payload. |
+| `PropertySource` | Indicates which event-property payload the value came from. In the current schema, this maps through `dbo.PropertySource`, where `0 = InputProperties`, `1 = OutputProperties`, and `2 = AggregationProperties`. |
+| `PropertyValueNumeric` | The numeric value of the property, when the property can be represented as a number. |
+| `PropertyValueAlpha` | The text value of the property, when the property is categorical, descriptive, coded, or otherwise non-numeric. |
+| `ValueIsJSON` | Indicates whether the property value itself is JSON. This is useful when the parsed value contains a nested structure rather than a simple scalar value. |
+| `SourceColumnID` | The source-column lineage identifier for the property, when known. This links the parsed property back to `dbo.SourceColumns`. |
+| `SourceID` | The identifier of the source system, feed, table, file, stream, or other origin associated with the source column. |
+| `SourceDescription` | The description of the source that supplied the property. This helps analysts and AI agents understand the origin and intended meaning of the property. |
+| `SourceName` | The human-readable name of the source that supplied the property. |
+| `SourceColumnName` | The column name in the original source that supplied or corresponds to this parsed property. |
+
+`dbo.vwEventPropertiesParsed` is the more lineage-friendly way to inspect parsed event properties. It exposes the parsed property values together with source metadata, making the event payload easier to connect to ingestion lineage, semantic-layer terms, dimensional attributes, Data Vault satellites, Bayesian conditions, and hidden-state inference.
 
 A safe inspection query is:
 
@@ -337,36 +348,38 @@ Time Molecules uses `dbo.Sources` and `dbo.SourceColumns` to preserve where prop
 
 The verified columns in `dbo.Sources` are:
 
-```text
-SourceID
-Description
-SourceProperties
-Name
-DefaultTableName
-IRI
-DatabaseName
-ServerName
-PropertiesJSONFullyQualifiedColumnName
-TargetJSONFullyQualifiedColumnName
-DefaultObserverID
-AccessBitmap
-```
+| Column | Description |
+|---|---|
+| `SourceID` | The identifier of the source system, stream, table, file, feed, or other origin of event and case data. |
+| `Description` | A human-readable description of the source and its role in the Time Molecules environment. |
+| `SourceProperties` | A JSON-style payload of metadata about the source itself. This can describe source-level characteristics that are not captured by the individual relational columns. |
+| `Name` | The human-readable name of the source. |
+| `DefaultTableName` | The default table name associated with the source, when the source maps naturally to a table or table-like structure. |
+| `IRI` | A semantic-web identifier for the source, when the source is linked to an ontology, vocabulary, knowledge graph, or other semantic reference. |
+| `DatabaseName` | The database associated with the source, when applicable. |
+| `ServerName` | The server associated with the source, when applicable. |
+| `PropertiesJSONFullyQualifiedColumnName` | The fully qualified column name containing the source’s properties JSON payload, when applicable. |
+| `TargetJSONFullyQualifiedColumnName` | The fully qualified column name containing the source’s target, intended, expected, or comparison JSON payload, when applicable. |
+| `DefaultObserverID` | The default observer associated with this source. This can identify the system, process, agent, person, or mechanism that observed or supplied the data. |
+| `AccessBitmap` | Security bitmap used to support source-level access filtering. |
 
 The verified columns in `dbo.SourceColumns` are:
 
-```text
-SourceColumnID
-SourceID
-TableName
-ColumnName
-IsKey
-IsOrdinal
-DataType
-Description
-IRI
-ObserverID
-AccessBitmap
-```
+| Column | Description |
+|---|---|
+| `SourceColumnID` | The identifier of a specific source column or source field. Parsed event and case properties can use this value to preserve lineage back to the original source field. |
+| `SourceID` | The source identifier that this column belongs to. This links the column back to `dbo.Sources`. |
+| `TableName` | The table name associated with the source column, when applicable. |
+| `ColumnName` | The name of the column or field in the original source. |
+| `IsKey` | Indicates whether the source column participates as a key or identifying field in the source data. |
+| `IsOrdinal` | Indicates whether the source column represents an ordinal, sequence, rank, or ordering value. |
+| `DataType` | The data type of the source column or field. |
+| `Description` | A human-readable description of the source column and its meaning. |
+| `IRI` | A semantic-web identifier for the source column, when the column is linked to an ontology, vocabulary, knowledge graph, or semantic-layer concept. |
+| `ObserverID` | The observer associated with this source column, when different from or more specific than the source’s default observer. |
+| `AccessBitmap` | Security bitmap used to support source-column-level access filtering. |
+
+Together, `dbo.Sources` and `dbo.SourceColumns` give event and case properties lineage. A parsed property is no longer just a JSON key/value pair. It can be traced back to a source, a table, a column, an observer, a security context, and potentially an IRI-linked semantic meaning.
 
 A safe lineage query is:
 
@@ -449,18 +462,18 @@ The verified procedure signature is:
 
 ```sql
 CREATE PROCEDURE dbo.CreateUpdateBayesianProbabilities
-    @SeqA NVARCHAR(MAX),
-    @SeqB NVARCHAR(MAX),
-    @EventSet NVARCHAR(MAX),
-    @StartDateTime DATETIME = NULL,
-    @EndDateTime DATETIME = NULL,
-    @transforms NVARCHAR(MAX),
-    @CaseFilterProperties NVARCHAR(MAX),
-    @EventFilterProperties NVARCHAR(MAX),
-    @GroupType NVARCHAR(10),
-    @SessionID UNIQUEIDENTIFIER = NULL OUTPUT,
-    @CreatedBy_AccessBitmap BIGINT = NULL,
-    @AccessBitmap BIGINT = NULL
+    @SeqA NVARCHAR(MAX),                         -- The first event or event sequence, representing condition A in the Bayesian probability calculation.
+    @SeqB NVARCHAR(MAX),                         -- The second event or event sequence, representing condition or outcome B in the Bayesian probability calculation.
+    @EventSet NVARCHAR(MAX),                     -- The event set used to limit which events are included in the analysis.
+    @StartDateTime DATETIME = NULL,              -- Optional lower bound for event dates included in the probability calculation.
+    @EndDateTime DATETIME = NULL,                -- Optional upper bound for event dates included in the probability calculation.
+    @transforms NVARCHAR(MAX),                   -- Optional transform definition or transform code used to remap event names before calculating probabilities.
+    @CaseFilterProperties NVARCHAR(MAX),         -- Optional JSON filter for case-level properties used to restrict the cases included in the calculation.
+    @EventFilterProperties NVARCHAR(MAX),        -- Optional JSON filter for event-level properties used to restrict the events included in the calculation.
+    @GroupType NVARCHAR(10),                     -- The grouping level used for co-occurrence counting, such as CaseID, DAY, MONTH, or YEAR.
+    @SessionID UNIQUEIDENTIFIER = NULL OUTPUT,   -- Optional session identifier used to isolate intermediate work rows for this calculation.
+    @CreatedBy_AccessBitmap BIGINT = NULL,       -- Optional access bitmap representing the creator or caller’s access context.
+    @AccessBitmap BIGINT = NULL                  -- Optional access bitmap assigned to the generated Bayesian probability rows.
 ```
 
 A pattern call looks like this:
@@ -521,24 +534,27 @@ If an invalid value is passed, it falls back to `CaseID`.
 
 The verified columns are:
 
-```text
-ModelID
-GroupType
-EventSetAKey
-EventSetBKey
-ACount
-BCount
-A_Int_BCount
-PB|A
-PA|B
-TotalCases
-PA
-PB
-CreateDate
-AnomalyCategoryIDA
-AnomalyCategoryIDB
-LastUpdate
-```
+| Column | Description |
+|---|---|
+| `ModelID` | The identifier of the model associated with the Bayesian probability calculation. |
+| `GroupType` | The grouping level used for the probability calculation, such as `CaseID`, `DAY`, `MONTH`, or `YEAR`. |
+| `EventSetAKey` | The key representing event or event sequence A. This is the “given” side of the probability calculation when reading `PB\|A`. |
+| `EventSetBKey` | The key representing event or event sequence B. This is the outcome side of the probability calculation when reading `PB\|A`. |
+| `ACount` | The count of groups where event set A appears. |
+| `BCount` | The count of groups where event set B appears. |
+| `A_Int_BCount` | The count of groups where both event set A and event set B appear. This is the intersection count used to calculate conditional probabilities. |
+| `PB\|A` | Probability of B given A. In practical terms: when A appears, how often does B also appear within the selected grouping context? |
+| `PA\|B` | Probability of A given B. In practical terms: when B appears, how often does A also appear within the selected grouping context? |
+| `TotalCases` | The total number of groups considered in the calculation. Depending on `GroupType`, this may represent cases, days, months, or years. |
+| `PA` | Marginal probability of A across the selected grouping context. |
+| `PB` | Marginal probability of B across the selected grouping context. |
+| `CreateDate` | The datetime when the Bayesian probability row was created. |
+| `AnomalyCategoryIDA` | Optional anomaly category identifier associated with event set A. |
+| `AnomalyCategoryIDB` | Optional anomaly category identifier associated with event set B. |
+| `LastUpdate` | The datetime when the Bayesian probability row was last updated. |
+
+These rows turn event co-occurrence into reusable conditional probability knowledge. For example, `PB\|A` can be read as “given A, how likely is B?” while `PA\|B` can be read as “given B, how likely was A?” This makes event and property-filtered co-occurrence available for Bayesian reasoning, hidden-state inference, process comparison, and semantic-layer consumption.e
+
 
 A simple inspection query is:
 
@@ -750,6 +766,7 @@ How does the sequence change by property?
 Which hidden state changes the transition probabilities?
 What changed between two time periods, locations, machines, or customer segments?
 ```
+See: https://github.com/MapRock/TimeMolecules/tree/main/tutorials/star_schema
 
 ## 13. Relationship to Data Vault
 
@@ -776,6 +793,8 @@ The event can be captured first.
 The interpretation can improve later.
 
 That is especially important for OpenTelemetry, IoT, application logs, AI agent logs, and other high-volume event streams.
+
+See: https://github.com/MapRock/TimeMolecules/tree/main/tutorials/data_vault_connect_time_molecules_to_semantic_layer
 
 ## 14. Relationship to the semantic layer
 
