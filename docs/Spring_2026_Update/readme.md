@@ -109,6 +109,22 @@ If there is a single sentence that best captures the refresh, it is probably thi
 
 **Time Molecules is about making stories in the form of event sequences analyzable at scale, and using Markov models as abstractions of those stories.**
 
+## No High-End User Interface for Time Molecules (Markov Models & Bayesian Conditional Probabilities)
+
+One area that is intentionally **not** covered in the current 2026 refresh of Time Molecules is a polished, high-end graphical front-end UI. The refresh (and the accompanying demo application) deliberately focuses on the backend foundation and on serving as a **workbench** for assessing how AI agents can discover, query, and reason over the Time Molecules structures. In other words, the demo app is not intended as a production end-user dashboard; it is a testing harness that lets AI agents explore the SQL-based artifacts directly. My own day-to-day work has centered on SSMS (SQL Server Management Studio) as the primary interface because it gives full, transparent access to the stored procedures, table-valued functions, and views that power everything.
+
+The good news is that this SQL-centric design already makes high-end visualization straightforward and powerful. Nearly every function in Time Molecules — including the Markov-model generators and the Bayesian/conditional-probability routines — returns clean, tabular result sets that behave exactly like ordinary dataframes. That means the outputs (Markov transition tables of the form *eventA → eventB*, probability, count, confidence, etc., and Bayesian conditional probability tables) can be consumed directly by modern business-intelligence tools.
+
+**Yes — both Power BI and Tableau can connect to and execute stored procedures in addition to views.**  
+- In Power BI you use the SQL Server connector and simply supply an `EXEC` statement (or a stored-proc call with parameters) in the Advanced Options; it works beautifully in Import or DirectQuery mode.  
+- Tableau has even stronger native support: stored procedures appear directly in the data-source pane, can be dragged onto the canvas, and support parameters automatically.
+
+This gives you an immediate high-end UI today without writing a single line of new front-end code:
+- **Markov models** → heatmaps, Sankey diagrams, network graphs, or animated state-transition flows that show how one event leads to the next (with probabilities and confidence bands).  
+- **Bayesian conditional probabilities** → interactive what-if slicers, parameterized reports, and dynamic dashboards where a user (or an AI agent) can slice by context (“given this weather, count, video tell, fatigue level…”) and instantly see the updated outcome probabilities.
+
+In short, the current refresh deliberately stops at the robust, queryable SQL layer so that the heavy lifting stays close to the data (exactly as the “time-oriented counterpart to OLAP cubes” philosophy intends). A beautiful, purpose-built graphical UI with real-time Markov flows, hidden-state explorers, and scenario-modeling canvases is a logical **future** enhancement — but you already have a production-grade analytical surface available right now through any standard BI tool that can talk to SQL Server.
+
 ## Known Issues
 
 Following are known issues that will be addressed over the next few weeks.
