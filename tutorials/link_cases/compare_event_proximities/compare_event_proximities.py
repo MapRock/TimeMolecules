@@ -46,14 +46,22 @@ Part of the TimeMolecules tutorials:
 https://github.com/MapRock/TimeMolecules/tree/main/tutorials/link_cases/compare_event_proximities
 """
 # export_markov_to_graphs.py
-import os
+
 import sys
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[3])) # 3 levels up to reach project root, most are 2 but this file is in a subfolder.
 
-
 # Set this as the path to the Python interpreter:  C:\MapRock\TimeMolecules\tutorials\.venv\Scripts
-from shared.shared_llm import load_env_upward, read_llm_config, SharedLLM,clean_for_embedding
+from shared.shared_llm import  read_llm_config, SharedLLM, clean_for_embedding
+
+from dotenv import load_dotenv
+tutorials_env = Path(r"C:\MapRock\TimeMolecules\tutorials\.env")
+if tutorials_env.exists():
+    load_dotenv(tutorials_env, override=True)
+    print(f"✅ FORCED .env FROM TUTORIALS: {tutorials_env}")
+else:
+    print(f"❌ Could not find tutorials/.env at {tutorials_env}")
+
 
 
 from qdrant_client import QdrantClient
@@ -66,7 +74,7 @@ import pandas as pd
 from pathlib import Path
 
 
-load_env_upward(__file__)
+
 
 LLM_CONFIG = read_llm_config()
 SHARED_LLM = SharedLLM(LLM_CONFIG)
