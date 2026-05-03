@@ -1,8 +1,14 @@
 # export_markov_to_graphs.py
 import os
+import sys
 from pathlib import Path
+sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 from datetime import datetime
-from time_solution import TimeSolutionDAL
+
+from shared.time_solution import TimeSolutionDAL
+
+# Add the project root to Python's path so "from shared..." works from any subfolder
+
 
 def export_markov_model(
     event_set: str,
