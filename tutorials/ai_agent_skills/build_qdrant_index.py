@@ -21,6 +21,21 @@ from qdrant_client.models import Distance, VectorParams, PointStruct
 import json
 import sys
 
+import sys
+from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
+# Set this as the path to the Python interpreter:  C:\MapRock\TimeMolecules\tutorials\.venv\Scripts
+from shared.shared_llm import  read_llm_config, SharedLLM, clean_for_embedding
+
+from dotenv import load_dotenv
+tutorials_env = Path(r"C:\MapRock\TimeMolecules\tutorials\.env")
+if tutorials_env.exists():
+    load_dotenv(tutorials_env, override=True)
+    print(f"✅ FORCED .env FROM TUTORIALS: {tutorials_env}")
+else:
+    print(f"❌ Could not find tutorials/.env at {tutorials_env}")
+
 import hashlib
 import os
 import pyodbc
@@ -28,11 +43,10 @@ import pandas as pd
 import re
 import requests  # ← add this import at the top of your file if not already present
 
-from shared_llm import load_env_upward, read_llm_config, SharedLLM, clean_for_embedding
 
 from pathlib import Path
 
-load_env_upward(__file__)
+# load_env_upward(__file__)
 
 # ----------------------------
 # Config

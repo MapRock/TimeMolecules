@@ -8,11 +8,30 @@ Part of tutorials/ai_agent_skills
 Run build_qdrant_index.py first, then the demo.
 Uses .env + local Qdrant folder.
 """
-from pickle import GLOBAL
+
+# export_markov_to_graphs.py
+import os
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
+from datetime import datetime
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
+# Set this as the path to the Python interpreter:  C:\MapRock\TimeMolecules\tutorials\.venv\Scripts
+from shared.shared_llm import  read_llm_config, SharedLLM, clean_for_embedding
+
+from dotenv import load_dotenv
+tutorials_env = Path(r"C:\MapRock\TimeMolecules\tutorials\.env")
+if tutorials_env.exists():
+    load_dotenv(tutorials_env, override=True)
+    print(f"✅ FORCED .env FROM TUTORIALS: {tutorials_env}")
+else:
+    print(f"❌ Could not find tutorials/.env at {tutorials_env}")
+
+
 import re
 import math
 import json
-import os
 import threading
 from datetime import datetime
 from pathlib import Path
@@ -56,10 +75,10 @@ except Exception as e:
 from qdrant_client import QdrantClient
 from qdrant_client.models import Filter, FieldCondition, MatchAny
 
-from shared_llm import load_env_upward, read_llm_config, SharedLLM
+
 import write_to_import_events as imp
 
-load_env_upward(__file__)
+# load_env_upward(__file__)
 
 LLM_CONFIG = read_llm_config()
 SHARED_LLM = SharedLLM(LLM_CONFIG)
