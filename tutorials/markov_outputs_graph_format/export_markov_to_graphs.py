@@ -7,6 +7,15 @@ from datetime import datetime
 
 from shared.time_solution import TimeSolutionDAL
 
+from dotenv import load_dotenv
+tutorials_env = Path(r"C:\MapRock\TimeMolecules\tutorials\.env")
+if tutorials_env.exists():
+    load_dotenv(tutorials_env, override=True)
+    print(f"✅ FORCED .env FROM TUTORIALS: {tutorials_env}")
+else:
+    print(f"❌ Could not find tutorials/.env at {tutorials_env}")
+
+
 # Add the project root to Python's path so "from shared..." works from any subfolder
 
 
