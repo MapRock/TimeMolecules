@@ -7,6 +7,8 @@ This tutorial explains how to treat a Markov model as a **web of conditional bel
 
 The key intuition is simple: the world is always changing, therefore complex, therefore probabilistic. But it is not chaotic, so it is still logical. A Time Molecules Markov model captures that by storing transition probabilities between events; each segment can be interpreted as a conditional belief about what tends to happen next. The export step turns those segments into a symbolic form that can participate in Prolog reasoning. ([GitHub][1])
 
+Markov models and Bayesian probabilities are most related than they might first appear. You can think of a Markov model as a web of Bayesian probabilities. Each segment of a Markov model, EventA -> Event B, is the same as P(B|A).
+
 ## Source material
 
 This tutorial is based on the following materials:
