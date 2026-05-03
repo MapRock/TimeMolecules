@@ -1,3 +1,14 @@
+# export_markov_to_graphs.py
+import os
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(__file__).resolve().parents[3])) # 3 levels up to reach project root, most are 2 but this file is in a subfolder.
+
+
+# Set this as the path to the Python interpreter:  C:\MapRock\TimeMolecules\tutorials\.venv\Scripts
+from shared.shared_llm import load_env_upward, read_llm_config, SharedLLM,clean_for_embedding
+
+
 from qdrant_client import QdrantClient
 from qdrant_client.models import Distance, VectorParams, PointStruct, Filter, FieldCondition, MatchValue
 
@@ -7,7 +18,6 @@ import math
 import pandas as pd
 from pathlib import Path
 
-from shared_llm import load_env_upward, read_llm_config, SharedLLM, clean_for_embedding
 
 load_env_upward(__file__)
 
@@ -18,6 +28,7 @@ QDRANT_PATH = LLM_CONFIG.qdrant_path
 BASE_COLLECTION_NAME = LLM_CONFIG.collection_name
 COLLECTION_NAME = f"{BASE_COLLECTION_NAME}_prop_compare"
 
+GPS_MAX_DISTANCE_METERS = 10000.0 # 10 km for GPS proximity comparison.
 
 def is_nullish(value) -> bool:
     try:
@@ -98,7 +109,7 @@ def haversine_meters(lat1, lon1, lat2, lon2) -> float:
     return radius_m * c
 
 
-def gps_similarity_score(distance_meters: float, max_distance_meters: float = 100.0) -> float:
+def gps_similarity_score(distance_meters: float, max_distance_meters: float = GPS_MAX_DISTANCE_METERS) -> float:
     if distance_meters <= 0:
         return 1.0
 
@@ -432,7 +443,7 @@ def compare_case_sets(
     right_caseset=2,
     top_k=5,
     min_score=0.70,
-    gps_max_distance_meters=100.0,
+    gps_max_distance_meters=GPS_MAX_DISTANCE_METERS,
 ) -> pd.DataFrame:
 
     embedding_rows = compare_embedding_rows(
@@ -477,7 +488,7 @@ if __name__ == "__main__":
         right_caseset=2,
         top_k=5,
         min_score=0.70,
-        gps_max_distance_meters=100.0,
+        gps_max_distance_meters=GPS_MAX_DISTANCE_METERS,
     )
 
     out_path = Path(csv_path).with_name("compare_event_proximities_results.csv")
