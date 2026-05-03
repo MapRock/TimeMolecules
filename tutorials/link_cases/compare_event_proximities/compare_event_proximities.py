@@ -1,3 +1,50 @@
+"""
+Time Molecules - Compare Event Proximities
+==========================================
+
+Purpose:
+    This tutorial demonstrates how to discover **hidden relationships** between 
+    seemingly unrelated processes by comparing events across different CaseSets.
+
+    It identifies **spatial**, **temporal**, and **semantic proximities** between 
+    events (e.g., a delivery driver and a commuter visiting the same restaurant, 
+    or a sales call occurring near a support ticket). These proximity signals 
+    are used to propose potential case links and surface undocumented process 
+    overlaps.
+
+Core Idea:
+    Real-world processes are rarely isolated. By combining:
+    - Semantic similarity (LLM embeddings via Qdrant)
+    - Physical proximity (Haversine distance on GPS coordinates)
+    - Temporal closeness
+
+    the script automatically surfaces meaningful associations that traditional 
+    process mining often misses.
+
+Key Files:
+    - compare_event_proximities.csv      : Sample mixed events from multiple CaseSets
+    - compare_event_proximities.py       : Main analysis script (this file)
+    - compare_event_proximities_results.csv : Ranked proximity results + suggested links
+
+How It Works:
+    1. Loads events from different CaseSets
+    2. Computes semantic similarity using LLM embeddings
+    3. Calculates geographic distance using Haversine formula
+    4. Ranks event pairs by combined proximity score
+    5. Outputs suggested cross-case linkages
+
+This capability is a foundational building block for:
+    - Cross-system customer journey mapping
+    - Fraud/anomaly detection via unusual co-occurrences
+    - AGI-style associative reasoning ("System 0" background pattern recognition)
+    - Advanced link_cases and inter-case intelligence in Time Molecules
+
+Usage:
+    python compare_event_proximities.py
+
+Part of the TimeMolecules tutorials:
+https://github.com/MapRock/TimeMolecules/tree/main/tutorials/link_cases/compare_event_proximities
+"""
 # export_markov_to_graphs.py
 import os
 import sys
