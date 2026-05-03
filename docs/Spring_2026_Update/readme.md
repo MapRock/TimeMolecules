@@ -125,6 +125,8 @@ This gives you an immediate high-end UI today without writing a single line of n
 
 In short, the current refresh deliberately stops at the robust, queryable SQL layer so that the heavy lifting stays close to the data (exactly as the “time-oriented counterpart to OLAP cubes” philosophy intends). A beautiful, purpose-built graphical UI with real-time Markov flows, hidden-state explorers, and scenario-modeling canvases is a logical **future** enhancement — but you already have a production-grade analytical surface available right now through any standard BI tool that can talk to SQL Server.
 
+For alternative view possibilities, see [Bayesian Prolog](https://github.com/MapRock/TimeMolecules/tree/main/tutorials/bayesian_prolog) and [Markov Model Graph Formats](https://github.com/MapRock/TimeMolecules/tree/main/tutorials/markov_outputs_graph_format).
+
 ## Known Issues
 
 Following are known issues that will be addressed over the next few weeks.
