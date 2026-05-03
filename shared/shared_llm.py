@@ -11,23 +11,24 @@ from dotenv import load_dotenv
 from openai import OpenAI
 
 
-def load_env_upward(start_file: str | Path) -> Path | None:
-    current = Path(start_file).resolve()
-    env_path = None
+# This will run ONLY ONCE no matter how many times it's called
+_loaded_env = False
 
-    for parent in [current.parent, *current.parents]:
-        candidate = parent / ".env"
-        if candidate.exists():
-            env_path = candidate
-            break
+def load_env_upward(calling_file: str) -> None:
+    """HARD-FORCED: Always use tutorials/.env. Runs only once."""
+    global _loaded_env
+    if _loaded_env:
+        return
 
-    if env_path:
-        load_dotenv(env_path)
-        print(f"✅ Loaded .env from: {env_path}")
+    tutorials_env = Path(r"C:\MapRock\TimeMolecules\tutorials\.env")
+    
+    if tutorials_env.exists():
+        load_dotenv(tutorials_env, override=True)
+        print(f"✅ FORCED LOAD .env FROM TUTORIALS: {tutorials_env}")
     else:
-        print("⚠️ .env not found. Falling back to system environment variables.")
+        print(f"❌ Could not find: {tutorials_env}")
 
-    return env_path
+    _loaded_env = True
 
 
 def clean_for_embedding(text: str) -> str:
