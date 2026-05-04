@@ -3,10 +3,11 @@ GO
 --[START Code 45, Page 183, Time Molecules]
 --What else is going on between events across cases?
 DECLARE @ModelID INT=24
+/*
 SELECT CaseID, EventID, Event, EventDate
 FROM dbo.[IntersegmentEvents](@ModelID,'lv-csv1','homedepot1')
 
-/*
+
 The TVF, dbo.[IntersegmentEvents], is deprecated.
 Below, the new stored procedure:
 
@@ -30,4 +31,6 @@ EXEC dbo.sp_IntersegmentEvents
     @LeadMinutes = 10;	--10 minutes after the datetime of @EventB.
 
 --[END Code 45]
+
+   
 

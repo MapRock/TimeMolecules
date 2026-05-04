@@ -3,6 +3,7 @@ GO
 --[START Code 47]
 DECLARE @enumerate_mult_events INT=3
 
+DECLARE @EventSet NVARCHAR(100)='restaurantguest'
 /*
 --Deprecated.
 SELECT Event1A, EventB,[Rows],Prob,[IsEntry],[IsExit],[Max],[Min],[StDev],[Avg]
@@ -11,7 +12,7 @@ FROM dbo.[MarkovProcess](
 ORDER BY [OrdinalMean]
 */
 DECLARE @SessionID UNIQUEIDENTIFIER=NEWID()
-EXEC MarkovProcess2 0,'restaurantguest',@enumerate_mult_events,NULL,NULL,NULL,1,NULL,NULL,NULL,0,NULL,NULL,@SessionID
+EXEC MarkovProcess2 0,@EventSet,@enumerate_mult_events,NULL,NULL,NULL,1,NULL,NULL,NULL,0,NULL,NULL,@SessionID
 
 SELECT 
 	Event1A, EventB,[Rows],Prob,[IsEntry],[IsExit],[Max],[Min],[StDev],[Avg] 
