@@ -16,9 +16,6 @@ else:
     print(f"❌ Could not find tutorials/.env at {tutorials_env}")
 
 
-# Add the project root to Python's path so "from shared..." works from any subfolder
-
-
 def export_markov_model(
     event_set: str,
     start_datetime: str,
