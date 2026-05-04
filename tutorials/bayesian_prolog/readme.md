@@ -19,6 +19,38 @@ This tutorial is based on the following materials:
 * the `link_cases` tutorial, which demonstrates context expressed as property filters such as `LocationID=1` and `EmployeeID=1`; ([GitHub][4])
 * the broader TimeMolecules repository, including `book_code/sql`, as supporting implementation context. ([GitHub][5])
 
+## Running export_modelevents_to_belief.py
+
+**Here are the exact steps:**
+
+1. Open PowerShell
+
+2. Go to the tutorials folder:
+   ```powershell
+   cd C:\MapRock\TimeMolecules\tutorials
+   ```
+
+3. Activate your virtual environment:
+   ```powershell
+   .\.venv\Scripts\Activate.ps1
+   ```
+4. Navigate to the tutorial directory
+    ```
+    cd bayesian_prolog
+    ```
+
+5. Run the script (replace `123` with your actual ModelID):
+   ```powershell
+   python export_modelevents_to_belief.py 123 -o model_123_beliefs.pl
+   ```
+
+**Example:**
+```powershell
+python export_modelevents_to_belief.py 42 -o model_42_beliefs.pl
+```
+
+The `.pl` file will be created in the current folder.
+
 ## The idea
 
 A row in `dbo.ModelEvents` is usually read as a Markov segment:
