@@ -1,3 +1,24 @@
+"""
+Purpose:
+Reads TimeMolecules metadata from CSV, keeps only programmable objects that expose
+parameter metadata, and writes two normalized CSV outputs:
+1. one row per object
+2. one row per input, output, or referenced object
+
+What it does:
+- Loads the source CSV from GitHub or a local file
+- Safely parses JSON stored in metadata columns
+- Extracts object-level fields such as type, name, description, utilization, and sample code
+- Flattens ParametersJson, OutputNotes, and ReferencedObjectsJson into a detail table
+- Saves the results as:
+  - TimeMolecules_Objects.csv
+  - TimeMolecules_Object_Items.csv
+
+Why:
+This makes the metadata easier to search, analyze, embed, or load into downstream
+tools such as AI retrieval, lineage mapping, or documentation utilities.
+"""
+
 import pandas as pd
 import json
 from io import StringIO
