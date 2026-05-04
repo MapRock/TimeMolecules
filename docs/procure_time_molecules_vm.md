@@ -59,7 +59,7 @@ If you prefer a separate PowerShell window or need to run scripts outside VS Cod
 1. Open **PowerShell** (search for it in the Start menu).
 2. Navigate to the scripts folder:
    ```powershell
-   cd C:\MapRock\TimeMolecules\tutorials\ai_agent_skills\scripts
+   cd C:\MapRock\TimeMolecules\tutorials\ai_agent_skills
    ```
 3. Activate the virtual environment:
    ```powershell
