@@ -84,24 +84,12 @@ from typing import Any
 import os
 
 from dotenv import load_dotenv
-
-# ----------------------------
-# Load .env (search upward)
-# ----------------------------
-current = Path(__file__).resolve()
-env_path = None
-
-for parent in [current.parent, *current.parents]:
-    candidate = parent / ".env"
-    if candidate.exists():
-        env_path = candidate
-        break
-
-if env_path:
-    load_dotenv(env_path)
-    print(f"✅ Loaded .env from: {env_path}")
+tutorials_env = Path(r"C:\MapRock\TimeMolecules\tutorials\.env")
+if tutorials_env.exists():
+    load_dotenv(tutorials_env, override=True)
+    print(f"✅ FORCED .env FROM TUTORIALS: {tutorials_env}")
 else:
-    print("⚠️ .env not found. Falling back to system environment variables.")
+    print(f"❌ Could not find tutorials/.env at {tutorials_env}")
 
 DEFAULT_OUTPUT_DIR = os.getenv("DEFAULT_OUTPUT_DIR", str(Path(__file__).resolve().parent / "output"))
 

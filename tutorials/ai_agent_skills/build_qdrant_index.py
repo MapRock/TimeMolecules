@@ -24,6 +24,7 @@ import sys
 import sys
 from pathlib import Path
 
+# .env called in the shared py and this py. so that if you set it here, it will be available in both places.
 sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 # Set this as the path to the Python interpreter:  C:\MapRock\TimeMolecules\tutorials\.venv\Scripts
 from shared.shared_llm import  read_llm_config, SharedLLM, clean_for_embedding
