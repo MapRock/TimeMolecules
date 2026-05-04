@@ -3,6 +3,8 @@
 
 Transforms in TimeSolution convert one event code into another event name before modeling. Their purpose is to regroup events into broader or alternate categories so the same underlying event stream can be studied at different semantic levels. In practice, a transforms definition is a JSON mapping from original event names to replacement event names, and TimeSolution stores these mappings in `dbo.Transforms`, parses them with `dbo.ParseTransforms`, and references them through a stable `TransformsKey` in downstream procedures. :contentReference[oaicite:0]{index=0} :contentReference[oaicite:1]{index=1}
 
+Time Molecules transforms are in the spirit of ELT, transform of events applied **after** loading (the "L" of ELT) into the [Event Ensembl](https://eugeneasahara.com/glossary/#event_ensemble).
+
 ## What this skill is for
 
 This skill explains:
