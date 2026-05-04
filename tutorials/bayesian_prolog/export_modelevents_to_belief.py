@@ -7,23 +7,14 @@ import pyodbc
 import argparse
 
 from pathlib import Path
+
 from dotenv import load_dotenv
-
-# Load environment variables from .env file in current or parent directories.
-current = Path(__file__).resolve()
-env_path = None
-
-for parent in [current.parent, *current.parents]:
-    candidate = parent / ".env"
-    if candidate.exists():
-        env_path = candidate
-        break
-
-if env_path is None:
-    raise FileNotFoundError(".env not found in this directory or any parent directory")
-
-load_dotenv(env_path)
-print(f"✅ Loaded .env from: {env_path}")
+tutorials_env = Path(r"C:\MapRock\TimeMolecules\tutorials\.env")
+if tutorials_env.exists():
+    load_dotenv(tutorials_env, override=True)
+    print(f"✅ FORCED .env FROM TUTORIALS: {tutorials_env}")
+else:
+    print(f"❌ Could not find tutorials/.env at {tutorials_env}")
 
 
 def get_best_sql_server_driver() -> str:
