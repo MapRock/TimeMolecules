@@ -26,6 +26,18 @@ Key Files:
     - compare_event_proximities.py       : Main analysis script (this file)
     - compare_event_proximities_results.csv : Ranked proximity results + suggested links
 
+Create the compare_event_proximities.csv file:
+
+    The input CSV is already included in the repo for convenience, but you can generate 
+    your own by running the following stored procedure in TimeSolution. This will create
+    a CSV with events from two different CaseSets (1 and 2) that we will compare.
+
+    EXEC [dbo].[sp_CompareEventProximities]
+        @CaseFilterProperties1 = '{"LocationID":1,"EmployeeID":1}',
+        @CaseFilterProperties2 = '{"LocationID":1,"EmployeeID":4}',
+        @StartDateTime = NULL,
+        @EndDateTime = NULL;
+
 How It Works:
     1. Loads events from different CaseSets
     2. Computes semantic similarity using LLM embeddings
@@ -47,6 +59,7 @@ https://github.com/MapRock/TimeMolecules/tree/main/tutorials/link_cases/compare_
 """
 # export_markov_to_graphs.py
 
+import os
 import sys
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[3])) # 3 levels up to reach project root, most are 2 but this file is in a subfolder.
@@ -528,7 +541,6 @@ def compare_case_sets(
     )
 
     return results
-
 
 if __name__ == "__main__":
     csv_path = r"C:\MapRock\TimeMolecules\tutorials\link_cases\compare_event_proximities\compare_event_proximities.csv"
