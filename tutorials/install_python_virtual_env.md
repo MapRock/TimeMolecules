@@ -4,7 +4,7 @@
 
 Welcome! This guide walks you through setting up a clean **Python virtual environment** on Windows so you can run the TimeMolecules tutorial code — especially the **AI Agent Skills demo** located in [tutorials/ai_agent_skills](https://github.com/MapRock/TimeMolecules/tree/main/tutorials/ai_agent_skills). The target audience are people who simply wish to explore concepts and capabilities about Time Molecules before purchasing the [Time Molecules](https://technicspub.com/time-molecules/) book for a fuller, foundational understanding.
 
-**Note** that for readers of the <i>[Time Molecules](https://technicspub.com/time-molecules/)</i> book, the installation is a little bit more complicated. Please refer to [install_timemolecules_dev_env.md](https://github.com/MapRock/TimeMolecules/blob/main/docs/install_timemolecules_dev_env.md) for the install instructions for book readers.
+**Note** that for readers of the <i>[Time Molecules](https://technicspub.com/time-molecules/)</i> book, the installation is a little bit more complicated. Please refer to [install_timemolecules_dev_env.md](https://github.com/MapRock/TimeMolecules/blob/main/docs/install_timemolecules_dev_env.md) for the install instructions for book readers. **Or better yet**, procure the [Azure Virtual Machine](https://github.com/MapRock/TimeMolecules/blob/main/docs/procure_time_molecules_vm.md) I created.
 
 ---
 
@@ -192,7 +192,7 @@ A nice Tkinter GUI window opens. Type natural-language questions about TimeSolut
 
 ---
 
-## Optional: Install SQL Server Developer Edition (trade-offs explained)
+## Step 9: Install SQL Server Developer Edition (trade-offs explained)
 
 **You do NOT need SQL Server** to explore the tutorial. The build script falls back gracefully to a [public CSV snapshot](https://github.com/MapRock/TimeMolecules/blob/main/data/timesolution_schema/TimeMolecules_Metadata.csv).
 
