@@ -1,5 +1,31 @@
 """
-Command: C:\Python310\python.exe export_modelevents_to_belief.py 1 -o model_123_beliefs.pl
+
+
+**Here are the exact steps to run:**
+
+1. Open PowerShell
+
+2. Go to the tutorials folder:
+   ```powershell
+   cd C:\MapRock\TimeMolecules\tutorials
+   ```
+
+3. Activate your virtual environment:
+   ```powershell
+   .\.venv\Scripts\Activate.ps1
+   ```
+
+4. Run the script (replace `123` with your actual ModelID):
+   ```powershell
+   python export_modelevents_to_belief.py 123 -o model_123_beliefs.pl
+   ```
+
+**Example:**
+```powershell
+python export_modelevents_to_belief.py 42 -o model_42_beliefs.pl
+```
+
+The `.pl` file will be created in the current folder.
 """
 import os
 import sys
@@ -149,6 +175,7 @@ def main():
         help="Optional output file path. If omitted, prints to stdout."
     )
     args = parser.parse_args()
+    
 
     try:
         rows = fetch_model_events(args.modelid)
