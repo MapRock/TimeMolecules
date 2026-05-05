@@ -12,7 +12,58 @@ The VM image was deliberately chosen on the **Standard D4ds v4** size to give yo
 **Strongly recommend using OpenAI or Grok instead.**  
 Just set your `OPENAI_API_KEY` (works for both OpenAI and Grok via the OpenAI-compatible endpoint) and you’ll get fast, high-quality responses with zero local overhead. This is the intended and smoothest experience.
 
----
+
+### What is Installed on the TimeMolecules VM
+
+The TimeMolecules VM is a **Windows Server** virtual machine hosted on Microsoft Azure. It is pre-configured as a complete, ready-to-use environment so you can immediately start exploring, testing, and extending Time Molecules without spending time on setup.
+
+#### Core Components
+
+- **Operating System**: Windows Server (latest supported version)
+- **Database**: SQL Server 2025 (Developer Edition) with the full **TimeSolution** database already restored and configured
+- **Development Tools**:
+  - Visual Studio Code (with Python, SQL, Git, and Markdown extensions pre-installed)
+  - Git
+  - PowerShell 7+
+  - Azure CLI (for managing the VM itself)
+
+#### Python Environment
+
+- Python 3.10+ installed system-wide
+- A dedicated virtual environment located at `C:\MapRock\TimeMolecules\tutorials\.venv`
+- All required Python packages are already installed in the venv, including:
+  - `pyodbc`, `pandas`, `qdrant-client`, `openai`, `ollama`, `dotenv`, `pandastable`, `requests`, etc.
+  - The `shared/` package (containing `shared_llm.py` and `time_solution.py`)
+
+#### Repository & Code
+
+The full **TimeMolecules GitHub repository** is cloned to:
+`C:\MapRock\TimeMolecules`
+
+This includes:
+- All tutorials (`tutorials/` folder)
+- The `shared/` folder with common utilities
+- AI Agent demo (`time_molecules_agent_demo.py`)
+- Markov model export tools
+- Bayesian Prolog examples
+- All LLM prompts and skills
+- Sample data and scripts
+
+#### Pre-configured Settings
+
+- `.env` file in the `tutorials/` folder (already pointing to the local SQL Server)
+- Qdrant vector database ready for use
+- Git configured to **pull only** (push is disabled for safety)
+- SQL Server connection tested and working from Python scripts
+
+#### Purpose of the VM
+
+This VM is designed as a **self-contained playground and demonstration environment**. You can:
+- Run all tutorials immediately
+- Test the AI Agent demo
+- Experiment with Markov models and Bayesian calculations
+- Safely explore the full Time Molecules system without affecting your production environment
+
 
 ### Step 1: Create Your VM (≈5 minutes)
 
