@@ -15,54 +15,36 @@ Just set your `OPENAI_API_KEY` (works for both OpenAI and Grok via the OpenAI-co
 
 ### What is Installed on the TimeMolecules VM
 
-The TimeMolecules VM is a **Windows Server** virtual machine hosted on Microsoft Azure. It is pre-configured as a complete, ready-to-use environment so you can immediately start exploring, testing, and extending Time Molecules without spending time on setup.
+The TimeMolecules VM is a **Windows** virtual machine hosted on Microsoft Azure. It is pre-configured as a complete, ready-to-use environment for exploring, testing, and demonstrating Time Molecules.
 
 #### Core Components
 
-- **Operating System**: Windows Server (latest supported version)
-- **Database**: SQL Server 2025 (Developer Edition) with the full **TimeSolution** database already restored and configured
+- **Operating System**: Windows
+- **Database**: SQL Server 2025 (Developer Edition) with the full **TimeSolution** database already restored
+- **Graph Database**: **Neo4j** (including Neo4j Desktop / Browser for exploring exported Markov models)
 - **Development Tools**:
-  - Visual Studio Code (with Python, SQL, Git, and Markdown extensions pre-installed)
+  - Visual Studio Code (with Python, SQL, Git, Markdown, and PlantUML extensions)
   - Git
   - PowerShell 7+
-  - Azure CLI (for managing the VM itself)
+  - Azure CLI
 
 #### Python Environment
 
-- Python 3.10+ installed system-wide
-- A dedicated virtual environment located at `C:\MapRock\TimeMolecules\tutorials\.venv`
-- All required Python packages are already installed in the venv, including:
-  - `pyodbc`, `pandas`, `qdrant-client`, `openai`, `ollama`, `dotenv`, `pandastable`, `requests`, etc.
-  - The `shared/` package (containing `shared_llm.py` and `time_solution.py`)
+- Python 3.10+ installed
+- Dedicated virtual environment at `C:\MapRock\TimeMolecules\tutorials\.venv`
+- Key Python packages pre-installed (including `pyodbc`, `pandas`, `qdrant-client`, `openai`, `ollama`, `python-dotenv`, `pandastable`, `requests`, etc.)
 
-#### Repository & Code
+#### Repository & Tools
 
 The full **TimeMolecules GitHub repository** is cloned to:
 `C:\MapRock\TimeMolecules`
 
-This includes:
-- All tutorials (`tutorials/` folder)
-- The `shared/` folder with common utilities
-- AI Agent demo (`time_molecules_agent_demo.py`)
-- Markov model export tools
-- Bayesian Prolog examples
-- All LLM prompts and skills
-- Sample data and scripts
+#### Additional Installed Software
 
-#### Pre-configured Settings
+- **Qdrant** vector database (local persistent storage)
+- **PlantUML** (for generating diagrams from `.puml` files)
+- **Ollama** (for running local LLMs)
 
-- `.env` file in the `tutorials/` folder (already pointing to the local SQL Server)
-- Qdrant vector database ready for use
-- Git configured to **pull only** (push is disabled for safety)
-- SQL Server connection tested and working from Python scripts
-
-#### Purpose of the VM
-
-This VM is designed as a **self-contained playground and demonstration environment**. You can:
-- Run all tutorials immediately
-- Test the AI Agent demo
-- Experiment with Markov models and Bayesian calculations
-- Safely explore the full Time Molecules system without affecting your production environment
 
 
 ### Step 1: Create Your VM (≈5 minutes)
