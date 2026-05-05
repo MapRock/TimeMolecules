@@ -10,6 +10,7 @@ This integration follows the same philosophy as the [Bayesian Prolog tutorial](.
 - Markov transition tables become **Sankey diagrams**, **state machines**, or **network graphs** that reveal clusters of behavior, high-probability paths, and rare but important transitions.
 - **Neo4j** gives you a live, queryable graph UI (Neo4j Browser or Bloom).
 - **PlantUML** gives you beautiful, version-controlled diagrams you can embed in documentation, GitHub READMEs, or presentations.
+- **Turtle (RDF/OWL)** is the format of the [Semantic Web](https://eugeneasahara.com/glossary/#semantic_web).
 
 ### Files in This Folder
 - `time_solution.py` – Generic Data Access Layer (DAL) for any SQL against TimeSolution (reused across the agent demo and other tutorials).
