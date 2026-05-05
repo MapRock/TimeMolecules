@@ -74,21 +74,24 @@ import pyodbc
 # ----------------------------
 # Load .env (search upward)
 # ----------------------------
-current = Path(__file__).resolve()
-env_path = None
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(__file__).resolve().parents[2])) # 2 levels up to reach project root, most are 2 but this file is in a subfolder.
 
-for parent in [current.parent, *current.parents]:
-    candidate = parent / ".env"
-    if candidate.exists():
-        env_path = candidate
-        break
+# Set this as the path to the Python interpreter:  C:\MapRock\TimeMolecules\tutorials\.venv\Scripts
+from shared.shared_llm import  read_llm_config, SharedLLM, clean_for_embedding
+from shared.time_solution import TimeSolutionDAL
 
-if env_path:
-    load_dotenv(env_path)
-    print(f"✅ Loaded .env from: {env_path}")
+from dotenv import load_dotenv
+tutorials_env = Path(r"C:\MapRock\TimeMolecules\tutorials\.env")
+if tutorials_env.exists():
+    load_dotenv(tutorials_env, override=True)
+    print(f"✅ FORCED .env FROM TUTORIALS: {tutorials_env}")
 else:
-    print("⚠️ .env not found. Falling back to system environment variables.")
+    print(f"❌ Could not find tutorials/.env at {tutorials_env}")
 
+#TODO: Consider refactoring this .env loading logic into a shared helper function since it's repeated in multiple places.
+#dal = TimeSolutionDAL()
 
 # ----------------------------
 # Config from .env
