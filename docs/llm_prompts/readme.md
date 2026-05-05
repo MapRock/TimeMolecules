@@ -1,6 +1,6 @@
 # Collection of Documents addressing common prompts for Time Molecules.
 
-Each document in this directory will be LLM-embedded in full for the purpose of fuzzy searching. It will be imported into a vector database, a repository of material related to my book, <i>[Time Molecules](https://technicspub.com/time-molecules/)</i>.
+Each document in this directory in an abstract of [blogs](https://eugeneasahara.com/category/time-molecules/) and [tutorials](https://github.com/MapRock/TimeMolecules/tree/main/tutorials). The will be LLM-embedded in full for the purpose of fuzzy searching. It will be imported into a vector database, a repository of material related to my book, <i>[Time Molecules](https://technicspub.com/time-molecules/)</i>.
 
 Each document should be on the short side, just an abstract, geared towards a question. There are these main parts:
 
