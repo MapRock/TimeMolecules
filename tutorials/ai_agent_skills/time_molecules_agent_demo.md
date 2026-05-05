@@ -1,5 +1,5 @@
 
-## Overview of the AI Agent Workflow
+## Overview of the AI Agent Workbench Workflow
 
 This tutorial demonstrates a lightweight AI workbench for exploring Time Molecules using a combination of vector search and large language models. The core idea is simple: instead of manually searching code, metadata, and documentation, the system embeds your question, retrieves the most relevant objects, and then uses an LLM to interpret and explain the results.
 
