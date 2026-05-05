@@ -1,3 +1,6 @@
+This folder contains code used in the book, <a href="https://technicspub.com/time-molecules/" target="_blank"><em>Time Molecules</em></a>.
+
+
 ### Important Reminders
 
 <ul>
