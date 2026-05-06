@@ -450,6 +450,21 @@ Text values should be quoted:
 {"PatientSex":"F"}
 ```
 
+Example:
+```sql
+
+EXEC dbo.sp_SelectedEvents
+    @EventSet = 'pickuproute',
+    @enumerate_multiple_events = 0,
+    @StartDateTime = NULL,
+    @EndDateTime = NULL,
+    @transforms = NULL,
+    @ByCase = 1,
+    @metric = NULL,
+    @CaseFilterProperties = '{"Fuel":1,"Weight":1}',
+    @EventFilterProperties = NULL;
+```
+
 ### 2. IN-list filter
 
 ```json
@@ -477,6 +492,20 @@ The same shape can be used for event properties:
 ```sql
 DECLARE @EventFilterProperties NVARCHAR(MAX) =
     N'{"Players":[4,5,6]}';
+```
+Example:
+```sql
+
+EXEC dbo.sp_SelectedEvents
+    @EventSet = 'pickuproute',
+    @enumerate_multiple_events = 0,
+    @StartDateTime = NULL,
+    @EndDateTime = NULL,
+    @transforms = NULL,
+    @ByCase = 1,
+    @metric = NULL,
+    @CaseFilterProperties = '{"LocationID":[1,2]}',
+    @EventFilterProperties = NULL;
 ```
 
 ### 3. Numeric range filter
@@ -506,6 +535,20 @@ This means:
 ```text
 Fuel BETWEEN 1 AND 3000
 Weight BETWEEN 144 AND 147
+```
+
+Example:
+```sql
+EXEC dbo.sp_SelectedEvents
+    @EventSet = 'pickuproute',
+    @enumerate_multiple_events = 0,
+    @StartDateTime = NULL,
+    @EndDateTime = NULL,
+    @transforms = NULL,
+    @ByCase = 1,
+    @metric = NULL,
+    @CaseFilterProperties = '{"Fuel":{"start":1,"end":3}}',
+    @EventFilterProperties = NULL;
 ```
 
 ### Testing the parser directly
