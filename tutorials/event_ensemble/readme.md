@@ -30,6 +30,10 @@ These tables store the raw, normalized, and enriched event data:
 | `dbo.EventPropertiesMDM`    | Master Data Management version of properties (cleaned, standardized) |
 | `dbo.EventPairAnomalies`    | Detected unusual event co-occurrences (spatial/temporal/semantic) |
 
+![Figure 1 – Event Ensemble as an Event Stadium](https://raw.githubusercontent.com/MapRock/TimeMolecules/main/tutorials/event_ensemble/images/eveent_ensemble_timesolution.png)
+
+*Figure 0 – Initializing application and checking for availability.*
+
 ### Shared / Dimensional Tables (Yellow)
 
 These are the common dimensions used by **both** Event Ensemble and Model Ensemble:
