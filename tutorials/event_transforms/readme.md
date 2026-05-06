@@ -37,7 +37,9 @@ Example of a split:
 - `traffic` → `moderatetraffice` (avg miles per hour > 3.0 < 25.00)
 - `traffic` → `lighttraffic` (avg miles per hour at speed limit)
 
-4. Let the complex event processing (CEP) feature of the event processing component categorize events. The CEP is built to perform these tasks in a fairly robust manner. It's upstream of Time Molecules.
+4. Let the [complex event processing (CEP)](https://eugeneasahara.com/2025/09/25/reptile-intelligence-an-ai-summer-for-cep/) feature of the event processing component categorize events. The CEP is built to perform these tasks in a fairly robust manner. It's upstream of Time Molecules, where it doesn't affect performance and it's easy to roll up events.
+
+
 
 That lets the agent regroup multiple event codes into a broader category before building sequences, Markov models, or other process outputs. The metadata for `dbo.ParseTransforms` explicitly describes it as turning a transforms JSON object into a normalized rowset of source-event to target-event mappings for downstream modeling. :contentReference[oaicite:2]{index=2}
 
