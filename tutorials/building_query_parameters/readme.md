@@ -416,6 +416,175 @@ DECLARE @CaseFilterProperties NVARCHAR(MAX) =
 
 This is a common pattern in TimeSolution examples.
 
+Yes. That tutorial already has the right place for it: after **“Step 3: construct the JSON object”** and before **“Step 4: pass the JSON into TimeSolution objects.”** The current tutorial explains scalar numeric, scalar alpha, and mixed examples, but it does not yet explicitly document the `IN` and `BETWEEN` shapes. ([GitHub][1])
+
+
+## Supported Filter Logic
+
+`CaseFilterProperties` and `EventFilterProperties` support three basic logic options. The top-level JSON key is always the property name. The shape of the value determines how the filter is interpreted.
+
+### 1. Scalar equality
+
+```json
+{"Fuel":1,"Weight":1}
+````
+
+Meaning:
+
+```text
+Fuel = 1
+Weight = 1
+```
+
+Use this when each property must match one specific value.
+
+Numeric values should be unquoted:
+
+```json
+{"EmployeeID":1}
+```
+
+Text values should be quoted:
+
+```json
+{"PatientSex":"F"}
+```
+
+### 2. IN-list filter
+
+```json
+{"Fuel":[1,2,3],"Weight":1}
+```
+
+Meaning:
+
+```text
+Fuel IN (1,2,3)
+Weight = 1
+```
+
+Use this when a property may match any value in a list. This is useful when you want to include several related values without writing separate queries.
+
+Example:
+
+```sql
+DECLARE @CaseFilterProperties NVARCHAR(MAX) =
+    N'{"Fuel":[1,2,3],"Weight":1}';
+```
+
+The same shape can be used for event properties:
+
+```sql
+DECLARE @EventFilterProperties NVARCHAR(MAX) =
+    N'{"Players":[4,5,6]}';
+```
+
+### 3. Numeric range filter
+
+```json
+{"Fuel":{"start":1,"end":3},"Weight":1}
+```
+
+Meaning:
+
+```text
+Fuel BETWEEN 1 AND 3
+Weight = 1
+```
+
+Use this when a numeric property must fall within an inclusive start/end range.
+
+Example:
+
+```sql
+DECLARE @EventFilterProperties NVARCHAR(MAX) =
+    N'{"Fuel":{"start":1,"end":3000},"Weight":{"start":144,"end":147}}';
+```
+
+This means:
+
+```text
+Fuel BETWEEN 1 AND 3000
+Weight BETWEEN 144 AND 147
+```
+
+### Testing the parser directly
+
+You can inspect how the JSON is interpreted by calling `ParseFilterProperties` directly.
+
+```sql
+SELECT *
+FROM dbo.ParseFilterProperties(
+    N'{"Fuel":{"start":1,"end":3},"Weight":1}'
+);
+```
+
+Expected interpretation:
+
+```text
+Fuel   -> between, start = 1, end = 3
+Weight -> eq, numeric value = 1
+```
+
+### Notes on combining properties
+
+Multiple properties in the same JSON object are treated as `AND` conditions.
+
+For example:
+
+```json
+{"LocationID":1,"CustomerID":2}
+```
+
+means:
+
+```text
+LocationID = 1
+AND CustomerID = 2
+```
+
+A mixed shape is also valid:
+
+```json
+{"Fuel":[1,2,3],"Weight":{"start":144,"end":147},"LocationID":1}
+```
+
+meaning:
+
+```text
+Fuel IN (1,2,3)
+AND Weight BETWEEN 144 AND 147
+AND LocationID = 1
+```
+
+The important rule is that each property value must use the JSON shape that matches the kind of comparison you want.
+
+````
+
+I’d also update the **Common mistakes** section with this additional item:
+
+```markdown
+### 6. Using an unsupported object shape
+
+Currently, object values are interpreted as numeric start/end ranges.
+
+Supported:
+
+```json
+{"Fuel":{"start":1,"end":3}}
+````
+
+Not supported by the current parser:
+
+```json
+{"Fuel":{"op":"GT","value":3}}
+```
+
+If you need operators such as `GT`, `GTE`, `LT`, or `LTE`, that would require a different parser or an extension to `ParseFilterProperties`.
+
+
+
+
 ## Guidance for AI agents
 
 If an AI agent is asked to build `CaseFilterProperties` or `EventFilterProperties`, it should not jump straight to JSON.
@@ -438,8 +607,10 @@ That is a more reliable method than guessing.
 The safe rule is:
 
 * property names come from the parsed-property views
-* numeric properties use numeric JSON values
-* alpha properties use quoted JSON strings
+* numeric equality filters use unquoted numeric JSON values
+* alpha equality filters use quoted JSON strings
+* arrays are treated as `IN` lists
+* objects with `start` and `end` are treated as inclusive numeric ranges
 * never assume the type without checking
 
 That extra inspection step prevents a lot of wasted time.
