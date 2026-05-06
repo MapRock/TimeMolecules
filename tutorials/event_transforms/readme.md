@@ -19,13 +19,25 @@ The intended audience is an AI agent that needs to query or update the TimeSolut
 
 ## What a transform does
 
-A transform maps one event name to another.
+A transform maps one event name to another. There are three modes:
 
-Examples:
+1. **Rollup:** Several similar events are rolled up into one. This has almost no impact on query performance.
+
+Example of a rollup:
 
 - `heavytraffic` → `traffic`
 - `moderatetraffic` → `traffic`
 - `lighttraffic` → `traffic`
+
+2. **Split:** An event is split into multiple events based on rules. The rule features are very simple at this point (GT, LT, etc.) and they can have an impact on query performance.
+
+Example of a split:
+
+- `traffic` → `heavytraffic` (avg miles per hour < 3.0)
+- `traffic` → `moderatetraffice` (avg miles per hour > 3.0 < 25.00)
+- `traffic` → `lighttraffic` (avg miles per hour at speed limit)
+
+4. Let the complex event processing (CEP) feature of the event processing component categorize events. The CEP is built to perform these tasks in a fairly robust manner. It's upstream of Time Molecules.
 
 That lets the agent regroup multiple event codes into a broader category before building sequences, Markov models, or other process outputs. The metadata for `dbo.ParseTransforms` explicitly describes it as turning a transforms JSON object into a normalized rowset of source-event to target-event mappings for downstream modeling. :contentReference[oaicite:2]{index=2}
 
