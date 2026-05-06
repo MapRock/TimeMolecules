@@ -108,6 +108,15 @@ Another example from the script metadata of a rollup transform:
   "chocproteinbars": "proteinbars"
 }
 ```
+Example of a split:
+
+```json
+{
+  "LAB_POSTED": {"to":"LOW_GLUC","op":"LT""property_name1":"Glucose","property_name2":80,"property_name3":Null},
+  "LAB_POSTED": {"to":"HIGH_GLUC","op":"GT""property_name1":"Glucose","property_name2":110,"property_name3":Null},
+  "LAB_POSTED": {"to":"NORM_GLUC","op":"Between""property_name1":"Glucose","property_name2":80,"property_name3":110}
+}
+```
 
 The `ParseTransforms` metadata and examples confirm this structure.  
 
