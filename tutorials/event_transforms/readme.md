@@ -86,7 +86,7 @@ Transforms let you reuse the same event data for multiple modeling perspectives 
 
 The expected input is a JSON object where each key is the original event code and each value is the transformed event code.
 
-Example:
+Example of a rollup transform:
 
 ```json
 {
@@ -96,7 +96,7 @@ Example:
 }
 ````
 
-Another example from the script metadata:
+Another example from the script metadata of a rollup transform:
 
 ```json
 {
@@ -153,7 +153,7 @@ Do **not** use transforms if the original event distinctions are analytically im
 
 If the transform set should be reusable, store it in `dbo.Transforms` using `dbo.InsertTransforms`.
 
-Example:
+Example (rollup):
 
 ```sql
 DECLARE @TransformsKey VARBINARY(16);
