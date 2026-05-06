@@ -18,6 +18,8 @@ Use the EventsFact-centered objects when an agent needs to answer questions such
 
 This layer complements the Markov model ensemble: the Event Ensemble gives you **exact, granular history**; the Markov layer gives you **compressed, probabilistic process intelligence**.
 
+See [Event Ensemble](https://github.com/MapRock/TimeMolecules/tree/main/tutorials/event_ensemble) for more on the event ensemble schema and utilization.
+
 ## Prerequisites
 
 Before an AI agent interacts with the Event Ensemble:
