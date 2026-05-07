@@ -227,6 +227,34 @@ EXEC dbo.sp_Sequences
 
 The exact behavior downstream depends on the procedure, but the metadata makes clear that transform-based event renaming is part of the sequence/model parameter set. 
 
+### Step 5: Select events with transforms
+
+Example of an Event->ReplaceEvent transform. Good for rolling up:
+
+```sql
+DECLARE @Transforms NVARCHAR(1000)='{
+        "heavytraffic":"traffic",
+        "moderatetraffic":"traffic",
+        "lighttraffic":"traffic"
+  }'
+DECLARE @EventSet NVARCHAR(1000)='pickuproute'
+EXEC dbo.sp_SelectedEvents @SplitEventSet,0,NULL,NULL,@SplitEventTransforms,1,NULL,NULL
+```
+This is an example of spliting an event based on rules:
+
+```sql
+DECLARE @SplitEventTransforms NVARCHAR(1000)='{
+		"MD_EVAL_START":"BEGIN_EVAL",
+        "LAB_POSTED":{"toEvent":"HIGH_GLUS","op":"GT","Value1":"Glucose","Value2":110},
+        "LAB_POSTED":{"toEvent":"LOW_GLUC","op":"LT","Value1":"Glucose","Value2":60},
+        "LAB_POSTED":{"toEvent":"NORMAL_GLUC","op":"BETWEEN","Value1":"Glucose","Value2":60,"Value3":110}
+    }'
+DECLARE @SplitEventSet NVARCHAR(1000)='LAB_POSTED,LAB_ORDERED,MD_EVAL_START,TRIAGE_DONE,TRIAGE_START,MRI_FINAL,MRI_ORDERED,MRI_START'
+
+EXEC dbo.sp_SelectedEvents @SplitEventSet,0,NULL,NULL,@SplitEventTransforms,1,NULL,NULL
+```
+
+
 ## Best practices for agents
 
 ### Prefer reusable codes for common transforms
