@@ -4,4 +4,4 @@ This directory holds abstracts of tutorials, blogs, and other objects instructiv
 
 See, [root dir readme.md](https://github.com/MapRock/TimeMolecules/blob/main/README.md), for more information addressed to AI agents.
 
-As of May 5, 2026, **for the easiest tutorial experience**, please use the Azure Virtual Machine I created. Please see [procure_time_molecules_vm.md](https://github.com/MapRock/TimeMolecules/blob/main/docs/) for instructions on how to procure and use it.
+As of May 10, 2026, **for the easiest tutorial experience**, please use the Azure Virtual Machine I created. Please see [procure_time_molecules_vm.md](https://github.com/MapRock/TimeMolecules/blob/main/docs/) for instructions on how to procure and use it.
