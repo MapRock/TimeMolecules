@@ -237,15 +237,16 @@ DECLARE @Transforms NVARCHAR(1000)='{
         "moderatetraffic":"traffic",
         "lighttraffic":"traffic"
   }'
-DECLARE @EventSet NVARCHAR(1000)='pickuproute'
-EXEC dbo.sp_SelectedEvents @SplitEventSet,0,NULL,NULL,@SplitEventTransforms,1,NULL,NULL
+DECLARE @EventSet NVARCHAR(1000)='commute'
+EXEC dbo.sp_SelectedEvents @EventSet,0,NULL,NULL,@Transforms,1,NULL,NULL
 ```
+
 This is an example of spliting an event based on rules:
 
 ```sql
 DECLARE @SplitEventTransforms NVARCHAR(1000)='{
 		"MD_EVAL_START":"BEGIN_EVAL",
-        "LAB_POSTED":{"toEvent":"HIGH_GLUS","op":"GT","Value1":"Glucose","Value2":110},
+        "LAB_POSTED":{"toEvent":"HIGH_GLUC","op":"GT","Value1":"Glucose","Value2":110},
         "LAB_POSTED":{"toEvent":"LOW_GLUC","op":"LT","Value1":"Glucose","Value2":60},
         "LAB_POSTED":{"toEvent":"NORMAL_GLUC","op":"BETWEEN","Value1":"Glucose","Value2":60,"Value3":110}
     }'
