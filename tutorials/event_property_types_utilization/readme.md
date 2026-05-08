@@ -16,6 +16,14 @@ A plain event such as `TruckArrived`, `StoreVisit`, `ClaimApproved`, or `Patient
 
 That is useful for reporting, process analysis, auditing, optimization, and reasoning over why outcomes occurred.
 
+## Event Properties vs. Case Properties
+
+It's important to realize that event properties fill filter to events that **meet the event property criteria**.
+
+Filtering by case properties is more straight-forward. For example, if we specify we want cases with the property, EmployeeID=1, we will retrieve all events for cases with this property.
+
+See [build_markov_model_process.md](https://github.com/MapRock/TimeMolecules/blob/main/tutorials/time_molecules_skills/build_markov_model_process.md) for how to use event properties to identify cases that have that an event with a particular event-level property. In that document, we will see how to create a Markov model from all cases of emergency room lab results have an event "LAB_RESULT" with a property for glucose, sodium, etc. We then use those found events to get all the events related to those cases.
+
 ---
 
 ## The four property sets
