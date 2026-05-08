@@ -37,7 +37,7 @@ Use these exact settings:
 | **Region**                       | West US (or closest to you)                           | — |
 | **Azure Spot**                   | No                                                    | — |
 
-**Expected hourly cost while running:** ~$0.266 USD/hr (you are only charged while the VM is **Running**).
+**Expected hourly cost while running:** ~$0.266 USD/hr (you are only charged while the VM is **Running**), at the time of writing, May 8, 2026. Please double-check the rates!
 
 ---
 
