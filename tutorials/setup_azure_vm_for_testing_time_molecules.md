@@ -31,7 +31,7 @@ Use these exact settings:
 | **Image**                        | Windows 11 Pro, version 25H2 - Gen2                   | Best compatibility |
 | **Size**                         | **Standard D4ds v4** (4 vCPU, 16 GiB memory)         | Ideal for SQL Server, Ollama, Neo4j |
 | **OS Disk**                      | Standard SSD LRS, Image default (128 GB+)             | — |
-| **Username**                     | `timemolecules` or `devuser`                          | Use a generic name (not your personal name) |
+| **Username**                     | tmuser                          | Use a generic name (not your personal name) |
 | **Public inbound ports**         | RDP (3389)                                            | Only for testing |
 | **Already have a Windows license?** | **Yes** (Windows Client)                           | Keeps hourly cost lower |
 | **Region**                       | West US (or closest to you)                           | — |
