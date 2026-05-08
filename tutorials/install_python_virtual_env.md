@@ -84,10 +84,10 @@ Open PowerShell (or Git Bash / terminal) and run:
 
 ```powershell
 git clone https://github.com/MapRock/TimeMolecules.git
-cd TimeMolecules\tutorials\ai_agent_skills
+cd TimeMolecules\tutorials\
 ```
 
-(If you prefer downloading a ZIP instead of Git, download the repo ZIP, extract it, and navigate into the ai_agent_skills folder.)
+(If you prefer downloading a ZIP instead of Git, download the repo ZIP, extract it, and navigate into the tutorialsfolder.)
 
 ---
 
@@ -95,7 +95,7 @@ cd TimeMolecules\tutorials\ai_agent_skills
 
 **Always** use a venv for this tutorial.
 
-In the `ai_agent_skills` folder, run:
+In the `tutorials` folder, run:
 
 ```powershell
 python -m venv .venv
