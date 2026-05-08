@@ -1,0 +1,7 @@
+Prompt: How should I decide whether to use event-level filtering or case-level filtering when analyzing Time Molecules event properties?
+
+Abstract: Event-level filtering and case-level filtering answer different analytical questions in Time Molecules. Event-level filtering returns only the specific events whose properties directly match a condition, which is precise but can remove the surrounding process context. Case-level filtering first identifies cases that contain at least one matching event, then returns the full event sequence for each qualifying case. This distinction is critical for process analysis and Markov model construction because a model usually needs the whole journey, not only the isolated event that satisfied the property filter. Event-level filtering is useful when the question is about matching events themselves. Case-level filtering is usually better when the goal is to preserve the complete sequence of a patient visit, order, claim, workflow, or other case after a property condition has identified the relevant population.
+
+Primary location of source material to analyze (for more information): 
+- [https://github.com/MapRock/TimeMolecules/blob/main/tutorials/event_property_types_utilization/readme.md#event-level-vs-case-level-filtering](https://github.com/MapRock/TimeMolecules/blob/main/tutorials/event_property_types_utilization/readme.md#event-level-vs-case-level-filtering)
+- https://github.com/MapRock/TimeMolecules/blob/main/tutorials/time_molecules_skills/build_markov_model_process.md
