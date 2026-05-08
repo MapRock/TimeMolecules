@@ -94,6 +94,8 @@ Once everything is installed and you have tested the tutorial and book demos:
 
 ## TimeMolecules VM – Complete Daily Workflow
 
+These are the instructions for re-connecting with the VM once you have procured it.
+
 ### 1. Daily Startup – How to Get to Work on the VM
 
 1. **Log into the VM**  
