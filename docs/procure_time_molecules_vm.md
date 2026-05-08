@@ -1,7 +1,7 @@
 **Recommended Notes: Procuring & Using the TimeMolecules Ready-to-Run Azure VM**  
 *(Strongly optimized for best experience with cloud LLMs)*
 
-**Last Updated:** May 1, 2026 - <i>This is not ready until May 5, 2026</i>
+**Last Updated:** May 8, 2026 - <i>This VM is not ready until May 24, 2026</i>
 
 This is the **easiest and fastest** way to run the TimeMolecules tutorials and book examples. You get your own fully pre-configured Windows 11 VM with VS Code, Python, SQL Server, and all dependencies already installed.
 
