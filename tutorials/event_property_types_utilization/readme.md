@@ -16,15 +16,36 @@ A plain event such as `TruckArrived`, `StoreVisit`, `ClaimApproved`, or `Patient
 
 That is useful for reporting, process analysis, auditing, optimization, and reasoning over why outcomes occurred.
 
-## Event Properties vs. Case Properties
+## Event-Level vs Case-Level Filtering
 
-It's important to realize that event properties fill filter to events that **meet the event property criteria**.
+One of the most important concepts to understand when working with event properties in Time Molecules is the difference between **event-level** and **case-level** filtering.
 
-Filtering by case properties is more straight-forward. For example, if we specify we want cases with the property, EmployeeID=1, we will retrieve all events for cases with this property.
+### Event-Level Filtering (the default behavior)
+Properties belong to *individual events*.  
+When you filter using an event property, the system returns **only the events that directly match** your criteria. All other events — even those in the same case — are excluded.
 
-See [build_markov_model_process.md](https://github.com/MapRock/TimeMolecules/blob/main/tutorials/time_molecules_skills/build_markov_model_process.md) for how to use event properties to identify cases that have that an event with a particular event-level property. In that document, we will see how to create a Markov model from all cases of emergency room lab results have an event "LAB_RESULT" with a property for glucose, sodium, etc. We then use those found events to get all the events related to those cases.
+**Example**:  
+If you filter for `Sodium >= 138`, you will only get the specific `LAB_POSTED` events where the Sodium value meets that threshold. You will **lose** all the other events that belong to the same patient (Blood Drawn, MD Eval Start, Lab Ordered, etc.).
 
----
+### Case-Level Filtering (what you usually want for process analysis)
+A **case** is the complete journey of one process instance (one patient visit, one order, one claim, etc.).  
+Case-level filtering asks:  
+> “Show me *every* event from any case that contains *at least one* event matching my property condition.”
+
+This returns the full set of events for every qualifying case, preserving the complete sequence and context you need for analysis.
+
+**Example**:  
+You want to study lab cases where Sodium was ever ≥ 138.  
+With case-level filtering you get *all* events for those patients — not just the high-Sodium lab results. This gives you the full patient journey required to build accurate Markov models or perform real process analysis.
+
+### Why this distinction matters
+Most people expect case-level behavior by default (they want the whole story).  
+However, the system starts with event-level filtering for performance and precision.  
+That’s why the classic Markov model tutorial uses a **two-step pattern**:
+1. Identify the interesting events (event-level).
+2. Promote the filter to the case level so you can retrieve the complete cases.
+
+See the [build_markov_model_process.md](../time_molecules_skills/build_markov_model_process.md) tutorial for a full working example using Sodium and Glucose properties in the ER Lab workflow.
 
 ## The four property sets
 
