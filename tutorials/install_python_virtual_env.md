@@ -1,240 +1,811 @@
-# Python Virtual Environment Setup for TimeMolecules Tutorials
 
-## Introduction
+# Time Molecules Windows VM Setup
 
-Welcome! This guide walks you through setting up a clean **Python virtual environment** on Windows so you can run the TimeMolecules tutorial code — especially the **AI Agent Skills demo** located in [tutorials/ai_agent_skills](https://github.com/MapRock/TimeMolecules/tree/main/tutorials/ai_agent_skills). The target audience are people who simply wish to explore concepts and capabilities about Time Molecules before purchasing the [Time Molecules](https://technicspub.com/time-molecules/) book for a fuller, foundational understanding.
+This guide explains how to set up a Windows VM for the Time Molecules tutorials and AI Agent Skills demo.
 
-**Note** that for readers of the <i>[Time Molecules](https://technicspub.com/time-molecules/)</i> book, the installation is a little bit more complicated. Please refer to [install_timemolecules_dev_env.md](https://github.com/MapRock/TimeMolecules/blob/main/docs/install_timemolecules_dev_env.md) for the install instructions for book readers. **Or better yet**, procure the [Azure Virtual Machine](https://github.com/MapRock/TimeMolecules/blob/main/docs/procure_time_molecules_vm.md) I created.
+There are two intended paths:
 
----
+1. **Preconfigured Time Molecules Demo VM**  
+   Recommended for most readers. The VM should already contain SQL Server, SSMS, the restored `TimeSolution` database, Python 3.12, Visual Studio Code, the Python virtual environment, requirements, Qdrant data, and the demo app.
 
-## Prerequisites
-
-- Windows 10 or 11
-
-
-### Key Design Decisions (so you know why it’s built this way)
-- **Python virtual environment is mandatory** (never optional).
-- **SQL Server is optional** → the build script falls back to a [public CSV snapshot](https://github.com/MapRock/TimeMolecules/blob/main/data/timesolution_schema/TimeMolecules_Metadata.csv). You can explore everything without installing SQL Server.
-- **Ollama is strongly recommended** (free, private, local LLM – no API keys or costs).
-- **Visual Studio Code** is the recommended editor (makes running Python trivial).
-- **Azure VM** is an excellent clean-test option (I tested it myself), but it costs money → use only when you want a 100% fresh Windows environment.
-- Everything runs in one folder: [ai_agent_skills](https://github.com/MapRock/TimeMolecules/tree/main/tutorials/ai_agent_skills)
+2. **Manual VM rebuild**  
+   Use this if you are rebuilding the demo VM, testing the install from scratch, or setting up Time Molecules on your own Windows machine.
 
 ---
 
-### Deployment Options
-- **Local machine** (no Azure cost) → Go to Step 1.  
-- **Azure Windows VM** (a little cost, but less risky) → see [setup_azure_vm_for_testing_time_molecules.md](https://github.com/MapRock/TimeMolecules/blob/main/tutorials/setup_azure_vm_for_testing_time_molecules.md) for instructions on procuring an Azure Windows VM. After installing the Windows VM, go to Step 1.
+## Recommended reader path: preconfigured VM
 
----
+The reader VM should already include:
 
-## Step 1:  Get the code
+- Windows
+- SQL Server
+- SQL Server Management Studio, or SSMS
+- restored `TimeSolution` database
+- `C:\MapRock\TimeMolecules`
+- Python 3.12
+- Visual Studio Code
+- `C:\MapRock\TimeMolecules\tutorials\.venv`
+- packages from `C:\MapRock\TimeMolecules\tutorials\requirements.txt`
+- optional Ollama runtime and local models
+- built Qdrant vector index
+- shortcuts for opening the README, configuring `.env`, and running the agent demo
 
-Either clone the repo:
+The reader should only need to add their own OpenAI API key here:
 
-```bash
-git clone https://github.com/MapRock/TimeMolecules.git
-cd TimeMolecules
+```text
+C:\MapRock\TimeMolecules\tutorials\.env
 ````
 
-Or download the ZIP from GitHub and extract it, then open a terminal in the extracted `TimeMolecules` folder.
+Minimum `.env`:
 
-1. Open the repository page in your web browser.
-2. Go to the main page of the repository:
-   `https://github.com/MapRock/TimeMolecules`
-3. Above the list of files, click the **Code** button.
-4. In the menu that opens, click **Download ZIP**.
-5. Save the ZIP file to your computer.
-6. After the download finishes, extract the ZIP to a folder such as:
+```text
+OPENAI_API_KEY=your_openai_key_here
+```
 
-## Step 2: Install the Base Tools (do this once)
+Then run:
 
-1. **Python 3.11 or 3.12** (recommended)  
-   → https://www.python.org/downloads/  
-   **Important:** On Windows, **check “Add python.exe to PATH”** during install.
-
-2. **Git**  
-   → https://git-scm.com/downloads
-
-3. **Visual Studio Code** (strongly recommended)  
-   → https://code.visualstudio.com/  
-   After installing, open VS Code → Extensions (Ctrl+Shift+X) → install the official **Python** extension by Microsoft.
-
-4. **Ollama** (local LLM – highly recommended)  
-   - Windows PowerShell (run as Administrator):  
-     ```powershell
-     irm https://ollama.com/install.ps1 | iex
-     ```
-   - Or download from https://ollama.com/download  
-   After Ollama is installed, open a terminal and run:
-     ```powershell
-     ollama pull nomic-embed-text     # embedding model
-     ollama pull llama3.2             # chat model (you can swap later)
-     ```
-
-5. **Optional but nice: Microsoft ODBC Driver 18 for SQL Server** (only if you want to use your own SQL Server later)  
-   → https://aka.ms/downloadmsodbcsql
+```powershell
+cd C:\MapRock\TimeMolecules\tutorials
+.\.venv\Scripts\python.exe ai_agent_skills\time_molecules_agent_demo.py
+```
 
 ---
 
-## Step 3: Get the Code
+# Manual VM rebuild
 
-Open PowerShell (or Git Bash / terminal) and run:
+## Step 1: Install SQL Server
+
+Install SQL Server first. Time Molecules uses the restored `TimeSolution` database as the main demo database.
+
+For a demo VM, SQL Server Developer Edition is usually the right choice because it includes SQL Server features for development and demonstration use. Download SQL Server from Microsoft’s SQL Server downloads page. ([Microsoft][1])
+
+Suggested installation choices:
+
+```text
+Edition: SQL Server Developer
+Instance: default instance, if possible
+Authentication: Windows Authentication is simplest for a local demo VM
+Features: Database Engine Services
+```
+
+For a reader/demo VM, keep the setup simple. Avoid custom instance names unless you really need them.
+
+After installing SQL Server, confirm the SQL Server service is running.
+
+---
+
+## Step 2: Install SQL Server Management Studio
+
+Install SQL Server Management Studio, commonly called SSMS. SSMS is the normal graphical tool for connecting to SQL Server, restoring `.bak` files, browsing databases, and running SQL scripts. Microsoft documents SSMS as the tool for connecting to and querying SQL Server and related SQL platforms. ([Microsoft Learn][2])
+
+Install SSMS from Microsoft’s SSMS install page. ([Microsoft Learn][3])
+
+After installation:
+
+```text
+Start Menu
+→ SQL Server Management Studio
+→ Connect to local SQL Server
+```
+
+For a default local SQL Server instance, the server name is usually one of:
+
+```text
+localhost
+.
+(local)
+```
+
+If you installed a named instance, use:
+
+```text
+localhost\InstanceName
+```
+
+---
+
+## Step 3: Download TimeSolution.bak
+
+The database backup is not stored in GitHub because it is large.
+
+Download:
+
+```text
+TimeSolution.bak
+```
+
+from the OneDrive link provided with the tutorial materials.
+
+Recommended location:
+
+```text
+C:\MapRock\Backups\TimeSolution.bak
+```
+
+Create the folder if needed:
+
+```powershell
+mkdir C:\MapRock\Backups
+```
+
+---
+
+## Step 4: Restore TimeSolution in SSMS
+
+Open SSMS.
+
+Connect to the local SQL Server instance.
+
+Restore the database:
+
+```text
+Object Explorer
+→ right-click Databases
+→ Restore Database...
+→ Source: Device
+→ select C:\MapRock\Backups\TimeSolution.bak
+→ Database: TimeSolution
+→ OK
+```
+
+After restore, confirm this database exists:
+
+```text
+Databases
+→ TimeSolution
+```
+
+Run a simple test query in SSMS:
+
+```sql
+USE TimeSolution;
+GO
+
+SELECT DB_NAME() AS CurrentDatabase;
+```
+
+Expected:
+
+```text
+TimeSolution
+```
+
+If the restore complains about file paths, use the SSMS restore dialog’s **Files** page and change the data/log file paths to valid SQL Server data locations on the VM.
+
+---
+
+## Step 5: Install Git
+
+Install Git from:
+
+```text
+https://git-scm.com/downloads
+```
+
+Then open PowerShell and create the working folder:
+
+```powershell
+mkdir C:\MapRock
+cd C:\MapRock
+```
+
+Clone the repository:
 
 ```powershell
 git clone https://github.com/MapRock/TimeMolecules.git
-cd TimeMolecules\tutorials\
 ```
 
-(If you prefer downloading a ZIP instead of Git, download the repo ZIP, extract it, and navigate into the tutorialsfolder.)
+Expected repo path:
+
+```text
+C:\MapRock\TimeMolecules
+```
 
 ---
 
-## Step 4: Create the Python Virtual Environment (do this once)
+## Step 6: Install Python 3.12
 
-**Always** use a venv for this tutorial.
+Install Python 3.12 from the official Python site. ([Python.org][4])
 
-In the `tutorials` folder, run:
+During install, select:
 
-```powershell
-python -m venv .venv
+```text
+Add python.exe to PATH
 ```
 
-**Activate it** (you must do this every new session):
+Verify from PowerShell:
+
+```powershell
+py -3.12 --version
+```
+
+Expected:
+
+```text
+Python 3.12.x
+```
+
+---
+
+## Step 7: Install Visual Studio Code
+
+Install Visual Studio Code from the official VS Code site:
+
+```text
+https://code.visualstudio.com/
+```
+
+Install the Microsoft Python extension:
+
+```text
+VS Code
+→ Extensions
+→ search Python
+→ install Python by Microsoft
+```
+
+Open the tutorials folder in VS Code:
+
+```text
+File
+→ Open Folder
+→ C:\MapRock\TimeMolecules\tutorials
+```
+
+The tutorials folder is the correct working folder because it contains:
+
+```text
+.venv
+.env
+requirements.txt
+ai_agent_skills
+```
+
+---
+
+## Step 8: Create the Python virtual environment
+
+The virtual environment belongs under the `tutorials` folder:
+
+```text
+C:\MapRock\TimeMolecules\tutorials\.venv
+```
+
+From PowerShell:
+
+```powershell
+cd C:\MapRock\TimeMolecules\tutorials
+py -3.12 -m venv .venv
+```
+
+Activate it:
 
 ```powershell
 .\.venv\Scripts\Activate.ps1
 ```
 
-You should see `(.venv)` at the start of your prompt.
-
-**If PowerShell complains about execution policy** (first time only):
+If activation is blocked:
 
 ```powershell
-Set-ExecutionPolicy -Scope CurrentUser RemoteSigned
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+.\.venv\Scripts\Activate.ps1
 ```
 
-Then activate again.
-
----
-
-## Step 5: Install Python Packages
-
-While the venv is active:
+Activation is optional. You can always run Python directly:
 
 ```powershell
-python -m pip install --upgrade pip
-pip install -r requirements.txt
-pip install pandas pyodbc requests   # extra packages the build script may need
+.\.venv\Scripts\python.exe --version
 ```
 
 ---
 
-## Step 6: Create the `.env` File (very important)
+## Step 9: Install Python requirements
 
-Create a file named exactly `.env` (no .txt) **inside the `ai_agent_skills` folder**.
+The requirements file belongs here:
 
-Copy-paste the following (you can edit later):
+```text
+C:\MapRock\TimeMolecules\tutorials\requirements.txt
+```
 
-```env
-# LLM choice (ollama or openai)
-LLM=ollama
+Install packages:
 
-# === Ollama Settings ===
+```powershell
+cd C:\MapRock\TimeMolecules\tutorials
+.\.venv\Scripts\python.exe -m pip install --upgrade pip
+.\.venv\Scripts\python.exe -m pip install -r requirements.txt
+```
+
+This installs the Python packages used by the tutorial app.
+
+If `requirements.txt` includes the Python `ollama` package, that only installs the Python client. It does not install the Ollama Windows runtime.
+
+---
+
+## Step 10: Create the .env file
+
+Create:
+
+```text
+C:\MapRock\TimeMolecules\tutorials\.env
+```
+
+Minimum required value:
+
+```text
+OPENAI_API_KEY=your_openai_key_here
+```
+
+Optional local/Ollama/Qdrant settings may look like this:
+
+```text
 OLLAMA_EMBED_MODEL=nomic-embed-text
 OLLAMA_CHAT_MODEL=llama3.2
 OLLAMA_CTX=8192
-OLLAMA_HOST=                     # leave empty for default localhost:11434
-
-# === OpenAI Settings (only if you want to use GPT instead) ===
-# OPENAI_API_KEY=sk-your-key-here
-# CHATGPT_MODEL=gpt-4o-mini
-
-# === Qdrant Settings ===
 QDRANT_COLLECTION_NAME=time_molecules_directory
-QDRANT_PATH=C:/MapRock/TimeMolecules/qdrant_data_ollama   # change if you want
-
-# === Search Settings ===
-RESULTS_LIMIT=8
+QDRANT_PATH=C:/MapRock/TimeMolecules/qdrant_data_ollama
 ```
 
-**Security note**: Never commit `.env` to GitHub. Add `.env` to `.gitignore` if you ever push changes.
+Do not commit `.env` to GitHub.
+
+For a reader VM, ship either:
+
+```text
+.env.example
+```
+
+or an `.env` with a placeholder key only.
 
 ---
 
-## Step 7: Build the Vector Database (run once)
+## Step 11: Optional install of Ollama runtime
+
+Ollama is optional for the OpenAI-only path, but useful for local model workflows.
+
+There are two different Ollama pieces:
+
+```text
+Ollama runtime:
+    Installed on Windows outside Python.
+
+Python ollama package:
+    Installed by pip from requirements.txt.
+```
+
+Install the Ollama runtime for Windows from the official Ollama download page. Ollama’s Windows page also shows the PowerShell install command. ([Ollama][5])
+
+PowerShell install option:
 
 ```powershell
-python build_qdrant_index.py
+irm https://ollama.com/install.ps1 | iex
 ```
 
-This script:
-- Pulls metadata (from SQL Server **if** configured, otherwise from a [public CSV on GitHub](https://github.com/MapRock/TimeMolecules/blob/main/data/timesolution_schema/TimeMolecules_Metadata.csv))
-- Creates embeddings with Ollama
-- Stores everything in a local Qdrant collection
-
-First run takes 1–3 minutes (embedding ~200–300 objects). Subsequent runs are fast.
-
----
-
-## Step 8: Run the AI Agent Demo
+Pull local models:
 
 ```powershell
-python time_molecules_agent_demo.py
+ollama pull nomic-embed-text
+ollama pull llama3.2
 ```
 
-A nice Tkinter GUI window opens. Type natural-language questions about TimeSolution objects and watch the agent answer.
+Verify:
 
-**Lightweight / zero-dependency option** (no Qdrant, no SQL, no build step):
-- Download the pre-built JSON file from the OneDrive link in `install_ai_agent_skills.md` (or just try the script – it has fallback logic).
-- Run: `python time_molecules_data_json_ui.py`
+```powershell
+ollama list
+```
 
----
-
-## Step 9: Install SQL Server Developer Edition (trade-offs explained)
-
-**You do NOT need SQL Server** to explore the tutorial. The build script falls back gracefully to a [public CSV snapshot](https://github.com/MapRock/TimeMolecules/blob/main/data/timesolution_schema/TimeMolecules_Metadata.csv).
-
-**When you might want it**:
-- You already have or plan to restore the TimeSolution database.
-- You want live metadata instead of the snapshot.
-
-**Install steps (Windows)**:
-1. Go to https://www.microsoft.com/en-us/sql-server/sql-server-downloads
-2. Download **Developer Edition** (free)
-3. Run the installer → choose **Basic** installation
-4. Note your instance name (usually `MSSQLSERVER`)
-5. Install the ODBC Driver 18 (link in Step 1)
-
-The demo will automatically detect and use it if configured in `.env`.
+For a preconfigured reader VM, do this before capturing the image if you want local model support to work immediately.
 
 ---
 
-## Visual Studio Code Tips (highly recommended)
+## Step 12: Build the Qdrant vector index
 
-1. Open the `[ai_agent_skills](https://github.com/MapRock/TimeMolecules/tree/main/tutorials/ai_agent_skills)` folder in VS Code (`File → Open Folder`).
-2. Press `Ctrl+Shift+P` → type **Python: Select Interpreter** → choose the one inside `.venv\Scripts\python.exe`.
-3. Open any `.py` file → click the Run button or right-click → “Run Python File in Terminal”.
+The AI Agent Skills demo uses a vector index to retrieve Time Molecules tutorials, prompts, metadata, and related objects.
+
+From the tutorials folder:
+
+```powershell
+cd C:\MapRock\TimeMolecules\tutorials
+```
+
+Run the Qdrant build script used by the current refresh.
+
+If the script is under `ai_agent_skills`:
+
+```powershell
+.\.venv\Scripts\python.exe ai_agent_skills\build_qdrant_index.py
+```
+
+If the script is directly under `tutorials`:
+
+```powershell
+.\.venv\Scripts\python.exe build_qdrant_index.py
+```
+
+If the current repo uses a differently named build script, search for it from PowerShell:
+
+```powershell
+dir *qdrant*.py -Recurse
+dir *embedding*.py -Recurse
+```
+
+Then run the appropriate builder with:
+
+```powershell
+.\.venv\Scripts\python.exe path\to\the_builder.py
+```
+
+The intended Qdrant data path is typically:
+
+```text
+C:\MapRock\TimeMolecules\qdrant_data_ollama
+```
+
+The `.env` form is:
+
+```text
+QDRANT_PATH=C:/MapRock/TimeMolecules/qdrant_data_ollama
+```
+
+For a preconfigured reader VM, build Qdrant before capturing the image.
 
 ---
 
-## Common Problems & Fixes
+## Step 13: Run the AI Agent Skills demo
 
-- **“.env not found”** → make sure it’s in the `ai_agent_skills` (not one level up).
-- **ODBC / SQL connection errors** → install Microsoft ODBC Driver 18.
-- **Ollama not responding** → make sure `ollama` is running in the background (it starts automatically after install).
-- **Venv not active** → you should see `(.venv)` in the prompt.
-- **First build is slow** → normal.
+From the tutorials folder:
+
+```powershell
+cd C:\MapRock\TimeMolecules\tutorials
+.\.venv\Scripts\python.exe ai_agent_skills\time_molecules_agent_demo.py
+```
+
+The app should read configuration from `.env`, so no command-line arguments should be required.
 
 ---
 
-## Next Steps & Where to Go From Here
+# Visual Studio Code workflow
 
-- Read `[time_molecules_agent_demo.md](https://github.com/MapRock/TimeMolecules/blob/main/tutorials/ai_agent_skills/time_molecules_agent_demo.md)` for how to use the demo.
-- If you later buy the book and want the full dev environment (SQL restore, Neo4j, etc.), use `docs/install_timemolecules_dev_env.md`.
+Open:
 
-You now have a **bullet-proof**, self-contained setup that works for curious explorers, AI agents, and clean testing on Azure.
+```text
+C:\MapRock\TimeMolecules\tutorials
+```
 
-Enjoy exploring TimeMolecules!  
-Any questions or issues → just open an issue on the repo or ask in the demo itself.
+in VS Code.
+
+Select the Python interpreter:
+
+```text
+Ctrl+Shift+P
+→ Python: Select Interpreter
+→ Enter interpreter path
+```
+
+Choose:
+
+```text
+C:\MapRock\TimeMolecules\tutorials\.venv\Scripts\python.exe
+```
+
+Open:
+
+```text
+C:\MapRock\TimeMolecules\tutorials\ai_agent_skills\time_molecules_agent_demo.py
+```
+
+Run:
+
+```text
+Right-click
+→ Run Python File in Terminal
+```
+
+or:
+
+```text
+Run
+→ Start Debugging
+```
+
+---
+
+# Smoke tests
+
+## SQL Server smoke test
+
+In SSMS:
+
+```sql
+USE TimeSolution;
+GO
+
+SELECT DB_NAME() AS CurrentDatabase;
+```
+
+Optional object checks:
+
+```sql
+USE TimeSolution;
+GO
+
+SELECT OBJECT_ID('dbo.EventsFact') AS EventsFactObjectID;
+SELECT OBJECT_ID('dbo.sp_SelectedEvents') AS SelectedEventsObjectID;
+SELECT OBJECT_ID('dbo.ParseTransforms') AS ParseTransformsObjectID;
+```
+
+Expected: non-null object IDs for installed objects.
+
+## Python smoke test
+
+From PowerShell:
+
+```powershell
+cd C:\MapRock\TimeMolecules\tutorials
+
+.\.venv\Scripts\python.exe --version
+.\.venv\Scripts\python.exe -m pip --version
+.\.venv\Scripts\python.exe -c "import openai; print('OpenAI import OK')"
+```
+
+If using Ollama:
+
+```powershell
+ollama list
+.\.venv\Scripts\python.exe -c "import ollama; print('Ollama Python import OK')"
+```
+
+If using Qdrant:
+
+```powershell
+.\.venv\Scripts\python.exe -c "import qdrant_client; print('Qdrant client import OK')"
+```
+
+Run the app:
+
+```powershell
+.\.venv\Scripts\python.exe ai_agent_skills\time_molecules_agent_demo.py
+```
+
+---
+
+# Preparing the VM for readers
+
+Before capturing the VM image:
+
+1. Remove your real OpenAI API key from:
+
+   ```text
+   C:\MapRock\TimeMolecules\tutorials\.env
+   ```
+
+2. Replace it with:
+
+   ```text
+   OPENAI_API_KEY=your_openai_key_here
+   ```
+
+3. Confirm SQL Server starts automatically.
+
+4. Confirm `TimeSolution` is restored.
+
+5. Confirm the Python venv exists:
+
+   ```text
+   C:\MapRock\TimeMolecules\tutorials\.venv
+   ```
+
+6. Confirm requirements are installed.
+
+7. Confirm Qdrant is built if the image is supposed to include local vector search.
+
+8. Confirm Ollama models are pulled if the image is supposed to include local model support.
+
+9. Clear browser history, downloads, cache, cookies, saved passwords, and Outlook/OneDrive login state.
+
+10. Check Windows Credential Manager for personal credentials.
+
+11. Empty Recycle Bin.
+
+12. Create desktop shortcuts:
+
+    ```text
+    Open Time Molecules README
+    Configure OpenAI Key
+    Run Time Molecules Agent Demo
+    Open SSMS
+    ```
+
+13. Run a final smoke test using only a fresh OpenAI key.
+
+---
+
+# Common problems
+
+## Cannot connect to SQL Server
+
+Check that SQL Server is installed and the service is running.
+
+Try server names:
+
+```text
+localhost
+.
+(local)
+```
+
+If using a named instance:
+
+```text
+localhost\InstanceName
+```
+
+## TimeSolution database is missing
+
+Restore `TimeSolution.bak` in SSMS:
+
+```text
+Databases
+→ Restore Database
+→ Device
+→ select TimeSolution.bak
+```
+
+## `.venv` not found
+
+The expected path is:
+
+```text
+C:\MapRock\TimeMolecules\tutorials\.venv
+```
+
+Recreate it:
+
+```powershell
+cd C:\MapRock\TimeMolecules\tutorials
+py -3.12 -m venv .venv
+```
+
+## `Activate.ps1 is not recognized`
+
+You are probably in the wrong folder.
+
+Run:
+
+```powershell
+cd C:\MapRock\TimeMolecules\tutorials
+dir .venv\Scripts
+```
+
+Then:
+
+```powershell
+.\.venv\Scripts\Activate.ps1
+```
+
+## PowerShell blocks activation
+
+Run:
+
+```powershell
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+```
+
+Then:
+
+```powershell
+.\.venv\Scripts\Activate.ps1
+```
+
+## `.env` not found
+
+Create:
+
+```text
+C:\MapRock\TimeMolecules\tutorials\.env
+```
+
+Minimum:
+
+```text
+OPENAI_API_KEY=your_openai_key_here
+```
+
+## Ollama not found
+
+Install the Ollama runtime. The Python package alone is not enough. Ollama’s Windows download page provides the installer and PowerShell install command. ([Ollama][5])
+
+Then:
+
+```powershell
+ollama pull nomic-embed-text
+ollama pull llama3.2
+ollama list
+```
+
+## Qdrant index missing or empty
+
+From tutorials:
+
+```powershell
+cd C:\MapRock\TimeMolecules\tutorials
+dir *qdrant*.py -Recurse
+dir *embedding*.py -Recurse
+```
+
+Run the current Qdrant builder with the tutorial venv Python:
+
+```powershell
+.\.venv\Scripts\python.exe path\to\builder.py
+```
+
+## VS Code uses the wrong Python
+
+Select:
+
+```text
+C:\MapRock\TimeMolecules\tutorials\.venv\Scripts\python.exe
+```
+
+through:
+
+```text
+Ctrl+Shift+P
+→ Python: Select Interpreter
+```
+
+---
+
+# Recommended final distribution pattern
+
+For most readers:
+
+```text
+Use the preconfigured Time Molecules Demo VM.
+Add your OpenAI API key.
+Run the desktop shortcut.
+```
+
+For developers or people rebuilding the VM:
+
+```text
+Install SQL Server.
+Install SSMS.
+Restore TimeSolution.bak.
+Install Git.
+Clone the repo.
+Install Python 3.12.
+Install VS Code.
+Create tutorials\.venv.
+Install tutorials\requirements.txt.
+Create tutorials\.env.
+Install Ollama if using local models.
+Build Qdrant.
+Run the AI Agent Skills demo.
+```
+
+````
+
+For the new VM test, use this as the exact build order:
+
+```text
+1. SQL Server
+2. SSMS
+3. Restore TimeSolution.bak
+4. Git
+5. Clone repo
+6. Python 3.12
+7. VS Code
+8. tutorials\.venv
+9. tutorials\requirements.txt
+10. tutorials\.env
+11. Ollama runtime and models, if included
+12. Build Qdrant
+13. Run app
+14. Sanitize
+15. Capture image
+````
+
+[1]: https://www.microsoft.com/en/sql-server/sql-server-downloads?utm_source=chatgpt.com "SQL Server Downloads"
+[2]: https://learn.microsoft.com/en-us/ssms/?utm_source=chatgpt.com "SQL Server Management Studio"
+[3]: https://learn.microsoft.com/en-us/ssms/install/install?utm_source=chatgpt.com "Install SQL Server Management Studio"
+[4]: https://www.python.org/?utm_source=chatgpt.com "Welcome to Python.org"
+[5]: https://ollama.com/download/windows?utm_source=chatgpt.com "Download Ollama on Windows"
