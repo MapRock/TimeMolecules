@@ -47,7 +47,7 @@ This tutorial assumes you are working on a personal or work laptop or a virtual 
 
 * **GitHub account**
 
-  * Needed to clone the repository
+  * Preferred, but not necessary for cloning the [MapRock/TimeMolecules](https://github.com/MapRock/TimeMolecules) github repo.
 
 Optional tools:
 
@@ -79,13 +79,13 @@ You may already have parts of the stack:
 
 ### SQL Server
 
-* Use an existing instance (local or remote)
+* Use an existing instance (local or remote) - SQL Server 2022 or greater.
 * Must have permission to restore databases
 
 ### Neo4j
 
 * Use existing Neo4j Desktop, Server, or Aura
-* Must support plugins (APOC, n10s)
+* Must support plugins: APOC -- n10s is optional.
 
 ---
 
