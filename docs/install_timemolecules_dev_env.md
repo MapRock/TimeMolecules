@@ -24,7 +24,7 @@ This document walks you through setting up the development environment required 
 
 ## Prerequisites
 
-This tutorial assumes you are working on a personal or work laptop. Most setup occurs locally.
+This tutorial assumes you are working on a personal or work laptop or a virtual machine (see [Setup Azure VM for Testing Time Molecules](https://github.com/MapRock/TimeMolecules/blob/main/tutorials/setup_azure_vm_for_testing_time_molecules.md)).
 
 ### Minimum Requirements
 
