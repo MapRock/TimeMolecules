@@ -112,7 +112,7 @@ These are the instructions for re-connecting with the VM once you have procured 
    - Press `Windows key`, type `PowerShell`, right-click **Windows PowerShell**, and choose **Run as administrator** (recommended).  
    - Navigate to your TimeMolecules folder (change the path if yours is different):
      ```powershell
-     cd C:\MapRock\TimeMolecules\tutorials\ai_agent_skills
+     cd C:\MapRock\TimeMolecules\tutorials
      ```
      (or wherever you cloned the repo)
 
@@ -132,7 +132,7 @@ These are the instructions for re-connecting with the VM once you have procured 
 
 **Quick one-line startup command** (after you’re logged in):
 ```powershell
-cd C:\MapRock\TimeMolecules\tutorials\ai_agent_skills; .\venv\Scripts\Activate.ps1; code .
+cd C:\MapRock\TimeMolecules\tutorials; .\venv\Scripts\Activate.ps1; code .
 ```
 
 
