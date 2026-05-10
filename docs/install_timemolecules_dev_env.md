@@ -39,9 +39,11 @@ This tutorial assumes you are working on a personal or work laptop or a virtual 
 
   * Required for downloads, cloning GitHub, and accessing sample data
 
-* **Disk space**
+* **Machine specs**
 
-  * At least 10 GB free
+  * At least 50 GB free
+  * At least 4 CPU
+  * At least 16 GB RAM
 
 * **GitHub account**
 
