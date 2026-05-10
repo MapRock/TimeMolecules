@@ -71,11 +71,11 @@ These require Kyvos.
 
 ## Alternative Arrangements
 
-You may already have parts of the stack:
+If you are a software developer, you may already have parts of the stack:
 
 ### Python
 
-* Use PyCharm, Anaconda, or JupyterLab instead of VS Code
+* Use PyCharm, Anaconda, or JupyterLab instead of VS Code. Python 3.12 and above.
 
 ### SQL Server
 
@@ -117,7 +117,7 @@ git clone https://github.com/MapRock/TimeMolecules.git C:/MapRock/TimeMolecules
 
 Steps:
 
-1. Download Developer Edition
+1. Download Developer Edition (choose SQL Server 2025 or 2022).
 2. Run installer
 3. Choose **Basic installation**
 4. Accept license
@@ -133,6 +133,8 @@ Steps:
 ---
 
 ### c. Download and Validate TimeSolution Database
+
+The TimeSolution SQL Server database (named TimeSolution.bak, developed with SQL Server 2022) is the core of the examples. It exists on a OneDrive location because of its size (a little more than 50 MB).
 
 #### Download
 
@@ -154,6 +156,8 @@ C:\MapRock\TimeMolecules\data\
 ---
 
 #### Validate with GPG
+
+Open GitBash, which should have been installed with Git.
 
 ```bash
 cd /c/MapRock/TimeMolecules/data
@@ -188,7 +192,9 @@ This is normal.
 
 ### d. Initialization Script
 
-Run:
+A small SQL script will "rehydrate" two tables that were truncated because of its size.
+
+From SSMS, navigate to Files/Open, and open: C:/MapRock/TimeMolecules/book_code/sql/TimeMolecules_Code00.sql
 
 👉 [https://github.com/MapRock/TimeMolecules/blob/main/book_code/sql/TimeMolecules_Code00.sql](https://github.com/MapRock/TimeMolecules/blob/main/book_code/sql/TimeMolecules_Code00.sql)
 
@@ -233,7 +239,7 @@ Restore via SSMS.
 
 ---
 
-## Neo4j Setup
+## Neo4j Setup (Optional)
 
 ### a. Install
 
