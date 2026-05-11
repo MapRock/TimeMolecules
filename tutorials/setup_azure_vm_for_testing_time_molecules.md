@@ -22,20 +22,27 @@ It is the recommended method for:
 
 ## 1. Create the Virtual Machine (Recommended Settings)
 
-In the Azure Portal, go to **Virtual machines** → **Create** → **Azure Virtual Machine**.
+In the Azure Portal, go to **Home** → select **Virtual machines** → click **Create** → **Virtual Machine**.
 
 Use these exact settings:
 
 | Setting                          | Recommended Value                                      | Notes |
 |----------------------------------|--------------------------------------------------------|-------|
-| **Image**                        | Windows 11 Pro, version 25H2 - Gen2                   | Best compatibility |
+| **Virtual Machine Name**                   | Windows 11 Pro, version 25H2 - Gen2                   | Best compatibility |
+| **Image**                        |TimeSoltuion-Book-Tutorial-V1                |  |
 | **Size**                         | **Standard D4ds v4** (4 vCPU, 16 GiB memory)         | Ideal for SQL Server, Ollama, Neo4j |
-| **OS Disk**                      | Standard SSD LRS, Image default (128 GB+)             | — |
 | **Username**                     | tmuser                          | Use a generic name (not your personal name) |
-| **Public inbound ports**         | RDP (3389)                                            | Only for testing |
+| **Public inbound ports**         | Allow selected ports RDP (3389)                                    | Only for testing |
 | **Already have a Windows license?** | **Yes** (Windows Client)                           | Keeps hourly cost lower |
 | **Region**                       | West US (or closest to you)                           | — |
 | **Azure Spot**                   | No                                                    | — |
+
+2nd page: Disks
+| Setting                          | Recommended Value                                      | Notes |
+|----------------------------------|--------------------------------------------------------|-------|
+| **OS Disk**  (Disks window)           | Standard SSD LRS, Image default (128 GB+)             | — |
+
+
 
 **Expected hourly cost while running:** ~$0.266 USD/hr (you are only charged while the VM is **Running**), at the time of writing, May 8, 2026. Please double-check the rates!
 
