@@ -215,6 +215,8 @@ This script does these things to the TimeSolution database:
 
 These tables were truncated to reduce `.bak` size.
 
+At this point, you have all you need to run the <i>[SQL code from the Time Molecules book](https://github.com/MapRock/TimeMolecules/tree/main/book_code/sql)</i>.
+
 ---
 
 ### e. Security Model (Just FYI)
