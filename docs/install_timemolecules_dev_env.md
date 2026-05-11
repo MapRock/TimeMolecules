@@ -32,9 +32,13 @@ This tutorial assumes you are working on a personal or work Windows 10/11 machin
 * **Local admin rights** (required to install):
 
   * SQL Server Developer Edition
-  * Neo4j Desktop
+  * SQL Server Management Studio - Run SQL queries and admin of the TimeSolution database.
+  * Visual Studio Code - Run, edit, Python code - as well as viewing other documents such as CSV, Cypher code, markdowns, etc.
   * Python (3.10.2 or later)
   * Git for Windows (includes Git Bash)
+  * Neo4j Desktop
+  * OpenAI API key - A big theme of the Spring 2026 refresh is accomodating AI Agents consuming Time Molecules. 
+  * ollama - Optional local LLM alternative to a frontier LLM. Strongly recommend OpenAI over local LLM, since the Windows configuration is certainly serverely lacking (it'll be very slow).
 
 * **Internet access**
 
@@ -48,24 +52,24 @@ This tutorial assumes you are working on a personal or work Windows 10/11 machin
 
 * **GitHub account**
 
-  * Preferred, but not necessary for cloning the [MapRock/TimeMolecules](https://github.com/MapRock/TimeMolecules) github repo.
+  * Preferred, but it isn't necessary for cloning the [MapRock/TimeMolecules](https://github.com/MapRock/TimeMolecules) Github repo.
 
 
-## Alternative Arrangements
+### Alternative Arrangements
 
-If you are a software developer, you may already have parts of the stack:
+If you are a software developer, you may already have parts of the stack, such as the following:
 
-### Python
+#### Python
 
 * Use PyCharm, Anaconda, or JupyterLab instead of VS Code. Python 3.12 and above.
 
-### SQL Server
+#### SQL Server
 
 * Use an existing instance (local or remote) - SQL Server 2022 or greater.
 * Must have permission to restore databases
 
-### Neo4j
-
+#### Neo4j (optional)
+ 
 * Use existing Neo4j Desktop, Server, or Aura
 * Must support plugins: APOC -- n10s is optional.
 
