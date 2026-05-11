@@ -65,8 +65,8 @@ Click **Create**. This will take a few minutes.
 
 ## 3. Connect to the VM and Install the Full Environment
 
-1. In Azure Portal, start the VM (if it is stopped).
-2. Click **Connect** → **RDP** and log in with the username and password you chose.
+1. In resource page of your VM in the Azure Portal, click **Start** the VM (if it is stopped).
+2. Click **Connect** → **Download RDP file** → **Open file** and log in with the username and password you chose.
 3. Inside the VM, follow the main installation guide:
 
    → **[docs/install_timemolecules_dev_env.md](../docs/install_timemolecules_dev_env.md)**
