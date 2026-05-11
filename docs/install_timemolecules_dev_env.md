@@ -129,17 +129,12 @@ The TimeSolution SQL Server database (named TimeSolution.bak, developed with SQL
 * OneDrive link:
   [https://1drv.ms/u/c/7d94c9ab48b30303/EWpwyb0Z2-9AnOOBMK7ahXUBaskdgzsUUDLE_B3zvOuLeQ?e=LisfIo](https://1drv.ms/u/c/7d94c9ab48b30303/EWpwyb0Z2-9AnOOBMK7ahXUBaskdgzsUUDLE_B3zvOuLeQ?e=LisfIo)
 
-Files:
+Move TimeSolution.bak to c:/MapRock/TimeMolecules/data/
 
-* `TimeSolution.bak`
+Note that these two files are in that folder as well:
+
 * `publickeytm.asc`
 * `timesolution.bak.asc`
-
-Save to:
-
-```
-C:\MapRock\TimeMolecules\data\
-```
 
 ---
 
