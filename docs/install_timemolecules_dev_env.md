@@ -73,7 +73,9 @@ If you are a software developer, you may already have parts of the stack, such a
 * Use existing Neo4j Desktop, Server, or Aura
 * Must support plugins: APOC -- n10s is optional.
 
----
+## Log onto Your Machine
+
+The instructions from this point assume you are logged onto your Windows machine (real or virtual) with local admin rights.
 
 
 
