@@ -19,7 +19,7 @@ This document walks you through setting up the development environment required 
   * Download it only from the provided location. See [Download and Validate SQL Server Database](https://github.com/MapRock/TimeMolecules/blob/main/docs/install_timemolecules_dev_env.md#c-download-and-validate-timesolution-database)
   * The TimeSolution database contains the majority of the tutorial content.
   * Installing Python can be avoided if you just wish to run the [sql code from the book](https://github.com/MapRock/TimeMolecules/tree/main/book_code/sql).
-  * Neo4j is optional and can be skipped for a SQL-only setup.
+  * Neo4j is optional and can be skipped for a SQL-only setup and/or most of the Python tutorials.
 
 ---
 
