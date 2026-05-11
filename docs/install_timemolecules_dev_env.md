@@ -444,19 +444,7 @@ ollama run qwen3:14b
 ollama pull nomic-embed-text
 ```
 
----
 
-### Python Example
-
-```python
-import ollama
-```
-
-Install:
-
-```bash
-pip install ollama numpy scikit-learn
-```
 
 ## Build the Embeddings
 
@@ -477,6 +465,7 @@ Execute each line one by one:
 cd C:\MapRock\TimeMolecules\tutorials
 .\.venv\Scripts\python.exe ai_agent_skills\time_molecules_agent_demo.py
 ```
+See [Time Molecules Agent Demo](https://github.com/MapRock/TimeMolecules/blob/main/tutorials/ai_agent_skills/time_molecules_agent_demo.md) for a discussion on how to use this.
 
 
 ## Stop the VM When Finished (Save Money!)
