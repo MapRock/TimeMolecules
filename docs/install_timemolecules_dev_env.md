@@ -348,13 +348,7 @@ If requirements.txt includes the Python ollama package, that only installs the P
 | Markdown             | Markdown All in One              |             `yzhang.markdown-all-in-one` |                                                  Install latest | Table of contents, Markdown editing, tutorial docs                            |
 | Markdown linting     | markdownlint                     |         `DavidAnson.vscode-markdownlint` |                                        Install latest, optional | Helps keep tutorial markdown clean                                            |
 | GitHub-style preview | Markdown Preview GitHub Styling  | `bierner.markdown-preview-github-styles` |                                       **2.2.0** currently shown | Makes local Markdown preview closer to GitHub                                 |
-| Mermaid diagrams     | Markdown Preview Mermaid Support |               `bierner.markdown-mermaid` | Install latest; current page says Mermaid **11.12.0** supported | For diagrams in Markdown                                                      |
-| Cypher / Neo4j       | Neo4j for VS Code                |      `neo4j-extensions.neo4j-for-vscode` |                                      **1.17.7** currently shown | Cypher highlighting, linting, execution, Neo4j connection                     |
 | CSV                  | Rainbow CSV                      |                `mechatroner.rainbow-csv` |                                      **3.24.1** currently shown | Metadata CSVs, Qdrant export files, mapping files                             |
-| YAML                 | YAML Language Support by Red Hat |                     `redhat.vscode-yaml` |                          **1.23.0** currently shown in releases | `.yml`, GitHub Actions, config files                                          |
-| Docker               | Docker                           |            `ms-azuretools.vscode-docker` |                                        Install latest, optional | Helpful if using containers later                                             |
-| Git history          | GitLens                          |                        `eamodio.gitlens` |                                        Install latest, optional | Better repo/history/diff navigation                                           |
-
 
 ---
 
