@@ -1,3 +1,5 @@
+# Deprecated
+
 **Recommended Notes: Procuring & Using the TimeMolecules Ready-to-Run Azure VM**  
 *(Strongly optimized for best experience with cloud LLMs)*
 
