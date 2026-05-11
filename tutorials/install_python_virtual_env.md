@@ -8,8 +8,8 @@ There are two intended paths:
 1. **Preconfigured Time Molecules Demo VM**  
    Recommended for most readers. The VM should already contain SQL Server, SSMS, the restored `TimeSolution` database, Python 3.12, Visual Studio Code, the Python virtual environment, requirements, Qdrant data, and the demo app.
 
-2. **Manual VM rebuild**  
-   Use this if you are rebuilding the demo VM, testing the install from scratch, or setting up Time Molecules on your own Windows machine.
+2. **Manual VM Build**  
+   Use this if you are building the demo VM, testing the install from scratch, or setting up Time Molecules on your own Windows machine.
 
 ---
 
@@ -51,7 +51,7 @@ cd C:\MapRock\TimeMolecules\tutorials
 
 ---
 
-# Manual VM rebuild
+# Manual VM Build
 
 ## Step 1: Install SQL Server
 
