@@ -291,17 +291,19 @@ From PowerShell:
 
 ```bash
 cd C:\MapRock\TimeMolecules\tutorials
-py -3.12 -m venv .venv
+py -m venv .venv
 ```
 
 Activate it:
 
 ```bash
 .\.venv\Scripts\Activate.ps1
-If activation is blocked:
 ```
 
+If activation is blocked:
+```bash
 Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+```
 
 ```bash
 .\.venv\Scripts\Activate.ps1
