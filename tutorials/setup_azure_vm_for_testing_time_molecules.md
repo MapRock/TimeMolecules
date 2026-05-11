@@ -67,9 +67,9 @@ Click **Create**. This will take a few minutes.
 
 1. In resource page of your VM in the Azure Portal, click **Start** the VM (if it is stopped).
 2. Click **Connect** → **Download RDP file** → **Open file** and log in with the username and password you chose.
-3. Inside the VM, follow the main installation guide:
+3. **Inside the VM**, open Microsfot Edge and follow the main installation guide:
 
-   → **[docs/install_timemolecules_dev_env.md](../docs/install_timemolecules_dev_env.md)**
+   → **https://github.com/MapRock/TimeMolecules/blob/main/docs/install_timemolecules_dev_env.md**
 
 There, you will install everything needed:
 - SQL Server Developer Edition (2022/2025) + **SSMS**
