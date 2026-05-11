@@ -183,11 +183,11 @@ Be sure to check "Trust Server Certificate".
 
 A small SQL script will "rehydrate" two tables that were truncated because of its size.
 
-From SSMS, select File->Open, and navigate to C:/MapRock/TimeMolecules/book_code/sql/TimeMolecules_Code00.sql
+From SSMS, select File->Open->File, and navigate to C:/MapRock/TimeMolecules/book_code/sql/TimeMolecules_Code00.sql
 
 From SSMS, navigate to Files/Open, and open: C:/MapRock/TimeMolecules/book_code/sql/TimeMolecules_Code00.sql
 
-👉 [https://github.com/MapRock/TimeMolecules/blob/main/book_code/sql/TimeMolecules_Code00.sql](https://github.com/MapRock/TimeMolecules/blob/main/book_code/sql/TimeMolecules_Code00.sql)
+It will open in a query window. Click Execute. It will take a couple of minutes.
 
 This script:
 
