@@ -85,12 +85,16 @@ In File Explorer, create the new folder: C:\MapRock\
 
 [https://git-scm.com/download/win](https://git-scm.com/download/win)
 
+Just click through.
+
 ### c. Clone Repository
+
+Open a Powershell window and run:
 
 ```bash
 git clone https://github.com/MapRock/TimeMolecules.git C:/MapRock/TimeMolecules
 ```
-
+There should be a folder c:/MapRock/TimeMolecules containing the Time Molecules GitHub material.
 ---
 
 ## SQL Server Setup
