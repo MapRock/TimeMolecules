@@ -273,7 +273,7 @@ Select "Download Python install manager" which should be under a label like "Dow
 
 Open the downloaded exe, something like **python-manager-26.1.exe" in the Downloads folder.
 
-After selecting Install, a couple of questions will appear. Answer Y to both of them, especially "Add commands directory to your PATH now?"
+After selecting Install, a couple of questions will appear. Answer Y to both of them, **especially** "Add commands directory to your PATH now?"
 
 ---
 
