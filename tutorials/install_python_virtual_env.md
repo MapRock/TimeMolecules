@@ -1,7 +1,7 @@
 
 # Time Molecules Windows VM Setup
 
-This guide explains how to set up a Windows VM for the Time Molecules tutorials and AI Agent Skills demo.
+This guide explains how to set up an Azure Windows 10/11 VM for the Time Molecules tutorials and AI Agent Skills demo.
 
 There are two intended paths:
 
