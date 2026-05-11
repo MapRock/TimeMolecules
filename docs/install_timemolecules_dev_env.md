@@ -475,3 +475,17 @@ Execute each line one by one:
 cd C:\MapRock\TimeMolecules\tutorials
 .\.venv\Scripts\python.exe ai_agent_skills\time_molecules_agent_demo.py
 ```
+
+
+## Stop the VM When Finished (Save Money!)
+
+You are only charged while the VM is **Running**.
+
+- Go back to the Azure Portal → select your VM → click **Stop**.
+- Cost drops to **$0**.
+- Start it again anytime — everything you saved is still there.
+
+**Optional performance boost**: If you want even snappier responses, resize the VM to **Standard D8ds v4** (8 vCPU) in the Azure Portal. Still very affordable.
+
+
+
