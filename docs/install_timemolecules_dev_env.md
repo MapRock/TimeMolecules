@@ -456,3 +456,22 @@ Install:
 pip install ollama numpy scikit-learn
 ```
 
+## Build the Embeddings
+
+This will build an embedding database of Time Molecules objects.
+
+Execute each line one by one:
+
+```bash
+cd C:\MapRock\TimeMolecules\tutorials
+.\.venv\Scripts\python.exe ai_agent_skills\build_qdrant_index.py
+```
+
+## Test the Time Solution Client
+
+Execute each line one by one:
+
+```bash
+cd C:\MapRock\TimeMolecules\tutorials
+.\.venv\Scripts\python.exe ai_agent_skills\time_molecules_agent_demo.py
+```
