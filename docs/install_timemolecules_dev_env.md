@@ -291,21 +291,14 @@ After selecting Install, a couple of questions will appear. Answer Y to both of 
 
 ---
 
-### d. Clone Repo (if needed)
 
-```bash
-git clone https://github.com/MapRock/TimeMolecules.git C:\MapRock\TimeMolecules
-git pull origin main
-```
-
----
 
 ### e. Open Project
 
-Open:
+In Visual Code, select File -> Open Folder:
 
 ```
-C:\MapRock\TimeMolecules\book_code\src
+C:\MapRock\TimeMolecules\
 ```
 
 ---
