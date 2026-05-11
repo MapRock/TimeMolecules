@@ -3,7 +3,8 @@
 
 <i>**Last Updated:** May 08, 2026 - This VM will be in limited beta from May 10, 2026 through May 24, 2026, then released to the general audience through the Azure Compute Gallery.</i>
 
-This guide shows you how to create a clean Azure Virtual Machine with the **complete TimeMolecules development environment**.  
+This is the starting point of the guide that shows you how to create a clean Azure Virtual Machine with the **complete TimeMolecules development environment**.  
+
 It is the recommended method for:
 - Readers of the book who need the full install (SQL Server + SSMS + Neo4j + restored database)
 - People following the AI Agent tutorial
