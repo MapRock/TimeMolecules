@@ -105,7 +105,7 @@ There should be a folder c:/MapRock/TimeMolecules containing the Time Molecules 
 
 Steps:
 
-1. Download Developer Edition (choose SQL Server 2025 or 2022).
+1. Download (Standard - not Enterprise) Developer Edition (choose SQL Server 2025 or 2022).
 2. Run installer
 3. Choose **Basic installation**
 4. Accept license
