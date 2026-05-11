@@ -314,7 +314,8 @@ Activation is optional. You can always run Python directly:
 .\.venv\Scripts\python.exe --version
 ```
 
-Step 9: Install Python requirements
+Install Python requirements
+
 The requirements file belongs here:
 
 C:\MapRock\TimeMolecules\tutorials\requirements.txt
