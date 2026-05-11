@@ -71,7 +71,7 @@ If you are a software developer, you may already have parts of the stack:
 
 ---
 
-With your VM or other machine, here is the install:
+
 
 ## Clone the Time Molecules Repository
 
