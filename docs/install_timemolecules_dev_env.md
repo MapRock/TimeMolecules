@@ -177,6 +177,10 @@ This is normal.
 
 A small SQL script will "rehydrate" two tables that were truncated because of its size.
 
+Open SQL Server Management Studio. If you don't remember the Server Name, click Browse-> Local.
+
+Be sure to check "Trust Server Certificate".
+
 From SSMS, navigate to Files/Open, and open: C:/MapRock/TimeMolecules/book_code/sql/TimeMolecules_Code00.sql
 
 👉 [https://github.com/MapRock/TimeMolecules/blob/main/book_code/sql/TimeMolecules_Code00.sql](https://github.com/MapRock/TimeMolecules/blob/main/book_code/sql/TimeMolecules_Code00.sql)
