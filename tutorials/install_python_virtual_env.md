@@ -15,7 +15,7 @@ There are two intended paths:
 
 ## Recommended reader path: preconfigured VM
 
-The reader VM should already include:
+The reader VM already includes:
 
 - Windows
 - SQL Server
