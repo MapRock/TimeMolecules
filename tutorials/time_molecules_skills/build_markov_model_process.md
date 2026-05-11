@@ -130,6 +130,7 @@ DECLARE @SplitEventTransforms NVARCHAR(1000) = '{
     "LAB_POSTED":{"toEvent":"LOW_GLUC","op":"LT","Value1":"Glucose","Value2":60},
     "LAB_POSTED":{"toEvent":"NORMAL_GLUC","op":"BETWEEN","Value1":"Glucose","Value2":60,"Value3":110}
 }';
+DECLARE @EventSet NVARCHAR(100)='ERLAB'
 
 -- Preview what the transformed events look like
 EXEC dbo.sp_SelectedEvents
