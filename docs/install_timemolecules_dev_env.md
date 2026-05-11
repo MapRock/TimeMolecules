@@ -289,27 +289,40 @@ The virtual environment belongs under the tutorials folder:
 C:\MapRock\TimeMolecules\tutorials\.venv
 From PowerShell:
 
+```bash
 cd C:\MapRock\TimeMolecules\tutorials
 py -3.12 -m venv .venv
+```
+
 Activate it:
 
+```bash
 .\.venv\Scripts\Activate.ps1
 If activation is blocked:
+```
 
 Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+
+```bash
 .\.venv\Scripts\Activate.ps1
+```
 Activation is optional. You can always run Python directly:
 
+```bash
 .\.venv\Scripts\python.exe --version
+```
+
 Step 9: Install Python requirements
 The requirements file belongs here:
 
 C:\MapRock\TimeMolecules\tutorials\requirements.txt
 Install packages:
 
+```bash
 cd C:\MapRock\TimeMolecules\tutorials
 .\.venv\Scripts\python.exe -m pip install --upgrade pip
 .\.venv\Scripts\python.exe -m pip install -r requirements.txt
+```
 This installs the Python packages used by the tutorial app.
 
 If requirements.txt includes the Python ollama package, that only installs the Python client. It does not install the Ollama Windows runtime.
