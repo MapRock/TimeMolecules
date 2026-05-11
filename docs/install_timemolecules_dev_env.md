@@ -6,7 +6,7 @@
 
 This document walks you through setting up the development environment required to follow along with the tutorials in the book *Time Molecules*. The environment includes SQL Server, Neo4j, Visual Studio Code, and Python. Follow the instructions step-by-step.
 
-**Important:** If you didn't come here from [Setup Azure VM for Testing Time Molecules](https://github.com/MapRock/TimeMolecules/blob/main/tutorials/setup_azure_vm_for_testing_time_molecules.md), you might want to go there for instructions on acquiring the Azuze Windows VM. This document is about installing the dev environment once you have the VM.
+**Important:** If you didn't come here from [Setup Azure VM for Testing Time Molecules](https://github.com/MapRock/TimeMolecules/blob/main/tutorials/setup_azure_vm_for_testing_time_molecules.md), you might want to go there for instructions on building an Azuze Windows VM. This document is about installing the dev environment once you have the VM.
 
 ---
 
