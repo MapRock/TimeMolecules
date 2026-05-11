@@ -217,7 +217,7 @@ These tables were truncated to reduce `.bak` size.
 
 At this point, you have all you need to run the <i>[SQL code from the Time Molecules book](https://github.com/MapRock/TimeMolecules/tree/main/book_code/sql)</i>.
 
-Another good demo is [Build Markov Model Process](https://github.com/MapRock/TimeMolecules/blob/main/tutorials/time_molecules_skills/build_markov_model_process.md), the <i>Time Molecules</i> version of kihon kata shodan(first basic karate kata).
+Another good all-SQL demo is [Build Markov Model Process](https://github.com/MapRock/TimeMolecules/blob/main/tutorials/time_molecules_skills/build_markov_model_process.md), the <i>Time Molecules</i> version of kihon kata shodan(first basic karate kata).
 
 ---
 
