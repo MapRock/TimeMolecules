@@ -50,25 +50,6 @@ This tutorial assumes you are working on a personal or work Windows 10/11 machin
 
   * Preferred, but not necessary for cloning the [MapRock/TimeMolecules](https://github.com/MapRock/TimeMolecules) github repo.
 
-Optional tools:
-
-* GitHub Desktop (GUI for Git)
-* Git Bash (used for GPG validation)
-
----
-
-## Optional Components
-
-The primary work happens in SQL Server.
-
-You may skip Python/Neo4j if you skip:
-
-* **Insight Space Graph Markov Models (p.234)**
-* **Custom Correlation Scores (p.241)**
-
-These require Kyvos.
-
----
 
 ## Alternative Arrangements
 
