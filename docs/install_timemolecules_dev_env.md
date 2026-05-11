@@ -77,21 +77,28 @@ If you are a software developer, you may already have parts of the stack, such a
 
 The instructions from this point assume you are logged onto your Windows machine (real or virtual) with local admin rights.
 
+A few notes:
+
+- While installing, just click Next for defaults if I don't mention anything.
+- There isn't anything to sign onto. So just select the "skip login" (or whatever it may be).
+- When you download something from a Web page (like SQL Server's install), it will download into a folder "Downloads".
+
 
 
 ## Clone the Time Molecules Repository
 
 ### a. Create Local Folder
 
-```
-In File Explorer, create the new folder: C:\MapRock\
-```
+1. Open File Explorer.
+2. Navigate to C:/MapRock
+3. Click New Folder and name it TimeMolecules. You will have a folder named C:\MapRock\TimeMolecules, the base of operation.
 
 ### b. Install Git
 
-[https://git-scm.com/download/win](https://git-scm.com/download/win)
-
-Just click through.
+1. Open an instance of Microsoft Edge. Just ignore all the prompts to log onto this or that, which will happen on a brand new VM.
+2. Navigate to: [https://git-scm.com/download/win](https://git-scm.com/download/win)
+3. Download.
+4. Excute the download and just click through.
 
 ### c. Clone Repository
 
@@ -107,7 +114,7 @@ There should be a folder c:/MapRock/TimeMolecules containing the Time Molecules 
 
 ### a. Install SQL Server Developer Edition
 
-[https://www.microsoft.com/en-us/sql-server/sql-server-downloads](https://www.microsoft.com/en-us/sql-server/sql-server-downloads)
+Navigate to [https://www.microsoft.com/en-us/sql-server/sql-server-downloads](https://www.microsoft.com/en-us/sql-server/sql-server-downloads)
 
 Steps:
 
@@ -122,13 +129,17 @@ Steps:
 
 ### b. Install SSMS
 
-[https://learn.microsoft.com/en-us/sql/ssms/download-sql-server-management-studio-ssms](https://learn.microsoft.com/en-us/sql/ssms/download-sql-server-management-studio-ssms)
+Navigate to: [https://learn.microsoft.com/en-us/sql/ssms/download-sql-server-management-studio-ssms](https://learn.microsoft.com/en-us/sql/ssms/download-sql-server-management-studio-ssms)
+
+1. Run installer
 
 ---
 
 ### c. Download and Validate TimeSolution Database
 
 The TimeSolution SQL Server database (named TimeSolution.bak, developed with SQL Server 2022) is the core of the examples. It exists on a OneDrive location because of its size (a little more than 50 MB).
+
+This file is the only file in the setup that isn't directly observable. So we will validate that it's the one I posted after you've downloaded it from the OneDrive location.
 
 #### Download
 
@@ -172,14 +183,14 @@ This is normal.
 
 ### d. Restore Database
 
-Open SQL Server Management Studio. If you don't remember the Server Name, click Browse-> Local.
+Open SQL Server Management Studio. If you don't remember the Server Name, click Browse-> Local, and you'll see the server name (it should be the only entry).
 
 Be sure to check "Trust Server Certificate".
 
 1. Open SSMS
 2. Right-click **Databases → Restore Database**
 3. Select the "Device" option.
-4. Click the ... on the right of the "Device" label.
+4. Click the three ellipses (...) on the right of the "Device" label.
 5. Click "Add" and navigate to C:/MapRock/TimeMolecules/Data and select timesolution.bak
 6. Click OK.
 
@@ -189,26 +200,24 @@ Be sure to check "Trust Server Certificate".
 
 A small SQL script will "rehydrate" two tables that were truncated because of its size.
 
-From SSMS, select File->Open->File, and navigate to C:/MapRock/TimeMolecules/book_code/sql/TimeMolecules_Code00.sql
-
-From SSMS, navigate to Files/Open, and open: C:/MapRock/TimeMolecules/book_code/sql/TimeMolecules_Code00.sql
+From SSMS, select File →Open →File, and navigate to C:/MapRock/TimeMolecules/book_code/sql/TimeMolecules_Code00.sql
 
 It will open in a query window. Click Execute. It will take a couple of minutes.
 
-This script:
+This script does these things to the TimeSolution database:
 
-* Adds current SQL user to `dbo.Users`
-* Rebuilds:
+1. Adds current SQL user to `dbo.Users`
+2. Rebuilds:
 
   * `CasePropertiesParsed`
   * `EventPropertiesParsed`
-* Updates `dbo.Sources.ServerName`
+3. Updates `dbo.Sources.ServerName`
 
 These tables were truncated to reduce `.bak` size.
 
 ---
 
-### e. Security Model (Optional)
+### e. Security Model (Just FYI)
 
 TimeSolution uses a bitmap-based access model.
 
@@ -240,7 +249,7 @@ Restore via SSMS.
 
 ### a. Install
 
-[https://neo4j.com/download/](https://neo4j.com/download/)
+Navigate to: [https://neo4j.com/download/](https://neo4j.com/download/)
 
 Project:
 
@@ -281,19 +290,20 @@ Used for `.env` → `CYPHER_LOAD_DIR`
 
 ### a. Install Python
 
-[https://www.python.org/downloads/](https://www.python.org/downloads/)
+In Edge, Navigate to: [https://www.python.org/downloads/](https://www.python.org/downloads/)
 
 Select "Download Python install manager" which should be under a label like "Download the latest version for Windows".
 
-Open the downloaded exe, something like **python-manager-26.1.exe" in the Downloads folder.
+Open the downloaded installer, something like **python-manager-26.1.exe" in the Downloads folder.
 
-After selecting Install, a couple of questions will appear. Answer Y to both of them, **especially** "Add commands directory to your PATH now?"
+After selecting Install, a couple of questions will appear. Answer Y to both of them. In particular **be certain to answer Y to the question: "Add commands directory to your PATH now?"**
 
 ### Create the Python virtual environment
 The virtual environment belongs under the tutorials folder:
 
 C:\MapRock\TimeMolecules\tutorials\.venv
-From PowerShell:
+
+From PowerShell, execute these commands one at a time.
 
 ```bash
 cd C:\MapRock\TimeMolecules\tutorials
@@ -352,7 +362,6 @@ If requirements.txt includes the Python ollama package, that only installs the P
 | Python               | Python                           |                       `ms-python.python` |                                                  Install latest | Main Python support; also pulls in Pylance, debugger, and environment tooling |
 | Jupyter / notebooks  | Jupyter                          |                     `ms-toolsai.jupyter` |                                        Install latest, optional | Useful if you later add notebook-style experiments                            |
 | Markdown             | Markdown All in One              |             `yzhang.markdown-all-in-one` |                                                  Install latest | Table of contents, Markdown editing, tutorial docs                            |
-| Markdown linting     | markdownlint                     |         `DavidAnson.vscode-markdownlint` |                                        Install latest, optional | Helps keep tutorial markdown clean                                            |
 | GitHub-style preview | Markdown Preview GitHub Styling  | `bierner.markdown-preview-github-styles` |                                       **2.2.0** currently shown | Makes local Markdown preview closer to GitHub                                 |
 | CSV                  | Rainbow CSV                      |                `mechatroner.rainbow-csv` |                                      **3.24.1** currently shown | Metadata CSVs, Qdrant export files, mapping files                             |
 
@@ -405,9 +414,11 @@ Steps:
 
 ## Ollama Setup (Optional)
 
+This is used as an alternative to a frontier model like OpenAI which requires a key, can incur token cost, and requires Internet connection.
+
 ### Install
 
-[https://ollama.com](https://ollama.com)
+Navigate to [https://ollama.com](https://ollama.com)
 
 or:
 
