@@ -269,6 +269,12 @@ Used for `.env` → `CYPHER_LOAD_DIR`
 
 [https://www.python.org/downloads/](https://www.python.org/downloads/)
 
+Select "Download Python install manager" which should be under a label like "Download the latest version for Windows".
+
+Open the downloaded exe, something like **python-manager-26.1.exe" in the Downloads folder.
+
+After selecting Install, a couple of questions will appear. Answer Y to both of them, especially "Add commands directory to your PATH now?"
+
 ---
 
 ### b. Install VS Code
