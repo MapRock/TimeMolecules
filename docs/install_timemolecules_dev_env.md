@@ -381,7 +381,9 @@ C:\MapRock\TimeMolecules\
 
 ### f. Setup `.env`
 
-Rename:
+If you haven't yet obtained the OpenAI API key, now is the time. Nagivate to: https://platform.openai.com/api-keys
+
+From Visual Studio, find the File Tutorials/.env.example and rename it to .env:
 
 ```
 .env.example → .env
