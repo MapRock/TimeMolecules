@@ -59,16 +59,14 @@ Use these exact settings:
 
    → **[docs/install_timemolecules_dev_env.md](../docs/install_timemolecules_dev_env.md)**
 
-This installs everything needed:
-- SQL Server Developer Edition + **SSMS**
+There, you will install everything needed:
+- SQL Server Developer Edition (2022/2025) + **SSMS**
 - Restore the `TimeSolution.bak` database
 - Python 3.12 + virtual environment
 - Visual Studio Code + extensions
 - Git + full TimeMolecules repo
 - Ollama + required models (`nomic-embed-text`, `llama3.2`)
 - Neo4j Desktop (optional but included)
-
-**Tip:** Create the folder `C:\MapRock\TimeMolecules` and clone the repo there.
 
 ---
 
