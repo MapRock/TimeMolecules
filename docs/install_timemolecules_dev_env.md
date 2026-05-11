@@ -78,7 +78,7 @@ With your VM or other machine, here is the install:
 ### a. Create Local Folder
 
 ```
-C:\MapRock\
+In File Explorer, create the new folder: C:\MapRock\
 ```
 
 ### b. Install Git
