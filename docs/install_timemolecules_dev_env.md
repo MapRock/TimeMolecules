@@ -166,10 +166,16 @@ This is normal.
 
 ### d. Restore Database
 
+Open SQL Server Management Studio. If you don't remember the Server Name, click Browse-> Local.
+
+Be sure to check "Trust Server Certificate".
+
 1. Open SSMS
 2. Right-click **Databases → Restore Database**
-3. Select `.bak` file
-4. Restore
+3. Select the "Device" option.
+4. Click the ... on the right of the "Device" label.
+5. Click "Add" and navigate to C:/MapRock/TimeMolecules/Data and select timesolution.bak
+6. Click OK.
 
 ---
 
@@ -177,9 +183,7 @@ This is normal.
 
 A small SQL script will "rehydrate" two tables that were truncated because of its size.
 
-Open SQL Server Management Studio. If you don't remember the Server Name, click Browse-> Local.
-
-Be sure to check "Trust Server Certificate".
+From SSMS, select File->Open, and navigate to C:/MapRock/TimeMolecules/book_code/sql/TimeMolecules_Code00.sql
 
 From SSMS, navigate to Files/Open, and open: C:/MapRock/TimeMolecules/book_code/sql/TimeMolecules_Code00.sql
 
