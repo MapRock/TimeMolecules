@@ -129,7 +129,7 @@ These are the instructions for re-connecting with the VM once you have procured 
 
 4. **Activate the Python virtual environment**
    ```powershell
-   .\venv\Scripts\Activate.ps1
+   .\.venv\Scripts\Activate.ps1
    ```
    - You should see `(venv)` appear at the start of the prompt when it’s activated.
 
@@ -143,7 +143,7 @@ These are the instructions for re-connecting with the VM once you have procured 
 
 **Quick one-line startup command** (after you’re logged in):
 ```powershell
-cd C:\MapRock\TimeMolecules\tutorials; .\venv\Scripts\Activate.ps1; code .
+cd C:\MapRock\TimeMolecules\tutorials; .\.venv\Scripts\Activate.ps1; code .
 ```
 
 
