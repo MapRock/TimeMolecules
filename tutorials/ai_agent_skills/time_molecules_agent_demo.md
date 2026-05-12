@@ -475,6 +475,21 @@ The key point is that the context is not a transcript. It is meant to be working
 
 ## Summary of Modes
 
+![Mode 1 – Default setting](https://raw.githubusercontent.com/MapRock/TimeMolecules/main/tutorials/ai_agent_skills/images/default_mode_llm_summarize.png)
+*Mode 1 – Default setting. LLM embedding summarization.*
+
+![Mode 2 – LLM filter embeddings and summarize](https://raw.githubusercontent.com/MapRock/TimeMolecules/main/tutorials/ai_agent_skills/images/llm_filter_summarize.png)
+*Mode 2 – LLM embedding filter and summarize.*
+
+![Mode 3 – LLM filter no summarize](https://raw.githubusercontent.com/MapRock/TimeMolecules/main/tutorials/ai_agent_skills/images/llm_filter_no_summarize.png)
+*Mode 3 – LLM embedding filter, no summarization.*
+
+![Mode 4 – Execute SQL](https://raw.githubusercontent.com/MapRock/TimeMolecules/main/tutorials/ai_agent_skills/images/execute_sql.png)
+*Mode 4 – Execute prompt as SQL.*
+
+![Mode 5 – Find embeddings only](https://raw.githubusercontent.com/MapRock/TimeMolecules/main/tutorials/ai_agent_skills/images/find_embeddings_only.png)
+*Mode 5 – Find embeddings only.*
+
 
 
 
