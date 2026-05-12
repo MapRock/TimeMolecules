@@ -475,19 +475,34 @@ The key point is that the context is not a transcript. It is meant to be working
 
 ## Summary of Modes
 
+Mode 1 saves the time and token cost of filtering embeddings. For local LLM, this saves time of slow processing.
+
 ![Mode 1 – Default setting](https://raw.githubusercontent.com/MapRock/TimeMolecules/main/tutorials/ai_agent_skills/images/default_mode_llm_summarize.png)
+
 *Mode 1 – Default setting. LLM embedding summarization.*
 
+Mode 2 will filter embedding selections smartly and summarize the embeddings, in regard to the prompt.
+
 ![Mode 2 – LLM filter embeddings and summarize](https://raw.githubusercontent.com/MapRock/TimeMolecules/main/tutorials/ai_agent_skills/images/llm_filter_summarize.png)
+
 *Mode 2 – LLM embedding filter and summarize.*
 
+Mode 3 will only filter LLMs, but not summarize.
+
 ![Mode 3 – LLM filter no summarize](https://raw.githubusercontent.com/MapRock/TimeMolecules/main/tutorials/ai_agent_skills/images/llm_filter_no_summarize.png)
+
 *Mode 3 – LLM embedding filter, no summarization.*
 
+The prompt will be interpretted as SQL and will attempt to run on the Time Solution.
+
 ![Mode 4 – Execute SQL](https://raw.githubusercontent.com/MapRock/TimeMolecules/main/tutorials/ai_agent_skills/images/execute_sql.png)
+
 *Mode 4 – Execute prompt as SQL.*
 
+This avoids LLM altogether - saves on token cost and time for frontier LLM, saves lots of time for local LLM.
+
 ![Mode 5 – Find embeddings only](https://raw.githubusercontent.com/MapRock/TimeMolecules/main/tutorials/ai_agent_skills/images/find_embeddings_only.png)
+
 *Mode 5 – Find embeddings only.*
 
 
