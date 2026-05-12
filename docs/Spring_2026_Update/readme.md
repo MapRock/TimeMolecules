@@ -145,6 +145,12 @@ Following are known issues that will be addressed over the next few weeks.
 - [AI agent skills](https://github.com/MapRock/TimeMolecules/tree/main/tutorials/ai_agent_skills)
 - [Pre-aggregated Markov Models](https://github.com/MapRock/TimeMolecules/tree/main/tutorials/preaggregate_markov_models)
 
+#### About the TimeMolecules AI Agent Demo
+
+This application [AI agent skills](https://github.com/MapRock/TimeMolecules/tree/main/tutorials/ai_agent_skills) is an example of how to accommodate AI agents by giving them semantic search access to the full TimeMolecules knowledge base (LLM prompts, tutorials, skills, and documentation). It addresses how the substantial material pulls together in the age of AI agents.
+
+It also functions as my personal workbench. I actively use it to evaluate how well the entire site can answer an AI agent’s questions about Time Molecules — helping me identify gaps and improve the quality, clarity, and discoverability of the material.
+
 ### Related blog themes
 - [Process-aware intelligence — *From Data through Wisdom: The Case for Process-Aware Intelligence*](https://eugeneasahara.com/2025/05/30/from-data-through-wisdom-the-case-for-process-aware-intelligence/)
 - [Stories as the transactional unit of human-level intelligence — *Stories are the Transactional Unit of Human-Level Intelligence*](https://eugeneasahara.com/2025/10/10/stories-the-unit-of-human-level-intelligence/)
