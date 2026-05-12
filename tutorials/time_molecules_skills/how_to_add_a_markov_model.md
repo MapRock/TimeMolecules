@@ -6,6 +6,8 @@ In Time Molecules, `CreateUpdateMarkovProcess` is the stored procedure used when
 
 Conceptually, the procedure does four things. First, it resolves or creates the model definition through `InsertModel`. Second, it clears prior stored transition rows for that model. Third, it invokes `MarkovProcess2` to compute fresh transition metrics. Finally, it writes those results back into the model tables. That makes it the procedure to use when you want a durable model that can later be searched, compared, embedded, or reused.
 
+See https://github.com/MapRock/TimeMolecules/blob/main/tutorials/time_molecules_skills/build_markov_model_process.md for an end-to-end process.
+
 ### Parameters
 
 The main parameters are these:
