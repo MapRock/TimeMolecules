@@ -114,10 +114,21 @@ EXEC dbo.InsertModelSimilarities
      @ModelID2 = 7,
      @DisplaySegments = 1;
 ```
+| m1_EventA | m2_EventA | m1_EventB | m2_EventB | m1_Avg | m2_Avg | m1_Rows | m2_Rows | m1_Prob | m2_Prob |
+| --------- | --------- | --------- | --------- | -----: | -----: | ------: | ------: | ------: | ------: |
+| arrive    | arrive    | greeted   | greeted   |   10.5 |      5 |       2 |       1 |       1 |       1 |
+| bigtip    | bigtip    | depart    | depart    |   4.98 |   4.98 |       1 |       1 |       1 |       1 |
+| charged   | charged   | bigtip    | bigtip    |   0.02 |   0.02 |       1 |       1 |     0.5 |       1 |
+| check     | check     | charged   | charged   |      5 |      5 |       2 |       1 |       1 |       1 |
+| drinks    | drinks    | order     | order     |    3.5 |      5 |       2 |       1 |       1 |       1 |
+| greeted   | greeted   | seated    | seated    |   0.63 |    0.5 |       2 |       1 |       1 |       1 |
+| intro     | intro     | drinks    | drinks    |      2 |      3 |       2 |       1 |       1 |       1 |
+| order     | order     | served    | served    |   14.5 |     20 |       2 |       1 |       1 |       1 |
+| seated    | seated    | intro     | intro     |   1.38 |    1.5 |       2 |       1 |       1 |       1 |
+| served    | served    | check     | check     |   17.5 |     20 |       2 |       1 |       1 |       1 |
 
-The current implementation sorts the model IDs so the pair is stored in a consistent order, loads both sets of segments from `dbo.ModelEvents`, and raises an error if either model has no segments.
 
-## Step 4: review the summary result
+## Step 3: review the summary result
 
 `dbo.InsertModelSimilarities` stores or updates the row in `dbo.ModelSimilarity` with these metrics:
 
@@ -133,9 +144,13 @@ Example:
 ```sql
 SELECT *
 FROM dbo.ModelSimilarity
-WHERE ModelID1 = CASE WHEN @ModelID1 < @ModelID2 THEN @ModelID1 ELSE @ModelID2 END
-  AND ModelID2 = CASE WHEN @ModelID1 < @ModelID2 THEN @ModelID2 ELSE @ModelID1 END;
+WHERE ModelID1=5 AND ModelID2=7
 ```
+
+| ModelID1 | ModelID2 | CombinedUniqueSegments | PercentSameSegments | Model1Segments | Model2Segments | SameSegments_ttest | IsMutuallyExclusive |  CosineSimilarity |
+| -------: | -------: | ---------------------: | ------------------: | -------------: | -------------: | ------------------ | ------------------- | ----------------: |
+|        5 |        7 |                     10 |                   1 |             11 |             10 | NULL               | NULL                | 0.987762965329069 |
+
 
 ## What the summary metrics mean
 
