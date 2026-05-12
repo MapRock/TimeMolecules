@@ -442,7 +442,7 @@ ollama run qwen3:14b
 
 ---
 
-### Embeddings
+## Embeddings
 
 Embeddings are used by the workbench Python app, [Time Molecules Agent Demo](https://github.com/MapRock/TimeMolecules/blob/main/tutorials/ai_agent_skills/time_molecules_agent_demo.py)
 
@@ -461,7 +461,14 @@ CHATGPT_EMBEDDING_MODEL="text-embedding-3-large"
 ```
 These settings will build embeddings using OpenAI's embedding model (EMBED_LLM="openai"). That means it will consume tokens. There are about 650 Time Molecules objects and in the order of a few dozen article abstracts (LLM_Prompt) that will be consumed. It generally cost me a few cents of OpenAI tokens per run. 
 
-## Build the Embeddings
+There are two steps:
+
+1. Build the embeddings vector database. This is a qdrant client, free of cost, a library of Python.
+2. Run and experiment with the [Time Molecules Agent Demo](https://github.com/MapRock/TimeMolecules/blob/main/tutorials/ai_agent_skills/time_molecules_agent_demo.py) workbench app.
+
+Both can be executed from Visual Studio (which should be open and ready to go) or through the Powershell CLI.
+
+### Build the Embeddings
 
 This will build an embedding database of Time Molecules objects.
 
@@ -474,7 +481,7 @@ cd C:\MapRock\TimeMolecules\tutorials
 .\.venv\Scripts\python.exe ai_agent_skills\build_qdrant_index.py
 ```
 
-## Test the Time Solution Client
+### Test the Time Solution Client
 
 Execute each line one by one:
 
