@@ -40,7 +40,7 @@ The main parameters are these:
   JSON key/value filters at the event level, likewise persisted into `ModelProperties`.
 
 * `@InsertSequences BIT = NULL`
-  When true, the procedure also stores path/sequence detail in `ModelSequences`. The metadata says this defaults to `1`.
+  When true, the procedure also stores path/sequence detail in `ModelSequences`. The metadata says this defaults to `1`. This is important because storing all the possible sequence segments results in quite a data explosion in comparison to just the Markov Models.
 
 ### What gets stored
 
