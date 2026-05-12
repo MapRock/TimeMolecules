@@ -58,6 +58,28 @@ From the script metadata and surrounding code, these are the important inputs.
 | `@ModelType`                 | `NVARCHAR(50)`                             | commonly `'MarkovChain'`; possibly other model categories in your environment          | Model category. Insert logic defaults it to `'MarkovChain'`.                                                                                                                                           |
 | `@AccessBitmap`              | access-related input in newer call chains  | typically current user access bitmap                                                   | In newer stored-procedure paths, access is part of the model identity path and visibility filters. At query time, models are filtered by access bitmap.                                                |
 
+### Examples:
+
+```sql
+    SELECT dbo.ModelID(
+      'restaurantguest', 1, '1900-1-1','2050-12-31',
+      NULL, 1,
+      'Time Between',
+      NULL,NULL,
+      'MarkovChain'
+	  ,NULL
+    ) AS ExistingModelID;
+
+    SELECT dbo.ModelID(
+      'arrive,depart', 1, '1900-1-1','2050-12-31',
+      NULL, 1,
+      'Time Between',
+      NULL,NULL,
+      'MarkovChain',
+	  7
+    ) AS ExistingModelID;
+
+```
 ### Practical notes for agents
 
 The important thing is that `dbo.ModelID` is for an exact definition match, not a fuzzy search. If an agent only knows some of the model characteristics, it should search with `dbo.ModelsByParameters` first and then narrow down. That is also visible in the insert flow: `InsertModel` uses `ModelsByParameters` to check whether a matching model already exists before inserting. 
