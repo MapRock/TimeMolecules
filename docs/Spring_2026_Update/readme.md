@@ -137,13 +137,23 @@ Following are known issues that will be addressed over the next few weeks.
 
 ## Selected companion material
 
-### GitHub tutorials
-- [Fundamental importance of Markov models](https://github.com/MapRock/TimeMolecules/tree/main/tutorials/fundamental_importance_of_markov_models)
-- [Compare event transitions](https://github.com/MapRock/TimeMolecules/tree/main/tutorials/compare_event_transitions)
-- [Link cases](https://github.com/MapRock/TimeMolecules/tree/main/tutorials/link_cases)
-- [Diced Markov models](https://github.com/MapRock/TimeMolecules/tree/main/tutorials/diced_markov_models)
-- [AI agent skills](https://github.com/MapRock/TimeMolecules/tree/main/tutorials/ai_agent_skills)
-- [Pre-aggregated Markov Models](https://github.com/MapRock/TimeMolecules/tree/main/tutorials/preaggregate_markov_models)
+**✅ Here are clean one-sentence summaries** for each tutorial folder:
+
+### Selected Sampling of the Major GitHub Tutorials
+
+- **[Fundamental importance of Markov models](https://github.com/MapRock/TimeMolecules/tree/main/tutorials/fundamental_importance_of_markov_models)**: This tutorial explains the fundamental importance of Markov models in TimeMolecules as compact abstractions that turn recurring event sequences (“stories”) into probabilistic models of typical process behavior.
+
+- **[Compare event transitions](https://github.com/MapRock/TimeMolecules/tree/main/tutorials/compare_event_transitions)**: This tutorial shows how to compare the properties of destination events reached via competing transitions from the same source event in a Markov model.
+
+- **[Link cases](https://github.com/MapRock/TimeMolecules/tree/main/tutorials/link_cases)**: This tutorial demonstrates practical methods for discovering and linking related cases (including subprocesses) by matching shared properties and semantically similar events.
+
+- **[Diced Markov models](https://github.com/MapRock/TimeMolecules/tree/main/tutorials/diced_markov_models)**: This tutorial explains how to create “diced” (sliced) Markov models broken down by date or other dimensions to enable time-based or segmented comparison of process behavior.
+
+- **[AI agent skills](https://github.com/MapRock/TimeMolecules/tree/main/tutorials/ai_agent_skills)**: This tutorial presents the TimeMolecules AI Agent demo — a practical RAG-based agent that uses vector search to give grounded, intelligent answers across the entire knowledge base.
+
+- **[Pre-aggregated Markov Models](https://github.com/MapRock/TimeMolecules/tree/main/tutorials/preaggregate_markov_models)**: This tutorial teaches how to pre-create and persist Markov models for common parameter combinations (analogous to OLAP pre-aggregations) to reduce query-time computation and improve performance.
+
+You can drop this list straight into the root README or a central “Tutorials” page. Let me know if you want them shorter, longer, or reworded!
 
 #### About the TimeMolecules AI Agent Demo
 
