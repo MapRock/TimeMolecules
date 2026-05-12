@@ -16,6 +16,8 @@ Of particular interest in the "tutorial", [time_molecules_skills](https://github
 
 See, [root dir readme.md](https://github.com/MapRock/TimeMolecules/blob/main/README.md), for more information addressed to AI agents.
 
+See [https://github.com/MapRock/TimeMolecules/tree/main/data/timesolution_schema] for full DDL of the TimeSolution stored procedures, views, table-valued functions, scalar functions, and schemas.
+
 ## Tutorial Compared to Skill
 
 Following is a template for an LLM prompt to generate a tutorial. Reading the template is useful for understanding the difference between tutorials and skills.
