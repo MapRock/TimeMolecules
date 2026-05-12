@@ -4,7 +4,7 @@ Since the publication of [*Time Molecules*](https://technicspub.com/time-molecul
 
 The impetus for this refresh began when my work reached a point where I needed to pull everything together. See [An interlude before the 3rd Act of the Assemblage-of-AI](https://eugeneasahara.com/2026/02/17/an-interlude-before-the-third-act-of-the-assemblage-of-ai/) around mid February, 2026.
 
-Please see my blog introducing this refresh: [Time Molecules 2026 Refresh](https://eugeneasahara.com/2026/05/02/time-molecules-2026-refresh/)
+For a more "user-friendly" explanation of this Refresh, please see my blog announcing it: [Time Molecules 2026 Refresh](https://eugeneasahara.com/2026/05/02/time-molecules-2026-refresh/)
 
 > **Note:** This refresh is set for launch on **May 13, 2026**.
 
