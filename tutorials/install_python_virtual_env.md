@@ -1,4 +1,4 @@
-# deprecated
+# deprecated - refer instead to: [install_timemolecules_dev_env.md](https://github.com/MapRock/TimeMolecules/blob/main/docs/install_timemolecules_dev_env.md)
 
 # Time Molecules Windows VM Setup
 
