@@ -3,6 +3,8 @@
 
 In TimeSolution, the main object for comparing two stored Markov models is **`dbo.InsertModelSimilarities`**. It compares two models already stored in `dbo.ModelEvents`, calculates several similarity metrics, and writes the result into `dbo.ModelSimilarity` for later retrieval or recommendation workflows. Its own metadata describes it as computing **Jaccard-style overlap of segments, cosine similarity of transition probabilities, and a t-test over average transition times**, with optional segment-by-segment display. 
 
+See https://github.com/MapRock/TimeMolecules/blob/main/tutorials/time_molecules_skills/model_similarity.md for a more code-focused explanation.
+
 ### What this procedure is for
 
 Use `dbo.InsertModelSimilarities` when an agent needs to answer questions such as:
