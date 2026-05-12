@@ -20,7 +20,7 @@ The choice of LLM affects answer quality and cost, but the overall workflow rema
 
 The application itself is written in Python and is intended to be run from **Visual Studio Code**. Setup instructions for the Python environment—including installing dependencies and configuring environment variables—are provided here:
 
-[https://github.com/MapRock/TimeMolecules/blob/main/tutorials/setup_python_env.md](https://github.com/MapRock/TimeMolecules/blob/main/tutorials/setup_python_env.md)
+https://github.com/MapRock/TimeMolecules/blob/main/docs/install_timemolecules_dev_env.md
 
 Once configured, the app runs as a local desktop UI (Tkinter-based), allowing you to:
 
