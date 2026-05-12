@@ -473,6 +473,8 @@ This is what supports iterative work in the demo. Rather than sending the entire
 
 The key point is that the context is not a transcript. It is meant to be working memory: enough to preserve intent, discoveries, decisions, and next steps without flooding the LLM with unnecessary history.
 
+## Summary of Modes
+
 
 
 
