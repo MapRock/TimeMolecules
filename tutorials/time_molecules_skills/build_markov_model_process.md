@@ -6,8 +6,6 @@ It is written as a reusable **skill** that both human analysts and AI agents can
 The example uses the ER Lab workflow (`CaseTypeID = 15`).
 
 
-```
-
 ## Step 1: Choose the Case Type
 
 Decide which kind of case (process) you want to model. Here we are interested in the ER Lab workflow.
@@ -21,7 +19,26 @@ SELECT TOP (1000)
     [IRI],
     [AccessBitmap]
 FROM [TimeSolution].[dbo].[CaseTypes];
-
+```
+| CaseTypeID | Description                                                                                                                                                                                                                                 | ParentCaseTypeID | Name            | IRI  | AccessBitmap |
+| ---------: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------: | --------------- | ---- | -----------: |
+|          1 | Restaurant meal service process: Captures the full customer journey in a typical sit-down restaurant, including ordering, seating, food preparation, service interactions, payments, complaints, and tipping events.                        |             NULL | Meal            | NULL |            7 |
+|          2 | Delivery or pickup vehicle route tracking: Represents logistics and transportation events for package delivery, garbage collection, or similar pickup/delivery operations along defined routes.                                             |             NULL | Truck Trip      | NULL |            7 |
+|          3 | Daily commute to work: Tracks individual or aggregated commuting patterns, routes, times, modes of transportation, and related events from home to workplace and return.                                                                    |             NULL | Commute to Work | NULL |            7 |
+|          4 | Poker game and tournament events: Records real-time or historical data from poker sessions including player count, seating, dealer button position, tournament numbers, and gameplay actions.                                               |             NULL | PokerGame       | NULL |            7 |
+|          6 | Daily sales performance tracking for liquor retail: Iowa state liquor store sales data including store-level transactions, product movement, revenue, and sales metrics over time.                                                          |             NULL | DailySalesPerf  | NULL |            7 |
+|          7 | Internet sale / e-commerce transaction: Captures online purchase events, order processing, customer interactions, and fulfillment activities from web-based retail platforms.                                                               |             NULL | Internet Sale   | NULL |            7 |
+|          8 | Daily stock market performance data: End-of-day quotes, pricing, volume, and trading metrics for publicly traded stocks and securities.                                                                                                     |             NULL | Stock Day2Day   | NULL |            7 |
+|          9 | General e-commerce site events: Broad category for online retail platform activities including browsing, cart additions, purchases, and customer behavior on digital storefronts.                                                           |             NULL | e-commerce site | NULL |            7 |
+|         10 | Medical and clinical patient events: Encompasses healthcare-related records from hospitals and clinics, including demographics, diagnoses, procedures, and clinical workflows.                                                              |             NULL | Medical         | NULL |            7 |
+|         11 | Parsed photo / computer vision object detection events: Images processed by object detection models where each recognized object becomes an individual event with associated metadata, all linked to the original photo as the parent case. |             NULL | Parsed Photo    | NULL |            7 |
+|         12 | Unknown or unclassified case type: Placeholder for events or cases that have not been mapped to a specific known business process or domain.                                                                                                |             NULL | Unknown         | NULL |            7 |
+|         14 | Emergency Room patient encounters: Core emergency department visits including registration, triage, chief complaints, arrival mode, patient demographics, and initial assessment in a hospital setting.                                     |               10 | ER              | NULL |            7 |
+|         15 | Emergency Room Laboratory workflow: Lab test orders, processing, panels, and results originating from or associated with an Emergency Room visit.                                                                                           |               14 | ER-Lab          | NULL |            7 |
+|         16 | Emergency Room MRI / Radiology workflow: MRI imaging orders, studies, and radiology procedures initiated during or linked to an Emergency Room patient encounter.                                                                           |               14 | ER-MRI          | NULL |            7 |
+|         17 | Emergency Room Case Management: Coordination, tracking, and management activities for patients within the Emergency Department, including follow-up, disposition, and resource allocation.                                                  |               14 | ER-CaseMgt      | NULL |            7 |
+Let's select CaseTypeID=15:
+```sql
 DECLARE @CaseTypeID INT = 15;
 ```
 
@@ -41,6 +58,12 @@ SELECT TOP (1000)
 FROM [TimeSolution].[dbo].[vwCaseTypeEventCounts]
 WHERE CaseTypeID = @CaseTypeID;
 ```
+| CaseTypeID | CaseTypeName | CaseTypeDescription                                                                                                                               | CaseTypeIRI | Event       | EventDescription | Occurrences |
+| ---------: | ------------ | ------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- | ----------- | ---------------- | ----------: |
+|         15 | ER-Lab       | Emergency Room Laboratory workflow: Lab test orders, processing, panels, and results originating from or associated with an Emergency Room visit. | NULL        | LAB_POSTED  | NULL             |          10 |
+|         15 | ER-Lab       | Emergency Room Laboratory workflow: Lab test orders, processing, panels, and results originating from or associated with an Emergency Room visit. | NULL        | LAB_ORDERED | NULL             |          10 |
+|         15 | ER-Lab       | Emergency Room Laboratory workflow: Lab test orders, processing, panels, and results originating from or associated with an Emergency Room visit. | NULL        | BLOOD_DRAWN | NULL             |          10 |
+
 
 ## Step 3: Create a New EventSet (idempotent)
 
