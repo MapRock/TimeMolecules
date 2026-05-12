@@ -1,4 +1,4 @@
-# Deprecated
+# Deprecated - refer instead to [setup_azure_vm_for_testing_time_molecules.md](https://github.com/MapRock/TimeMolecules/blob/main/tutorials/setup_azure_vm_for_testing_time_molecules.md)
 
 **Recommended Notes: Procuring & Using the TimeMolecules Ready-to-Run Azure VM**  
 *(Strongly optimized for best experience with cloud LLMs)*
