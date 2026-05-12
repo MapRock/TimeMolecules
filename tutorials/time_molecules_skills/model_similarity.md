@@ -72,59 +72,22 @@ Examples:
 
 This lets you compare process shape rather than just raw counts.
 
-## Step 1: find or create the first model
+## Step 1: Find the Models to Compare
 
 If the model may already exist, try `dbo.ModelID` first.
 
 ```sql
-DECLARE @ModelID1 INT;
-
-SELECT @ModelID1 = dbo.ModelID
-(
-    'restaurantguest',              -- @EventSet
-    0,                              -- @enumerate_multiple_events
-    '2026-01-01',                   -- @StartDateTime
-    '2026-01-31',                   -- @EndDateTime
-    NULL,                           -- @transforms
-    1,                              -- @ByCase
-    'Time Between',                 -- @Metric
-    '{"EmployeeID":1}',             -- @CaseFilterProperties
-    NULL,                           -- @EventFilterProperties
-    'MarkovChain'                   -- @ModelType
-);
-
-SELECT @ModelID1 AS ModelID1;
+SELECT *
+  FROM dbo.ModelsByParameters(
+    'restaurantguest', 0,
+    NULL,NULL,
+    NULL, 1, NULL,
+    '{"EmployeeID":1}',
+    NULL, NULL, 0,
+    dbo.UserAccessBitmap()
+  )
 ````
 
-`dbo.ModelID` accepts the event set, date range, transforms, grouping mode, metric, case filter properties, event filter properties, and model type.
-
-If the result is `NULL`, the model does not already exist and should be created through your normal model-building path before you continue.
-
-## Step 2: find or create the second model
-
-For an employee comparison:
-
-```sql
-DECLARE @ModelID2 INT;
-
-SELECT @ModelID2 = dbo.ModelID
-(
-    'restaurantguest',              -- @EventSet
-    0,                              -- @enumerate_multiple_events
-    '2026-01-01',                   -- @StartDateTime
-    '2026-01-31',                   -- @EndDateTime
-    NULL,                           -- @transforms
-    1,                              -- @ByCase
-    'Time Between',                 -- @Metric
-    '{"EmployeeID":2}',             -- @CaseFilterProperties
-    NULL,                           -- @EventFilterProperties
-    'MarkovChain'                   -- @ModelType
-);
-
-SELECT @ModelID2 AS ModelID2;
-```
-
-For a date-range comparison, keep the same properties but change the date window.
 
 ## Step 3: compare the two models
 
