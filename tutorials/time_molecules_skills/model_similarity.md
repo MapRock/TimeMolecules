@@ -3,6 +3,8 @@
 
 `ModelID` values are one of the most important keys in TimeSolution. Comparing two models is useful when you want to see how a process changes across time ranges, locations, employees, or any other case or event property slice. TimeSolution already includes `dbo.InsertModelSimilarities`, which compares two existing models using segment overlap, cosine similarity of transition probabilities, and a t-test-like measure on average transition times, then stores the result in `dbo.ModelSimilarity`. 
 
+See https://github.com/MapRock/TimeMolecules/blob/main/tutorials/time_molecules_skills/interpret_model_similarity_results.md for more fcoused on how to interpret similarity.
+
 ## What this skill does
 
 This skill explains how to:
