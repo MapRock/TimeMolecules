@@ -78,25 +78,40 @@ If the model may already exist, try `dbo.ModelID` first.
 
 ```sql
 SELECT *
-  FROM dbo.ModelsByParameters(
-    'restaurantguest', 0,
-    NULL,NULL,
-    NULL, 1, NULL,
-    '{"EmployeeID":1}',
-    NULL, NULL, 0,
-    dbo.UserAccessBitmap()
-  )
+FROM dbo.ModelsByParameters(
+    'restaurantguest',        -- @EventSet: Event set code/name used to identify which events belong in the model.
+    0,                        -- @enumerate_multiple_events: 1 = enumerate repeated/multiple events; 0 = do not enumerate.
+    NULL,                     -- @StartDateTime: Optional model start datetime filter. NULL = no lower date bound.
+    NULL,                     -- @EndDateTime: Optional model end datetime filter. NULL = no upper date bound.
+    NULL,                     -- @transforms: Optional transform code/JSON used to remap events before modeling. NULL = no transforms.
+    1,                        -- @ByCase: 1 = model transitions within each CaseID; 0 = treat all selected events as one case.
+    NULL,                     -- @Metric: Optional metric code/name. NULL = return models regardless of metric.
+    NULL,                     -- @CaseFilterProperties: Optional JSON filter for case properties. NULL = no case-property filter.
+    NULL,                     -- @EventFilterProperties: Optional JSON filter for event properties. NULL = no event-property filter.
+    NULL,                     -- @ModelType: Optional model type filter. NULL = no model-type filter.
+    0,                        -- @ExactCasePropertiesMatch: 1 = all case property filters must match; 0 = non-exact/default matching.
+    dbo.UserAccessBitmap()    -- @CreatedBy_AccessBitmap: Optional creator/access bitmap filter. NULL = do not filter by this.
+);
 ````
 
+Three rows will return:
 
-## Step 3: compare the two models
+| ModelID | ModelType   | EventSet        | EventSetKey                          | StartDateTime           | EndDateTime             | transformskey | transforms | ByCase | enumerate_multiple_events | Metric       | CaseFilterProperties                             | EventFilterProperties | CreatedBy_AccessBitmap |
+| ------: | ----------- | --------------- | ------------------------------------ | ----------------------- | ----------------------- | ------------- | ---------- | -----: | ------------------------: | ------------ | ------------------------------------------------ | --------------------- | ---------------------: |
+|       5 | MarkovChain | restaurantguest | `0x527C1854FE4C32C22484FAA8B87A7A10` | 1900-01-01 00:00:00.000 | 2050-12-31 00:00:00.000 | NULL          | NULL       |      1 |                         0 | Time Between | `{"EmployeeID":1,"LocationID":1}`                | NULL                  |                      7 |
+|       6 | MarkovChain | restaurantguest | `0x527C1854FE4C32C22484FAA8B87A7A10` | 1900-01-01 00:00:00.000 | 2050-12-31 00:00:00.000 | NULL          | NULL       |      1 |                         0 | Time Between | `{"EmployeeID":1,"CustomerID":2,"LocationID":1}` | NULL                  |                      7 |
+|       7 | MarkovChain | restaurantguest | `0x527C1854FE4C32C22484FAA8B87A7A10` | 1900-01-01 00:00:00.000 | 2050-12-31 00:00:00.000 | NULL          | NULL       |      1 |                         0 | Time Between | `{"EmployeeID":1,"CustomerID":2}`                | NULL                  |                      7 |
+
+
+
+## Step 2: compare the two models
 
 Once both models exist, compare them with `dbo.InsertModelSimilarities`.
 
 ```sql
 EXEC dbo.InsertModelSimilarities
-     @ModelID1 = @ModelID1,
-     @ModelID2 = @ModelID2,
+     @ModelID1 = 5,
+     @ModelID2 = 7,
      @DisplaySegments = 1;
 ```
 
