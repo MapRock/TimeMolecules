@@ -67,22 +67,22 @@ Use `CreateUpdateMarkovProcess` when you have decided that a particular filtered
 ### Minimal example
 
 ```sql
-DECLARE @ModelID INT = NULL;
+DECLARE @ModelID INT = NULL;   -- Output variable. NULL tells the procedure to create or locate the matching model.
 
 EXEC dbo.CreateUpdateMarkovProcess
-    @ModelID = @ModelID OUTPUT,
-    @EventSet = N'arrive,greeted,seated,ordered,served,paid',
-    @enumerate_multiple_events = 0,
-    @StartDateTime = '1900-01-01',
-    @EndDateTime = '2050-12-31',
-    @transforms = NULL,
-    @ByCase = 1,
-    @metric = N'Time Between',
-    @CaseFilterProperties = NULL,
-    @EventFilterProperties = NULL,
-    @InsertSequences = 1;
+    @ModelID = @ModelID OUTPUT,                         -- Returns the created or matched ModelID.
+    @EventSet = N'arrive,greeted,seated,ordered,served,paid', -- Event set used to define the allowed/selected event sequence.
+    @enumerate_multiple_events = 0,                     -- 1 = enumerate repeated events; 0 = keep repeated event names as-is.
+    @StartDateTime = '1900-01-01',                      -- Start of the event/model date range.
+    @EndDateTime = '2050-12-31',                        -- End of the event/model date range.
+    @transforms = NULL,                                 -- Optional transform code/JSON for remapping events. NULL = no transforms.
+    @ByCase = 1,                                        -- 1 = calculate transitions within each CaseID; 0 = treat all events as one case.
+    @metric = N'Time Between',                          -- Metric used for segment statistics, usually elapsed time between events.
+    @CaseFilterProperties = NULL,                       -- Optional JSON filter for case properties. NULL = no case-property filtering.
+    @EventFilterProperties = NULL,                      -- Optional JSON filter for event properties. NULL = no event-property filtering.
+    @InsertSequences = 1;                               -- 1 = persist supporting sequence rows; 0 = create/update only the model segments.
 
-SELECT @ModelID AS ModelID;
+SELECT @ModelID AS ModelID;                             -- Display the resulting model identifier.
 ```
 
 That is the basic pattern: call the procedure, capture the returned `ModelID`, and then use that ID to inspect `Models`, `ModelEvents`, or downstream comparison routines.
