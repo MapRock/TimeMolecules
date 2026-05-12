@@ -395,7 +395,7 @@ From Visual Studio, find the File Tutorials/.env.example and rename it to .env:
 
 Edit:
 
-```env
+```python
 OPENAI_API_KEY="Your OpenAI API Key"
 CYPHER_LOAD_DIR="Neo4j import path"
 ADVENTUREWORKS_SERVER_NAME="Your SQL Server"
@@ -444,15 +444,28 @@ ollama run qwen3:14b
 
 ### Embeddings
 
-```bash
-ollama pull nomic-embed-text
+Embeddings are used by the workbench Python app, [Time Molecules Agent Demo](https://github.com/MapRock/TimeMolecules/blob/main/tutorials/ai_agent_skills/time_molecules_agent_demo.py)
+
+These are the current setting of relevant parameters in the .env files:
+
+```python
+LLM="openai" # Lower case!! openai or ollama, grok.
+EMBED_LLM="openai" # Lowerer case. openai or ollama.
+OLLAMA_CHAT_MODEL=llama3.2
+OLLAMA_EMBED_MODEL='nomic-embed-text'
+OLLAMA_CTX=32768
+# ChatGPT settings. Be sure to use CHATGPT_MODEL for normal LLM communication.
+OPENAI_API_KEY="Your OpenAI API Key"
+CHATGPT_MODEL="gpt-4.1" # 4754 max tokens for this model.
+CHATGPT_EMBEDDING_MODEL="text-embedding-3-large"
 ```
-
-
+These settings will build embeddings using OpenAI's embedding model (EMBED_LLM="openai"). That means it will consume tokens. There are about 650 Time Molecules objects and in the order of a few dozen article abstracts (LLM_Prompt) that will be consumed. It generally cost me a few cents of OpenAI tokens per run. 
 
 ## Build the Embeddings
 
 This will build an embedding database of Time Molecules objects.
+
+
 
 Execute each line one by one:
 
