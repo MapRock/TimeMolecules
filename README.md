@@ -1,9 +1,26 @@
 # TimeMolecules
 
+**TimeMolecules** is a comprehensive framework, knowledge base, and implementation ecosystem for advanced process intelligence. It models real-world processes as large, multi-dimensional collections of probabilistic Hidden Markov Models — compact, queryable structures that capture the actual temporal “DNA” of how events unfold in complex systems.
+
 It is supplementary material for the book, <i>[Time Molecules](https://technicspub.com/time-molecules/)</i>, as well as a repository of information for AI agents and implementors of a solution. This resolves around a sample implementation, a SQL Server database named TimeSolution. TimeSolution is implemented as a SQL database and extensive logic (stored procedures, views, table-valued functions, scalar functions). This repo provides the prompts, skills, and tutorials that AI agents (and developers) need to learn how to use that enterprise resource effectively.
 
 This repository itself is not a database you can connect to and query. 
 
+
+## Who This Repository Is For
+
+This repo is deliberately built for **serious BI and/or AI practitioners and AI agents** who want to move beyond conventional process mining and business intelligence tools.
+
+### Primary Target Audience
+
+- Data engineers, data scientists, solution architects, and process mining experts working with high-volume event data who need scalable, production-ready ways to understand and predict process behavior
+- Developers building AI-augmented process intelligence, decision-support systems, or event-driven applications
+- AI agents (and the engineers creating them) that require a rich, consistent, searchable, and well-structured knowledge base about TimeMolecules concepts, patterns, and implementation details
+- Readers and implementers of the *Time Molecules* book who want to go from theory to concrete tutorials, reference code, LLM-ready prompt abstracts, sample data, and a working SQL Server solution (`TimeSolution`)
+
+The material is **advanced by design**. It assumes you are comfortable with SQL, event data modeling, and complex temporal concepts. In return, it provides a complete layered ecosystem — `llm_prompts`, hands-on tutorials, task-focused skills, and a working AI agent demo — so both humans and AI agents can effectively learn, reason about, and apply the TimeMolecules approach in real enterprise environments.
+
+## Getting Started
 **To get started** with the tutorials, you need to set up the dev environment. The setup options are:
 
 1. [Create copy of the pre-configured Windows Azure VM](https://github.com/MapRock/TimeMolecules/blob/main/docs/procure_time_molecules_vm.md) - Available May 24, 2026
