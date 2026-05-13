@@ -24,7 +24,7 @@ As of May 24, 2026, there will be an option to select a [pre-configured Azure Wi
 
 ## 1. Create the Virtual Machine 
 
-#### Licensing Compliance Note
+### Licensing Compliance Note
 
 All software used in this tutorial is provided under licenses that are **explicitly legal for learning, development, and personal use**:
 
@@ -36,6 +36,8 @@ All software used in this tutorial is provided under licenses that are **explici
 - **Neo4j Desktop** — Free Developer license intended for internal development, evaluation, and learning only.
 
 By following these instructions you remain fully compliant with Microsoft and Neo4j licensing terms. The tutorial environment is intentionally designed for **educational and development use only**.
+
+### Create the Virtual Machine in Azure Portal
 
 In the Azure Portal, go to **Home** → select **Virtual machines** → click **Create** → **Virtual Machine**.
 
