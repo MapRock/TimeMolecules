@@ -205,7 +205,7 @@ This is normal.
 
 ### d. Restore TimeSolution Database
 
-Open SQL Server Management Studio. If you don't remember the Server Name, click Browse-> Local, and you'll see the server name (it should be the only entry).
+Open SQL Server Management Studio. You will be presented with the "Connect" window. If you don't remember the Server Name, click Browse-> Local, and you'll see the server name (it should be the only entry).
 
 Be sure to check "Trust Server Certificate".
 
