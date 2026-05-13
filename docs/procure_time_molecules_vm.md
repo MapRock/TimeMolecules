@@ -44,7 +44,7 @@ The TimeMolecules VM is a **Windows** virtual machine hosted on Microsoft Azure.
 #### Python Environment
 
 - Python 3.10+ installed
-- Dedicated virtual environment at `C:\MapRock\TimeMolecules\tutorials\.venv`
+- Dedicated virtual environment at `C:\MapRock\TimeMolecules\.venv`
 - Key Python packages pre-installed (including `pyodbc`, `pandas`, `qdrant-client`, `openai`, `ollama`, `python-dotenv`, `pandastable`, `requests`, etc.)
 
 #### Repository & Tools
@@ -55,7 +55,7 @@ The full **TimeMolecules GitHub repository** is cloned to:
 #### Additional Installed Software
 
 - **Qdrant** vector database (local persistent storage)
-- **PlantUML** (for generating diagrams from `.puml` files)
+
 - **Ollama** (for running local LLMs)
 
 ## Create the Azure Windows VM
