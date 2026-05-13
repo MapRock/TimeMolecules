@@ -98,7 +98,7 @@ With Windows Server 2025 the operating system license is **included** in the Azu
 
 After you receive a message stating that the creation of the Virtual Machine is complete, you need to check whether the VM is running or not, and whether you wish to continue right now or later.
 
-1. Go to **Home** → select *TimeSolution-Book-Tutorial-V1**
+1. Go to **Home** → select from the list of your resources, **TimeSolution-Book-Tutorial-V1**
 2. If you **don't** intend to continue at this time and if Stop is enabled, click Stop to stop the VM.
 3. If you **DO** intend to continue at this time and if Stop is disabled, click Start. If will take a few minutes and you will incur charges.
 
