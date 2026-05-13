@@ -58,7 +58,7 @@ This tutorial assumes you are working on a personal or work Windows 10/11 machin
 
 All software used in this tutorial is provided under licenses that are **explicitly legal for learning, development, and personal use**:
 
-- **Windows Server 2025** — The operating system license is **included** in the Azure VM hourly price.  
+- **Windows Server 2025** (if using an Azure Windows VM) — The operating system license is **included** in the Azure VM hourly price.  
   When you reach the “Would you like to use an existing Windows Server license?” screen, simply **leave the box unchecked** unless you personally own a qualifying license with Software Assurance (Azure Hybrid Benefit). Most individual users following this tutorial leave it unchecked.
 
 - **SQL Server 2025 Developer Edition** — Free for development, testing, evaluation, and learning purposes only. It may **not** be used in production.
