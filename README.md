@@ -24,7 +24,7 @@ The material is **advanced by design**. It assumes you are comfortable with SQL,
 
 This repository is licensed under the **MIT License**. You are welcome to use, modify, fork, and build upon the code, LLM prompts, tutorials, skills library, and documentation in your own projects — commercial or non-commercial — provided you retain the original copyright notice and license text.
 
-That said, <i>[Time Molecules](https://technicspub.com/time-molecules/)</i> is the result of years of original research, deep thinking, experimentation, and careful documentation. Creating and maintaining this knowledge base has been a significant personal investment.
+That said, <i>[Time Molecules](https://technicspub.com/time-molecules/)</i> is the result of years of brutal in-the-field experience, original research, deep thinking, experimentation, and careful documentation. Creating and maintaining this knowledge base has been a significant personal investment.
 
 If you find the concepts, patterns, tutorials, or AI-agent tooling valuable, I kindly ask two things:
 
