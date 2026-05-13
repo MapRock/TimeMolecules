@@ -37,11 +37,11 @@ Basics page:
 | **Region**                       | West US (or closest to you)                           | — |
 | **Virtual Machine Name**                   | TimeSolution-Book-Tutorial-V1        | Whatever you want |
 | **Image**                   | Windows Server 2025 Datacenter - x64 Gen2            | Best compatibility |
-| **Size**                         | **Standard D4ds v4** (4 vCPU, 16 GiB memory)         | Ideal for SQL Server, Ollama, Neo4j |
+| **Size**                         | **Standard D4ds v4** (4 vCPU, 16 GiB memory)         | Ideal for SQL Server, Ollama, Neo4j. $328.50 |
 | **Username**                     | tmuser                          | Use a generic name (not your personal name) |
 | **Password**                     | Your own strong password                          | |
 | **Public inbound ports**         | Allow selected ports RDP (3389)                                    | Only for testing |
-| **Azure Spot**                   | Unchecked                                                    | — |
+| **Run with Azure Spot Discount**                   | Unchecked                                                    | — |
 | **Licensing**                   | Unchecked                                                   | IF you do not have an existing Windows Server License |
 
 
@@ -49,12 +49,13 @@ Basics page:
 | Setting                          | Recommended Value                                      | Notes |
 |----------------------------------|--------------------------------------------------------|-------|
 | **OS Disk Size**            | Image Default (127 GiB)             | — |
-| **OS Disk Type**            | Standard SSD LRS, Image default (128 GB+)             | — |
+| **OS Disk Type**            | Standard SSD              | — |
 
 3rd page: Networking
 | Setting                          | Recommended Value                                      | Notes |
 |----------------------------------|--------------------------------------------------------|-------|
-| **Virtual Network*            | TimeSolution-vnet             | — |
+| **Virtual Network*            | TimeSolution-vnet             |  |
+| **Subnet*            |default (10.0.0.0/24)            |  |
 
 
 Click **Review + Create". **Expected hourly cost while running:** ~$0.45 USD/hr (you are only charged while the VM is **Running**), at the time of writing, May 13, 2026. Please double-check the rates!
@@ -78,6 +79,14 @@ With Windows Server 2025 the operating system license is **included** in the Azu
 ---
 
 ## 2. Cost Management (Very Important)
+
+After you receive a message stating that the creation of the Virtual Machine is complete, you should ensure it is not running. 
+
+1. Go to **Home** → select *TimeSolution-Book-Tutorial-V1**
+2. If you don't intend to continue at this time and if Stop is enabled, click Stop to stop the VM
+3. If you DO intend to continue at this time and if Stop is disabled, click Start. If will take a few minutes and you will incur charges.
+
+
 
 - You are **only charged** while the VM status shows **Running**.
 - As soon as the VM finishes deploying, **immediately click Stop** in the Azure Portal (this deallocates it).
