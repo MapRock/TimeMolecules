@@ -9,6 +9,8 @@ It is the recommended method for:
 - People following the AI Agent tutorial
 - Anyone who wants a 100% fresh test environment
 
+As of May 24, 2026, there will be an option to select a [pre-configured Azure Windows VM](https://github.com/MapRock/TimeMolecules/blob/main/docs/procure_time_molecules_vm.md). This avoids having to install the dev environment.
+
 ---
 
 ## Why Use an Azure VM?
