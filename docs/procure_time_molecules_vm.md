@@ -2,7 +2,7 @@
 
 **Last Updated:** May 8, 2026 - <i>This pre-configured VM is not ready until May 24, 2026</i>
 
-This is the procedure from cloning the pre-configured Time Molecules VM
+This is the procedure from cloning the pre-configured Time Molecules VM--everything is setup and ready to go.
 
 If you prefer to set up for own VM, please refer instead to, follow this two-step process:
 
