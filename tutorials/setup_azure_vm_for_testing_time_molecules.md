@@ -91,7 +91,7 @@ With Windows Server 2025 the operating system license is **included** in the Azu
 
 1. In resource page of your VM in the Azure Portal, click **Start** the VM (if it is stopped).
 2. Click **Connect** → **Download RDP file** → **Open file** and log in with the username and password you chose.
-3. **Inside the VM**, open Microsfot Edge and follow the main installation guide:
+3. **Inside the VM**, open Microsoft Edge and follow the main dev environment installation guide:
 
    → **https://github.com/MapRock/TimeMolecules/blob/main/docs/install_timemolecules_dev_env.md**
 
@@ -105,26 +105,6 @@ There, you will install everything needed:
 - Neo4j Desktop (optional but included)
 
 ---
-
-## 4. (Optional but Recommended) Capture as Reusable Public Image
-
-Once everything is installed and you have tested the tutorial and book demos:
-
-1. **Inside the VM** (run as Administrator):
-   - Open Command Prompt and run:
-     ```cmd
-     %windir%\system32\sysprep\sysprep.exe /oobe /generalize /shutdown
-     ```
-   - The VM will shut down automatically.
-
-2. Back in the Azure Portal:
-   - Select the VM → click **Capture**
-   - Choose **Community Gallery** (makes it public)
-   - Give the image a clear name and description, for example:
-     - Image definition: `TimeMolecules-Full-Dev-Environment`
-     - Version: `1.0.0`
-     - Description: “Pre-configured Windows VM with full TimeMolecules book + tutorial environment (SQL Server, SSMS, Python, Ollama, Neo4j)”
-
 
 ## TimeMolecules VM – Complete Daily Workflow
 
