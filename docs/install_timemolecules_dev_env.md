@@ -152,7 +152,8 @@ Steps:
 
 Navigate to: [https://learn.microsoft.com/en-us/sql/ssms/download-sql-server-management-studio-ssms](https://learn.microsoft.com/en-us/sql/ssms/download-sql-server-management-studio-ssms)
 
-1. Run installer
+1. Click "Download SQL Server Management Studio 22 Installer".
+2. Run installer
 
 ---
 
