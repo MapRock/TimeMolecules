@@ -1,30 +1,30 @@
 USE [TimeSolution]
 GO
-/****** Object:  Schema [APP]    Script Date: 5/4/2026 6:13:06 AM ******/
+/****** Object:  Schema [APP]    Script Date: 5/13/2026 9:09:12 AM ******/
 CREATE SCHEMA [APP]
 GO
-/****** Object:  Schema [DIM]    Script Date: 5/4/2026 6:13:06 AM ******/
+/****** Object:  Schema [DIM]    Script Date: 5/13/2026 9:09:12 AM ******/
 CREATE SCHEMA [DIM]
 GO
-/****** Object:  Schema [DV]    Script Date: 5/4/2026 6:13:06 AM ******/
+/****** Object:  Schema [DV]    Script Date: 5/13/2026 9:09:12 AM ******/
 CREATE SCHEMA [DV]
 GO
-/****** Object:  Schema [ETL]    Script Date: 5/4/2026 6:13:06 AM ******/
+/****** Object:  Schema [ETL]    Script Date: 5/13/2026 9:09:12 AM ******/
 CREATE SCHEMA [ETL]
 GO
-/****** Object:  Schema [FACT]    Script Date: 5/4/2026 6:13:06 AM ******/
+/****** Object:  Schema [FACT]    Script Date: 5/13/2026 9:09:12 AM ******/
 CREATE SCHEMA [FACT]
 GO
-/****** Object:  Schema [KPI]    Script Date: 5/4/2026 6:13:06 AM ******/
+/****** Object:  Schema [KPI]    Script Date: 5/13/2026 9:09:12 AM ******/
 CREATE SCHEMA [KPI]
 GO
-/****** Object:  Schema [STAGE]    Script Date: 5/4/2026 6:13:06 AM ******/
+/****** Object:  Schema [STAGE]    Script Date: 5/13/2026 9:09:12 AM ******/
 CREATE SCHEMA [STAGE]
 GO
-/****** Object:  Schema [WORK]    Script Date: 5/4/2026 6:13:06 AM ******/
+/****** Object:  Schema [WORK]    Script Date: 5/13/2026 9:09:12 AM ******/
 CREATE SCHEMA [WORK]
 GO
-/****** Object:  UserDefinedFunction [dbo].[AddSegmentProbabilities]    Script Date: 5/4/2026 6:13:06 AM ******/
+/****** Object:  UserDefinedFunction [dbo].[AddSegmentProbabilities]    Script Date: 5/13/2026 9:09:12 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -96,7 +96,7 @@ BEGIN
 
 END
 GO
-/****** Object:  UserDefinedFunction [dbo].[BayesianProbability]    Script Date: 5/4/2026 6:13:06 AM ******/
+/****** Object:  UserDefinedFunction [dbo].[BayesianProbability]    Script Date: 5/13/2026 9:09:12 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -296,7 +296,7 @@ BEGIN
 	RETURN 
 END
 GO
-/****** Object:  UserDefinedFunction [dbo].[bigint_to_binary_string]    Script Date: 5/4/2026 6:13:06 AM ******/
+/****** Object:  UserDefinedFunction [dbo].[bigint_to_binary_string]    Script Date: 5/13/2026 9:09:12 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -349,7 +349,7 @@ BEGIN
     RETURN REVERSE(@binary_str);
 END;
 GO
-/****** Object:  UserDefinedFunction [dbo].[CaseCharacteristics]    Script Date: 5/4/2026 6:13:06 AM ******/
+/****** Object:  UserDefinedFunction [dbo].[CaseCharacteristics]    Script Date: 5/13/2026 9:09:12 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -490,7 +490,7 @@ BEGIN
 	RETURN 
 END
 GO
-/****** Object:  UserDefinedFunction [dbo].[CasesWithProperties]    Script Date: 5/4/2026 6:13:06 AM ******/
+/****** Object:  UserDefinedFunction [dbo].[CasesWithProperties]    Script Date: 5/13/2026 9:09:12 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -637,7 +637,7 @@ END
 
 --SELECT *,ROW_NUMBER() OVER(ORDER BY [key]) [Rank] FROM OPENJSON('{"EmployeeID":1}')
 GO
-/****** Object:  UserDefinedFunction [dbo].[ConditionalProbabilityTable]    Script Date: 5/4/2026 6:13:06 AM ******/
+/****** Object:  UserDefinedFunction [dbo].[ConditionalProbabilityTable]    Script Date: 5/13/2026 9:09:12 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -778,7 +778,7 @@ BEGIN
 	RETURN 
 END
 GO
-/****** Object:  UserDefinedFunction [dbo].[DefaultGroupType]    Script Date: 5/4/2026 6:13:06 AM ******/
+/****** Object:  UserDefinedFunction [dbo].[DefaultGroupType]    Script Date: 5/13/2026 9:09:12 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -844,7 +844,7 @@ BEGIN
 
 END
 GO
-/****** Object:  UserDefinedFunction [dbo].[DrillThroughToModelEvents]    Script Date: 5/4/2026 6:13:06 AM ******/
+/****** Object:  UserDefinedFunction [dbo].[DrillThroughToModelEvents]    Script Date: 5/13/2026 9:09:12 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -963,7 +963,7 @@ BEGIN
 	RETURN 
 END
 GO
-/****** Object:  UserDefinedFunction [dbo].[EventSetByCode]    Script Date: 5/4/2026 6:13:06 AM ******/
+/****** Object:  UserDefinedFunction [dbo].[EventSetByCode]    Script Date: 5/13/2026 9:09:12 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1059,7 +1059,7 @@ BEGIN
 
 END
 GO
-/****** Object:  UserDefinedFunction [dbo].[EventSetKey]    Script Date: 5/4/2026 6:13:06 AM ******/
+/****** Object:  UserDefinedFunction [dbo].[EventSetKey]    Script Date: 5/13/2026 9:09:12 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1181,7 +1181,7 @@ BEGIN
 
 END
 GO
-/****** Object:  UserDefinedFunction [dbo].[GetMetadataJsonValueFromDefinition]    Script Date: 5/4/2026 6:13:06 AM ******/
+/****** Object:  UserDefinedFunction [dbo].[GetMetadataJsonValueFromDefinition]    Script Date: 5/13/2026 9:09:12 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1247,7 +1247,7 @@ BEGIN
     RETURN @Result
 END
 GO
-/****** Object:  UserDefinedFunction [dbo].[GetModelEventString]    Script Date: 5/4/2026 6:13:06 AM ******/
+/****** Object:  UserDefinedFunction [dbo].[GetModelEventString]    Script Date: 5/13/2026 9:09:12 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1304,7 +1304,7 @@ BEGIN
     RETURN @Result
 END
 GO
-/****** Object:  UserDefinedFunction [dbo].[GetModelPropertyString]    Script Date: 5/4/2026 6:13:06 AM ******/
+/****** Object:  UserDefinedFunction [dbo].[GetModelPropertyString]    Script Date: 5/13/2026 9:09:12 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1367,7 +1367,7 @@ BEGIN
     RETURN @Result
 END
 GO
-/****** Object:  UserDefinedFunction [dbo].[GetViewColumns]    Script Date: 5/4/2026 6:13:06 AM ******/
+/****** Object:  UserDefinedFunction [dbo].[GetViewColumns]    Script Date: 5/13/2026 9:09:12 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1452,7 +1452,7 @@ BEGIN
     RETURN @ColumnsJson;
 END;
 GO
-/****** Object:  UserDefinedFunction [dbo].[IsMutuallyExclusive]    Script Date: 5/4/2026 6:13:06 AM ******/
+/****** Object:  UserDefinedFunction [dbo].[IsMutuallyExclusive]    Script Date: 5/13/2026 9:09:12 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1540,361 +1540,7 @@ BEGIN
 END
 
 GO
-/****** Object:  UserDefinedFunction [dbo].[MarkovChain_old]    Script Date: 5/4/2026 6:13:06 AM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
--- =============================================
--- Author:		<Author,,Name>
--- Create date: <Create Date,,>
--- Description:	<Description,,>
--- =============================================
-/*
-DECLARE @include NVARCHAR(MAX) = 'leavehome,heavytraffic,lighttraffic,arrivework'
-SELECT * FROM dbo.[MarkovChain](@include,0,'01/01/1900','12/31/2050',NULL,1,'Fuel',NULL)
-SELECT * FROM dbo.[MarkovChain](@include,0,'01/01/1900','12/31/2050',NULL,1,NULL,NULL)
-*/
-CREATE FUNCTION [dbo].[MarkovChain_old]
-(
-	@Include NVARCHAR(MAX),
-	@enumerate_multiple_events INT,
-	@StartDateTime DATETIME,
-	@EndDateTime DATETIME,
-	@transforms NVARCHAR(MAX),
-	@ByCase BIT=1,
-	@metric NVARCHAR(20),
-	@FilterProperties NVARCHAR(MAX)
-)
-RETURNS 
-
-@seq1 TABLE (
-	EventA NVARCHAR(20),
-	EventB NVARCHAR(20),
-	[Max] FLOAT,
-	[Avg] FLOAT,
-	[Min] FLOAT,
-	[StDev] FLOAT,
-	[CoefVar] FLOAT, --Coefficient of Variation.
-	[Sum] FLOAT,
-	[Rows] INT,
-	Prob FLOAT,
-	IsEntry BIT
-)
-AS
-BEGIN
-
-	SET @metric=COALESCE(@metric,'Time Between')
-	DECLARE @metricMethod INT=(SELECT [Method] FROM [dbo].[Metrics] WHERE [Metric]=@metric)
-
-	DECLARE @raw TABLE
-	(
-		CaseID int, 
-		[Event] NVARCHAR(20), 
-		EventDate datetime, 
-		[Rank] INT NULL, 
-		EventOccurance bigint,
-		MetricInputValue FLOAT, 
-		MetricOutputValue FLOAT,
-		UNIQUE (CaseID,[Rank])
-	)
-	INSERT  INTO @raw
-	SELECT
-		e.CaseID,
-		e.[Event],
-		e.EventDate,
-		[Rank],
-		[EventOccurance],
-		MetricInputValue,
-		MetricOutputValue
-	FROM
-		SelectedEvents(@Include,@enumerate_multiple_events,@StartDateTime,@EndDateTime,@transforms,@ByCase,@metric,@FilterProperties,NULL) e
-
-	;
-	WITH t0 (EventA, EventB,[value],[Rank])
-	AS
-	(
-	SELECT
-		t1.[Event] AS EventA,
-		t2.[Event] AS EventB,
-		CASE WHEN @metric='Time Between' THEN
-			DATEDIFF(ss,t1.[EventDate],t2.[EventDate])/60.0
-		ELSE
-			dbo.[MetricValue](@metricMethod,t1.MetricInputValue,t1.MetricOutputValue,t2.MetricInputValue,t2.MetricOutputValue)
-		END AS [value],
-		t1.[Rank]
-	FROM
-		@raw AS t1  --From Event
-		JOIN @raw AS t2 ON t2.CaseID=t1.CaseID AND t2.[Rank]=t1.[Rank]+1 --To Event
-	WHERE
-		t2.CaseID IS NOT NULL --AND
-		--t.[Event]!=p.[Event]
-
-	),
-	t1 (EventA,EventB,[Rows],[Avg],[StDev],[Max],[Min],IsEntry,[Sum])
-	AS
-	(
-	SELECT
-		t.[EventA] AS EventA,
-		t.[EventB] AS EventB,
-		COUNT(*) AS [Rows],
-		CAST(AVG(t.[value]) AS FLOAT) AS [Avg],
-		STDEV(t.[value]) AS [StDev],
-		MAX(t.[value]) AS [Max],
-		MIN(t.[value]) AS [Min],
-		SUM(CASE WHEN t.[Rank]=1 THEN 1 ELSE 0 END) AS IsEntry,
-		SUM(t.[value]) AS [Sum]
-	FROM
-		t0 AS t
-	GROUP BY
-		t.[EventA],
-		t.[EventB]
-
-	),
-	t2 (EventA,[Total])
-	AS
-	(
-	SELECT
-		EventA,
-		CAST(SUM([Rows]) AS FLOAT) AS Total
-	FROM t1
-	GROUP BY
-		EventA
-	)
-	INSERT INTO @seq1
-	SELECT
-		t1.EventA,
-		t1.EventB,
-		t1.[Max],
-		ROUND(t1.[Avg],4) AS [Avg],
-		t1.[Min],
-		ROUND(t1.[StDev],4) AS [StDev],
-		ROUND(t1.[StDev]/t1.[Avg],3) AS [CoefVar], --Coefficient of Variation.
-		t1.[Sum] AS [Sum],
-		t1.[Rows],
-		ROUND(t1.[Rows]/t2.[Total],4) AS Prob,
-		t1.IsEntry
-	FROM
-		t1
-		JOIN t2 ON t2.EventA=t1.EventA
-	ORDER BY
-		t1.EventA
-
-	RETURN 
-END
-GO
-/****** Object:  UserDefinedFunction [dbo].[MarkovChain_retired]    Script Date: 5/4/2026 6:13:06 AM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
--- =============================================
--- Author:		<Author,,Name>
--- Create date: <Create Date,,>
--- Description:	<Description,,>
--- =============================================
-/*
-Compare the 1st order and 2nd order
-
-SELECT * FROM [dbo].[MarkovChain](0,'restaurantguest',0,'01/01/1900','12/31/2050',NULL,1,NULL,NULL)
-SELECT * FROM [dbo].[MarkovChain](1,'restaurantguest',0,'01/01/1900','12/31/2050',NULL,1,NULL,NULL)
-SELECT * FROM [dbo].[MarkovChain](2,'restaurantguest',0,'01/01/1900','12/31/2050',NULL,1,NULL,NULL)
-SELECT * FROM [dbo].[MarkovChain](3,'restaurantguest',0,'01/01/1900','12/31/2050',NULL,1,NULL,NULL)
-*/
-CREATE FUNCTION [dbo].[MarkovChain_retired]
-(
-	@Order INT, -- 1, 2 or 3
-	@EventSet NVARCHAR(MAX),
-	@enumerate_multiple_events INT,
-	@StartDateTime DATETIME,
-	@EndDateTime DATETIME,
-	@transforms NVARCHAR(MAX),
-	@ByCase BIT=1,
-	@metric NVARCHAR(20),
-	@FilterProperties NVARCHAR(MAX),
-	@ForceRefresh BIT
-)
-RETURNS 
-
-@seq1 TABLE (
-	ModelID INT,
-	Event1A NVARCHAR(20), 
-	Event2A NVARCHAR(20),
-	Event3A NVARCHAR(20),
-	EventB NVARCHAR(20),
-	[Max] FLOAT,
-	[Avg] FLOAT,
-	[Min] FLOAT,
-	[StDev] FLOAT,
-	[CoefVar] FLOAT, --Coefficient of Variation.
-	[Sum] FLOAT,
-	[Rows] INT,
-	Prob FLOAT,
-	IsEntry BIT,
-	IsExit BIT,
-	FromCache BIT
-)
-AS
-BEGIN
-
-	SET @metric=COALESCE(@metric,'Time Between')
-	DECLARE @metricMethod INT=(SELECT [Method] FROM [dbo].[Metrics] WHERE [Metric]=@metric)
-	DECLARE @EventBIncrement INT= CASE WHEN COALESCE(@Order,1) BETWEEN 1 AND 3 THEN @Order ELSE 1 END
-	SET @ForceRefresh=COALESCE(@ForceRefresh,0)
-
-	DECLARE @ModelID INT=dbo.[ModelID]
-	(
-		@EventSet,
-		@enumerate_multiple_events,
-		@StartDateTime,
-		@EndDateTime ,
-		@transforms,
-		@ByCase,
-		@Metric,
-		@FilterProperties
-	)
-
-	IF @ForceRefresh=0 AND @ModelID IS NOT NULL AND @EventBIncrement=1
-	BEGIN
-		INSERT INTO @seq1
-			SELECT
-				[ModelID]
-				,[EventA]
-				,NULL
-				,NULL
-				,[EventB]
-				,[Max]
-				,[Avg]
-				,[Min]
-				,[StDev]
-				,[CoefVar]
-				,[Rows]
-				,[Prob]
-				,[IsEntry]
-				,[Sum]
-				,[IsExit]
-				,1	--Is from cache
-			  FROM 
-					[dbo].[ModelEvents]
-				WHERE
-					ModelID=@ModelID
-		RETURN
-	END
-
-	DECLARE @raw TABLE(CaseID int, [Event] NVARCHAR(20), EventDate datetime, [Rank] INT NULL, EventOccurance bigint,MetricInputValue FLOAT, MetricOutputValue FLOAT)
-	INSERT  INTO @raw
-	SELECT
-		e.CaseID,
-		e.[Event],
-		e.EventDate,
-		[Rank],
-		[EventOccurance],
-		MetricInputValue,
-		MetricOutputValue
-	FROM
-		SelectedEvents(@EventSet,@enumerate_multiple_events,@StartDateTime,@EndDateTime,@transforms,@ByCase,@metric,@FilterProperties) e
-
-	;
-	WITH t0 (Event1A,Event2A,Event3A, EventB,[value],[IsEntry],[EventBIsExit])
-	AS
-	(
-	SELECT
-		t1a.[Event] AS Event1A,
-		CASE WHEN @EventBIncrement<2 OR t1b.[Event] IS NULL THEN '------' ELSE t1b.[Event] END AS Event2A,
-		CASE WHEN @EventBIncrement<3 OR t1c.[Event] IS NULL THEN '------' ELSE t1c.[Event] END AS Event3A,
-		t2.[Event] AS EventB,
-		CASE WHEN @metric='Time Between' THEN
-			DATEDIFF(
-				ss,
-				CASE
-					WHEN @EventBIncrement=1 THEN t1a.EventDate
-					WHEN @EventBIncrement=2 THEN t1b.EventDate
-					WHEN @EventBIncrement=3 THEN t1c.EventDate
-				END,
-				t2.[EventDate]
-			)/60.0
-		ELSE
-			CASE
-				WHEN @EventBIncrement=1 THEN dbo.[MetricValue](@metricMethod,t1a.MetricInputValue,t1a.MetricOutputValue,t2.MetricInputValue,t2.MetricOutputValue)
-				WHEN @EventBIncrement=2 THEN dbo.[MetricValue](@metricMethod,t1b.MetricInputValue,t1b.MetricOutputValue,t2.MetricInputValue,t2.MetricOutputValue)
-				WHEN @EventBIncrement=3 THEN dbo.[MetricValue](@metricMethod,t1c.MetricInputValue,t1c.MetricOutputValue,t2.MetricInputValue,t2.MetricOutputValue)
-			END
-		END AS [value],
-		CASE WHEN t1a.[Rank]=1 THEN 1 ELSE 0 END AS IsEntry,
-		CASE WHEN t2a.[Rank] IS NULL THEN 1 ELSE 0 END as EventBIsExit
-	FROM
-		@raw AS t1a  --From Event
-		JOIN @raw AS t2 ON t2.CaseID=t1a.CaseID AND t2.[Rank]=t1a.[Rank]+@EventBIncrement 
-		LEFT JOIN @raw AS t2a ON t2.CaseID=t2a.CaseID AND t2a.[Rank]=t2.[Rank]+1 --Read one past to see if this is the last eent in a case.
-		LEFT JOIN @raw AS t1b ON t1b.CaseID=t1a.CaseID AND t1b.[Rank]=t1a.[Rank]+1 
-		LEFT JOIN @raw AS t1c ON t1c.CaseID=t1a.CaseID AND t1c.[Rank]=t1a.[Rank]+2 
-
-	),
-	t1 (Event1A,Event2A,Event3A,EventB,[Rows],[Avg],[StDev],[Max],[Min],IsEntry,[EventBIsExit],[Sum])
-	AS
-	(
-	SELECT
-		t.[Event1A],
-		t.Event2A,
-		t.Event3A,
-		t.[EventB] ,
-		COUNT(*) AS [Rows],
-		CAST(AVG(t.[value]) AS FLOAT) AS [Avg],
-		STDEV(t.[value]) AS [StDev],
-		MAX(t.[value]) AS [Max],
-		MIN(t.[value]) AS [Min],
-		SUM(t.IsEntry) AS IsEntry,
-		SUM(t.EventBIsExit) AS IsExit,
-		SUM(t.[value]) AS [Sum]
-	FROM
-		t0 AS t
-	GROUP BY
-		t.[Event1A],
-		t.Event2A,
-		t.Event3A,
-		t.[EventB]
-
-	),
-	t2 (Event1A,Event2A,Event3A,[Total])
-	AS
-	(
-	SELECT
-		Event1A,
-		Event2A,
-		Event3A,
-		CAST(SUM([Rows]) AS FLOAT) AS Total
-	FROM t1
-	GROUP BY
-		Event1A,Event2A,Event3A
-	)
-	INSERT INTO @seq1
-		SELECT
-			@ModelID,
-			t1.Event1A,
-			t1.Event2A,
-			t1.Event3A,
-			t1.EventB,
-			t1.[Max],
-			ROUND(t1.[Avg],4) AS [Avg],
-			t1.[Min],
-			ROUND(t1.[StDev],4) AS [StDev],
-			CASE WHEN t1.[Avg]=0 THEN NULL ELSE ROUND(t1.[StDev]/t1.[Avg],3) END AS [CoefVar], --Coefficient of Variation.
-			t1.[Sum] AS [Sum],
-			t1.[Rows],
-			CASE WHEN t2.[Total]=0 THEN NULL ELSE ROUND(t1.[Rows]/t2.[Total],4) END AS Prob,
-			t1.IsEntry,
-			t1.EventBIsExit AS IsExit,
-			0 --Not from cache
-		FROM
-			t1
-			JOIN t2 ON t2.Event1A=t1.Event1A AND t2.Event2A=t1.Event2A AND t2.Event3A=t1.Event3A
-		ORDER BY
-			t1.Event1A,t1.Event2A,t1.Event3A
-
-	RETURN 
-END
-GO
-/****** Object:  UserDefinedFunction [dbo].[MarkovProcess]    Script Date: 5/4/2026 6:13:06 AM ******/
+/****** Object:  UserDefinedFunction [dbo].[MarkovProcess]    Script Date: 5/13/2026 9:09:12 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -2352,217 +1998,7 @@ BEGIN
 	RETURN 
 END
 GO
-/****** Object:  UserDefinedFunction [dbo].[MarkovProcess_retired]    Script Date: 5/4/2026 6:13:06 AM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
--- =============================================
--- Author:		<Author,,Name>
--- Create date: <Create Date,,>
--- Description:	<Description,,>
--- =============================================
-/*
-Compare the 1st order and 2nd order
-
-SELECT * FROM [dbo].[MarkovProcess1](0,'restaurantguest',0,'01/01/1900','12/31/2050',NULL,1,NULL,NULL,NULL)
-SELECT * FROM [dbo].[MarkovProcess](1,'restaurantguest',0,'01/01/1900','12/31/2050',NULL,1,NULL,NULL,NULL)
-SELECT * FROM [dbo].[MarkovProcess](2,'restaurantguest',0,'01/01/1900','12/31/2050',NULL,1,NULL,NULL,NULL)
-SELECT * FROM [dbo].[MarkovProcess](3,'restaurantguest',0,'01/01/1900','12/31/2050',NULL,1,NULL,NULL,NULL)
-*/
-CREATE FUNCTION [dbo].[MarkovProcess_retired]
-(
-	@Order INT, -- 1, 2 or 3
-	@EventSet NVARCHAR(MAX),
-	@enumerate_multiple_events INT,
-	@StartDateTime DATETIME,
-	@EndDateTime DATETIME,
-	@transforms NVARCHAR(MAX),
-	@ByCase BIT=1,
-	@metric NVARCHAR(20),
-	@FilterProperties NVARCHAR(MAX),
-	@ForceRefresh BIT
-)
-RETURNS 
-
-@seq1 TABLE (
-	ModelID INT,
-	Event1A NVARCHAR(20), 
-	Event2A NVARCHAR(20),
-	Event3A NVARCHAR(20),
-	EventB NVARCHAR(20),
-	[Max] FLOAT,
-	[Avg] FLOAT,
-	[Min] FLOAT,
-	[StDev] FLOAT,
-	[CoefVar] FLOAT, --Coefficient of Variation.
-	[Sum] FLOAT,
-	[Rows] INT,
-	Prob FLOAT,
-	IsEntry BIT,
-	IsExit BIT,
-	FromCache BIT
-)
-AS
-BEGIN
-
-	SET @Order=COALESCE(@Order,1)
-	SET @metric=COALESCE(@metric,'Time Between')
-	DECLARE @metricMethod INT=(SELECT [Method] FROM [dbo].[Metrics] WHERE [Metric]=@metric)
-	DECLARE @EventBIncrement INT= CASE WHEN @Order BETWEEN 1 AND 3 THEN @Order ELSE 1 END
-	SET @ForceRefresh=COALESCE(@ForceRefresh,0)
-
-	DECLARE @ModelID INT=dbo.[ModelID]
-	(
-		@EventSet,
-		@enumerate_multiple_events,
-		@StartDateTime,
-		@EndDateTime ,
-		@transforms,
-		@ByCase,
-		@Metric,
-		@FilterProperties,
-		NULL, --EventFilterProperties
-		'MarkovChain'
-	)
-
-
-	IF @ForceRefresh=0 AND @ModelID IS NOT NULL AND @EventBIncrement=1
-	BEGIN
-		INSERT INTO @seq1
-			SELECT
-				[ModelID]
-				,[EventA]
-				,'------'
-				,'------'
-				,[EventB]
-				,[Max]
-				,[Avg]
-				,[Min]
-				,[StDev]
-				,[CoefVar]
-				,[Rows]
-				,[Prob]
-				,[IsEntry]
-				,[Sum]
-				,[IsExit]
-				,1	--Is from cache
-			  FROM 
-					[dbo].[ModelEvents]
-				WHERE
-					ModelID=@ModelID
-		RETURN
-	END
-
-	DECLARE @raw TABLE(CaseID int, [Event] NVARCHAR(20), EventDate datetime, [Rank] INT NULL, EventOccurance bigint,MetricInputValue FLOAT, MetricOutputValue FLOAT)
-	INSERT  INTO @raw
-	SELECT
-		e.CaseID,
-		e.[Event],
-		e.EventDate,
-		[Rank],
-		[EventOccurance],
-		MetricInputValue,
-		MetricOutputValue
-	FROM
-		SelectedEvents(@EventSet,@enumerate_multiple_events,@StartDateTime,@EndDateTime,@transforms,@ByCase,@metric,@FilterProperties,NULL) e
-
-	DECLARE @t0 TABLE(Event1A NVARCHAR(20),Event2A NVARCHAR(20),Event3A NVARCHAR(20), EventB NVARCHAR(20),[value] FLOAT,[IsEntry] INT,[EventBIsExit] INT)
-	INSERT INTO @t0
-	SELECT
-		t1a.[Event] AS Event1A,
-		CASE WHEN @EventBIncrement<2 OR t1b.[Event] IS NULL THEN '------' ELSE t1b.[Event] END AS Event2A,
-		CASE WHEN @EventBIncrement<3 OR t1c.[Event] IS NULL THEN '------' ELSE t1c.[Event] END AS Event3A,
-		t2.[Event] AS EventB,
-		CASE WHEN @metric='Time Between' THEN
-			DATEDIFF(
-				ss,
-				CASE
-					WHEN @EventBIncrement=1 THEN t1a.EventDate
-					WHEN @EventBIncrement=2 THEN t1b.EventDate
-					WHEN @EventBIncrement=3 THEN t1c.EventDate
-				END,
-				t2.[EventDate]
-			)/60.0
-		ELSE
-			CASE
-				WHEN @EventBIncrement=1 THEN dbo.[MetricValue](@metricMethod,t1a.MetricInputValue,t1a.MetricOutputValue,t2.MetricInputValue,t2.MetricOutputValue)
-				WHEN @EventBIncrement=2 THEN dbo.[MetricValue](@metricMethod,t1b.MetricInputValue,t1b.MetricOutputValue,t2.MetricInputValue,t2.MetricOutputValue)
-				WHEN @EventBIncrement=3 THEN dbo.[MetricValue](@metricMethod,t1c.MetricInputValue,t1c.MetricOutputValue,t2.MetricInputValue,t2.MetricOutputValue)
-			END
-		END AS [value],
-		CASE WHEN t1a.[Rank]=1 THEN 1 ELSE 0 END AS IsEntry,
-		CASE WHEN t2a.[Rank] IS NULL THEN 1 ELSE 0 END as EventBIsExit
-	FROM
-		@raw AS t1a  --From Event
-		JOIN @raw AS t2 ON t2.CaseID=t1a.CaseID AND t2.[Rank]=t1a.[Rank]+@EventBIncrement 
-		LEFT JOIN @raw AS t2a ON t2.CaseID=t2a.CaseID AND t2a.[Rank]=t2.[Rank]+1 --Read one past to see if this is the last eent in a case.
-		LEFT JOIN @raw AS t1b ON t1b.CaseID=t1a.CaseID AND t1b.[Rank]=t1a.[Rank]+1 
-		LEFT JOIN @raw AS t1c ON t1c.CaseID=t1a.CaseID AND t1c.[Rank]=t1a.[Rank]+2 
-
-	DECLARE @t1 TABLE (Event1A NVARCHAR(20),Event2A NVARCHAR(20),Event3A NVARCHAR(20),EventB NVARCHAR(20),[Rows] INT,[Avg] FLOAT,[StDev] FLOAT,[Max] FLOAT,[Min] FLOAT,IsEntry INT,[EventBIsExit] INT,[Sum] FLOAT)
-	INSERT INTO @t1
-	SELECT
-		t.[Event1A],
-		t.Event2A,
-		t.Event3A,
-		t.[EventB] ,
-		COUNT(*) AS [Rows],
-		CAST(AVG(t.[value]) AS FLOAT) AS [Avg],
-		STDEV(t.[value]) AS [StDev],
-		MAX(t.[value]) AS [Max],
-		MIN(t.[value]) AS [Min],
-		SUM(t.IsEntry) AS IsEntry,
-		SUM(t.EventBIsExit) AS IsExit,
-		SUM(t.[value]) AS [Sum]
-	FROM
-		@t0 AS t
-	GROUP BY
-		t.[Event1A],
-		t.Event2A,
-		t.Event3A,
-		t.[EventB]
-
-
-	DECLARE @t2 TABLE (Event1A NVARCHAR(20),Event2A NVARCHAR(20),Event3A NVARCHAR(20),[Total] FLOAT)
-	INSERT INTO @t2
-	SELECT
-		Event1A,
-		Event2A,
-		Event3A,
-		CAST(SUM([Rows]) AS FLOAT) AS Total
-	FROM @t1
-	GROUP BY
-		Event1A,Event2A,Event3A
-	
-	INSERT INTO @seq1
-		SELECT
-			@ModelID,
-			t1.Event1A,
-			t1.Event2A,
-			t1.Event3A,
-			t1.EventB,
-			t1.[Max],
-			ROUND(t1.[Avg],4) AS [Avg],
-			t1.[Min],
-			ROUND(t1.[StDev],4) AS [StDev],
-			CASE WHEN t1.[Avg]=0 THEN NULL ELSE ROUND(t1.[StDev]/t1.[Avg],3) END AS [CoefVar], --Coefficient of Variation.
-			t1.[Sum] AS [Sum],
-			t1.[Rows],
-			CASE WHEN t2.[Total]=0 THEN NULL ELSE ROUND(t1.[Rows]/t2.[Total],4) END AS Prob,
-			t1.IsEntry,
-			t1.EventBIsExit AS IsExit,
-			0 --Not from cache
-		FROM
-			@t1 t1
-			JOIN @t2 t2 ON t2.Event1A=t1.Event1A AND t2.Event2A=t1.Event2A AND t2.Event3A=t1.Event3A
-		ORDER BY
-			t1.Event1A,t1.Event2A,t1.Event3A
-
-	RETURN 
-END
-GO
-/****** Object:  UserDefinedFunction [dbo].[MaxModelID]    Script Date: 5/4/2026 6:13:06 AM ******/
+/****** Object:  UserDefinedFunction [dbo].[MaxModelID]    Script Date: 5/13/2026 9:09:12 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -2614,7 +2050,7 @@ BEGIN
     RETURN @MaxModelID;
 END
 GO
-/****** Object:  UserDefinedFunction [dbo].[MetricValue]    Script Date: 5/4/2026 6:13:06 AM ******/
+/****** Object:  UserDefinedFunction [dbo].[MetricValue]    Script Date: 5/13/2026 9:09:12 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -2697,7 +2133,7 @@ BEGIN
 
 END
 GO
-/****** Object:  UserDefinedFunction [dbo].[ModelDrillThrough]    Script Date: 5/4/2026 6:13:06 AM ******/
+/****** Object:  UserDefinedFunction [dbo].[ModelDrillThrough]    Script Date: 5/13/2026 9:09:12 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -2860,7 +2296,7 @@ BEGIN
 	RETURN 
 END
 GO
-/****** Object:  UserDefinedFunction [dbo].[ModelEventKey]    Script Date: 5/4/2026 6:13:06 AM ******/
+/****** Object:  UserDefinedFunction [dbo].[ModelEventKey]    Script Date: 5/13/2026 9:09:12 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -2959,7 +2395,7 @@ BEGIN
 	RETURN HASHBYTES('MD5', @concatenatedString) 
 END
 GO
-/****** Object:  UserDefinedFunction [dbo].[ModelEventsByProperty]    Script Date: 5/4/2026 6:13:06 AM ******/
+/****** Object:  UserDefinedFunction [dbo].[ModelEventsByProperty]    Script Date: 5/13/2026 9:09:12 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -3104,7 +2540,7 @@ BEGIN
 	RETURN 
 END
 GO
-/****** Object:  UserDefinedFunction [dbo].[ModelID]    Script Date: 5/4/2026 6:13:06 AM ******/
+/****** Object:  UserDefinedFunction [dbo].[ModelID]    Script Date: 5/13/2026 9:09:12 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -3152,6 +2588,7 @@ Sample utilization:
       'Time Between',
       NULL,NULL,
       'MarkovChain'
+	  ,NULL
     ) AS ExistingModelID;
 
     SELECT dbo.ModelID(
@@ -3159,7 +2596,8 @@ Sample utilization:
       NULL, 1,
       'Time Between',
       NULL,NULL,
-      'MarkovChain'
+      'MarkovChain',
+	  7
     ) AS ExistingModelID;
 
 
@@ -3209,7 +2647,7 @@ BEGIN
 			AND COALESCE(m.CaseFilterProperties,'')=COALESCE(@CaseFilterProperties,'')
 			AND COALESCE(m.EventFilterProperties,'')=COALESCE(@EventFilterProperties,'')
 			AND m.ModelType=@ModelType 
-			AND m.CreatedBy_AccessBitmap =@CreatedBy_AccessBitmap 
+			AND m.CreatedBy_AccessBitmap =COALESCE(@CreatedBy_AccessBitmap ,[dbo].[UserAccessBitmap]())
 
 
 		)
@@ -3217,7 +2655,7 @@ BEGIN
 
 END
 GO
-/****** Object:  UserDefinedFunction [dbo].[ModelsByParameters]    Script Date: 5/4/2026 6:13:06 AM ******/
+/****** Object:  UserDefinedFunction [dbo].[ModelsByParameters]    Script Date: 5/13/2026 9:09:12 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -3322,7 +2760,7 @@ CREATE FUNCTION [dbo].[ModelsByParameters]
 	@CaseFilterProperties NVARCHAR(MAX),
 	@EventFilterProperties NVARCHAR(MAX),
 	@ModelType NVARCHAR(50),
-	@ExactCasePropertiesMatch BIT,
+	@ExactCasePropertiesMatch BIT,	--1 means that each case property must match (AND).
 	@CreatedBy_AccessBitmap BIGINT	--NULL means don't filter by this. It just returns the model, but doesn't return events.
 )
 RETURNS 
@@ -3462,7 +2900,7 @@ BEGIN
 	RETURN 
 END
 GO
-/****** Object:  UserDefinedFunction [dbo].[ModelSimilaritySegments]    Script Date: 5/4/2026 6:13:06 AM ******/
+/****** Object:  UserDefinedFunction [dbo].[ModelSimilaritySegments]    Script Date: 5/13/2026 9:09:12 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -3630,7 +3068,7 @@ BEGIN
     RETURN;
 END
 GO
-/****** Object:  UserDefinedFunction [dbo].[PromptEventSimilarity]    Script Date: 5/4/2026 6:13:06 AM ******/
+/****** Object:  UserDefinedFunction [dbo].[PromptEventSimilarity]    Script Date: 5/13/2026 9:09:12 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -3778,7 +3216,7 @@ BEGIN
 
 END
 GO
-/****** Object:  UserDefinedFunction [dbo].[PropertySource]    Script Date: 5/4/2026 6:13:06 AM ******/
+/****** Object:  UserDefinedFunction [dbo].[PropertySource]    Script Date: 5/13/2026 9:09:12 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -3833,7 +3271,7 @@ BEGIN
 
 END
 GO
-/****** Object:  UserDefinedFunction [dbo].[SelectedEvents]    Script Date: 5/4/2026 6:13:06 AM ******/
+/****** Object:  UserDefinedFunction [dbo].[SelectedEvents]    Script Date: 5/13/2026 9:09:12 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -3899,8 +3337,7 @@ SELECT * FROM dbo.SelectedEvents('poker',0,'01/01/2000','01/04/2050',NULL,1,NULL
 SELECT * FROM dbo.SelectedEvents('NEW_GAME,collected,GameState-0,GameState-1,GameState-2,GameState-3,GameState-4,calls,bets,raises,folds,checks',0,'01/01/2000','01/04/2050',NULL,1,NULL,NULL,NULL)
 SELECT * FROM dbo.SelectedEvents('NEW_GAME,collected,GameState-0,GameState-1,GameState-2,GameState-3,GameState-4,calls,bets,raises,folds,checks',0,'01/01/2000','01/04/2050',NULL,1,'current_leader_chips',NULL)
 SELECT * FROM dbo.SelectedEvents('NEW_GAME,collected,GameState-0,GameState-1,GameState-2,GameState-3,GameState-4,calls,bets,raises,folds,checks',0,'01/01/2000','01/04/2050',NULL,1,'current_leader_chips','{"TournamentNumber":206815194}',NULL)
-SELECT * FROM dbo.SelectedEvents('NEW_GAME,collected,GameState-0,GameState-1,GameState-2,GameState-3,GameState-4,calls,bets,raises,folds,checks',0,'01/01/2000','01/04/2050',NULL,1,'current_leader_chips','{"TournamentNumber":206815194}','{"Player":"RaminWho"}')
-
+\
 SELECT * FROM dbo.SelectedEvents('TIA',0,NULL,NULL,NULL,1,'Fuel','{"age":"Elderly"}',NULL) ORDER BY CaseID,[Rank]
 SELECT * FROM dbo.SelectedEvents('TIA',0,NULL,NULL,NULL,1,'Fuel','{"age":"Young","Diabetic":"No"}',NULL) ORDER BY CaseID,[Rank]
 
@@ -3975,11 +3412,11 @@ BEGIN
 		RETURN --Error
 	END
 
-	DECLARE @trans TABLE (fromKey NVARCHAR(20),tokey NVARCHAR(20), UNIQUE (fromkey))
+	DECLARE @trans TABLE (fromKey NVARCHAR(50),tokey NVARCHAR(50),op NVARCHAR(50), Value1 NVARCHAR(50),Value2 NVARCHAR(50),Value3 NVARCHAR(50))
 	IF @transforms IS NOT NULL
 	BEGIN
 		INSERT INTO @trans
-			SELECT [fromkey],[tokey] FROM dbo.ParseTransforms(@transforms)
+			SELECT [fromkey],[tokey], [op],Value1, Value2, Value3  FROM dbo.ParseTransforms(@transforms)
 	END
 
 	DECLARE @Properties TABLE (property NVARCHAR(50), property_numeric FLOAT,property_alpha NVARCHAR(1000),[rank] INT, UNIQUE (property,[rank]))
@@ -4043,6 +3480,7 @@ BEGIN
 						LEFT JOIN [dbo].[EventPropertiesParsed] [pi] (NOLOCK) ON @metric<>@DefaultMetric AND [pi].EventID=e.EventID AND [pi].PropertySource=0 AND [pi].PropertyName=@metric
 						LEFT JOIN [dbo].[EventPropertiesParsed] [po] (NOLOCK) ON @metric<>@DefaultMetric AND [po].EventID=e.EventID AND [po].PropertySource=1 AND [po].PropertyName=@metric
 					WHERE 
+						tr.op IS NULL AND
 						e.EventDate BETWEEN @StartDateTime AND @EndDateTime
 						AND (@EventFilterProperties IS NULL OR (
 							--Check the CASE properties.
@@ -4144,7 +3582,7 @@ END
 
 --SELECT *,ROW_NUMBER() OVER(ORDER BY [key]) [Rank] FROM OPENJSON('{"EmployeeID":1}')
 GO
-/****** Object:  UserDefinedFunction [dbo].[SequenceKey]    Script Date: 5/4/2026 6:13:06 AM ******/
+/****** Object:  UserDefinedFunction [dbo].[SequenceKey]    Script Date: 5/13/2026 9:09:12 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -4196,7 +3634,7 @@ BEGIN
 
 END
 GO
-/****** Object:  UserDefinedFunction [dbo].[SequenceProbability]    Script Date: 5/4/2026 6:13:06 AM ******/
+/****** Object:  UserDefinedFunction [dbo].[SequenceProbability]    Script Date: 5/13/2026 9:09:12 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -4315,7 +3753,7 @@ BEGIN
 
 END
 GO
-/****** Object:  UserDefinedFunction [dbo].[Sequences]    Script Date: 5/4/2026 6:13:06 AM ******/
+/****** Object:  UserDefinedFunction [dbo].[Sequences]    Script Date: 5/13/2026 9:09:12 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -4595,7 +4033,7 @@ BEGIN
 	RETURN 
 END
 GO
-/****** Object:  UserDefinedFunction [dbo].[SequenceSegments]    Script Date: 5/4/2026 6:13:06 AM ******/
+/****** Object:  UserDefinedFunction [dbo].[SequenceSegments]    Script Date: 5/13/2026 9:09:12 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -4767,7 +4205,7 @@ BEGIN
 	RETURN 
 END
 GO
-/****** Object:  UserDefinedFunction [dbo].[SortKeyValueJSON]    Script Date: 5/4/2026 6:13:06 AM ******/
+/****** Object:  UserDefinedFunction [dbo].[SortKeyValueJSON]    Script Date: 5/13/2026 9:09:12 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -4830,7 +4268,7 @@ BEGIN
 	RETURN '{'+@result+'}'
 END
 GO
-/****** Object:  UserDefinedFunction [dbo].[SourceID]    Script Date: 5/4/2026 6:13:06 AM ******/
+/****** Object:  UserDefinedFunction [dbo].[SourceID]    Script Date: 5/13/2026 9:09:12 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -4901,7 +4339,7 @@ BEGIN
 
 END
 GO
-/****** Object:  UserDefinedFunction [dbo].[TransformsKey]    Script Date: 5/4/2026 6:13:06 AM ******/
+/****** Object:  UserDefinedFunction [dbo].[TransformsKey]    Script Date: 5/13/2026 9:09:12 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -4968,7 +4406,7 @@ BEGIN
 		-- The json is sorted by key (from event) and value (to event). This way, when we're doing a lookup,
 		-- we get the same answer.
 		insert into @kv
-			SELECT [fromkey],[tokey],DENSE_RANK() OVER (ORDER BY [fromkey]) as [r] FROM ParseTransforms(@Transforms) order by [fromkey]
+			SELECT [fromkey],[tokey],DENSE_RANK() OVER (ORDER BY [fromkey],[toKey]) as [r] FROM ParseTransforms(@Transforms) order by [fromkey],[tokey]
 		SELECT 
 			@result=HASHBYTES('MD5',STRING_AGG(CAST([k] +':'+[v] AS NVARCHAR(50)),','))
 			FROM 
@@ -4978,7 +4416,7 @@ BEGIN
 
 END
 GO
-/****** Object:  UserDefinedFunction [dbo].[UserAccessBitmap]    Script Date: 5/4/2026 6:13:06 AM ******/
+/****** Object:  UserDefinedFunction [dbo].[UserAccessBitmap]    Script Date: 5/13/2026 9:09:12 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -5044,7 +4482,7 @@ BEGIN
 
 END
 GO
-/****** Object:  UserDefinedFunction [dbo].[UserDenyBitmap]    Script Date: 5/4/2026 6:13:06 AM ******/
+/****** Object:  UserDefinedFunction [dbo].[UserDenyBitmap]    Script Date: 5/13/2026 9:09:12 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -5062,7 +4500,7 @@ BEGIN
     RETURN @Bitmap;
 END
 GO
-/****** Object:  UserDefinedFunction [dbo].[UserID]    Script Date: 5/4/2026 6:13:06 AM ******/
+/****** Object:  UserDefinedFunction [dbo].[UserID]    Script Date: 5/13/2026 9:09:12 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -5125,7 +4563,7 @@ BEGIN
 
 END
 GO
-/****** Object:  UserDefinedFunction [ETL].[StockMove]    Script Date: 5/4/2026 6:13:06 AM ******/
+/****** Object:  UserDefinedFunction [ETL].[StockMove]    Script Date: 5/13/2026 9:09:12 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -5186,7 +4624,7 @@ BEGIN
 
 END
 GO
-/****** Object:  UserDefinedFunction [dbo].[ModelsWithProperties]    Script Date: 5/4/2026 6:13:06 AM ******/
+/****** Object:  UserDefinedFunction [dbo].[ModelsWithProperties]    Script Date: 5/13/2026 9:09:12 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -5364,7 +4802,7 @@ RETURN
         )
 );
 GO
-/****** Object:  UserDefinedFunction [dbo].[ModelEventsFull]    Script Date: 5/4/2026 6:13:06 AM ******/
+/****** Object:  UserDefinedFunction [dbo].[ModelEventsFull]    Script Date: 5/13/2026 9:09:12 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -5508,7 +4946,7 @@ RETURN
 		)
 )
 GO
-/****** Object:  UserDefinedFunction [dbo].[UserAccessDeny]    Script Date: 5/4/2026 6:13:06 AM ******/
+/****** Object:  UserDefinedFunction [dbo].[UserAccessDeny]    Script Date: 5/13/2026 9:09:12 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -5579,7 +5017,7 @@ RETURN
         dbo.UserDenyBitmap()   AS DenyBitmap
 )
 GO
-/****** Object:  View [dbo].[vwEventsFact]    Script Date: 5/4/2026 6:13:06 AM ******/
+/****** Object:  View [dbo].[vwEventsFact]    Script Date: 5/13/2026 9:09:12 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -5600,7 +5038,7 @@ WHERE
     (us.GrantBitmap & e.AccessBitmap) <> 0      -- at least one grant
     AND (us.DenyBitmap & e.AccessBitmap) = 0;   -- NO deny overlap
 GO
-/****** Object:  View [dbo].[vwSourceColumnsFull]    Script Date: 5/4/2026 6:13:06 AM ******/
+/****** Object:  View [dbo].[vwSourceColumnsFull]    Script Date: 5/13/2026 9:09:12 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -5611,7 +5049,7 @@ SELECT sc.SourceColumnID, sc.SourceID, sc.TableName, sc.ColumnName, sc.IsKey, sc
 FROM  dbo.SourceColumns AS sc INNER JOIN
          dbo.Sources AS s ON s.SourceID = sc.SourceID
 GO
-/****** Object:  View [dbo].[vwSimiliarSourceColumnPairs_Full]    Script Date: 5/4/2026 6:13:06 AM ******/
+/****** Object:  View [dbo].[vwSimiliarSourceColumnPairs_Full]    Script Date: 5/13/2026 9:09:12 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -5623,7 +5061,7 @@ FROM  dbo.SimilarSourceColumnPairs AS scp WITH (NOLOCK) INNER JOIN
          dbo.vwSourceColumnsFull AS s1 ON s1.SourceColumnID = scp.SourceColumnID1 INNER JOIN
          dbo.vwSourceColumnsFull AS s2 ON s2.SourceColumnID = scp.SourceColumnID2
 GO
-/****** Object:  UserDefinedFunction [dbo].[ParseEventSet]    Script Date: 5/4/2026 6:13:06 AM ******/
+/****** Object:  UserDefinedFunction [dbo].[ParseEventSet]    Script Date: 5/13/2026 9:09:12 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -5700,7 +5138,7 @@ RETURN
         CROSS APPLY string_split(r.EventSetValue, ',') s
 );
 GO
-/****** Object:  UserDefinedFunction [dbo].[EntryAndExitPoints]    Script Date: 5/4/2026 6:13:06 AM ******/
+/****** Object:  UserDefinedFunction [dbo].[EntryAndExitPoints]    Script Date: 5/13/2026 9:09:12 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -5838,7 +5276,7 @@ RETURN
     FROM combined c
 );
 GO
-/****** Object:  UserDefinedFunction [dbo].[EventSetInclusion]    Script Date: 5/4/2026 6:13:06 AM ******/
+/****** Object:  UserDefinedFunction [dbo].[EventSetInclusion]    Script Date: 5/13/2026 9:09:12 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -5925,7 +5363,7 @@ RETURN
         COUNT(DISTINCT e.[Event]) = c.EventCount
 );
 GO
-/****** Object:  UserDefinedFunction [dbo].[IntersegmentEvents]    Script Date: 5/4/2026 6:13:06 AM ******/
+/****** Object:  UserDefinedFunction [dbo].[IntersegmentEvents]    Script Date: 5/13/2026 9:09:12 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -6056,7 +5494,7 @@ RETURN
         f.EventID NOT IN (seg.EventA_ID, seg.EventB_ID)
 );
 GO
-/****** Object:  View [dbo].[vwModels]    Script Date: 5/4/2026 6:13:06 AM ******/
+/****** Object:  View [dbo].[vwModels]    Script Date: 5/13/2026 9:09:12 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -6070,7 +5508,7 @@ WITH UserSecurity AS (SELECT GrantBitmap, DenyBitmap
            UserSecurity AS us
   WHERE (us.GrantBitmap & m.AccessBitmap <> 0) AND (us.DenyBitmap & m.AccessBitmap = 0)
 GO
-/****** Object:  UserDefinedFunction [dbo].[EventSegments]    Script Date: 5/4/2026 6:13:06 AM ******/
+/****** Object:  UserDefinedFunction [dbo].[EventSegments]    Script Date: 5/13/2026 9:09:12 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -6171,7 +5609,7 @@ RETURN
 
 );
 GO
-/****** Object:  UserDefinedFunction [dbo].[AdjacencyMatrix]    Script Date: 5/4/2026 6:13:06 AM ******/
+/****** Object:  UserDefinedFunction [dbo].[AdjacencyMatrix]    Script Date: 5/13/2026 9:09:12 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -6243,7 +5681,7 @@ RETURNS TABLE
 
 
 GO
-/****** Object:  UserDefinedFunction [dbo].[BayesianRelationships_Full]    Script Date: 5/4/2026 6:13:06 AM ******/
+/****** Object:  UserDefinedFunction [dbo].[BayesianRelationships_Full]    Script Date: 5/13/2026 9:09:12 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -6341,7 +5779,7 @@ SELECT bp.[ModelID]
   JOIN [dbo].[Metrics] met (NOLOCK) ON met.MetricID=m.MetricID
 )
 GO
-/****** Object:  UserDefinedFunction [dbo].[CaseTypeListForEventSets]    Script Date: 5/4/2026 6:13:06 AM ******/
+/****** Object:  UserDefinedFunction [dbo].[CaseTypeListForEventSets]    Script Date: 5/13/2026 9:09:12 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -6430,7 +5868,7 @@ group by ct.eventsetkey,ct.[Count] ,	es.EventSet,
 
 )
 GO
-/****** Object:  UserDefinedFunction [dbo].[DecodeAccessBitmap]    Script Date: 5/4/2026 6:13:06 AM ******/
+/****** Object:  UserDefinedFunction [dbo].[DecodeAccessBitmap]    Script Date: 5/13/2026 9:09:12 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -6488,7 +5926,7 @@ RETURN
 		[dbo].[Access] a
 )
 GO
-/****** Object:  UserDefinedFunction [dbo].[EventPropertiesSource]    Script Date: 5/4/2026 6:13:06 AM ******/
+/****** Object:  UserDefinedFunction [dbo].[EventPropertiesSource]    Script Date: 5/13/2026 9:09:12 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -6590,64 +6028,7 @@ RETURN
 		ep.EventID=@EventID
 )
 GO
-/****** Object:  UserDefinedFunction [dbo].[FindModelSequence_retire]    Script Date: 5/4/2026 6:13:06 AM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
--- =============================================
--- Author:		Eugene Asahara
--- Create date: March 13, 2023
--- Description:	Return rows from the ModelSequences table, filtered by a portion of the sequence.
--- =============================================
-/*
-
-January 14, 2025 - retired in favor of EventSegments. The ModelSequences feature is optional because it
-takes a lot of time to process and there's much to store. EventSegments gets information from EventsFacts and avoids the
-LIKE function this uses.
-
-In order to be performant, this looks through ModelSequences, sequences we've cached.
-
-SELECT * FROM [dbo].[FindModelSequence]('intro,order')
-*/
-CREATE FUNCTION [dbo].[FindModelSequence_retire]
-(	
-	@SeqFragment NVARCHAR(2000)
-)
-RETURNS TABLE 
-AS
-RETURN 
-(
-
-	-- Add the SELECT statement with parameter references here
-	SELECT
-		[Seq]
-		,[lastEvent]
-		,[nextEvent]
-		,[SeqStDev]
-		,[SeqMax]
-		,[SeqAvg]
-		,[SeqMin]
-		,[SeqSum]
-		,[HopStDev]
-		,[HopMax]
-		,[HopAvg]
-		,[HopMin]
-		,[TotalRows]
-		,[Rows]
-		,[Prob]
-		,[TermRows]
-		,[Cases]
-		,ms.[ModelID]
-	FROM	
-		[dbo].[ModelSequences] ms
-		JOIN Models m ON ms.ModelID=m.modelid
-		JOIN [dbo].[Metrics] mt ON mt.MetricID=m.MetricID
-	WHERE
-		ms.[Seq] LIKE '%'+@SeqFragment+'%'
-)
-GO
-/****** Object:  UserDefinedFunction [dbo].[getTimeMoleculesObjectMetadata]    Script Date: 5/4/2026 6:13:06 AM ******/
+/****** Object:  UserDefinedFunction [dbo].[getTimeMoleculesObjectMetadata]    Script Date: 5/13/2026 9:09:12 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -7000,7 +6381,7 @@ RETURN
     FROM ViewMetadata
 );
 GO
-/****** Object:  UserDefinedFunction [dbo].[HiddenMarkovModels]    Script Date: 5/4/2026 6:13:06 AM ******/
+/****** Object:  UserDefinedFunction [dbo].[HiddenMarkovModels]    Script Date: 5/13/2026 9:09:12 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -7111,7 +6492,7 @@ RETURN
         )
 );
 GO
-/****** Object:  UserDefinedFunction [dbo].[ModelEventAnomalies]    Script Date: 5/4/2026 6:13:06 AM ******/
+/****** Object:  UserDefinedFunction [dbo].[ModelEventAnomalies]    Script Date: 5/13/2026 9:09:12 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -7196,7 +6577,7 @@ RETURN
 		epa.ModelID=@ModelID
 )
 GO
-/****** Object:  UserDefinedFunction [dbo].[ModelEventsByOrdinalMean]    Script Date: 5/4/2026 6:13:06 AM ******/
+/****** Object:  UserDefinedFunction [dbo].[ModelEventsByOrdinalMean]    Script Date: 5/13/2026 9:09:12 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -7257,7 +6638,7 @@ GROUP BY EventA
 )
 
 GO
-/****** Object:  UserDefinedFunction [dbo].[ModelMatrix]    Script Date: 5/4/2026 6:13:06 AM ******/
+/****** Object:  UserDefinedFunction [dbo].[ModelMatrix]    Script Date: 5/13/2026 9:09:12 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -7315,7 +6696,7 @@ RETURN
 )
 
 GO
-/****** Object:  UserDefinedFunction [dbo].[ParseCSV]    Script Date: 5/4/2026 6:13:06 AM ******/
+/****** Object:  UserDefinedFunction [dbo].[ParseCSV]    Script Date: 5/13/2026 9:09:12 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -7367,7 +6748,7 @@ RETURN
 	SELECT [value] FROM string_split(@csv,COALESCE(@delimiter,','))
 )
 GO
-/****** Object:  UserDefinedFunction [dbo].[ParseFilterProperties]    Script Date: 5/4/2026 6:13:06 AM ******/
+/****** Object:  UserDefinedFunction [dbo].[ParseFilterProperties]    Script Date: 5/13/2026 9:09:12 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -7402,6 +6783,22 @@ Metadata JSON:
     {"name":"rank","type":"INT","description":"Stable ordinal for the top-level properties."}
   ]
 }
+
+
+sample utilization:
+
+EXEC dbo.sp_SelectedEvents
+    @EventSet = 'pickuproute',
+    @enumerate_multiple_events = 0,
+    @StartDateTime = NULL,
+    @EndDateTime = NULL,
+    @transforms = NULL,
+    @ByCase = 1,
+    @metric = NULL,
+    @CaseFilterProperties = NULL,
+    @EventFilterProperties = '{"Fuel":{"start":1,"end":3000},"Weight":{"start":144,"end":147}}';
+
+context:
 */
 CREATE  FUNCTION [dbo].[ParseFilterProperties]
 (
@@ -7443,7 +6840,7 @@ RETURN
     FROM OPENJSON(@FilterProperties) j
 );
 GO
-/****** Object:  UserDefinedFunction [dbo].[ParseTransforms]    Script Date: 5/4/2026 6:13:06 AM ******/
+/****** Object:  UserDefinedFunction [dbo].[ParseTransforms]    Script Date: 5/13/2026 9:09:12 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -7451,43 +6848,161 @@ GO
 /*
 Metadata JSON:
 {
-  "Table-Valued Function": "ParseTransforms",
+  "Table-Valued Function": "dbo.ParseTransforms",
   "Author": "Eugene Asahara",
   "Contact": "eugene@softcodedlogic.com",
-  "Last Update": "2026-03-31",
-  "Description": "Parses and validates a JSON object of key→value event mappings, ensuring each source key appears only once and selecting the alphabetically first target if duplicates occur. Rewritten as an inline table-valued function for better Azure Synapse compatibility.",
-  "Utilization": "Use when you want to turn a transforms JSON object into a normalized rowset of source-event to target-event mappings. Helpful for validating transform definitions, generating stable transform keys, inspecting event-name remapping rules, or feeding transform logic into downstream modeling functions in a Synapse-friendly way.",
+  "Last Update": "2026-05-07",
+  "Description": [
+    "Parses transform input into a normalized rowset for use by Time Molecules event-selection and modeling logic.",
+    "Supports the original simple key/value transform format, where one event name is rolled up or renamed to another event name.",
+    "Also supports property-aware rule transforms, where the target event is supplied by a toEvent value and additional rule fields describe how the transform should be applied.",
+    "The function is intentionally backward compatible with the original ParseTransforms output pattern: fromkey remains the source event and tokey remains the target event."
+  ],
+  "Utilization": "Use when transform input must be normalized before being applied to selected events. Simple transforms support ordinary event rollups such as heavytraffic -> traffic. Rule transforms support analytical reclassification patterns such as LAB_POSTED -> HIGH_GLUS when a property such as Glucose satisfies a threshold rule. This function only parses the transform rules; downstream procedures are responsible for applying rule logic against event properties.",
   "Input Parameters": [
-    { "name": "@transforms", "type": "NVARCHAR(MAX)", "default": "NULL", "description": "JSON object of mappings from original event keys to transformed keys, or a Code referencing the Transforms table." }
+    {
+      "name": "@transforms",
+      "type": "NVARCHAR(MAX)",
+      "default": "NULL",
+      "description": "Either a JSON transform object or a Code value that looks up a stored JSON transform from dbo.Transforms."
+    }
+  ],
+  "JSON Shapes Supported": [
+    {
+      "shape": "{\"heavytraffic\":\"traffic\",\"moderatetraffic\":\"traffic\",\"lighttraffic\":\"traffic\"}",
+      "meaning": "Simple scalar event-name transform. Each key is the source event and each scalar value is the target event."
+    },
+    {
+      "shape": "{\"LAB_POSTED\":{\"toEvent\":\"HIGH_GLUS\",\"op\":\"GT\",\"Value1\":\"Glucose\",\"Value2\":110}}",
+      "meaning": "Property-aware rule transform. The key is the source event, toEvent is the target event, and op/Value1/Value2/Value3 describe the rule to be applied later."
+    },
+    {
+      "shape": "{\"LAB_POSTED\":{\"toEvent\":\"NORMAL_GLUC\",\"op\":\"BETWEEN\",\"Value1\":\"Glucose\",\"Value2\":60,\"Value3\":110}}",
+      "meaning": "Property-aware BETWEEN rule. Value1 is typically the property name, Value2 is the lower bound, and Value3 is the upper bound."
+    }
   ],
   "Output Notes": [
-    { "name": "fromkey", "type": "NVARCHAR(20)", "description": "Original event key as specified in the JSON or looked up from Transforms." },
-    { "name": "tokey",   "type": "NVARCHAR(20)", "description": "Selected target key for that fromkey; if multiple values exist, the alphabetically first is chosen." }
+    {
+      "name": "fromkey",
+      "type": "NVARCHAR(50)",
+      "description": "Source event key from the transform JSON or stored transform definition."
+    },
+    {
+      "name": "tokey",
+      "type": "NVARCHAR(50)",
+      "description": "Target event key. For simple transforms, this is the scalar JSON value. For rule transforms, this is the toEvent value."
+    },
+    {
+      "name": "op",
+      "type": "NVARCHAR(20)",
+      "description": "Optional rule operator for property-aware transforms, such as GT, LT, or BETWEEN. NULL for simple transforms."
+    },
+    {
+      "name": "Value1",
+      "type": "NVARCHAR(100)",
+      "description": "Must be a property name (EventPropertiesParsed.PropertyName) name to inspect, such as Glucose."
+    },
+    {
+      "name": "Value2",
+      "type": "NVARCHAR(100)",
+      "description": "Optional second rule value. In property-aware transforms, this is typically the comparison value or lower bound."
+    },
+    {
+      "name": "Value3",
+      "type": "NVARCHAR(100)",
+      "description": "Optional third rule value. In property-aware transforms, this is typically the upper bound for BETWEEN rules."
+    }
   ],
-  "Referenced objects": [
-    { "name": "dbo.Transforms", "type": "Table", "description": "Optional lookup of stored transform JSON by Code." },
-    { "name": "OPENJSON",       "type": "Built-in Function", "description": "Parses the JSON text into key/value pairs." }
+  "Backward Compatibility Notes": [
+    "Simple scalar transforms retain the original rollup behavior.",
+    "Duplicate simple scalar keys are collapsed by taking MIN(raw_value), matching the previous alphabetically-first target behavior.",
+    "Rule transforms are not grouped by fromkey because multiple rules for the same source event are meaningful.",
+    "The toEvent field from rule transforms is returned in the existing tokey column so downstream code can continue to treat tokey as the transformed event name."
+  ],
+  "Referenced Objects": [
+    {
+      "name": "dbo.Transforms",
+      "type": "Table",
+      "description": "Optional lookup table containing stored transform JSON by Code."
+    },
+    {
+      "name": "OPENJSON",
+      "type": "Built-in Function",
+      "description": "Parses the transform JSON object into key/value rows."
+    },
+    {
+      "name": "ISJSON",
+      "type": "Built-in Function",
+      "description": "Determines whether transform input or a transform value is valid JSON."
+    },
+    {
+      "name": "JSON_VALUE",
+      "type": "Built-in Function",
+      "description": "Extracts toEvent, op, Value1, Value2, and Value3 from property-aware transform rule objects."
+    }
   ]
 }
 
 Sample utilization:
 
-    SELECT * FROM [dbo].[ParseTransforms]('{"heavytraffic":"traffic","heavytraffic":"bigtraffic"}');
+    -- Simple rollup transform.
+    SELECT *
+    FROM dbo.ParseTransforms(N'{
+        "heavytraffic":"traffic",
+        "moderatetraffic":"traffic",
+        "lighttraffic":"traffic"
+    }');
 
-    SELECT * FROM [dbo].[ParseTransforms]('{"moderatetraffic":"traffic","heavytraffic":"traffic","lighttraffic":"traffic","heavytraffic":"bigtraffic"}');
-    SELECT * FROM [dbo].[ParseTransforms]('arnld');
+    -- Backward-compatible duplicate scalar behavior.
+    -- The alphabetically first target value is selected.
+    SELECT *
+    FROM dbo.ParseTransforms(N'{
+        "heavytraffic":"traffic",
+        "moderatetraffic":"traffic",
+        "lighttraffic":"traffic"
+    }');
+
+	--This is an example of simply transforming fromkey->tokey. Good for rolling up
+	SELECT *
+    FROM dbo.ParseTransforms(
+	'{"arnold1":"arnold","arnold2":"arnold",
+"keto1":"dietpage","weightwatcher1":"dietpage","vanproteinbars":"proteinbars","chocproteinbars":"proteinbars"}')
+
+    -- Mixed simple transforms and property-aware rule transforms.
+    -- Duplicate LAB_POSTED keys are intentional because each object is a separate rule.
+    SELECT *
+    FROM dbo.ParseTransforms(N'{
+        "heavytraffic":"traffic",
+        "moderatetraffic":"traffic",
+        "lighttraffic":"traffic",
+        "LAB_POSTED":{"toEvent":"HIGH_GLUS","op":"GT","Value1":"Glucose","Value2":110},
+        "LAB_POSTED":{"toEvent":"LOW_GLUC","op":"LT","Value1":"Glucose","Value2":60},
+        "LAB_POSTED":{"toEvent":"NORMAL_GLUC","op":"BETWEEN","Value1":"Glucose","Value2":60,"Value3":110}
+    }');
+
+Expected output shape for the mixed example:
+
+    fromkey          tokey         op       Value1    Value2   Value3
+    ---------------  ------------  -------  --------  -------  -------
+    heavytraffic     traffic       NULL     NULL      NULL     NULL
+    lighttraffic     traffic       NULL     NULL      NULL     NULL
+    moderatetraffic  traffic       NULL     NULL      NULL     NULL
+    LAB_POSTED       HIGH_GLUS     GT       Glucose   110      NULL
+    LAB_POSTED       LOW_GLUC      LT       Glucose   60       NULL
+    LAB_POSTED       NORMAL_GLUC   BETWEEN  Glucose   60       110
 
 Context:
     • This code is provided as-is for teaching and demonstration of the Time Molecules concepts.
-    • It is **not** production-hardened: error handling, security, indexing, and performance tuning have been simplified or omitted.
-    • Performance and scale have not been fully addressed—use at your own risk.
+    • It is not production-hardened: error handling, security, indexing, and performance tuning have been simplified or omitted.
+    • The function parses property-aware transform rules but does not apply them.
+    • Applying rule transforms requires downstream logic to evaluate op/Value1/Value2/Value3 against parsed event properties.
     • Intended to accompany “Time Molecules” by Eugene Asahara (Technics Publications, 2025).
 
 License:
     Licensed under the MIT License. See LICENSE.md for full terms.
     (c) 2025 Eugene Asahara. All rights reserved.
 */
-CREATE FUNCTION [dbo].[ParseTransforms]
+CREATE   FUNCTION [dbo].[ParseTransforms]
 (
     @transforms NVARCHAR(MAX)
 )
@@ -7497,35 +7012,66 @@ RETURN
 (
     WITH resolved AS
     (
+        SELECT COALESCE
+        (
+            (
+                SELECT TOP 1 t.transforms
+                FROM dbo.Transforms t
+                WHERE t.Code = @transforms
+            ),
+            CASE WHEN ISJSON(@transforms) = 1 THEN @transforms ELSE NULL END
+        ) AS transforms_json
+    ),
+    parsed AS
+    (
         SELECT
+            CAST(j.[key] AS NVARCHAR(50)) AS fromkey,
+            j.[value] AS raw_value,
             CASE
-                WHEN EXISTS
-                (
-                    SELECT 1
-                    FROM dbo.Transforms t
-                    WHERE t.Code = @transforms
-                )
-                THEN
-                (
-                    SELECT TOP 1 t.transforms
-                    FROM dbo.Transforms t
-                    WHERE t.Code = @transforms
-                )
-                WHEN ISJSON(@transforms) = 1
-                THEN @transforms
-                ELSE NULL
-            END AS transforms_json
+                WHEN ISJSON(j.[value]) = 1
+                 AND JSON_VALUE(j.[value], '$.toEvent') IS NOT NULL
+                THEN 1
+                ELSE 0
+            END AS IsRule
+        FROM resolved r
+        CROSS APPLY OPENJSON(r.transforms_json) j
+        WHERE r.transforms_json IS NOT NULL
+    ),
+    simple_transforms AS
+    (
+        SELECT
+            p.fromkey,
+            MIN(CAST(p.raw_value AS NVARCHAR(50))) AS tokey,
+            CAST(NULL AS NVARCHAR(20)) AS op,
+            CAST(NULL AS NVARCHAR(100)) AS Value1,
+            CAST(NULL AS NVARCHAR(100)) AS Value2,
+            CAST(NULL AS NVARCHAR(100)) AS Value3
+        FROM parsed p
+        WHERE p.IsRule = 0
+        GROUP BY p.fromkey
+    ),
+    rule_transforms AS
+    (
+        SELECT
+            p.fromkey,
+            CAST(JSON_VALUE(p.raw_value, '$.toEvent') AS NVARCHAR(50)) AS tokey,
+            CAST(JSON_VALUE(p.raw_value, '$.op') AS NVARCHAR(20)) AS op,
+            CAST(JSON_VALUE(p.raw_value, '$.Value1') AS NVARCHAR(100)) AS Value1,
+            CAST(JSON_VALUE(p.raw_value, '$.Value2') AS NVARCHAR(100)) AS Value2,
+            CAST(JSON_VALUE(p.raw_value, '$.Value3') AS NVARCHAR(100)) AS Value3
+        FROM parsed p
+        WHERE p.IsRule = 1
     )
-    SELECT
-        j.[key] AS [fromkey],
-        MIN(CAST(j.[value] AS NVARCHAR(20))) AS [tokey]
-    FROM resolved r
-    CROSS APPLY OPENJSON(r.transforms_json) j
-    GROUP BY
-        j.[key]
+    SELECT fromkey, tokey, op, Value1, Value2, Value3
+    FROM simple_transforms
+
+    UNION ALL
+
+    SELECT fromkey, tokey, op, Value1, Value2, Value3
+    FROM rule_transforms
 );
 GO
-/****** Object:  UserDefinedFunction [dbo].[SegmentComparison]    Script Date: 5/4/2026 6:13:06 AM ******/
+/****** Object:  UserDefinedFunction [dbo].[SegmentComparison]    Script Date: 5/13/2026 9:09:12 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -7652,7 +7198,7 @@ RETURN
         AND (@EventB IS NULL OR me.EventB = @EventB)
 )
 GO
-/****** Object:  UserDefinedFunction [dbo].[SeqProb]    Script Date: 5/4/2026 6:13:06 AM ******/
+/****** Object:  UserDefinedFunction [dbo].[SeqProb]    Script Date: 5/13/2026 9:09:12 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -7753,7 +7299,7 @@ RETURN
 		t1
 )
 GO
-/****** Object:  UserDefinedFunction [dbo].[SetDefaultModelParameters]    Script Date: 5/4/2026 6:13:06 AM ******/
+/****** Object:  UserDefinedFunction [dbo].[SetDefaultModelParameters]    Script Date: 5/13/2026 9:09:12 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -7829,7 +7375,7 @@ RETURN
         dbo.UserDenyBitmap()   AS DenyBitmap
 )
 GO
-/****** Object:  UserDefinedFunction [dbo].[SourceColumnsByCaseType]    Script Date: 5/4/2026 6:13:06 AM ******/
+/****** Object:  UserDefinedFunction [dbo].[SourceColumnsByCaseType]    Script Date: 5/13/2026 9:09:12 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -7929,7 +7475,7 @@ RETURN
 
 )
 GO
-/****** Object:  UserDefinedFunction [dbo].[SourceColumnsByEventType]    Script Date: 5/4/2026 6:13:06 AM ******/
+/****** Object:  UserDefinedFunction [dbo].[SourceColumnsByEventType]    Script Date: 5/13/2026 9:09:12 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -8029,7 +7575,7 @@ RETURN
 
 )
 GO
-/****** Object:  UserDefinedFunction [dbo].[TimeIntelligenceWindow]    Script Date: 5/4/2026 6:13:06 AM ******/
+/****** Object:  UserDefinedFunction [dbo].[TimeIntelligenceWindow]    Script Date: 5/13/2026 9:09:12 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -8404,7 +7950,7 @@ SELECT
     Grain
 FROM calc;
 GO
-/****** Object:  View [dbo].[vwBayesianProbabilities_TCW]    Script Date: 5/4/2026 6:13:06 AM ******/
+/****** Object:  View [dbo].[vwBayesianProbabilities_TCW]    Script Date: 5/13/2026 9:09:12 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -8422,7 +7968,7 @@ WITH ua AS (SELECT CAST(dbo.UserAccessBitmap() AS BIGINT) AS UserAccessBitmap)
            ua AS ua_1
   WHERE (ua_1.UserAccessBitmap & ISNULL(m.AccessBitmap, 0) <> 0)
 GO
-/****** Object:  View [dbo].[vwCasePropertiesParsed]    Script Date: 5/4/2026 6:13:06 AM ******/
+/****** Object:  View [dbo].[vwCasePropertiesParsed]    Script Date: 5/13/2026 9:09:12 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -8437,7 +7983,7 @@ WITH ua AS (SELECT CAST(dbo.UserAccessBitmap() AS BIGINT) AS UserAccessBitmap)
            ua AS ua_1
   WHERE (ua_1.UserAccessBitmap & ISNULL(cp.AccessBitmap, 0) <> 0)
 GO
-/****** Object:  View [dbo].[vwCaseTypeEventCounts]    Script Date: 5/4/2026 6:13:06 AM ******/
+/****** Object:  View [dbo].[vwCaseTypeEventCounts]    Script Date: 5/13/2026 9:09:12 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -8455,7 +8001,7 @@ WITH UserAccess AS (SELECT CAST(dbo.UserAccessBitmap() AS BIGINT) AS UserAccessB
            (ua.UserAccessBitmap & c.AccessBitmap <> 0)
   GROUP BY ct.CaseTypeID, ct.Name, ct.Description, ct.IRI, e.Event, de.Description
 GO
-/****** Object:  View [dbo].[vwEventInputPropertiesFlattened]    Script Date: 5/4/2026 6:13:06 AM ******/
+/****** Object:  View [dbo].[vwEventInputPropertiesFlattened]    Script Date: 5/13/2026 9:09:12 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -8467,7 +8013,7 @@ FROM  [dbo].[EventProperties] p JOIN
          [dbo].[EventsFact] e ON e.EventID = p.EventID CROSS APPLY OPENJSON([ActualProperties])
 WHERE p.ActualProperties IS NOT NULL
 GO
-/****** Object:  View [dbo].[vwEventPropertiesParsed]    Script Date: 5/4/2026 6:13:06 AM ******/
+/****** Object:  View [dbo].[vwEventPropertiesParsed]    Script Date: 5/13/2026 9:09:12 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -8475,11 +8021,11 @@ GO
 CREATE VIEW [dbo].[vwEventPropertiesParsed]
 AS
 SELECT e.EventID, e.PropertyName, dbo.PropertySource(e.PropertySource) AS PropertySource, e.PropertyValueNumeric, e.PropertyValueAlpha, e.IsJSON AS ValueIsJSON, e.SourceColumnID, s.SourceID, s.Description AS SourceDescription, s.Name AS SourceName, sc.ColumnName AS SourceColumnName
-FROM  dbo.EventPropertiesParsed AS e INNER JOIN
-         dbo.SourceColumns AS sc ON sc.SourceColumnID = e.SourceColumnID INNER JOIN
+FROM  dbo.EventPropertiesParsed AS e LEFT OUTER JOIN
+         dbo.SourceColumns AS sc ON sc.SourceColumnID = e.SourceColumnID LEFT OUTER JOIN
          dbo.Sources AS s ON s.SourceID = sc.SourceID
 GO
-/****** Object:  View [dbo].[vwTimeSolutionsMetadata]    Script Date: 5/4/2026 6:13:06 AM ******/
+/****** Object:  View [dbo].[vwTimeSolutionsMetadata]    Script Date: 5/13/2026 9:09:12 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
