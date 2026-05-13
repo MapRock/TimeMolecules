@@ -33,21 +33,30 @@ Basics page:
 | Setting                          | Recommended Value                                      | Notes |
 |----------------------------------|--------------------------------------------------------|-------|
 | **Subscription**                   | Enter your subscription                   |  |
+| **Resource Group**                   | Time_Molecules                   |  |
 | **Region**                       | West US (or closest to you)                           | — |
 | **Virtual Machine Name**                   | TimeSolution-Book-Tutorial-V1        | Whatever you want |
-| **Image**                   | Windows 11 Pro, version 25H2 - Gen2                   | Best compatibility |
+| **Image**                   | Windows Server 2025 Datacenter - x64 Gen2            | Best compatibility |
 | **Size**                         | **Standard D4ds v4** (4 vCPU, 16 GiB memory)         | Ideal for SQL Server, Ollama, Neo4j |
 | **Username**                     | tmuser                          | Use a generic name (not your personal name) |
 | **Public inbound ports**         | Allow selected ports RDP (3389)                                    | Only for testing |
-| **Already have a Windows license?** | **Yes** (Windows Client)                           | Only if you really have one. |
-| **Azure Spot**                   | No                                                    | — |
+| **Azure Spot**                   | Unchecked                                                    | — |
+| **Licensing**                   | Unchecked                                                   | IF you do not have an existing Windows Server License |
+
 
 2nd page: Disks
 | Setting                          | Recommended Value                                      | Notes |
 |----------------------------------|--------------------------------------------------------|-------|
-| **OS Disk**  (Disks window)           | Standard SSD LRS, Image default (128 GB+)             | — |
+| **OS Disk Size**            | Image Default (127 GiB)             | — |
+| **OS Disk Type**            | Standard SSD LRS, Image default (128 GB+)             | — |
 
-Click **Review and Create". **Expected hourly cost while running:** ~$0.266 USD/hr (you are only charged while the VM is **Running**), at the time of writing, May 8, 2026. Please double-check the rates!
+3rd page: Networking
+| Setting                          | Recommended Value                                      | Notes |
+|----------------------------------|--------------------------------------------------------|-------|
+| **Virtual Network*            | TimeSolution-vnet             | — |
+
+
+Click **Review + Create". **Expected hourly cost while running:** ~$0.45 USD/hr (you are only charged while the VM is **Running**), at the time of writing, May 13, 2026. Please double-check the rates!
 
 Click **Create**. This will take a few minutes.
 
