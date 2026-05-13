@@ -331,7 +331,7 @@ C:\MapRock\TimeMolecules\tutorials\.venv
 From PowerShell, execute these commands one at a time.
 
 ```bash
-cd C:\MapRock\TimeMolecules\py 
+cd C:\MapRock\TimeMolecules\tutorials 
 py -m venv .venv
 ```
 
