@@ -1,6 +1,6 @@
 # Procuring the Pre-Configured Time Molecules VM
 
-**Last Updated:** May 8, 2026 - <i>This pre-configured VM is not ready until May 24, 2026</i>
+**Last Updated:** May 8, 2026 - <i>This pre-configured VM is not ready until May 24, 2026</i>. Until then, you can create the VM and install the dev environment starting with:  [setup_azure_vm_for_testing_time_molecules.md](https://github.com/MapRock/TimeMolecules/blob/main/tutorials/setup_azure_vm_for_testing_time_molecules.md).
 
 This is the procedure from cloning the pre-configured Time Molecules VM--everything is setup and ready to go.
 
