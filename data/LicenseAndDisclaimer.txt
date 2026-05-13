@@ -1,6 +1,6 @@
 LICENSE AND DISCLAIMER FOR TIMESOLUTION.BAK
 
-This sample database file, TimeSolution.bak, is provided by Eugene Asahara in support of the book *Time Molecules* (Technics Publications, 2025).
+This sample database file, TimeSolution.bak, is provided by Eugene Asahara in support of the book *[Time Molecules](https://technicspub.com/time-molecules/)* (Technics Publications, 2025).
 
 Permission is granted to download, restore, and use this file for personal, educational, or non-commercial use.
 
