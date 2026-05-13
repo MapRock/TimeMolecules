@@ -8,7 +8,7 @@ This repository itself is not a database you can connect to and query.
 
 1. [Create copy of the pre-configured Windows Azure VM](https://github.com/MapRock/TimeMolecules/blob/main/docs/procure_time_molecules_vm.md) - Available May 24, 2026
 2. [Create a Azure Windows VM from scratch](https://github.com/MapRock/TimeMolecules/blob/main/tutorials/setup_azure_vm_for_testing_time_molecules.md).
-3. Set up the environment on your own machine (work or personal laptop/destop)
+3. [Set up the environment on your own machine (work or personal laptop/destop)](https://github.com/MapRock/TimeMolecules/blob/main/docs/install_timemolecules_dev_env.md)
    
 I will be posting blogs related to Time Molecules over the next few months after publication. You can find them at: https://eugeneasahara.com/category/time-molecules/
 
