@@ -205,16 +205,17 @@ This is normal.
 
 ### d. Restore TimeSolution Database
 
-Open SQL Server Management Studio. You will be presented with the "Connect" window. If you don't remember the Server Name, click Browse-> Local, and you'll see the server name (it should be the only entry).
+Open SQL Server Management Studio. You will be presented with the "Connect" window. 
 
-Be sure to check "Trust Server Certificate".
-
-1. Open SSMS
-2. Right-click **Databases → Restore Database**
-3. Select the "Device" option.
-4. Click the three ellipses (...) on the right of the "Device" label.
-5. Click "Add" and navigate to C:/MapRock/TimeMolecules/Data and select timesolution.bak
-6. Click OK.
+1. If you don't remember the Server Name, click Browse-> Local, and you'll see the server name (it should be the only entry).
+2. Be sure to check "Trust Server Certificate".
+3. Click OK.
+4. Right-click **Databases → Restore Database**
+5. Select the "Device" option.
+6. Click the three ellipses (...) on the right of the "Device" label.
+7. Click "Add" and navigate to C:/MapRock/TimeMolecules/Data and select timesolution.bak
+8. Click OK, OK, OK.
+9. Expand the Databases node and ensure TimeSolution is there.
 
 ---
 
