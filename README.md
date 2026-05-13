@@ -1,8 +1,8 @@
-# TimeMolecules
+# Time Molecules
 
-**TimeMolecules** is a comprehensive framework, knowledge base, and implementation ecosystem for advanced process intelligence. It models real-world processes as large, multi-dimensional collections of probabilistic Hidden Markov Models — compact, queryable structures that capture the actual temporal “DNA” of how events unfold in complex systems.
+**Time Molecules** is a comprehensive framework, knowledge base, and implementation ecosystem for advanced process intelligence. It models real-world processes as large, multi-dimensional collections of probabilistic Hidden Markov Models — compact, queryable structures that capture the actual temporal “DNA” of how events unfold in complex systems.
 
-It is supplementary material for the book, <i>[Time Molecules](https://technicspub.com/time-molecules/)</i>, as well as a repository of information for AI agents and implementors of a solution. This resolves around a sample implementation, a SQL Server database named TimeSolution. TimeSolution is implemented as a SQL database and extensive logic (stored procedures, views, table-valued functions, scalar functions). This repo provides the prompts, skills, and tutorials that AI agents (and developers) need to learn how to use that enterprise resource effectively.
+This repo provides supplementary material for the book, <i>[Time Molecules](https://technicspub.com/time-molecules/)</i>, as well as a repository of information for AI agents and implementors of a solution. This resolves around a sample implementation, a SQL Server database named TimeSolution. TimeSolution is implemented as a SQL database and extensive logic (stored procedures, views, table-valued functions, scalar functions). This repo provides the prompts, skills, and tutorials that AI agents (and developers) need to learn how to use that enterprise resource effectively.
 
 This repository itself is not a database you can connect to and query. 
 
