@@ -34,7 +34,8 @@ Basics page:
 |----------------------------------|--------------------------------------------------------|-------|
 | **Subscription**                   | Enter your subscription                   |  |
 | **Region**                       | West US (or closest to you)                           | — |
-| **Virtual Machine Name**                   | Windows 11 Pro, version 25H2 - Gen2                   | Best compatibility |
+| **Virtual Machine Name**                   | TimeSolution-Book-Tutorial-V1        | Whatever you want |
+| **Image**                   | Windows 11 Pro, version 25H2 - Gen2                   | Best compatibility |
 | **Size**                         | **Standard D4ds v4** (4 vCPU, 16 GiB memory)         | Ideal for SQL Server, Ollama, Neo4j |
 | **Username**                     | tmuser                          | Use a generic name (not your personal name) |
 | **Public inbound ports**         | Allow selected ports RDP (3389)                                    | Only for testing |
