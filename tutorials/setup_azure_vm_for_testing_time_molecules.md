@@ -1,9 +1,8 @@
 
 # Setup Azure Windows VM for TimeMolecules (Full Book + Tutorial Environment)
 
-<i>**Last Updated:** May 08, 2026 - This VM will be in limited beta from May 10, 2026 through May 24, 2026, then released to the general audience through the Azure Compute Gallery.</i>
 
-This is the starting point of the guide that shows you how to create a clean Azure Virtual Machine with the **complete TimeMolecules development environment**.  
+This is the starting point of the guide that shows you how to create a clean Azure Windows Virtual Machine, then install the dev environment on it.  
 
 It is the recommended method for:
 - Readers of the book who need the full install (SQL Server + SSMS + Neo4j + restored database)
@@ -34,7 +33,6 @@ Basics page:
 | **Subscription**                   | Enter your subscription                   |  |
 | **Region**                       | West US (or closest to you)                           | — |
 | **Virtual Machine Name**                   | Windows 11 Pro, version 25H2 - Gen2                   | Best compatibility |
-| **Image**                        |TimeSoltuion-Book-Tutorial-V1                |  |
 | **Size**                         | **Standard D4ds v4** (4 vCPU, 16 GiB memory)         | Ideal for SQL Server, Ollama, Neo4j |
 | **Username**                     | tmuser                          | Use a generic name (not your personal name) |
 | **Public inbound ports**         | Allow selected ports RDP (3389)                                    | Only for testing |
