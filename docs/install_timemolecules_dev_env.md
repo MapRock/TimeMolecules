@@ -37,7 +37,7 @@ This tutorial assumes you are working on a personal or work Windows 10/11 machin
   * Python (3.10.2 or later)
   * Git for Windows (includes Git Bash)
   * Neo4j Desktop
-  * OpenAI API key - A big theme of the Spring 2026 refresh is accomodating AI Agents consuming Time Molecules. Go to https://platform.openai.com/api-keys to obtain the key. Be very careful not to let it leave your machine!
+  * OpenAI API key - A big theme of the Spring 2026 refresh is accomodating AI Agents consuming Time Molecules. Assuming you have an OpenAI account, go to https://platform.openai.com/api-keys to obtain the key. Be very careful not to let it leave your machine!
   * ollama - Optional local LLM alternative to a frontier LLM. Strongly recommend OpenAI over local LLM, since the Windows configuration is certainly serverely lacking (it'll be very slow).
 
 * **Internet access**
