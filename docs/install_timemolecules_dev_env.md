@@ -409,7 +409,7 @@ C:\MapRock\TimeMolecules\
 
 If you haven't yet obtained the OpenAI API key, now is the time. Nagivate to: https://platform.openai.com/api-keys
 
-From Visual Studio, find the File Tutorials/.env.example and rename it to .env:
+From Visual Studio, find the File Tutorials/.env.example and rename the file from **.env.example** to **.env**:
 
 ```
 .env.example → .env
@@ -433,15 +433,12 @@ This is used as an alternative to a frontier model like OpenAI which requires a 
 
 ### Install
 
-Navigate to [https://ollama.com](https://ollama.com)
+1. Navigate to [https://ollama.com](https://ollama.com)
+2. Click Download->Windows
+3. Run the installer.
 
-or:
 
-```powershell
-irm https://ollama.com/install.ps1 | iex
-```
 
----
 
 ### Run Models
 
