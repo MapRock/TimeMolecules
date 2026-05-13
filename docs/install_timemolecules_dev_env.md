@@ -181,7 +181,7 @@ This is normal.
 
 ---
 
-### d. Restore Database
+### d. Restore TimeSolution Database
 
 Open SQL Server Management Studio. If you don't remember the Server Name, click Browse-> Local, and you'll see the server name (it should be the only entry).
 
@@ -242,7 +242,7 @@ SELECT dbo.UserAccessBitmap()
 
 ### f. Restore AdventureWorksDW2017 (Optional)
 
-Download the [.bak file for AdventureWorksDW2017](https://github.com/Microsoft/sql-server-samples/releases/download/adventureworks/AdventureWorksDW2017.bak) from the [Microsoft Github repo](https://github.com/microsoft/sql-server-samples/releases/tag/adventureworks). it will be in the Downloads folder.
+From the [official Microsoft open-source repo](https://github.com/microsoft), download the [.bak file for AdventureWorksDW2017](https://github.com/Microsoft/sql-server-samples/releases/download/adventureworks/AdventureWorksDW2017.bak) within the [Microsoft SQL Server Samples repo](https://github.com/microsoft/sql-server-samples/releases/tag/adventureworks). 
 
 Restore via SSMS the same way as with TimeSolution.bak.
 
