@@ -98,14 +98,16 @@ A few general notes:
 - When you download something from a Web page (like SQL Server's install), it will download into the "Downloads" folder.
 
 
-
 ## Clone the Time Molecules Repository
+
+Open an instance of Microsoft Edge and navigate to https:\\github.com\maprock\timemolecules\docs\install_timemolecules_dev_env.md
 
 ### a. Create Local Folder
 
 1. Open File Explorer.
-2. Navigate to C:/MapRock
-3. Click New Folder and name it TimeMolecules. You will have a folder named C:\MapRock\TimeMolecules, the base of operation.
+2. Create a folder named C:/MapRock
+3. Navigate to C:/MapRock
+4. Click New Folder and name it TimeMolecules. You will have a folder named C:\MapRock\TimeMolecules, the base of operation.
 
 ### b. Install Git
 
