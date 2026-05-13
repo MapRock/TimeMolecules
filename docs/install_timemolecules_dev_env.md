@@ -153,7 +153,7 @@ Steps:
 Navigate to: [https://learn.microsoft.com/en-us/sql/ssms/download-sql-server-management-studio-ssms](https://learn.microsoft.com/en-us/sql/ssms/download-sql-server-management-studio-ssms)
 
 1. Click "Download SQL Server Management Studio 22 Installer".
-2. Run installer
+2. Run installer - You do not need to check any boxes, just click "Install".
 
 ---
 
@@ -331,7 +331,7 @@ C:\MapRock\TimeMolecules\tutorials\.venv
 From PowerShell, execute these commands one at a time.
 
 ```bash
-cd C:\MapRock\TimeMolecules\tutorials
+cd C:\MapRock\TimeMolecules\py 
 py -m venv .venv
 ```
 
