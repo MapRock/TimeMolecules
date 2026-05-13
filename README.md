@@ -1,21 +1,15 @@
 # TimeMolecules
 
-> **Important Note**: <i>This repo is in a [state of refresh until May 13, 2026](https://github.com/MapRock/TimeMolecules/blob/main/docs/Spring_2026_Update/readme.md). However, the material directly referenced in the book should be stable.</i>
+It is supplementary material for the book, <i>[Time Molecules](https://technicspub.com/time-molecules/)</i>, as well as a repository of information for AI agents and implementors of a solution. This resolves around a sample implementation, a SQL Server database named TimeSolution. TimeSolution is implemented as a SQL database and extensive logic (stored procedures, views, table-valued functions, scalar functions). This repo provides the prompts, skills, and tutorials that AI agents (and developers) need to learn how to use that enterprise resource effectively.
 
-Supplemental github repository for the book, <a href="https://technicspub.com/time-molecules/" target="_blank"><em>Time Molecules</em></a>.
+This repository itself is not a database you can connect to and query. 
 
-This repository itself is not a database you can connect to. It is supplementary material for the book Time Molecules as well as a repository of information for AI agents and implementors of a solution. This resolves around a sample implementation, a SQL Server database named TimeSolution. This repo provides the prompts, skills, and tutorials that AI agents (and developers) need to learn how to use that enterprise resource effectively.
-
-**To get started**, you need to set up the dev environment. In order to:
+**To get started** with the tutorials, you need to set up the dev environment. The setup options are:
 
 1. Create copy of the pre-configured Windows Azure VM.
-2. Create a Windows Azure VM from scratch.
+2. [Create a Azure Windows VM from scratch](https://github.com/MapRock/TimeMolecules/blob/main/tutorials/setup_azure_vm_for_testing_time_molecules.md).
 3. Set up the environment on your own machine (work or personal laptop/destop)
    
-... please see the document, **[Setup Azure VM for Testing Time Molecules](https://github.com/MapRock/TimeMolecules/blob/main/tutorials/setup_azure_vm_for_testing_time_molecules.md)**, for instructions on setting up the dev environment for the book tutorials and the post-book tutorials.
-
-TimeSolution is implemented as a SQL database and extensive logic (stored procedures, views, table-valued functions, scalar functions).
-
 I will be posting blogs related to Time Molecules over the next few months after publication. You can find them at: https://eugeneasahara.com/category/time-molecules/
 
 <p>This is a trilogy of blogs that dives into more philosophical intuition for <em>Time Molecules</em>:</p>
