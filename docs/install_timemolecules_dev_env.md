@@ -117,8 +117,8 @@ That is this same page you're reading right now, but now you can readily copy/pa
 
 1. Open an instance of Microsoft Edge. Just ignore all the prompts to log onto this or that, which will happen on a brand new VM.
 2. Navigate to: [https://git-scm.com/download/win](https://git-scm.com/download/win)
-3. Download.
-4. Excute the download and just click through.
+3. Click "Git for Windows/x64 Setup" to download installer.
+4. Excute the download and just click through the windows.
 
 ### c. Clone Repository
 
@@ -127,8 +127,9 @@ Open a Powershell window and run:
 ```bash
 git clone https://github.com/MapRock/TimeMolecules.git C:/MapRock/TimeMolecules
 ```
+
 There should be a folder c:/MapRock/TimeMolecules containing the Time Molecules GitHub material.
----
+
 
 ## SQL Server Setup
 
