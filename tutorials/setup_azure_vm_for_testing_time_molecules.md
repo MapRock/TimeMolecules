@@ -2,7 +2,7 @@
 # Setup Azure Windows VM for TimeMolecules (Full Book + Tutorial Environment)
 
 
-This is the starting point of the guide that shows you how to create a clean Azure Windows Virtual Machine, then install the dev environment on it.  
+This is the starting point of the guide that shows you how to create a **clean** Azure Windows Virtual Machine, then install the dev environment on it.  
 
 It is the recommended method for:
 - Readers of the book who need the full install (SQL Server + SSMS + Neo4j + restored database)
@@ -28,7 +28,7 @@ In the Azure Portal, go to **Home** → select **Virtual machines** → click **
 
 Use these exact settings
 
-Basics page:
+### Basics page:
 
 | Setting                          | Recommended Value                                      | Notes |
 |----------------------------------|--------------------------------------------------------|-------|
@@ -45,18 +45,19 @@ Basics page:
 | **Licensing**                   | Unchecked                                                   | IF you do not have an existing Windows Server License |
 
 
-2nd page: Disks
+### 2nd page: Disks
 | Setting                          | Recommended Value                                      | Notes |
 |----------------------------------|--------------------------------------------------------|-------|
 | **OS Disk Size**            | Image Default (127 GiB)             | — |
 | **OS Disk Type**            | Standard SSD              | — |
 
-3rd page: Networking
+### 3rd page: Networking
 | Setting                          | Recommended Value                                      | Notes |
 |----------------------------------|--------------------------------------------------------|-------|
 | **Virtual Network*            | TimeSolution-vnet             |  |
 | **Subnet*            |default (10.0.0.0/24)            |  |
 
+### Review + Create
 
 Click **Review + Create". **Expected hourly cost while running:** ~$0.45 USD/hr (you are only charged while the VM is **Running**), at the time of writing, May 13, 2026. Please double-check the rates!
 
