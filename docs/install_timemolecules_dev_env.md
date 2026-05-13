@@ -436,15 +436,15 @@ This is used as an alternative to a frontier model like OpenAI which requires a 
 1. Navigate to [https://ollama.com](https://ollama.com)
 2. Click Download->Windows
 3. Run the installer.
-
-
-
-
-### Run Models
+4. open Powershell
+5. Enter command:
 
 ```bash
-ollama run qwen3:14b
+ollama pull llama2
+ollama pull nomic-embed-text
 ```
+
+
 
 ---
 
