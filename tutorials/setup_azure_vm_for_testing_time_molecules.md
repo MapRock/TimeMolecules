@@ -60,7 +60,19 @@ Click **Review + Create". **Expected hourly cost while running:** ~$0.45 USD/hr 
 
 Click **Create**. This will take a few minutes.
 
+### Notes
 
+#### Why Windows Server 2025 (instead of Windows 11)?
+
+I chose **Windows Server 2025 Datacenter with Desktop Experience** as the base for the official TimeMolecules tutorial VM for one primary reason:
+
+**Simpler and safer licensing for who I believe to be the typical reader of <i>Time Molecules</i>.**
+
+Windows 11 (a client OS) requires you to confirm that you already own a qualifying license with multi-tenant hosting rights (Microsoft 365 E3/E5, Windows Enterprise E3/E5, Windows VDA, etc.). Most individual developers, hobbyists, students, and small teams do **not** have these licenses, which leads to confusion, extra steps, and the risk of accidentally violating Microsoft’s terms.
+
+With Windows Server 2025 the operating system license is **included** in the Azure hourly price. You can create the VM without checking any special licensing boxes or worrying about compliance.
+
+**Trade-off**: It costs a bit more per hour than a Windows 11 VM, but it gives the vast majority of people following this tutorial the smoothest, least frustrating experience.
 
 ---
 
