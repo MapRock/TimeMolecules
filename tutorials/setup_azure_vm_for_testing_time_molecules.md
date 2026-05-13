@@ -39,7 +39,7 @@ Basics page:
 | **Size**                         | **Standard D4ds v4** (4 vCPU, 16 GiB memory)         | Ideal for SQL Server, Ollama, Neo4j |
 | **Username**                     | tmuser                          | Use a generic name (not your personal name) |
 | **Public inbound ports**         | Allow selected ports RDP (3389)                                    | Only for testing |
-| **Already have a Windows license?** | **Yes** (Windows Client)                           | Keeps hourly cost lower |
+| **Already have a Windows license?** | **Yes** (Windows Client)                           | Only if you really have one. |
 | **Azure Spot**                   | No                                                    | — |
 
 2nd page: Disks
