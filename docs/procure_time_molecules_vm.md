@@ -60,6 +60,19 @@ The full **TimeMolecules GitHub repository** is cloned to:
 
 ## Create the Azure Windows VM
 
+### Licensing Compliance Note
+
+All software used in this tutorial is provided under licenses that are **explicitly legal for learning, development, and personal use**:
+
+- **Windows Server 2025** — The operating system license is **included** in the Azure VM hourly price.  
+  When you reach the “Would you like to use an existing Windows Server license?” screen, simply **leave the box unchecked** unless you personally own a qualifying license with Software Assurance (Azure Hybrid Benefit). Most individual users following this tutorial leave it unchecked.
+
+- **SQL Server 2025 Developer Edition** — Free for development, testing, evaluation, and learning purposes only. It may **not** be used in production.
+
+- **Neo4j Desktop** — Free Developer license intended for internal development, evaluation, and learning only.
+
+By following these instructions you remain fully compliant with Microsoft and Neo4j licensing terms. The tutorial environment is intentionally designed for **educational and development use only**.
+
 ### Step 1: Create Your VM (≈5 minutes)
 
 1. Go to [https://portal.azure.com](https://portal.azure.com) and sign in (free trial account works fine).
