@@ -39,6 +39,7 @@ Basics page:
 | **Image**                   | Windows Server 2025 Datacenter - x64 Gen2            | Best compatibility |
 | **Size**                         | **Standard D4ds v4** (4 vCPU, 16 GiB memory)         | Ideal for SQL Server, Ollama, Neo4j |
 | **Username**                     | tmuser                          | Use a generic name (not your personal name) |
+| **Password**                     | Your own strong password                          | |
 | **Public inbound ports**         | Allow selected ports RDP (3389)                                    | Only for testing |
 | **Azure Spot**                   | Unchecked                                                    | — |
 | **Licensing**                   | Unchecked                                                   | IF you do not have an existing Windows Server License |
