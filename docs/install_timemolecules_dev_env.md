@@ -71,7 +71,7 @@ By following these instructions you remain fully compliant with Microsoft and Ne
 
 ### Alternative Arrangements
 
-If you are a software developer, you may already have parts of the stack, such as the following:
+If you are a software developer, and you're using your own machine (not a VM), you may already have parts of the stack, such as the following:
 
 #### Python
 
@@ -91,11 +91,11 @@ If you are a software developer, you may already have parts of the stack, such a
 
 The instructions from this point assume you are logged onto your Windows machine (real or virtual) with local admin rights.
 
-A few notes:
+A few general notes:
 
-- While installing, just click Next for defaults if I don't mention anything.
-- There isn't anything to sign onto. So just select the "skip login" (or whatever it may be).
-- When you download something from a Web page (like SQL Server's install), it will download into a folder "Downloads".
+- While installing the various products, just click Next for defaults if I don't mention anything.
+- There isn't anything that will require sign-in (except the Windows VM). That includes GitHub (we can clone the repo without logging in), OpenAI (except to obtain the API key). So just select the "skip login" (or whatever it may be).
+- When you download something from a Web page (like SQL Server's install), it will download into the "Downloads" folder.
 
 
 
