@@ -97,10 +97,12 @@ A few general notes:
 - There isn't anything that will require sign-in (except the Windows VM). That includes GitHub (we can clone the repo without logging in), OpenAI (except to obtain the API key). So just select the "skip login" (or whatever it may be).
 - When you download something from a Web page (like SQL Server's install), it will download into the "Downloads" folder.
 
+In your VM, open an instance of Microsoft Edge and navigate to https:\\github.com\maprock\timemolecules\docs\install_timemolecules_dev_env.md
+That is this same page, but now you can readily copy/paste commands.
+
 
 ## Clone the Time Molecules Repository
 
-Open an instance of Microsoft Edge and navigate to https:\\github.com\maprock\timemolecules\docs\install_timemolecules_dev_env.md
 
 ### a. Create Local Folder
 
