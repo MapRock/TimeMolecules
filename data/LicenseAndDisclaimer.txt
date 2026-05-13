@@ -20,4 +20,4 @@ Use of this file is at your own risk.
 
 By using this file, you agree to the above terms.
 
-Copyright © 2025 Eugene Asahara. All rights reserved.
+Copyright © 2025-2026 Eugene Asahara. All rights reserved.
