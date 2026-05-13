@@ -6,7 +6,7 @@ The impetus for this refresh began when my work reached a point where I needed t
 
 For a more "user-friendly" explanation of this Refresh, please see my blog announcing it: [Time Molecules 2026 Refresh](https://eugeneasahara.com/2026/05/02/time-molecules-2026-refresh/)
 
-> **Note:** This refresh is set for launch on **May 13, 2026**.
+> **Note:** This refresh is set for launch on **May 15, 2026**.
 
 ## What has changed
 
