@@ -353,11 +353,11 @@ If requirements.txt includes the Python ollama package, that only installs the P
 
 ### b. Install VS Code
 
-[https://code.visualstudio.com/](https://code.visualstudio.com/)
+Go to [https://code.visualstudio.com/](https://code.visualstudio.com/), and click **Download for Windows**.
 
 ---
 
-### c. Install Extensions
+### c. Install VS Code Extensions
 
 | Area                 | Extension                        |                             Extension ID |                                    Version / pin recommendation | Why                                                                           |
 | -------------------- | -------------------------------- | ---------------------------------------: | --------------------------------------------------------------: | ----------------------------------------------------------------------------- |
@@ -403,19 +403,6 @@ TIMESOLUTION_SERVER_NAME="Your SQL Server"
 
 ---
 
-## Kyvos Setup (Optional)
-
-Requires enterprise access.
-
-* [https://www.kyvosinsights.com](https://www.kyvosinsights.com)
-
-Steps:
-
-1. Install ODBC driver
-2. Configure DSN
-3. Connect via Python or BI tools
-
----
 
 ## Ollama Setup (Optional)
 
@@ -441,7 +428,7 @@ ollama run qwen3:14b
 
 ---
 
-## Embeddings
+## Create Embeddings for TimeSolution objects and LLM Prompts
 
 Embeddings are used by the workbench Python app, [Time Molecules Agent Demo](https://github.com/MapRock/TimeMolecules/blob/main/tutorials/ai_agent_skills/time_molecules_agent_demo.py)
 
