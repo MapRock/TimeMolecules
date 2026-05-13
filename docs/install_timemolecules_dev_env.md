@@ -99,7 +99,8 @@ A few general notes:
 
 In your VM, open an instance of Microsoft Edge and navigate to:
 https://github.com\maprock\timemolecules\docs\install_timemolecules_dev_env.md
-That is this same page, but now you can readily copy/paste commands.
+
+That is this same page you're reading right now, but now you can readily copy/paste commands.
 
 
 ## Clone the Time Molecules Repository
