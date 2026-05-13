@@ -75,7 +75,7 @@ Windows 11 (a client OS) requires you to confirm that you already own a qualifyi
 
 With Windows Server 2025 the operating system license is **included** in the Azure hourly price. You can create the VM without checking any special licensing boxes or worrying about compliance.
 
-**Trade-off**: It costs a bit more per hour than a Windows 11 VM, but it gives the vast majority of people following this tutorial the smoothest, least frustrating experience.
+**Trade-off**: It costs a more per hour than a Windows 11 VM ($0.26/hour compared to $0.45/hour on at May 13, 2026), but it gives the vast majority of people following this tutorial the smoothest, least frustrating experience.
 
 ---
 
