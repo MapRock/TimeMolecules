@@ -22,13 +22,26 @@ As of May 24, 2026, there will be an option to select a [pre-configured Azure Wi
 
 ---
 
-## 1. Create the Virtual Machine (Recommended Settings)
+## 1. Create the Virtual Machine 
+
+#### Licensing Compliance Note
+
+All software used in this tutorial is provided under licenses that are **explicitly legal for learning, development, and personal use**:
+
+- **Windows Server 2025** — The operating system license is **included** in the Azure VM hourly price.  
+  When you reach the “Would you like to use an existing Windows Server license?” screen, simply **leave the box unchecked** unless you personally own a qualifying license with Software Assurance (Azure Hybrid Benefit). Most individual users following this tutorial leave it unchecked.
+
+- **SQL Server 2025 Developer Edition** — Free for development, testing, evaluation, and learning purposes only. It may **not** be used in production.
+
+- **Neo4j Desktop** — Free Developer license intended for internal development, evaluation, and learning only.
+
+By following these instructions you remain fully compliant with Microsoft and Neo4j licensing terms. The tutorial environment is intentionally designed for **educational and development use only**.
 
 In the Azure Portal, go to **Home** → select **Virtual machines** → click **Create** → **Virtual Machine**.
 
 Use these exact settings
 
-### Basics page:
+#### Basics page:
 
 | Setting                          | Recommended Value                                      | Notes |
 |----------------------------------|--------------------------------------------------------|-------|
@@ -45,19 +58,19 @@ Use these exact settings
 | **Licensing**                   | Unchecked                                                   | IF you do not have an existing Windows Server License |
 
 
-### 2nd page: Disks
+#### 2nd page: Disks
 | Setting                          | Recommended Value                                      | Notes |
 |----------------------------------|--------------------------------------------------------|-------|
 | **OS Disk Size**            | Image Default (127 GiB)             | — |
 | **OS Disk Type**            | Standard SSD              | — |
 
-### 3rd page: Networking
+#### 3rd page: Networking
 | Setting                          | Recommended Value                                      | Notes |
 |----------------------------------|--------------------------------------------------------|-------|
 | **Virtual Network*            | TimeSolution-vnet             |  |
 | **Subnet*            |default (10.0.0.0/24)            |  |
 
-### Review + Create
+#### Review + Create
 
 Click **Review + Create". **Expected hourly cost while running:** ~$0.45 USD/hr (you are only charged while the VM is **Running**), at the time of writing, May 13, 2026. Please double-check the rates!
 
