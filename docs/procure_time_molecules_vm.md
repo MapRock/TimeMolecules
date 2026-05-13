@@ -1,9 +1,15 @@
-# Deprecated - refer instead to [setup_azure_vm_for_testing_time_molecules.md](https://github.com/MapRock/TimeMolecules/blob/main/tutorials/setup_azure_vm_for_testing_time_molecules.md)
+# Procuring the Pre-Configured Time Molecules VM
 
-**Recommended Notes: Procuring & Using the TimeMolecules Ready-to-Run Azure VM**  
+**Last Updated:** May 8, 2026 - <i>This pre-configured VM is not ready until May 24, 2026</i>
+
+This is the procedure from cloning the pre-configured Time Molecules VM
+
+If you prefer to set up for own VM, please refer instead to: [setup_azure_vm_for_testing_time_molecules.md](https://github.com/MapRock/TimeMolecules/blob/main/tutorials/setup_azure_vm_for_testing_time_molecules.md)
+
+## Recommended Notes: Procuring & Using the TimeMolecules Ready-to-Run Azure VM
 *(Strongly optimized for best experience with cloud LLMs)*
 
-**Last Updated:** May 8, 2026 - <i>This VM is not ready until May 24, 2026</i>
+
 
 This is the **easiest and fastest** way to run the TimeMolecules tutorials and book examples. You get your own fully pre-configured Windows 11 VM with VS Code, Python, SQL Server, and all dependencies already installed.
 
@@ -15,7 +21,7 @@ The VM image was deliberately chosen on the **Standard D4ds v4** size to give yo
 Just set your `OPENAI_API_KEY` (works for both OpenAI and Grok via the OpenAI-compatible endpoint) and you’ll get fast, high-quality responses with zero local overhead. This is the intended and smoothest experience.
 
 
-### What is Installed on the TimeMolecules VM
+## What is Installed on the TimeMolecules VM
 
 The TimeMolecules VM is a **Windows** virtual machine hosted on Microsoft Azure. It is pre-configured as a complete, ready-to-use environment for exploring, testing, and demonstrating Time Molecules.
 
@@ -47,7 +53,7 @@ The full **TimeMolecules GitHub repository** is cloned to:
 - **PlantUML** (for generating diagrams from `.puml` files)
 - **Ollama** (for running local LLMs)
 
-
+## The Procedure
 
 ### Step 1: Create Your VM (≈5 minutes)
 
