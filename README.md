@@ -20,6 +20,21 @@ This repo is deliberately built for **serious BI and/or AI practitioners and AI 
 
 The material is **advanced by design**. It assumes you are comfortable with SQL, event data modeling, and complex temporal concepts. In return, it provides a complete layered ecosystem — `llm_prompts`, hands-on tutorials, task-focused skills, and a working AI agent demo — so both humans and AI agents can effectively learn, reason about, and apply the TimeMolecules approach in real enterprise environments.
 
+### License and Appreciation
+
+This repository is licensed under the **MIT License**. You are welcome to use, modify, fork, and build upon the code, LLM prompts, tutorials, skills library, and documentation in your own projects — commercial or non-commercial — provided you retain the original copyright notice and license text.
+
+That said, <i>[Time Molecules](https://technicspub.com/time-molecules/)</i> is the result of years of original research, deep thinking, experimentation, and careful documentation. Creating and maintaining this knowledge base has been a significant personal investment.
+
+If you find the concepts, patterns, tutorials, or AI-agent tooling valuable, I kindly ask two things:
+
+- Please provide **clear attribution** when you use or adapt <i>significant portions</i> of this work.
+- If <i>Time Molecules</i> helps you in your learning, your work, or your projects, I would be truly grateful if you supported the effort by purchasing the <i>[Time Molecules](https://technicspub.com/time-molecules/)</i> book.
+
+Your purchase and any public credit you give make it possible for me to continue openly sharing advanced process intelligence ideas with the community.
+
+Thank you for respecting the work that went into this project.
+
 ## Getting Started
 **To get started** with the tutorials, you need to set up the dev environment. The setup options are:
 
