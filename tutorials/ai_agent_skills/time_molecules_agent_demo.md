@@ -410,6 +410,8 @@ This dual capability allows users to move seamlessly from understanding the syst
 
 *Figure 8 - Run prompt as a SQL against TimeSolution.*
 
+**WARNING:** As of May 15, 2026, it is possible to run any SQL through this mechanism on the TimeSolution database. I do intend to rectify this very soon. <i>For now, rectifying a messed up TimeSolution database (something crazy like TRUNCATEing a table) is just a matter of restoring the TimeSolution.bak.</i>
+
 ## Logging AI Agent Workflow Events
 
 Figure 9 shows the events written by the application to the `STAGE.ImportEvents` table. Each interaction with the workbench is treated as a small workflow, with a generated `CaseID` such as `AI Agent Request 2026-04-28...`. The individual steps—checking the Qdrant collection, embedding the prompt, searching Qdrant, calling the LLM, executing SQL, and completing the request—are recorded as events.
