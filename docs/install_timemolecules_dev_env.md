@@ -242,10 +242,9 @@ SELECT dbo.UserAccessBitmap()
 
 ### f. Restore AdventureWorksDW2017 (Optional)
 
-Download:
-[https://github.com/microsoft/sql-server-samples/releases/tag/adventureworks](https://github.com/microsoft/sql-server-samples/releases/tag/adventureworks)
+Download the [.bak file for AdventureWorksDW2017](https://github.com/Microsoft/sql-server-samples/releases/download/adventureworks/AdventureWorksDW2017.bak) from the [Microsoft Github repo](https://github.com/microsoft/sql-server-samples/releases/tag/adventureworks). it will be in the Downloads folder.
 
-Restore via SSMS.
+Restore via SSMS the same way as with TimeSolution.bak.
 
 ---
 
