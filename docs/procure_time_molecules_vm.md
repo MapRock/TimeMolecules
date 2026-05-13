@@ -4,7 +4,12 @@
 
 This is the procedure from cloning the pre-configured Time Molecules VM
 
-If you prefer to set up for own VM, please refer instead to: [setup_azure_vm_for_testing_time_molecules.md](https://github.com/MapRock/TimeMolecules/blob/main/tutorials/setup_azure_vm_for_testing_time_molecules.md)
+If you prefer to set up for own VM, please refer instead to, follow this two-step process:
+
+1. [setup_azure_vm_for_testing_time_molecules.md](https://github.com/MapRock/TimeMolecules/blob/main/tutorials/setup_azure_vm_for_testing_time_molecules.md) - Create an Azure Windows VM.
+2. [install_timemolecules_dev_env.md](https://github.com/MapRock/TimeMolecules/blob/main/docs/install_timemolecules_dev_env.md) - Install the dev environment onto the Azure Windows VM.
+
+Of course, this VM saves you the hassle of #2.
 
 ## Recommended Notes: Procuring & Using the TimeMolecules Ready-to-Run Azure VM
 *(Strongly optimized for best experience with cloud LLMs)*
@@ -53,7 +58,7 @@ The full **TimeMolecules GitHub repository** is cloned to:
 - **PlantUML** (for generating diagrams from `.puml` files)
 - **Ollama** (for running local LLMs)
 
-## The Procedure
+## Create the Azure Windows VM
 
 ### Step 1: Create Your VM (≈5 minutes)
 
@@ -81,8 +86,8 @@ The full **TimeMolecules GitHub repository** is cloned to:
 
 ### Step 3: Activate the Virtual Environment & Get Started
 
-When you first log in, Visual Studio Code should already be open in the correct folder:  
-`C:\MapRock\TimeMolecules\tutorials\ai_agent_skills`
+When you first log in, Visual Studio Code should already be open in the TimeMolecules:  
+`C:\MapRock\TimeMolecules\`
 
 The Python virtual environment (`.venv`) lives in this folder (or its `scripts` subfolder as noted below).
 
@@ -94,13 +99,16 @@ The Python virtual environment (`.venv`) lives in this folder (or its `scripts` 
    ```
 2. You’re now ready to run Python code inside VS Code.
 
+
+
+
 #### Option B: Activate .venv in PowerShell (Standalone)
 If you prefer a separate PowerShell window or need to run scripts outside VS Code:
 
 1. Open **PowerShell** (search for it in the Start menu).
 2. Navigate to the scripts folder:
    ```powershell
-   cd C:\MapRock\TimeMolecules\tutorials\ai_agent_skills
+   cd C:\MapRock\TimeMolecules\
    ```
 3. Activate the virtual environment:
    ```powershell
@@ -109,20 +117,7 @@ If you prefer a separate PowerShell window or need to run scripts outside VS Cod
 4. You will see `(.venv)` appear at the start of your prompt.
 
 ---
-
-### Step 4: Run the AI Agent Demo (Super Simple)
-
-With the `.venv` activated:
-
-```powershell
-python time_molecules_agent_demo.py
-```
-
-A GUI window will open — start chatting with the agent!
-
----
-
-### Step 5: Configure OpenAI or Grok (Critical for Best Performance)
+### Step 4: Configure OpenAI or Grok (Critical for Best Performance)
 
 1. In VS Code, open the `.env` file (it’s in the project root).
 2. Set your key like this:
@@ -136,6 +131,20 @@ A GUI window will open — start chatting with the agent!
 **Why this is strongly recommended**: Ollama runs poorly on the cost-balanced D4ds v4 VM. Cloud models (OpenAI/Grok) are dramatically faster, more reliable, and require zero extra VM resources.
 
 ---
+
+
+### Step 5: Run the AI Agent Demo (Super Simple)
+
+With the `.venv` activated, in the same Powershell window:
+
+```powershell
+python time_molecules_agent_demo.py
+```
+
+A GUI window will open — start chatting with the agent!
+
+---
+
 
 ### Step 6: Using SQL Server Management Studio (SSMS)
 
@@ -159,10 +168,6 @@ You are only charged while the VM is **Running**.
 - Cost drops to **$0**.
 - Start it again anytime — everything you saved is still there.
 
-**Optional performance boost**: If you want even snappier responses, resize the VM to **Standard D8ds v4** (8 vCPU) in the Azure Portal. Still very affordable.
+**Optional performance boost**: If you want even snappier responses, in the Azure portal resize the VM to **Standard D8ds v4** (8 vCPU) in the Azure Portal. Still very affordable.
 
----
-
-**Questions or issues?**  
-Open an issue on the GitHub repo: https://github.com/MapRock/TimeMolecules
 
