@@ -9,17 +9,17 @@ If you prefer to set up for own VM, please refer instead to, follow this two-ste
 1. [setup_azure_vm_for_testing_time_molecules.md](https://github.com/MapRock/TimeMolecules/blob/main/tutorials/setup_azure_vm_for_testing_time_molecules.md) - Create an Azure Windows VM.
 2. [install_timemolecules_dev_env.md](https://github.com/MapRock/TimeMolecules/blob/main/docs/install_timemolecules_dev_env.md) - Install the dev environment onto the Azure Windows VM.
 
-Of course, this VM saves you the hassle of #2.
+Of course, this pre-configured VM saves you the hassle of #2.
 
 ## Recommended Notes: Procuring & Using the TimeMolecules Ready-to-Run Azure VM
 *(Strongly optimized for best experience with cloud LLMs)*
 
 
 
-This is the **easiest and fastest** way to run the TimeMolecules tutorials and book examples. You get your own fully pre-configured Windows 11 VM with VS Code, Python, SQL Server, and all dependencies already installed.
+This is the **easiest and fastest** way to run the TimeMolecules tutorials and book examples. You get your own fully pre-configured Windows Server VM with VS Code, Python, SQL Server, and all dependencies already installed.
 
 **Important Recommendation on LLM Choice**  
-The VM image was deliberately chosen on the **Standard D4ds v4** size to give you the best balance of **cost** (~$0.27/hour) and **speed**.  
+The VM image was deliberately chosen on the **Standard D4ds v4** size to give you the best balance of **cost** (~$0.45/hour) and **speed**.  
 **Ollama (local LLM) does NOT perform well on this VM** — it feels sluggish and is not recommended.  
 
 **Strongly recommend using OpenAI or Grok instead.**  
@@ -28,11 +28,11 @@ Just set your `OPENAI_API_KEY` (works for both OpenAI and Grok via the OpenAI-co
 
 ## What is Installed on the TimeMolecules VM
 
-The TimeMolecules VM is a **Windows** virtual machine hosted on Microsoft Azure. It is pre-configured as a complete, ready-to-use environment for exploring, testing, and demonstrating Time Molecules.
+The TimeMolecules VM is a **Windows Server** virtual machine hosted on Microsoft Azure. It is pre-configured as a complete, ready-to-use environment for exploring, testing, and demonstrating Time Molecules.
 
 #### Core Components
 
-- **Operating System**: Windows
+- **Operating System**: Windows Server
 - **Database**: SQL Server 2025 (Developer Edition) with the full **TimeSolution** database already restored
 - **Graph Database**: **Neo4j** (including Neo4j Desktop / Browser for exploring exported Markov models)
 - **Development Tools**:
@@ -148,7 +148,7 @@ A GUI window will open — start chatting with the agent!
 
 ### Step 6: Using SQL Server Management Studio (SSMS)
 
-The VM comes with **SQL Server** and **SQL Server Management Studio** pre-installed.
+The VM is pre-installed with **SQL Server 2025 Developer Edition** and **SQL Server Management Studio**.
 
 1. Search for **“SQL Server Management Studio”** in the Windows Start menu and launch it.
 2. Connect using:
@@ -168,6 +168,6 @@ You are only charged while the VM is **Running**.
 - Cost drops to **$0**.
 - Start it again anytime — everything you saved is still there.
 
-**Optional performance boost**: If you want even snappier responses, in the Azure portal resize the VM to **Standard D8ds v4** (8 vCPU) in the Azure Portal. Still very affordable.
+**Optional performance boost**: If you want even snappier responses, in the Azure portal resize the VM to **Standard D8ds v4** (8 vCPU) in the Azure Portal. Still very affordable, as long as you diligently**Stop** the VM when not in use.
 
 
