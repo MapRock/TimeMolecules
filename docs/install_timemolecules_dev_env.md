@@ -424,7 +424,7 @@ ADVENTUREWORKS_SERVER_NAME="Your SQL Server"
 TIMESOLUTION_SERVER_NAME="Your SQL Server"
 ```
 
----
+**Be sure to save the .env file**: File->Save. 
 
 
 ## Ollama Setup (Optional)
@@ -478,7 +478,7 @@ Both can be executed from Visual Studio (which should be open and ready to go) o
 
 As the .env file stands, this step will create embeddings using **openai** and its *text-embedding-3-large** embedding model. 
 
-If you elect to use ollama for LLM and embedding tasks, skip this part to [Build the Embeddings with ollama](#embeddings-with-ollama).
+If you elect to use ollama for LLM and embedding tasks, skip this part to [Build Embeddings with ollama](#build-embeddings-with-ollama). Or build both embeddings using both--perhaps some use cases would be better served with ollama and others with openai.
 
 This will build an embedding database of Time Molecules objects using Visual Studio Code:
 
@@ -495,9 +495,31 @@ cd C:\MapRock\TimeMolecules\tutorials
 .\.venv\Scripts\python.exe ai_agent_skills\build_qdrant_index.py
 ```
 
-#### Embeddings with Ollama
+#### Build Embeddings with Ollama
 
 Using ollama is an alternative to using openai. If you choose to go "all-openai" (LLM and embedding tasks), you can skip this topic.
+
+1. Change this line in the .env file to use ollama to build the embeddings:
+
+```python
+EMBED_LLM="ollama" # Lowerer case. openai or ollama.
+```
+2. Save the changes (File->Save). 
+
+This will build an embedding database of Time Molecules objects using Visual Studio Code:
+
+1. In Visual Studio Code's Explorer window, find Tutorial/ai_agent_skills/build_qdrant_index.py
+2. From the main toolbar: Run -> Run Without Debugging
+
+In the Output window, you will see messages indicating the progress.
+
+
+Alternatively, in Powershell, execute each line one by one:
+
+```bash
+cd C:\MapRock\TimeMolecules\tutorials
+.\.venv\Scripts\python.exe ai_agent_skills\build_qdrant_index.py
+```
 
 ### Test the Time Solution Client
 
