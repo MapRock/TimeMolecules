@@ -443,7 +443,7 @@ Ollama, as an open-source LLM, will be used as a local or private LLM. This coul
 5. Enter the ommands below to pull the LLM and embedding models:
 
 ```bash
-ollama pull llama2
+ollama pull llama3.2
 ollama pull nomic-embed-text
 ```
 
