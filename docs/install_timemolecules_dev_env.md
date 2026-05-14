@@ -382,22 +382,25 @@ Go to [https://code.visualstudio.com/](https://code.visualstudio.com/), and clic
 
 ### c. Install VS Code Extensions
 
-| Area                 | Extension                        |                             Extension ID |                                    Version / pin recommendation | Why                                                                           |
-| -------------------- | -------------------------------- | ---------------------------------------: | --------------------------------------------------------------: | ----------------------------------------------------------------------------- |
-| SQL Server           | SQL Server / MSSQL               |                         `ms-mssql.mssql` |           **1.42.1** currently shown in Microsoft release notes | Run `.sql`, connect to SQL Server, browse objects, execute setup scripts      |
-| Python               | Python                           |                       `ms-python.python` |                                                  Install latest | Main Python support; also pulls in Pylance, debugger, and environment tooling |
-| Jupyter / notebooks  | Jupyter                          |                     `ms-toolsai.jupyter` |                                        Install latest, optional | Useful if you later add notebook-style experiments                            |
-| Markdown             | Markdown All in One              |             `yzhang.markdown-all-in-one` |                                                  Install latest | Table of contents, Markdown editing, tutorial docs                            |
-| GitHub-style preview | Markdown Preview GitHub Styling  | `bierner.markdown-preview-github-styles` |                                       **2.2.0** currently shown | Makes local Markdown preview closer to GitHub                                 |
-| CSV                  | Rainbow CSV                      |                `mechatroner.rainbow-csv` |                                      **3.24.1** currently shown | Metadata CSVs, Qdrant export files, mapping files                             |
+Time Molecules uses Visual Studio Code for editing and running Python, SQL, CSV, Markdown, and Cypher-related files. The following extensions are the essential set for the basic developer environment.
 
----
+Open **Visual Studio Code**, go to **Extensions**, search for each extension, and install the matching publisher/identifier.
+
+| Extension | Publisher | Identifier | Essential? | Purpose |
+|---|---|---|---|---|
+| **Python** | Microsoft | `ms-python.python` | Yes | Main Python support for scripts, virtual environments, debugging, and running Python files. |
+| **Pylance** | Microsoft | `ms-python.vscode-pylance` | Yes | Python IntelliSense, type checking, symbol navigation, and better editing support. Usually installed with the Python extension. |
+| **Python Debugger** | Microsoft | `ms-python.debugpy` | Yes | Python debugging support. Usually installed with the Python extension. |
+| **SQL Server (mssql)** | Microsoft | `ms-mssql.mssql` | Yes | Edit and run SQL Server scripts from VS Code. Needed for TimeSolution SQL files. |
+| **Rainbow CSV** | mechatroner | `mechatroner.rainbow-csv` | Yes | Makes CSV and TSV files readable. Useful for metadata exports, prompt files, and Qdrant/embedding source files. |
+| **Cypher Query Language** | Jake Boone | `jakeboone02.cypher-query-language` | Yes | Syntax highlighting and formatting for Neo4j Cypher queries. |
+| **Jupyter** | Microsoft | `ms-toolsai.jupyter` | Recommended | Useful for notebooks and Python experiments, but not required for the core Time Molecules setup. |
 
 
 
-### e. Open Project
+### d. Open TimeMolecules Project in Visual Studio Code
 
-In Visual Code, select File -> Open Folder:
+From the Visual Studio Code main toolbar, select File -> Open Folder, then navigate to and select:
 
 ```
 C:\MapRock\TimeMolecules\
@@ -405,7 +408,7 @@ C:\MapRock\TimeMolecules\
 
 ---
 
-### f. Setup `.env`
+### e. Setup `.env`
 
 If you haven't yet obtained the OpenAI API key, now is the time. Nagivate to: https://platform.openai.com/api-keys
 
