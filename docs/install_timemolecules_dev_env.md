@@ -415,7 +415,7 @@ From Visual Studio, find the File Tutorials/.env.example and rename the file fro
 .env.example → .env
 ```
 
-Edit:
+Then edit these keys:
 
 ```python
 OPENAI_API_KEY="Your OpenAI API Key"
@@ -429,15 +429,15 @@ TIMESOLUTION_SERVER_NAME="Your SQL Server"
 
 ## Ollama Setup (Optional)
 
-This is used as an alternative to a frontier model like OpenAI which requires a key, can incur token cost, and requires Internet connection.
+Ollama, as an open-source LLM, will be used as a local or private LLM. This could be used as an alternative to a public frontier model like OpenAI which requires a key, can incur token cost, requires Internet connection, and where our prompts are sent to a third party company (OpenAI, xAI, etc.).
 
 ### Install
 
 1. Navigate to [https://ollama.com](https://ollama.com)
 2. Click Download->Windows
 3. Run the installer.
-4. open Powershell
-5. Enter command:
+4. Open Powershell
+5. Enter the ommands below to pull the LLM and embedding models:
 
 ```bash
 ollama pull llama2
@@ -476,16 +476,28 @@ Both can be executed from Visual Studio (which should be open and ready to go) o
 
 ### Build the Embeddings
 
-This will build an embedding database of Time Molecules objects.
+As the .env file stands, this step will create embeddings using **openai** and its *text-embedding-3-large** embedding model. 
+
+If you elect to use ollama for LLM and embedding tasks, skip this part to Build the Embeddings with ollama.
+
+This will build an embedding database of Time Molecules objects using Visual Studio Code:
+
+1. In Visual Studio Code's Explorer window, find Tutorial/ai_agent_skills/build_qdrant_index.py
+2. From the main toolbar: Run -> Run Without Debugging
+
+In the Output window, you will see messages indicating the progress.
 
 
-
-Execute each line one by one:
+Alternatively, in Powershell, execute each line one by one:
 
 ```bash
 cd C:\MapRock\TimeMolecules\tutorials
 .\.venv\Scripts\python.exe ai_agent_skills\build_qdrant_index.py
 ```
+
+#### Embeddings with Ollama
+
+Using ollama is an alternative to using openai. If you choose to go "all-openai" (LLM and embedding tasks), you can skip this topic.
 
 ### Test the Time Solution Client
 
