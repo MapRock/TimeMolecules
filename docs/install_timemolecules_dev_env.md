@@ -499,6 +499,8 @@ cd C:\MapRock\TimeMolecules\tutorials
 
 Using ollama is an alternative to using openai. If you choose to go "all-openai" (LLM and embedding tasks), you can skip this topic.
 
+The primary disadvantage of using ollama is that it will be very slow in answer prompts because of the limited capabilities of this Windows VM. The VM certainly does not possess the capability of high-end GPUs and massively-scaled services of an LLM running at AI data centers. Also (I haven't formally tested this), it seems to me that the lower dimensional embeddings of nomic-embed-text (768 elements) isn't as accurate as the higher dimensional text-embedding-3-large of openai (3072 elements).
+
 1. Change this line in the .env file to use ollama to build the embeddings:
 
 ```python
@@ -523,13 +525,31 @@ cd C:\MapRock\TimeMolecules\tutorials
 
 ### Test the Time Solution Client
 
-Execute each line one by one:
+It's time to test if Python/VS has been fully configured. 
+
+This test app uses both LLM prompt submissions and embeddings. These keys in the .env file determine which LLM is used:
+
+```python
+LLM="openai" # Lower case!! openai or ollama, grok.
+EMBED_LLM="openai" # Lowerer case. openai or ollama.
+```
+The easiest route is to use openai for both, since the subject being "discussed" in this app is Time Molecules material publicly available on this repo. 
+
+To run the application:
+
+1. In Visual Studio Code's Explorer window, find Tutorial/ai_agent_skills/time_molecules_agent_demo.py
+2. From the main toolbar: Run -> Run Without Debugging
+
+In the Output window, you will see messages indicating the progress.
+
+Alternatively, in Powershell, execute each line one by one:
 
 ```bash
 cd C:\MapRock\TimeMolecules\tutorials
 .\.venv\Scripts\python.exe ai_agent_skills\time_molecules_agent_demo.py
 ```
-See [Time Molecules Agent Demo](https://github.com/MapRock/TimeMolecules/blob/main/tutorials/ai_agent_skills/time_molecules_agent_demo.md) for a discussion on how to use this.
+
+See [Time Molecules Agent Demo](https://github.com/MapRock/TimeMolecules/blob/main/tutorials/ai_agent_skills/time_molecules_agent_demo.md) for a discussion on how to use this test app and learn more about what it is.
 
 
 ## Stop the VM When Finished (Save Money!)
