@@ -478,7 +478,7 @@ Both can be executed from Visual Studio (which should be open and ready to go) o
 
 As the .env file stands, this step will create embeddings using **openai** and its *text-embedding-3-large** embedding model. 
 
-If you elect to use ollama for LLM and embedding tasks, skip this part to Build the Embeddings with ollama.
+If you elect to use ollama for LLM and embedding tasks, skip this part to [Build the Embeddings with ollama](#embeddings-with-ollama).
 
 This will build an embedding database of Time Molecules objects using Visual Studio Code:
 
