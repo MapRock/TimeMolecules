@@ -34,6 +34,8 @@ Set up the your dev environment:
 
 Once you have your environment set up, please see, [time_molecules_agent_demo.md](https://github.com/MapRock/TimeMolecules/blob/main/tutorials/ai_agent_skills/time_molecules_agent_demo.md) to walk you through the AI agent demo.
 
+**Hint:** See [sample_questions_for_agent_demo.md](https://github.com/MapRock/TimeMolecules/blob/main/tutorials/ai_agent_skills/sample_questions_for_agent_demo.md) for sample prompts from the [LLM Prompts](https://github.com/MapRock/TimeMolecules/tree/main/docs/llm_prompts) folder.
+
 
 ### openai, ollama, grok
 
