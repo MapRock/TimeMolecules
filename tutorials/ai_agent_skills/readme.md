@@ -25,13 +25,14 @@ The demo app is a "workbench" used to test the mechanisms I've put together for 
 | `build_qdrant_index.py`    | Builds or refreshes the Qdrant vector collection from TimeSolution metadata + LLM prompts |
 | `time_molecules_agent_demo.py` | Simple Tkinter GUI for semantic search + grounded LLM answers |
 
-**Setup Process**  
-1. Install python environment, [install_python_virtual_env.md](https://github.com/MapRock/TimeMolecules/blob/main/tutorials/install_python_virtual_env.md).
-2. If you choose to use ollama (local LLM - free, local), you need to download it and have it running: https://ollama.com/download
-3. Copy `.env.example` → `.env` and configure  
-4. Run `[python build_qdrant_index.py](https://github.com/MapRock/TimeMolecules/blob/main/tutorials/ai_agent_skills/build_qdrant_index.py)` - Generates the qdrant vector database.
-5. Run `[python time_molecules_agent_demo.py](https://github.com/MapRock/TimeMolecules/blob/main/tutorials/ai_agent_skills/time_molecules_agent_demo.py)`
-6. Follow the tutorial for this app, [Time Molecules Agent Demo](https://github.com/MapRock/TimeMolecules/blob/main/tutorials/ai_agent_skills/time_molecules_agent_demo.md).
+## Setup Process*
+
+Set up the your dev environment:
+
+1. Set up the [preconfigured Azure Windows VM](https://github.com/MapRock/TimeMolecules/blob/main/docs/procure_time_molecules_vm.md). This is the easiest path, but not availble until May 24, 2026.
+2. Set up [your own Azure Windows VM](https://github.com/MapRock/TimeMolecules/blob/main/tutorials/setup_azure_vm_for_testing_time_molecules.md). This can be slightly painful for non-devs, but it isn't too bad.
+
+Once you have your environment set up, please see, [time_molecules_agent_demo.md](https://github.com/MapRock/TimeMolecules/blob/main/tutorials/ai_agent_skills/time_molecules_agent_demo.md) to walk you through the AI agent demo.
 
 
 ### openai, ollama, grok
@@ -74,7 +75,7 @@ There are two demo program versions:
 | Program | SQL Server Required? | Qdrant Required? | Ollama App Required? | Python `ollama` Required? | Frontier LLM/API Required? | Best Use |
 |---|---:|---:|---:|---:|---:|---|
 | `time_molecules_agent_demo.py` with SQL Server | Yes | Yes | Optional | Optional | Optional | Full demo: live TimeSolution metadata, SQL execution, richer workbench behavior |
-| `time_molecules_agent_demo.py` from CSV | No | Yes | Yes, if using local embeddings | Yes, if using local embeddings | Optional | Build/search Qdrant from `TimeMolecules_Metadata.csv` without restoring the database |
+| `time_molecules_agent_demo.py` from Metadata in CSV | No | Yes | Yes, if using local embeddings | Yes, if using local embeddings | Optional | Build/search Qdrant from `TimeMolecules_Metadata.csv` without restoring the database |
 | `time_molecules_data_json_ui.py` | No | No | Yes | Yes | No | Minimal local demo: search prebuilt `data.json` embeddings without SQL Server or Qdrant |
 | Frontier LLM variant | Optional | Depends on program | No | No | Yes | Use hosted models for chat and/or embeddings when local Ollama is not desired |
 
