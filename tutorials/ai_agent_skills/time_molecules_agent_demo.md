@@ -73,6 +73,7 @@ Here’s a  mapping of each numbered UI element to what it does, based on your c
 
 **1. Prompt box**
 Main input area. Accepts either natural language or SQL depending on the checkbox.
+See [sample_questions_for_agent_demo.md](https://github.com/MapRock/TimeMolecules/blob/main/tutorials/ai_agent_skills/sample_questions_for_agent_demo.md) for sample prompts from the [LLM Prompts](https://github.com/MapRock/TimeMolecules/tree/main/docs/llm_prompts) folder.
 
 **2. Ask button**
 Runs the workflow:
