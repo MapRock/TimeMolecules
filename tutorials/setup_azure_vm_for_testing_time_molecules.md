@@ -23,6 +23,13 @@ As of May 24, 2026, there will be an option to select a [pre-configured Azure Wi
 - Can be captured as a reusable public image so others can deploy in minutes
 - Perfect for validating installation instructions
 
+## Requirements
+
+The following are requirements, with the associated exceptions:
+
+- Azure Account - Unless you plan to install onto your own physical machine. An Azure Windows VM isolates and risk away from your physical machine.
+- OpenAI account and API key - Unless you opt to utilize a local ollama LLM. Not recommended without a really high-end machine.
+
 ---
 
 ## 1. Create the Virtual Machine 
