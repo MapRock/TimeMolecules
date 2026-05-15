@@ -4,6 +4,9 @@
 
 This is the starting point of the guide that shows you how to create a **clean** Azure Windows Virtual Machine, then install the dev environment on it.  
 
+If you wish to install the dev environment on your physical machine, please go to [install_timemolecules_dev_env.md*](https://github.com/MapRock/TimeMolecules/blob/main/docs/install_timemolecules_dev_env.md) for instructions on loading the dev items.
+
+
 It is the recommended method for:
 - Readers of the book who need the full install (SQL Server + SSMS + Neo4j + restored database)
 - People following the AI Agent tutorial
