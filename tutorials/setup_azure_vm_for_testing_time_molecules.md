@@ -109,7 +109,7 @@ Remember:
 
 - You are **only charged** while the VM status shows **Running**.
 - As soon as the VM finishes deploying, **immediately click Stop** in the Azure Portal (this deallocates it).
-- Compute cost drops to **$0.00/hr**.
+- Compute cost drops from $0.45/hr to **$0.00/hr** - at the time of writing, May 15, 2024.
 - All files, databases, and installed software remain safe.
 - Only start the VM again when you need to work on it.
 
