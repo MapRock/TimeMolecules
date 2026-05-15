@@ -4,7 +4,7 @@
 
 This is the starting point of the guide that shows you how to create a **clean** Azure Windows Virtual Machine, then install the dev environment on it.  
 
-If you wish to install the dev environment on your physical machine, please go to [install_timemolecules_dev_env.md*](https://github.com/MapRock/TimeMolecules/blob/main/docs/install_timemolecules_dev_env.md) for instructions on loading the dev items.
+<i>**If you wish to install the dev environment on your physical machine, please go to [install_timemolecules_dev_env.md*](https://github.com/MapRock/TimeMolecules/blob/main/docs/install_timemolecules_dev_env.md) for instructions on loading the dev items.**</i>
 
 
 It is the recommended method for:
