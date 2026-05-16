@@ -368,7 +368,7 @@ It becomes:
 Recommend allergy bundle only when the downstream process neighborhood is healthy enough to absorb the recommendation.
 ```
 
-That is a modern post-AI business capability.
+That is a modern AI-era business capability.
 
 # Why this is not ordinary process mining
 
