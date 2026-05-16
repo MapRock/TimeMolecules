@@ -28,7 +28,7 @@ Late 2027: A fast-moving winter storm meets a sold-out stadium concert and a las
 - A spike in slips, respiratory cases, and minor trauma.
 - Six hospitals quietly going on internal surge footing while elective procedures get bumped.
 
-After-action review shows the warning signs *were* there — scattered across weather models, traffic cams, and utility logs — but nobody connected the dots into a coherent “uh-oh, the city is getting that funny feeling again” story. Classic false negatives on the rare surge; any earlier blanket alert would have caused unnecessary panic and wasted resources.
+After-action review shows the warning signs *were* there — scattered **across** weather models, traffic cams, and utility logs — but nobody connected the dots into a coherent “uh-oh, the city is getting that funny feeling again” story. Classic false negatives on the rare surge; any earlier blanket alert would have caused unnecessary panic and wasted resources.
 
 ### What Time Molecules Adds — the ultimate “gut-feeling” layer
 
