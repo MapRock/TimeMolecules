@@ -4,6 +4,8 @@ The seed of Time Molecules begins with the CTO of a customer from about 20 years
 
 # <i>Hypothetical</i> Case Study: Metropolitan Resilience Intelligence Center (MRIC) – Time Molecules as the City’s “Collective Gut Feeling” for Rare-Event Hospital Surge Forecasting**
 
+**Handling Rare Events**
+
 Picture a bustling metro area of 8+ million people — think traffic jams on game day, surprise snow dumps that turn freeways into parking lots, or that one big holiday weekend when everyone decides to drive to the same beach at once. The **Metropolitan Resilience Intelligence Center (MRIC)** is the quiet public-private nerve center that keeps an eye on the whole ecosystem: emergency management, public health folks, hospital coalitions, utilities, transportation agencies, and weather/seismic networks. Its job? Spot the early, fuzzy “this feels off” signals that could snowball into a sudden flood of patients showing up at emergency rooms, ICUs, and trauma bays — before the hospitals have to scramble.
 
 The mission lives at the sweet spot of four everyday realities:
