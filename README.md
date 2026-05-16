@@ -6,6 +6,8 @@ This repo provides supplementary material for the book, <i>[Time Molecules](http
 
 This repository itself is not a database you can connect to and query. 
 
+Please see [Business Application Intuition](https://github.com/MapRock/TimeMolecules/tree/main/tutorials/business_application_intuition) for three <i>**hypothetical**</i? use cases that drove the direction.
+
 
 ## Who This Repository Is For
 
