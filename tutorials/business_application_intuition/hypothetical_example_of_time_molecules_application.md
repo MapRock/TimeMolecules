@@ -2,7 +2,8 @@ This <i>**hypothetical**</i> case study illustrates how Time Molecules could be 
 
 The seed of Time Molecules begins with the CTO of a customer from about 20 years (ca. 2006ish) ago who told me that they can optimize sections of their business, but not as a whole. This might seem "duh" today, but it wasn't all those years ago in the BI world. It's been the "mission statement" I had been pursuing since then. 
 
-I'm not claiming that I'm the first to have thought of this, nor do I claim this is the home run to drive-in the analytics version of a winning run. Rather, these are challenges that existed back in the 2000s where I faced such issues at the client sites. And they are still a challenge. I propose Time Molecules as the #2 or #3 hitter in the analytics line up, akin to Derek Jetter getting on base for Alex Rodriguez to drive them all home.
+
+I'm not claiming to be the first to have thought of this, nor do I claim this is the home run to drive-in the analytics version of a winning run. Rather, these are challenges that existed back in the 2000s where I faced such issues at the client sites. This is still a challenge, and this is just my BI-inspired approach, among millions of others in the world.
 
 
 # Hypothetical Case study: Kōlea Retail Health, Multi-domain Retail Enterprise
