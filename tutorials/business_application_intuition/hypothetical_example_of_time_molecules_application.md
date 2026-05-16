@@ -1,4 +1,4 @@
-This is a concrete case study **vision (meaning, this is hyopothetical)** that feels enterprise-real without collapsing Time Molecules into ordinary process optimization.
+This is a case study **vision (meaning, this is hyopothetical)** that feels enterprise-plausible without collapsing Time Molecules into ordinary process optimization.
 
 # Case study: NorthRiver Retail Health
 
@@ -20,7 +20,7 @@ AI agent platform
 data warehouse / semantic layer
 ```
 
-By 2026, the company has AI agents in production: support agents, product-recommendation agents, clinic scheduling agents, warehouse exception agents, and analyst copilots. That is not a wild assumption; current enterprise AI direction is already moving toward agentic workflows, cross-functional automation, and governance problems around scaling agents. Recent reporting also shows companies wrestling with agent reliability, rollbacks, safety systems, and custom context infrastructure as they move beyond pilots. ([TechRadar][1])
+By 2026, the company has AI agents in production: support agents, product-recommendation agents, clinic scheduling agents, warehouse exception agents, and analyst copilots. That is not a wild assumption; current enterprise AI direction is already moving toward agentic workflows, cross-functional automation, and governance problems around scaling agents. Recent reporting also shows companies wrestling with agent reliability, rollbacks, safety systems, and custom context infrastructure as they move beyond pilots. 
 
 The problem is not that NorthRiver lacks data. It has too much data.
 
