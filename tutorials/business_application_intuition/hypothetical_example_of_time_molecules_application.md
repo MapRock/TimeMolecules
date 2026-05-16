@@ -468,4 +468,3 @@ downstream process neighborhood can absorb the recommendation before making it.
 
 That is the concrete vision: **AI-era businesses need process-neighborhood awareness**, because intelligent local actions can create unintelligent enterprise behavior.
 
-[1]: https://www.techradar.com/pro/the-most-advanced-organizations-arent-failing-less-theyre-seeing-failures-sooner-many-firms-are-already-having-to-roll-back-ai-customer-service-tools?utm_source=chatgpt.com "'The most advanced organizations aren't failing less; they're seeing failures sooner': Many firms are already having to roll back AI customer service tools"
