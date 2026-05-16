@@ -1,8 +1,8 @@
-This is a case study **vision (meaning, this is hyopothetical)** that feels enterprise-plausible without collapsing Time Molecules into ordinary process optimization.
+This is a hypothetical case study **vision** that feels enterprise-plausible without collapsing Time Molecules into ordinary process optimization.
 
-# Case study: NorthRiver Retail Health
+# Case study: Kōlea Retail Health
 
-Imagine a modern company called **NorthRiver Retail Health**. It is a hybrid business: online retail, pharmacy, clinic services, subscription wellness products, delivery logistics, and AI-supported customer service.
+Imagine a modern company called **Kōlea Retail Health**. It is a hybrid business: online retail, pharmacy, clinic services, subscription wellness products, delivery logistics, and AI-supported customer service.
 
 It has all the normal enterprise systems:
 
@@ -22,13 +22,13 @@ data warehouse / semantic layer
 
 By 2026, the company has AI agents in production: support agents, product-recommendation agents, clinic scheduling agents, warehouse exception agents, and analyst copilots. That is not a wild assumption; current enterprise AI direction is already moving toward agentic workflows, cross-functional automation, and governance problems around scaling agents. Recent reporting also shows companies wrestling with agent reliability, rollbacks, safety systems, and custom context infrastructure as they move beyond pilots. 
 
-The problem is not that NorthRiver lacks data. It has too much data.
+The problem is not that Kōlea lacks data. It has too much data.
 
 The problem is that **each department sees its own process**, but nobody has a durable model of how those processes shape each other.
 
 ## The business event
 
-NorthRiver launches an AI-personalized “Spring Allergy Relief” campaign.
+Kōlea launches an AI-personalized “Spring Allergy Relief” campaign.
 
 The marketing agent identifies likely allergy customers and sends offers for:
 
@@ -78,7 +78,7 @@ That is the Time Molecules case study.
 
 # What Time Molecules adds
 
-NorthRiver uses Time Molecules as the **time-side semantic layer** for this business event.
+Kōlea uses Time Molecules as the **time-side semantic layer** for this business event.
 
 It does not merely create one model of “the customer journey.” That would be too simplistic.
 
@@ -194,7 +194,7 @@ This is the exact kind of cross-process effect that reflects the thesis of Time 
 
 # The third discovery: a hidden state emerges
 
-NorthRiver creates Bayesian-style conditional probabilities.
+Kōlea creates Bayesian-style conditional probabilities.
 
 For example:
 
@@ -395,7 +395,7 @@ That is the Time Molecules distinction.
 
 # How this becomes core capability
 
-After the first campaign, NorthRiver makes this a standard operating model.
+After the first campaign, Kōlea makes this a standard operating model.
 
 Every major business change becomes an event:
 
