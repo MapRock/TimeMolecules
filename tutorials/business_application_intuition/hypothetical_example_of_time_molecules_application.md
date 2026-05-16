@@ -478,5 +478,7 @@ A first implementation would not require the entire enterprise to be modeled. It
 6. Calculate conditional probabilities for selected downstream outcomes.
 7. Expose the findings as BI-facing summaries and AI-agent-facing guardrails.
 
-**However, the real first step** is to implement a [high-scale event processing system](https://github.com/MapRock/TimeMolecules/blob/main/docs/llm_prompts/time_molecules_high_scale_event_processing.md) to collect events from across very many sources. That wide view linked through the ubiquitous dimension of time is the key to Time Molecules.
+**However, the real first step** is to:
+1. Implement a [high-scale event processing system](https://github.com/MapRock/TimeMolecules/blob/main/docs/llm_prompts/time_molecules_high_scale_event_processing.md) to collect events from across very many sources. That wide view linked through the ubiquitous dimension of time is the key to Time Molecules.
+2. Accentuate the events using [complex event processing](https://eugeneasahara.com/2025/09/25/reptile-intelligence-an-ai-summer-for-cep/), something I consider an AI component that never had its time in the spotlight.
 
