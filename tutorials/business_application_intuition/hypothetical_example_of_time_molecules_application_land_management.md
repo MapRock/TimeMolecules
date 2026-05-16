@@ -1,4 +1,8 @@
-**Hypothetical Case Study: Public Lands Stewardship Agency (PLSA) – Time Molecules as the Core “Time-Side Semantic Layer”**
+This hypothetical case study illustrates how Time Molecules could be applied in a modern AI-assisted enterprise without reducing the idea to ordinary single-process optimization.
+
+The seed of Time Molecules begins with the CTO of a customer from about 20 years (ca. 2006ish) ago who told me that they can optimize sections of their business, but not as a whole. This might seem "duh" today, but it wasn't all those years ago in the BI world. It's been the "mission statement" I had been pursuing since then.
+
+# Hypothetical Case Study: Public Lands Stewardship Agency (PLSA) – Time Molecules as the Core “Time-Side Semantic Layer”
 
 Imagine a federal agency responsible for managing roughly 245 million acres of public land across the western U.S. (think BLM-scale operations). Call it the **Public Lands Stewardship Agency (PLSA)**. Its mission sits at the intersection of three inseparable realities:
 
