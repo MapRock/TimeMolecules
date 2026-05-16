@@ -7,7 +7,7 @@ I'm not claiming that I'm the first to have thought of this, nor do I claim this
 
 # Hypothetical Case Study: Public Lands Stewardship Agency (PLSA) – Time Molecules as the Core “Time-Side Semantic Layer”
 
-**Managing a Complex System**
+**Managing a Complex System**. Please see, [The Trophic Cascades of AI](https://eugeneasahara.com/2025/01/31/the-trophic-cascade-of-ai/) for a little talk about cascading cause and effect of ecosystems.
 
 Imagine a federal agency responsible for managing roughly 245 million acres of public land across the western U.S. (think BLM-scale operations). Call it the **Public Lands Stewardship Agency (PLSA)**. Its mission sits at the intersection of three inseparable realities:
 
