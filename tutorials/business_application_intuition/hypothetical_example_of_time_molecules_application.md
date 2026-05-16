@@ -1,6 +1,6 @@
 This is a hypothetical case study **vision** that feels enterprise-plausible without collapsing Time Molecules into ordinary process optimization.
 
-The seed of Time Molecules begins with a customer from about 20 years ago who told me that they can optimize sections of their business, but not as a whole. This might seem "duh" today, but it wasn't all those years ago in the BI world. It's been the "mission statement" I had been pursuing since then.
+The seed of Time Molecules begins with a customer from about 20 years ago who told me that they can optimize sections of their business, but not as a whole. This might seem "duh" today, but it wasn't all those years ago in the BI world. It's been the "mission statement" I had been pursuing since then. 
 
 # Case study: Kōlea Retail Health
 
@@ -24,11 +24,11 @@ data warehouse / semantic layer
 
 By 2026, the company has AI agents in production: support agents, product-recommendation agents, clinic scheduling agents, warehouse exception agents, and analyst copilots. That is not a wild assumption; current enterprise AI direction is already moving toward agentic workflows, cross-functional automation, and governance problems around scaling agents. Recent reporting also shows companies wrestling with agent reliability, rollbacks, safety systems, and custom context infrastructure as they move beyond pilots. 
 
-The problem is not that Kōlea lacks data. It has too much data.
+The problem is not that Kōlea lacks data. It has too much data -- in depth (billions of rows) and breadth (across many diverse domains).
 
 The problem is that **each department sees its own process**, but nobody has a durable model of how those processes shape each other.
 
-## The business event
+## The Business Event
 
 Kōlea launches an AI-personalized “Spring Allergy Relief” campaign.
 
@@ -43,9 +43,7 @@ same-day delivery bundles
 subscription refills
 ```
 
-On paper, the campaign is successful.
-
-BI shows:
+On paper, the campaign is successful. The dashboard looks good, targets and goals are on-track. BI shows:
 
 ```text
 campaign clickthrough up
@@ -54,9 +52,6 @@ clinic bookings up
 basket size up
 same-day delivery requests up
 ```
-
-The dashboard looks good.
-
 But three days later, problems start appearing elsewhere:
 
 ```text
@@ -78,7 +73,7 @@ Traditional BI can show all these metrics. But it struggles to answer the real q
 
 That is the Time Molecules case study.
 
-# What Time Molecules adds
+# What Time Molecules Adds
 
 Kōlea uses Time Molecules as the **time-side semantic layer** for this business event.
 
@@ -122,10 +117,11 @@ CallingCaseID
 CallingEvent
 CallingDateTime
 ```
+See: [Linking cases](https://github.com/MapRock/TimeMolecules/tree/main/tutorials/link_cases)
 
 That is where the enterprise value starts.
 
-# The first discovery: the campaign changed downstream paths
+# The First Discovery: the campaign changed downstream paths
 
 Before the campaign, the normal e-commerce model looked like this:
 
