@@ -1,8 +1,8 @@
-This is a hypothetical case study **vision** that feels enterprise-plausible without collapsing Time Molecules into ordinary process optimization.
+This is a **hypothetical** case study vision that feels enterprise-plausible without collapsing Time Molecules into ordinary process optimization.
 
 The seed of Time Molecules begins with a customer from about 20 years ago who told me that they can optimize sections of their business, but not as a whole. This might seem "duh" today, but it wasn't all those years ago in the BI world. It's been the "mission statement" I had been pursuing since then. 
 
-# Case study: Kōlea Retail Health
+# Hypothetical Case study: Kōlea Retail Health
 
 Imagine a modern company called **Kōlea Retail Health**. It is a hybrid business: online retail, pharmacy, clinic services, subscription wellness products, delivery logistics, and AI-supported customer service.
 
