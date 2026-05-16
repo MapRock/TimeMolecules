@@ -473,7 +473,7 @@ An agent should not treat a high probability as proof of causation. It should tr
 
 Suppose the system calculates:
 
-| Sequence A             | Sequence B | ACount | BCount | A_Int_BCount | P(B|A) |
+| Sequence A             | Sequence B | ACount | BCount | A_Int_BCount | P(B given A) |
 | ---------------------- | ---------- | -----: | -----: | -----------: | -----: |
 | `greeted,seated,intro` | `bigtip`   |      8 |      3 |            1 |  0.125 |
 
