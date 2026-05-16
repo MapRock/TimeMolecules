@@ -1,4 +1,4 @@
-This is a **hypothetical** case study vision that feels enterprise-plausible without collapsing Time Molecules into ordinary process optimization.
+This <i>**hypothetical**</i> case study illustrates how Time Molecules could be applied in a modern AI-assisted enterprise without reducing the idea to ordinary single-process optimization.
 
 The seed of Time Molecules begins with a customer from about 20 years ago who told me that they can optimize sections of their business, but not as a whole. This might seem "duh" today, but it wasn't all those years ago in the BI world. It's been the "mission statement" I had been pursuing since then. 
 
@@ -465,4 +465,18 @@ downstream process neighborhood can absorb the recommendation before making it.
 ```
 
 That is the concrete vision: **AI-era businesses need process-neighborhood awareness**, because intelligent local actions can create unintelligent enterprise behavior.
+
+## Minimum Viable Implementation
+
+A first implementation would not require the entire enterprise to be modeled. It would start with one business change and the process neighborhood around it:
+
+1. Capture campaign, order, warehouse, delivery, support, pharmacy-review, and refund events.
+2. Preserve shared keys such as CustomerID, CampaignID, OrderID, ProductID, AgentID, and RecommendationID.
+3. Build baseline models for the same period before the campaign.
+4. Build campaign-cohort models during the campaign.
+5. Compare the before/during models.
+6. Calculate conditional probabilities for selected downstream outcomes.
+7. Expose the findings as BI-facing summaries and AI-agent-facing guardrails.
+
+**However, the real first step** is to implement a [high-scale event processing system](https://github.com/MapRock/TimeMolecules/blob/main/docs/llm_prompts/time_molecules_high_scale_event_processing.md) to collect events from across very many sources. That wide view linked through the ubiquitous dimension of time is the key to Time Molecules.
 
