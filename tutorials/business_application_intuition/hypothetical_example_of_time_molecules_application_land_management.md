@@ -4,6 +4,8 @@ The seed of Time Molecules begins with the CTO of a customer from about 20 years
 
 # Hypothetical Case Study: Public Lands Stewardship Agency (PLSA) – Time Molecules as the Core “Time-Side Semantic Layer”
 
+**Managing a Complex System**
+
 Imagine a federal agency responsible for managing roughly 245 million acres of public land across the western U.S. (think BLM-scale operations). Call it the **Public Lands Stewardship Agency (PLSA)**. Its mission sits at the intersection of three inseparable realities:
 
 - **Ecological**: maintaining soil health, wildlife corridors, water quality, fire resilience, and carbon sequestration.
