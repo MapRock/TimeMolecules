@@ -4,7 +4,7 @@ The seed of Time Molecules begins with the CTO of a customer from about 20 years
 
 I'm not claiming to be the first to have thought of this, nor do I claim this is the home run to drive-in the analytics version of a winning run. Rather, these are challenges that existed back in the 2000s where I faced such issues at the client sites. This is still a challenge, and this is just my BI-inspired approach, among millions of others in the world.
 
-**Important note:** I realize that this scenario could be thrown in with all the distopian "Black Mirror" scenarios that are possible in this LLM-driven era of AI. That ceratinly isn't my intent. Throughout my entire 45 year career, my intent has been to use computers to make life easier for all of us. So please take this scenario at face value--using data and AI to forecast rare events for our benefit.
+**Important note:** I realize that this scenario could be thrown in with all the distopian "Black Mirror" scenarios that are plausible in this LLM-driven era of AI. That ceratinly isn't my intent. Throughout my entire 45 year career, my intent has been to use computers to make life easier for all of us. So please take this scenario at face value--using data and AI to forecast rare events for our benefit--with respect for individual privacy at the forefront, and in a close 2nd, remembering a forecast/prediction is just a guess that should be weighed against any foreseen or unforseen consequences before acting on it.
 
 # <i>Hypothetical</i> Case Study: Metropolitan Resilience Intelligence Center (MRIC) – Time Molecules as the City’s “Collective Gut Feeling” for Rare-Event Forecasting**
 
