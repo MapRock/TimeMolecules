@@ -34,7 +34,7 @@ After-action review shows the warning signs *were* there — scattered **across*
 
 The MRIC plugs Time Molecules in as its **privacy-first precursor pattern layer** — basically giving the entire metro area a sophisticated, data-driven gut feeling. No raw personal data ever touches the system. Partner agencies only share aggregated, de-identified, differentially-private Markov fragments (think “probability snippets” instead of names or records). Everything links through harmless shared tags like GeoZoneID (census-tract level) or TimeSlice. The result is a federated web of process neighborhoods that quietly compares “normal Tuesday” behavior against “the 24–168 hours right before every past surge we’ve seen.”
 
-It feels exactly like that moment your stomach tells you “something’s off” before you consciously notice the sky darkening or the traffic slowing. Except this gut feeling is built from real history, sliced Markov models, and clean Bayesian conditionals — no crystal ball, no dystopia.
+It feels exactly like that moment your stomach tells you “something’s off” before you consciously notice the sky darkening or the traffic slowing. Except this gut feeling is built from real history, sliced Markov models, and clean Bayesian conditionals — no crystal ball, no dystopia - or at least as mitigated as feasible will all things considered.
 
 | Process Neighborhood          | Everyday “Gears” We Watch (aggregated only) |
 |-------------------------------|---------------------------------------------|
@@ -49,8 +49,18 @@ For every documented historical surge (earthquakes, monster storms, multi-car pi
 ```prolog
 belief(hypothesis(ED_spike_coming), evidence([storm_building, 911_bump, fuel_lag]), 0.31).  /* pre-surge slice */
 ```
-
 Live data gets matched against these slices. When enough “gears start slipping” at once, the joint probability lifts modestly — enough to trigger a polite heads-up instead of an air-raid siren.
+
+To clarify the point, think of predicting 7.0+ magnitude earthquakes. They are very rare, but they happen enough that at least a few will happen somewhere on Earth during a person's lifetime. The first instinct is to create a model on any tremors or lesser earthquakes to help predict the big one. That alone does help today, but there could be other non-obvious signals. For example, maybe there is some truth to changes in the behavior of some aninals, maybe they sense something we never thought of sensing.
+
+#### Compare Normal vs Pre Rare Event with Additive Markov Models
+
+Let's drill deeper into the "sliced Markov models" I just mentioned. It's the key to the technique of comparing processes before a rare event happens against processes well before the rare event. That utilizes the 
+[additive Markov models](https://github.com/MapRock/TimeMolecules/tree/main/tutorials/additive_markov_models) capability of Time Molecules. 
+
+For example, say we want to forecast an serious "bad press" event, such as a food poisoning event for a food distributor. Let's say such an event has happened a dozen times over the past 10 years across the world. That's an awfully small sampling. They are rare events, each with some uncommon, undetectable signals prior to the event. So predicting them is mostly futile.
+
+However, the food industry is so fundamental that it's connected to countless systems in the world. For each system, we could create pairs of Markov models, each pair the same except for the date range (normal times versus prior to the event). Out of all of those pairs of Markov models, we might find a noticable set of differences that might at first seem unrelated.
 
 ### Key Discoveries (the “aha, that’s the gut feeling” moments)
 
