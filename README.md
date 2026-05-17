@@ -10,7 +10,9 @@ Please see [Business Application Intuition](https://github.com/MapRock/TimeMolec
 
 ### Your Host
 
-This repo is developed and maintained by [Eugene Asahara(LinkedIn)](https://www.linkedin.com/in/eugeneasahara/). It is a code supplement to my book, Time Molecules, and my [blog site](https://eugeneasahara.com/).
+This repo is developed and maintained by [Eugene Asahara (LinkedIn)](https://www.linkedin.com/in/eugeneasahara/). It is a code supplement to my book, <i>[Time Molecules](https://technicspub.com/time-molecules/)</i>, and my [blog site](https://eugeneasahara.com/).
+
+You may contact me at <a href="mailto:eugene@softcodedlogic.com">eugene@softcodedlogic.com</a>.
 
 ## Who This Repository Is For
 
@@ -63,7 +65,6 @@ Additionally:
 - See [important transitory notes](https://github.com/MapRock/TimeMolecules/blob/main/docs/important_notes.md).
 
 
-<p>You may contact me at <a href="mailto:eugene@softcodedlogic.com">eugene@softcodedlogic.com</a>.</p>
 
 ## What is Time Molecules?
 
