@@ -6,8 +6,11 @@ This repo provides supplementary material for the book, <i>[Time Molecules](http
 
 This repository itself is not a database you can connect to and query. 
 
-Please see [Business Application Intuition](https://github.com/MapRock/TimeMolecules/tree/main/tutorials/business_application_intuition) for three <i>**hypothetical**</i? use cases that drove the direction.
+Please see [Business Application Intuition](https://github.com/MapRock/TimeMolecules/tree/main/tutorials/business_application_intuition) for three <i>**hypothetical**</i> use cases that drove the direction.
 
+### Your Host
+
+This repo is developed and maintained by [Eugene Asahara(LinkedIn)](https://www.linkedin.com/in/eugeneasahara/). It is a code supplement to my book, Time Molecules, and my [blog site](https://eugeneasahara.com/).
 
 ## Who This Repository Is For
 
