@@ -262,12 +262,11 @@ That procedure becomes a bridge between CEP and Time Molecules.
 The stored procedure signature is:
 
 ```sql
-EXEC dbo.GetNextEventsForObservedEvent
-    @EventName = 'PasswordResetRequested',
-    @CasePropertiesJson = N'{ ... }',
-    @EventPropertiesJson = N'{ ... }',
-    @ModelScopeJson = N'{ ... }',
-    @TopN = 20;
+EXEC GetNextEventsForObservedEvent 
+	@EventA = 'arrive', 
+	@CasePropertiesJson='{"EmployeeID":1,"LocationID":1}', 
+	@EventPropertiesJson=NULL,
+	@TopN = 20
 ```
 
 The exact implementation can evolve, but the responsibility should stay focused.
