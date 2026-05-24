@@ -1,8 +1,12 @@
 # Seeing the Hook: Time Molecules, CEP, and the Enterprise Uncanny Valley
 
-Fish do not simply bite a hook because it resembles food.
+This document describes the Time Molecules process for the analysis of adversarial situations. That includes frauds, competitive games such as chess, and any other situation where imperfect information is the key asset.
 
-That sounds obvious, but it is a deeper idea than it first appears. A fish may recognize the worm, the movement, the color, the possibility of food. But at the same time, it may recognize something else: the odd gleam of metal, an unnatural bend, a stiffness in the movement, a smell that does not belong, a shape that does not fit any safe pattern.
+## Pros and Cons vs a Checklist
+
+Many recognition algorithms apply a similarity score, a checklist of qualities. It could be more robust as a weighted checklist. But the problem with a weighted checklist is there are many ways to calculate a high, medium or low score. The combination does matter.
+
+Fish do not simply bite a hook because it resembles food. That sounds obvious, but it is a deeper idea than it first appears. A fish may recognize the worm, the movement, the color, the possibility of food. But at the same time, it may recognize something else: the odd gleam of metal, an unnatural bend, a stiffness in the movement, a smell that does not belong, a shape that does not fit any safe pattern.
 
 The fish is not necessarily computing a single score.
 
