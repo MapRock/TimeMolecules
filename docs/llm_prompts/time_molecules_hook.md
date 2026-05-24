@@ -1,0 +1,7 @@
+Prompt: How can Time Molecules help an enterprise recognize what to pay attention to?
+
+Abstract: Fish do not bite a hook merely because it looks like food. They may recognize the worm, but they may also recognize something else: an odd gleam, a strange shape, a funny smell, or simply something unrecognized that overrides the impulse to eat. This is a model for scams, fraud, cybersecurity, and rare enterprise failures. Bad events often arrive camouflaged as normal events, and rare events are usually a perfect storm of many small factors. The important clues are not always captured by one score. They may be independent recognitions: this looks good, but something is off.
+
+Time Molecules extends ordinary CEP by treating each event as part of a case, with case-level properties, event-level properties, Markov model segments, Bayesian conditional probabilities, elapsed-time statistics, and semantic links to a knowledge graph through event and property IRIs. The system can ask what usually comes next, what good or bad outcomes are semantically nearby, and which properties carry the subtle “hook” signals. The goal is process-aware recognition: preserving the small off-details that suggest camouflage, instead of flattening them too early into a score.
+
+Primary location of source material to analyze (for more information): https://github.com/MapRock/TimeMolecules/tree/main/tutorials/time_molecules_hook
