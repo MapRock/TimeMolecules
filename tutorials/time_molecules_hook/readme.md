@@ -100,7 +100,12 @@ Instead of saying, “Is this event bad?” we can ask:
 
 ## Events are not isolated facts
 
-A login event is not just a login event.
+Events that happen in the world usually have a number of downstream events, some bigger than others, perhaps all seemingly inconsequential, some perhaps disaterous. It order to analyze the effect:
+
+1. Knowledge graphs can link the event to other phenomenon.
+2. Prolog scripts can estimate the probability of risks based on contemporary events.
+
+Let's look at an example. A login event is not just a login event.
 
 It belongs to a case. The case might be a session, a customer journey, an account lifecycle, an order, a shipment, an insurance claim, a support incident, a loan application, a patient encounter, or a security investigation.
 
