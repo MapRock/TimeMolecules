@@ -355,6 +355,12 @@ That is not just event processing.
 
 That is process-aware recognition.
 
+
 And in a world where attackers, scammers, competitors, and even ordinary operational failures all arrive camouflaged as normal business, seeing the hook is the difference between intelligence and reaction.
+
+Also see:
+
+- [hypothetical_example_of_time_molecules_forecase_rare_events.md](https://github.com/MapRock/TimeMolecules/blob/main/tutorials/business_application_intuition/hypothetical_example_of_time_molecules_forecase_rare_events.md) for a discussion on applications focused on rare events.
+
 
 [1]: https://eugeneasahara.com/2025/06/15/thousands-of-senses/ "Thousands of Senses – Soft Coded Logic"
