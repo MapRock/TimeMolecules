@@ -32,13 +32,13 @@ The action is a little too fast. The device is unfamiliar. The language is nearl
 
 That is the enterprise uncanny valley.
 
-## The enterprise uncanny valley
+## The Enterprise Uncanny Valley
 
 We usually think of the uncanny valley in terms of human-like robots or synthetic faces. Something is almost right, and because it is almost right, the small wrongness becomes disturbing.
 
 But the same principle applies to processes.
 
-A scam email is not alarming because every feature is wrong. It is alarming because many features are right. It mimics a trusted institution, a familiar workflow, a known person, a normal transaction, or a reasonable request. The scammer’s job is camouflage. The defender’s job is not merely classification. The defender’s job is to notice what the camouflage failed to hide.
+A scam email is not alarming because one or more features are blatantly wrong. It is alarming because many features are right. It mimics a trusted institution, a familiar workflow, a known person, a normal transaction, or a reasonable request. The scammer’s job is camouflage. The defender’s job is not merely classification. The defender’s job is to notice what the camouflage failed to hide.
 
 That is why this is not just a machine-learning scoring problem.
 
