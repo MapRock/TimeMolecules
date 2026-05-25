@@ -45,7 +45,7 @@ Thank you for respecting the work that went into this project.
 ## Getting Started
 **To get started** with the tutorials, you need to set up the dev environment. The setup options are:
 
-1. [Create copy of the pre-configured Windows Azure VM](https://github.com/MapRock/TimeMolecules/blob/main/docs/procure_time_molecules_vm.md) - Available May 24, 2026
+1. [Create copy of the pre-configured Windows Azure VM](https://github.com/MapRock/TimeMolecules/blob/main/docs/procure_time_molecules_vm.md) - Available July 1, 2026
 2. [Create a Azure Windows VM from scratch](https://github.com/MapRock/TimeMolecules/blob/main/tutorials/setup_azure_vm_for_testing_time_molecules.md).
 3. [Set up the environment on your own machine (work or personal laptop/destop)](https://github.com/MapRock/TimeMolecules/blob/main/docs/install_timemolecules_dev_env.md)
    
