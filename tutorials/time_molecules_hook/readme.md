@@ -679,9 +679,362 @@ to:
 
 That is the larger Time Molecules point. The Markov model supplies process memory. The knowledge graph supplies meaning. Together, they let an AI agent produce a more useful interpretation than either one could produce alone.
 
+### Verbose Calculation of Risks
+
+The KG tells the agent **what kinds of risks exist**.
+
+Prolog can then calculate:
+
+> Given this specific customer, in this specific situation, which risks are currently active?
+
+The knowledge graph gives the AI agent the semantic map:
+
+```text
+DepartedBeforeOrdering
+    has risk reason ExcessiveWaitTime
+    has risk reason UnpleasantGreeting
+    has risk reason TooCrowded
+    has risk reason UnappealingSpecials
+    has risk reason HostUnavailable
+    has risk reason ConfusingSeatingProcess
+````
+
+But the knowledge graph does not, by itself, decide whether those risks apply to this specific customer right now.
+
+That is the role of Prolog.
+
+In this tutorial, Prolog is used as a lightweight reasoning layer. The rules can be authored from machine learning models, decision trees, scorecards, analyst rules, or other model outputs. The point is not that Prolog replaces machine learning. The point is that machine learning can produce usable risk logic, and that logic can be packaged into rules the AI agent can execute, inspect, and explain.
+
+A machine learning model might discover patterns like this:
+
+```text
+Customers with low patience, during high crowding, after a slow greeting,
+are much more likely to leave before ordering.
 ```
-::contentReference[oaicite:2]{index=2}
+
+That pattern can be translated into Prolog as a rule:
+
+```prolog
+risk(Customer, excessive_wait_time, high) :-
+    customer_patience(Customer, low),
+    current_crowd_level(high),
+    wait_time_seconds(Customer, Wait),
+    Wait > 180.
 ```
+
+Now the AI agent can combine three things:
+
+| Layer           | Role                                                  |
+| --------------- | ----------------------------------------------------- |
+| Time Molecules  | What usually happens next in the process              |
+| Knowledge Graph | What the next event means semantically                |
+| Prolog          | Which risks apply to this specific customer right now |
+
+The result is not just:
+
+```text
+arrive -> departed before ordering
+```
+
+It becomes:
+
+```text
+This customer is at elevated risk of departing before ordering because the current wait is long, the restaurant is crowded, and this customer profile has low tolerance for delay.
+```
+
+#### Example Prolog Risk Package
+
+The Prolog file can be treated as a generated or authored risk package. It may be created by analysts, exported from machine learning models, or assembled from several model fragments.
+
+For example:
+
+```prolog
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Restaurant premature departure risk rules
+%
+% These rules calculate risk reasons for a specific customer
+% in the current restaurant situation.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Customer qualities
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+customer_patience(customer_123, low).
+customer_price_sensitivity(customer_123, medium).
+customer_visit_intent(customer_123, quick_meal).
+customer_loyalty_level(customer_123, new_customer).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Contemporary restaurant features
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+current_crowd_level(high).
+current_noise_level(high).
+current_host_availability(low).
+current_specials_appeal(low).
+current_menu_visibility(medium).
+
+wait_time_seconds(customer_123, 240).
+greeting_quality(customer_123, neutral).
+seating_process_clarity(low).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Risk rules
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+risk(Customer, excessive_wait_time, high) :-
+    customer_patience(Customer, low),
+    wait_time_seconds(Customer, Wait),
+    Wait > 180.
+
+risk(Customer, excessive_wait_time, medium) :-
+    customer_patience(Customer, medium),
+    wait_time_seconds(Customer, Wait),
+    Wait > 240.
+
+risk(Customer, too_crowded, high) :-
+    current_crowd_level(high),
+    current_noise_level(high),
+    customer_visit_intent(Customer, quick_meal).
+
+risk(Customer, host_unavailable, high) :-
+    current_host_availability(low),
+    wait_time_seconds(Customer, Wait),
+    Wait > 120.
+
+risk(Customer, unpleasant_greeting, medium) :-
+    greeting_quality(Customer, poor).
+
+risk(Customer, confusing_seating_process, medium) :-
+    seating_process_clarity(low),
+    customer_loyalty_level(Customer, new_customer).
+
+risk(Customer, unappealing_specials, medium) :-
+    current_specials_appeal(low),
+    customer_price_sensitivity(Customer, medium).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Rollup rule
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+departure_before_ordering_risk(Customer, high) :-
+    risk(Customer, excessive_wait_time, high).
+
+departure_before_ordering_risk(Customer, high) :-
+    risk(Customer, too_crowded, high),
+    risk(Customer, host_unavailable, high).
+
+departure_before_ordering_risk(Customer, medium) :-
+    risk(Customer, confusing_seating_process, medium).
+
+departure_before_ordering_risk(Customer, medium) :-
+    risk(Customer, unappealing_specials, medium).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Explanation rule
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+departure_reason(Customer, Reason, Level) :-
+    risk(Customer, Reason, Level).
+```
+
+A simple Prolog query would be:
+
+```prolog
+departure_reason(customer_123, Reason, Level).
+```
+
+Possible result:
+
+```text
+Reason = excessive_wait_time,
+Level = high
+
+Reason = too_crowded,
+Level = high
+
+Reason = host_unavailable,
+Level = high
+
+Reason = confusing_seating_process,
+Level = medium
+
+Reason = unappealing_specials,
+Level = medium
+```
+
+The AI agent can then join these Prolog results back to the knowledge graph.
+
+The Prolog result says:
+
+```text
+excessive_wait_time is high
+too_crowded is high
+host_unavailable is high
+```
+
+The knowledge graph says:
+
+```text
+excessive wait time is broader than waiting experience
+too crowded is broader than restaurant environment
+host unavailable is broader than service engagement
+```
+
+So the agent can explain the result in business language:
+
+```text
+The customer is at high risk of leaving before ordering. The strongest active risks are excessive wait time, crowding, and host unavailability. Semantically, these risks point to problems in waiting experience, restaurant environment, and service engagement.
+```
+
+#### Who Authored the Prolog
+
+The Prolog rules do not have to be hand-written from scratch.
+
+They can be authored from machine learning outputs.
+
+For example, a decision tree might produce a branch like this:
+
+```text
+IF wait_time_seconds > 180
+AND customer_patience = low
+THEN excessive_wait_time_risk = high
+```
+
+That can be converted to:
+
+```prolog
+risk(Customer, excessive_wait_time, high) :-
+    customer_patience(Customer, low),
+    wait_time_seconds(Customer, Wait),
+    Wait > 180.
+```
+
+A second model might produce:
+
+```text
+IF crowd_level = high
+AND visit_intent = quick_meal
+THEN too_crowded_risk = high
+```
+
+Which becomes:
+
+```prolog
+risk(Customer, too_crowded, high) :-
+    current_crowd_level(high),
+    customer_visit_intent(Customer, quick_meal).
+```
+
+This is the neuro-symbolic handoff.
+
+Machine learning discovers useful risk patterns.
+Prolog packages those patterns into explicit, inspectable rules.
+The knowledge graph gives those risks semantic meaning.
+Time Molecules places the risk inside the actual process path.
+
+#### Agent Flow
+
+The agent flow now looks like this:
+
+```text
+1. CEP observes:
+   customer_123 arrived
+
+2. Time Molecules asks:
+   What usually happens after arrive?
+
+3. Time Molecules returns:
+   arrive -> greeted
+   arrive -> departed before ordering
+
+4. The AI agent asks the KG:
+   What is DepartedBeforeOrdering?
+
+5. The KG returns:
+   It is an abandonment event.
+   It prevents Ordered.
+   It affects RevenueOpportunity, CustomerSatisfaction, and WaitingExperience.
+   It has risk reasons such as ExcessiveWaitTime, TooCrowded, HostUnavailable, etc.
+
+6. The AI agent asks Prolog:
+   Which of those risks are active for customer_123 right now?
+
+7. Prolog returns:
+   ExcessiveWaitTime = high
+   TooCrowded = high
+   HostUnavailable = high
+   ConfusingSeatingProcess = medium
+
+8. The agent responds:
+   This customer is at high risk of leaving before ordering because the wait is already long,
+   the restaurant is crowded, and the host is unavailable. These risks affect waiting
+   experience, service engagement, and revenue opportunity.
+```
+
+#### Why Prolog Fits Here
+
+Prolog is useful here because this part of the problem is not merely statistical. It is conditional, explainable, and composable.
+
+The agent is not just asking:
+
+```text
+What is the probability that the customer leaves?
+```
+
+It is asking:
+
+```text
+Why might this specific customer leave?
+Which risk reasons are active?
+Which features caused those risks?
+Which business concepts are affected?
+What expected event is being missed?
+```
+
+Those are rule-shaped questions.
+
+The rule may have originated in machine learning, but once it is expressed as Prolog, it becomes something the agent can inspect and use.
+
+That gives the system a useful separation of concerns:
+
+| Component       | Question Answered                           |
+| --------------- | ------------------------------------------- |
+| CEP             | What just happened?                         |
+| Time Molecules  | What usually happens next?                  |
+| Knowledge Graph | What does that event mean?                  |
+| Prolog          | Which risks apply to this case right now?   |
+| LLM / AI Agent  | How should this be explained or acted upon? |
+
+#### The Important Point
+
+The knowledge graph gives the agent the menu of possible explanations.
+
+Prolog determines which explanations apply to the current case.
+
+So the KG might say:
+
+```text
+DepartedBeforeOrdering can be caused by excessive wait time, unpleasant greeting,
+crowding, unappealing specials, host unavailability, or confusing seating.
+```
+
+But Prolog can say:
+
+```text
+For this customer, right now, the active risks are excessive wait time,
+crowding, and host unavailability.
+```
+
+That is a powerful combination.
+
+The Time Molecule detects the process path.
+The KG gives the path meaning.
+Prolog calculates which risks are active.
+The AI agent turns the combined result into a useful explanation.
+
+
 
 [1]: https://github.com/MapRock/TimeMolecules/tree/main/tutorials/time_molecules_hook "TimeMolecules/tutorials/time_molecules_hook at main · MapRock/TimeMolecules · GitHub"
 [2]: https://github.com/MapRock/TimeMolecules/blob/main/tutorials/time_molecules_hook/restaurant_knowledge_graph.ttl "TimeMolecules/tutorials/time_molecules_hook/restaurant_knowledge_graph.ttl at main · MapRock/TimeMolecules · GitHub"
