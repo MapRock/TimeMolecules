@@ -34,23 +34,19 @@ But something is off.
 
 The action is a little too fast. The device is unfamiliar. The language is nearly right but not quite. The path through the process is legal, but strange. The event is not impossible. It is just not normal in the right way.
 
-That is the enterprise uncanny valley.
+That is the enterprise uncanny valley. It's the level of "fish" intelligence (simple, push-button), as opposed to the higher level of "reptile intelligence" (robust), then finally "human-level" intelligence (iterative recognition decoupled from a selection of actions). See, [Levels of Intelligence – Prolog’s Role in the LLM Era, Part 6](https://eugeneasahara.com/2024/08/21/four-levels-of-intelligence-prologs-role-in-the-llm-era-part-6/).
 
 ## The Enterprise Uncanny Valley
 
-We usually think of the uncanny valley in terms of human-like robots or synthetic faces. Something is almost right, and because it is almost right, the small wrongness becomes disturbing.
-
-But the same principle applies to processes.
+We usually think of the uncanny valley in terms of human-like robots or synthetic faces. Something is almost right, and because it is almost right, the small wrongness becomes disturbing. But the same principle applies to processes.
 
 A scam email is not alarming because one or more features are blatantly wrong. It is alarming because many features are right. It mimics a trusted institution, a familiar workflow, a known person, a normal transaction, or a reasonable request. The scammer’s job is camouflage. The defender’s job is not merely classification. The defender’s job is to notice what the camouflage failed to hide.
 
-That is why this is not just a machine-learning scoring problem.
+That is why this is not just a machine-learning scoring problem. Scores from ML models usually consider a few input features, run it through a computation trained by an algorithm, and outputs a score. That score is only based on the parameter values. Granted those parameters were chosen because they are more "predictive" of an output than other potential parameters. This isn't a bad thing, in fact it's desireable. We don't want to make the model rigid, tied to what is in the training data, which probably won't reflect the world as it changes.
 
-A score can be useful, but a single score is often a compression of the very clues we need to preserve. In rare-event detection, the little things matter. Rare events are often perfect storms of many small factors. No one factor screams. But several tiny oddities, recognized together, change the meaning of the event.
+Because such ML "scores" consider only the most predictive parameters. A score can be useful, but a single score is often a compression of the very clues we need to preserve. In rare-event detection, the little things matter. Rare events are often perfect storms of many small factors. No one factor screams. But several tiny oddities, recognized together, change the meaning of the event.
 
-This is closer to poker than to a checklist.
-
-A skilled poker player does not recognize a bluff by walking through a fixed list:
+This is closer to adversarial systems such as Texas Hold'em Poker the eternal struggle between predator and prey than to a checklist. In both systems, players rely on projecting as little information or deceitful information to their opponents as possible. A skilled poker player does not recognize a bluff by walking through a fixed list:
 
 > Eye movement? Check.
 > Breathing? Check.
@@ -63,19 +59,17 @@ The same is true in fraud and cybersecurity. Attackers learn the obvious rules. 
 
 That is why an intelligent enterprise needs many senses.
 
-In “Thousands of Senses,” the central point is that intelligence does not come from five broad senses, or even a few dozen inputs, but from access to a long tail of granular signals that can be selectively activated by context. The article makes the enterprise analogy directly: IoT devices, AI agents, application logs, transactions, customer behavior, operational events, and other streams become sensory organs for the business. The issue is not simply “more data,” but more kinds of signals, available when the situation requires them. ([Soft Coded Logic][1])
+In my blog, [Thousands of Senses](https://eugeneasahara.com/2025/06/15/thousands-of-senses/), the central point is that intelligence does not come from five broad senses, or even a few dozen inputs, but from access to a long tail of granular signals that can be selectively activated by context. The article makes the enterprise analogy directly: IoT devices, AI agents, application logs, transactions, customer behavior, operational events, and other streams become sensory organs for the business. The issue is not simply “more data,” but more kinds of signals, available when the situation requires them. ([Soft Coded Logic][1])
 
 That is the missing layer between ordinary CEP and process-aware intelligence.
 
-## Why ordinary CEP is not enough
+## Why Ordinary CEP is not Enough
 
 Complex Event Processing is already a powerful idea. Events stream through a system. Rules detect patterns. Windows aggregate activity. Alerts fire when known conditions appear.
 
 That is important. It is the fast reflex layer.
 
-But the problem with camouflage is that the known condition is often avoided. The scammer or attacker is deliberately trying not to match the obvious rule. The fish hook is designed to look like food. The phishing email is designed to look like business. The fraudulent transaction is designed to look like normal behavior.
-
-So the CEP layer needs help.
+But the problem with camouflage is that the known condition is often avoided. The scammer or attacker is deliberately trying not to match the obvious rule. The fish hook is designed to look like food. The phishing email is designed to look like business. The fraudulent transaction is designed to look like normal behavior. So the CEP layer needs help.
 
 The event should still go to the regular CEP engine. We still need fast rule evaluation, windowing, thresholds, and immediate reactions. But beside that fast lane, there should be a deeper process-intelligence lane that asks:
 
@@ -98,7 +92,7 @@ Instead of saying, “Is this event bad?” we can ask:
 
 > What is this event becoming?
 
-## Events are not isolated facts
+## Events are not Isolated Facts
 
 Events that happen in the world usually have a number of downstream events, some bigger than others, perhaps all seemingly inconsequential, some perhaps disaterous. It order to analyze the effect:
 
@@ -137,7 +131,7 @@ The event can also be linked to Bayesian conditional probabilities:
 > Given this delay, what is the probability that the case fails its SLA?
 > Given this supplier behavior, what is the probability of a shipment exception?
 
-Now add the knowledge graph.
+Now Add the Knowledge Graph.
 
 The event has an IRI. The properties may have IRIs. The database, table, column, source system, event type, and property definitions can all be grounded semantically. The event is not just the string `"PasswordResetRequested"` or `"InvoiceSubmitted"`. It is tied to an enterprise concept. That concept may be related to other concepts: authentication, credential recovery, identity risk, payment method, vendor trust, delivery exception, regulated data, privileged access, medical device, financial instrument, or customer distress.
 
@@ -149,7 +143,7 @@ The knowledge graph tells us what this event and its properties mean.
 The CEP layer gives us the immediate reflex.
 The deeper Time Molecules layer gives us process memory.
 
-## Recognition is not one score
+## Recognition is not One Score
 
 A common enterprise pattern is to turn everything into a score:
 
