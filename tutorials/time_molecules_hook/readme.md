@@ -360,11 +360,13 @@ Also see:
 
 Let's go through a sample runthrough of the PLOD mechanism. For simplicity, let's assume a slight level of dystopia. For example, cards in the wallet/purses/nametags of people can be readily read through RFID sensors. Events, such as detecting a person, is sent to a high-scale event processing system. 
 
-Let's also assume that the host at the front desk is a human but not necessarily experienced with dealing with customers, so he gets some AI assistance.
+Let's also assume that the host at the front desk is a human but not necessarily experienced with dealing with customers, so he gets some AI assistance from a trusty AI Agent we'll name Hudson.
 
 We assume there is a high-scale event processing system that detects the arrival of a customer at one of our restaurants. His face is readily recognized by cameras monitoring the door. The system receives a json packet containing the customer's loyalty ID number (1), among other things.
 
 It's rather busy, so the host is unable to greet the customer as soon as he walks in with his party. A good piece of information is to obtain a general idea of how patient this customer is. Keep in mind that the process to follow is invisible to the host.
+
+### Query Time Molecules
 
 A query is submitted to Time Molecules:
 
@@ -386,6 +388,303 @@ These results are returned from Time Molecules:
 If the host was that output and were experienced, he would infer that he might want to place some priority on this customer who is known to leave. But what about other customers already there who are prone to leave or are powerfully mighty YouTube influencers? 
 
 The AI continues to analyze. Next question for the AI is what do we know about customers who arrive and depart? Fortunately, subject-matter-experts have authored a knowledge graph that knows about such things.
+
+### Adding the Knowledge Graph Check
+
+The previous step asks Time Molecules a process question:
+
+> Given that the customer arrived, what usually happens next?
+
+In the restaurant example, the next event might be `greeted`, but it might also be something worse: the customer may leave before ordering.
+
+The Time Molecules result can tell us that this path exists:
+
+```text
+arrive -> departed before ordering
+````
+
+That is already useful. But by itself, the Markov model only tells us the process path and its probability. The knowledge graph lets the AI agent ask a second question:
+
+> If this customer is moving toward `departed before ordering`, what does that event mean, and why might it happen?
+
+The full Turtle file for this example is here:
+
+[restaurant_knowledge_graph.ttl](https://github.com/MapRock/TimeMolecules/blob/main/tutorials/time_molecules_hook/restaurant_knowledge_graph.ttl)
+
+This is the important handoff:
+
+1. CEP sees an event such as `arrive`.
+2. Time Molecules checks comparable historical process paths.
+3. The model says that `departed before ordering` is one possible next event.
+4. The AI agent then checks the knowledge graph.
+5. The knowledge graph returns the semantic meaning, possible risk reasons, affected business concepts, and expected event that was skipped.
+
+In other words, the Time Molecule says:
+
+```text
+This path sometimes goes from arrive to departed before ordering.
+```
+
+The knowledge graph says:
+
+```text
+Departed before ordering is an abandonment event.
+It prevents the expected ordered event.
+It affects revenue opportunity, customer satisfaction, and waiting experience.
+Possible reasons include excessive wait time, unpleasant greeting, crowding,
+unappealing specials, host unavailable, or a confusing seating process.
+```
+
+That is a very small graph lookup, but it tells the AI agent a lot.
+
+#### Salient TTL Segment
+
+The full TTL contains more context, but the core idea is carried by a few triples.
+
+First, `DepartedBeforeOrdering` is modeled as a kind of exception/abandonment event:
+
+```turtle
+tm:DepartureBeforeOrderingEvent
+    a owl:Class ;
+    rdfs:subClassOf tm:AbandonmentEvent ;
+    rdfs:subClassOf tm:RestaurantEvent ;
+    rdfs:label "Departure before ordering event" ;
+    rdfs:comment "A restaurant event where the customer leaves before placing an order." .
+```
+
+Then the actual restaurant event is connected to the expected event it interrupts, the business concepts it affects, and the possible risk reasons:
+
+```turtle
+rest:DepartedBeforeOrdering
+    a tm:DepartureBeforeOrderingEvent ;
+    rdfs:label "departed before ordering" ;
+    skos:prefLabel "departed before ordering" ;
+    rdfs:comment "The customer leaves the restaurant before placing an order." ;
+    tm:negativeOutcome true ;
+    tm:preventsExpectedEvent rest:Ordered ;
+    tm:affects rest:RevenueOpportunity ;
+    tm:affects rest:CustomerSatisfaction ;
+    tm:affects rest:WaitingExperience ;
+    tm:hasRiskReason rest:ExcessiveWaitTime ;
+    tm:hasRiskReason rest:UnpleasantGreeting ;
+    tm:hasRiskReason rest:TooCrowded ;
+    tm:hasRiskReason rest:UnappealingSpecials ;
+    tm:hasRiskReason rest:HostUnavailable ;
+    tm:hasRiskReason rest:ConfusingSeatingProcess .
+```
+
+The risk reasons are themselves semantic concepts:
+
+```turtle
+rest:ExcessiveWaitTime
+    a tm:RiskReason ;
+    a skos:Concept ;
+    skos:prefLabel "Excessive wait time" ;
+    skos:definition "The customer waits longer than expected or longer than they are willing to tolerate." ;
+    tm:increasesRiskOf rest:DepartedBeforeOrdering ;
+    skos:broader rest:WaitingExperience .
+
+rest:UnpleasantGreeting
+    a tm:RiskReason ;
+    a skos:Concept ;
+    skos:prefLabel "Unpleasant greeting" ;
+    skos:definition "The customer is acknowledged in a way that feels rude, indifferent, rushed, or unwelcoming." ;
+    tm:increasesRiskOf rest:DepartedBeforeOrdering ;
+    skos:broader rest:ServiceEngagement .
+
+rest:TooCrowded
+    a tm:RiskReason ;
+    a skos:Concept ;
+    skos:prefLabel "Too crowded" ;
+    skos:definition "The restaurant appears too full, noisy, cramped, or uncomfortable for the customer." ;
+    tm:increasesRiskOf rest:DepartedBeforeOrdering ;
+    skos:broader rest:RestaurantEnvironment .
+```
+
+The process links show that the bad path is a possible continuation from both `arrive` and `greeted`:
+
+```turtle
+rest:Arrive
+    tm:usuallyFollowedBy rest:Greeted ;
+    tm:usuallyFollowedBy rest:DepartedBeforeOrdering .
+
+rest:Greeted
+    tm:usuallyFollowedBy rest:Ordered ;
+    tm:usuallyFollowedBy rest:DepartedBeforeOrdering .
+```
+
+That is the bridge between process mining and the semantic network. The process model tells the agent that this path can happen. The KG tells the agent what that path means.
+
+#### SPARQL: Ask the KG Why the Customer Might Leave
+
+After Time Molecules returns a possible next event such as `DepartedBeforeOrdering`, the AI agent can call the knowledge graph with a SPARQL query like this:
+
+```sparql
+PREFIX tm:   <https://timemolecules.com/ontology/>
+PREFIX rest: <https://timemolecules.com/example/restaurant/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+
+SELECT
+    ?riskEvent
+    ?riskEventLabel
+    ?preventedEventLabel
+    ?affectedConceptLabel
+    ?riskReasonLabel
+    ?riskReasonDefinition
+    ?broaderConceptLabel
+WHERE {
+    VALUES ?riskEvent { rest:DepartedBeforeOrdering }
+
+    ?riskEvent rdfs:label ?riskEventLabel .
+
+    OPTIONAL {
+        ?riskEvent tm:preventsExpectedEvent ?preventedEvent .
+        ?preventedEvent rdfs:label|skos:prefLabel ?preventedEventLabel .
+    }
+
+    OPTIONAL {
+        ?riskEvent tm:affects ?affectedConcept .
+        ?affectedConcept skos:prefLabel ?affectedConceptLabel .
+    }
+
+    OPTIONAL {
+        ?riskEvent tm:hasRiskReason ?riskReason .
+        ?riskReason skos:prefLabel ?riskReasonLabel .
+        OPTIONAL { ?riskReason skos:definition ?riskReasonDefinition . }
+        OPTIONAL {
+            ?riskReason skos:broader ?broaderConcept .
+            ?broaderConcept skos:prefLabel ?broaderConceptLabel .
+        }
+    }
+}
+ORDER BY ?riskReasonLabel ?affectedConceptLabel
+```
+
+The result gives the AI agent something like this:
+
+| Risk event               | Prevented event | Affected concept      | Risk reason               | Broader concept        |
+| ------------------------ | --------------- | --------------------- | ------------------------- | ---------------------- |
+| departed before ordering | ordered         | revenue opportunity   | excessive wait time       | waiting experience     |
+| departed before ordering | ordered         | customer satisfaction | unpleasant greeting       | service engagement     |
+| departed before ordering | ordered         | waiting experience    | too crowded               | restaurant environment |
+| departed before ordering | ordered         | waiting experience    | unappealing specials      | menu appeal            |
+| departed before ordering | ordered         | customer satisfaction | host unavailable          | service engagement     |
+| departed before ordering | ordered         | customer satisfaction | confusing seating process | service engagement     |
+
+The exact row shape depends on the SPARQL engine and whether it expands the optional combinations, but the meaning is simple:
+
+```text
+The customer did not merely leave.
+The customer abandoned the restaurant process before the order commitment event.
+That abandonment affects revenue, satisfaction, and waiting experience.
+The likely semantic reasons belong to waiting, greeting, environment, menu appeal,
+and seating-process confusion.
+```
+
+#### SPARQL: Start from the Observed Event
+
+The AI agent can also start from the event it just observed. For example, if CEP observes `arrive`, the agent can ask:
+
+> What risky events are semantically connected to likely next events from `arrive`?
+
+```sparql
+PREFIX tm:   <https://timemolecules.com/ontology/>
+PREFIX rest: <https://timemolecules.com/example/restaurant/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+
+SELECT
+    ?observedEventLabel
+    ?nextEventLabel
+    ?riskReasonLabel
+    ?riskReasonDefinition
+    ?affectedConceptLabel
+WHERE {
+    VALUES ?observedEvent { rest:Arrive }
+
+    ?observedEvent rdfs:label|skos:prefLabel ?observedEventLabel .
+    ?observedEvent tm:usuallyFollowedBy ?nextEvent .
+    ?nextEvent rdfs:label|skos:prefLabel ?nextEventLabel .
+
+    OPTIONAL {
+        ?nextEvent tm:hasRiskReason ?riskReason .
+        ?riskReason skos:prefLabel ?riskReasonLabel .
+        OPTIONAL { ?riskReason skos:definition ?riskReasonDefinition . }
+    }
+
+    OPTIONAL {
+        ?nextEvent tm:affects ?affectedConcept .
+        ?affectedConcept skos:prefLabel ?affectedConceptLabel .
+    }
+}
+ORDER BY ?nextEventLabel ?riskReasonLabel
+```
+
+This query is intentionally simple. It is not trying to replace the Time Molecules model. The model should still provide the probabilities, counts, and elapsed-time statistics. The knowledge graph provides semantic expansion.
+
+A combined agent response could look like this:
+
+```text
+Time Molecules found that after arrive, the customer usually moves to greeted,
+but there is also a lower-probability path to departed before ordering.
+
+The knowledge graph classifies departed before ordering as an abandonment event.
+It prevents the expected ordered event and affects revenue opportunity, customer
+satisfaction, and waiting experience.
+
+Possible reasons include excessive wait time, unpleasant greeting, crowding,
+unappealing specials, unavailable host, or confusing seating process.
+```
+
+#### The Value Add
+
+This is the hook.
+
+A conventional process query can say:
+
+```text
+arrive -> departed before ordering
+```
+
+A Time Molecules query can say:
+
+```text
+arrive -> departed before ordering
+probability = 0.06
+average elapsed time = 240 seconds
+standard deviation = 95 seconds
+```
+
+The knowledge graph adds:
+
+```text
+departed before ordering is an abandonment event
+it prevents ordered
+it affects revenue opportunity
+it affects customer satisfaction
+it affects waiting experience
+it has risk reasons
+```
+
+That turns a next-event prediction into an explanation surface.
+
+The agent does not need a huge reasoning system to get value. With one additional KG call, it can move from:
+
+> What is likely to happen next?
+
+to:
+
+> Why does this next event matter, what expected event was skipped, and what business concepts might explain or be affected by it?
+
+That is the larger Time Molecules point. The Markov model supplies process memory. The knowledge graph supplies meaning. Together, they let an AI agent produce a more useful interpretation than either one could produce alone.
+
+```
+::contentReference[oaicite:2]{index=2}
+```
+
+[1]: https://github.com/MapRock/TimeMolecules/tree/main/tutorials/time_molecules_hook "TimeMolecules/tutorials/time_molecules_hook at main · MapRock/TimeMolecules · GitHub"
+[2]: https://github.com/MapRock/TimeMolecules/blob/main/tutorials/time_molecules_hook/restaurant_knowledge_graph.ttl "TimeMolecules/tutorials/time_molecules_hook/restaurant_knowledge_graph.ttl at main · MapRock/TimeMolecules · GitHub"
 
 
 [1]: https://eugeneasahara.com/2025/06/15/thousands-of-senses/ "Thousands of Senses – Soft Coded Logic"
