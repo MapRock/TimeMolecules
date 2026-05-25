@@ -241,7 +241,7 @@ Not every event needs every sense. But the system needs the ability to pull in t
 
 See: [The Products of System 2 – Prolog in the LLM Era – Spring Break 2026 Special](https://eugeneasahara.com/2026/03/04/the-products-of-system-2/)
 
-## The stored procedure pattern
+## The Query Pattern to Time Molecules
 
 At the database level, the core procedure should be simple in concept:
 
