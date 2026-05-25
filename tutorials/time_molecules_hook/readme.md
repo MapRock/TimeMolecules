@@ -383,6 +383,9 @@ These results are returned from Time Molecules:
 | 5 | 1900-01-01  | 2050-12-31  | restaurantguest | Time Between | NULL | MarkovChain | arrive | greeted | 0.8 | 8 | NULL | User arrives at location | NULL | User was greeted |
 | 5 | 1900-01-01  | 2050-12-31  | restaurantguest | Time Between | NULL | MarkovChain | arrive | departed | 0.2 | 2 | NULL | User arrives at location | NULL | User departed|
 
+If the host was that output and were experienced, he would infer that he might want to place some priority on this customer who is known to leave. But what about other customers already there who are prone to leave or are powerfully mighty YouTube influencers? 
+
+The AI continues to analyze. Next question for the AI is what do we know about customers who arrive and depart? Fortunately, subject-matter-experts have authored a knowledge graph that knows about such things.
 
 
 [1]: https://eugeneasahara.com/2025/06/15/thousands-of-senses/ "Thousands of Senses – Soft Coded Logic"
