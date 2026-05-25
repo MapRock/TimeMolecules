@@ -2,7 +2,7 @@
 
 This document describes the Time Molecules process for the analysis of adversarial situations. That includes frauds, competitive games such as chess, and any other situation where imperfect information is the key asset.
 
-It lays out how Time Molecules pulls together probability (Tuple Correlation Web and Time Molecules), logic (Prolog), ontology (knowledge graphs), and data (BI semantic layer) into a foundation for a level of "enterprise awareness". I call it P.L.O.D. ... hahaha.
+It lays out how Time Molecules pulls together <b>P</b>robability (Tuple Correlation Web and Time Molecules), <b>L</b>ogic (Prolog), <b>O</b>ntology (knowledge graphs), and <b>D</b>ata (BI semantic layer) into a foundation for a level of "enterprise awareness". I call it P.L.O.D. ... hahaha ... just kidding.
 
 ## Pros and Cons vs a Checklist
 
