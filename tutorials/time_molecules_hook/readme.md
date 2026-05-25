@@ -2,6 +2,8 @@
 
 This document describes the Time Molecules process for the analysis of adversarial situations. That includes frauds, competitive games such as chess, and any other situation where imperfect information is the key asset.
 
+It lays out how Time Molecules pulls together probability (Tuple Correlation Web and Time Molecules), logic (Prolog), ontology (knowledge graphs), and data (BI semantic layer) into a foundation for a level of "enterprise awareness". I call it P.L.O.D. ... hahaha.
+
 ## Pros and Cons vs a Checklist
 
 Many recognition algorithms apply a similarity score, a checklist of qualities. It could be more robust as a weighted checklist. But the problem with a weighted checklist is there are many ways to calculate a high, medium or low score. The combination does matter.
