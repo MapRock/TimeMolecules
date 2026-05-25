@@ -19,7 +19,7 @@ It may be recognizing two things at once:
 > Food.
 > Something wrong.
 
-And the recognition of “something wrong” can override the recognition of food.
+And the recognition of “something wrong” can override the recognition of food, depending on its level of hunger.
 
 That is the heart of the problem enterprises now face with fraud, cyberattacks, scams, operational anomalies, supply-chain surprises, customer churn, and other rare but damaging events. The bad thing rarely arrives wearing a name tag. It arrives camouflaged as a normal event.
 
@@ -34,7 +34,7 @@ But something is off.
 
 The action is a little too fast. The device is unfamiliar. The language is nearly right but not quite. The path through the process is legal, but strange. The event is not impossible. It is just not normal in the right way.
 
-That is the enterprise uncanny valley. It's the level of "fish" intelligence (simple, push-button), as opposed to the higher level of "reptile intelligence" (robust), then finally "human-level" intelligence (iterative recognition decoupled from a selection of actions). See, [Levels of Intelligence – Prolog’s Role in the LLM Era, Part 6](https://eugeneasahara.com/2024/08/21/four-levels-of-intelligence-prologs-role-in-the-llm-era-part-6/).
+That is the enterprise uncanny valley. It's the level of "fish" intelligence (robust, multi-variate), as opposed to the higher level of "reptile intelligence" (iterative), then finally "human-level" intelligence (iterative recognition decoupled from a versatile selection of actions). See, [Levels of Intelligence – Prolog’s Role in the LLM Era, Part 6](https://eugeneasahara.com/2024/08/21/four-levels-of-intelligence-prologs-role-in-the-llm-era-part-6/).
 
 ## The Enterprise Uncanny Valley
 
@@ -309,7 +309,7 @@ Product category?
 
 This preserves explainability without pretending that the entire decision can be reduced to a single reason.
 
-## Why this matters to customers
+## The Relevance
 
 A customer does not need another dashboard that says something is red.
 
@@ -338,7 +338,7 @@ Almost none know the semantic meaning of process deviations in real time.
 
 That is the gap Time Molecules can fill.
 
-## The hook, the bluff, and the process
+## The Hook, the Bluff, and the Process
 
 The fish does not need a philosophy of fishing to avoid the hook. It only needs enough sensory richness to recognize that something about the worm is wrong.
 
@@ -354,12 +354,7 @@ A knowledge graph understands what the event means.
 Bayesian probabilities adjust the odds based on context.
 The enterprise reacts only when the recognition of danger outweighs the recognition of normalcy, under the circumstances of the moment.
 
-That is not just event processing.
-
-That is process-aware recognition.
-
-
-And in a world where attackers, scammers, competitors, and even ordinary operational failures all arrive camouflaged as normal business, seeing the hook is the difference between intelligence and reaction.
+That is not just event processing, but process-aware recognition. In an environment where attackers, scammers, competitors, and even ordinary operational failures all arrive camouflaged as normal business, seeing the hook is the difference between intelligence and reaction.
 
 Also see:
 
