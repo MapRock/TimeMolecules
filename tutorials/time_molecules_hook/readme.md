@@ -92,8 +92,8 @@ That changes the nature of detection. Instead of asking, â€œIs this event bad?â€
 
 Events that happen in the world are the result of upstream events and precede a number of downstream events, some bigger than others, perhaps all seemingly inconsequential, some perhaps disaterous. It order to analyze the effect:
 
-1. Knowledge graphs (where the event is part of the ontology of the KG) can link the event to other phenomenon, particularly goals and risks we wish to avoid.
-2. Prolog scripts can estimate the probability of risks based on contemporary events.
+1. Knowledge graphs (where events are included as part of the ontology of the KG) can link the event to other phenomenon, particularly goals and risks we wish to avoid.
+2. Prolog scripts can estimate the probability of risks based on contemporary events. Note that Bayesian Conditional Probabilities act as a lighter, faster detection of probability (like System 1), where we could corroborate with deeper deductive capability of Prolog.
 
 Let's look at an example. A login event is not just a login event.
 
