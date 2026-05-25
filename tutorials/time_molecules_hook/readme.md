@@ -82,26 +82,22 @@ The event should still go to the regular CEP engine. We still need fast rule eva
 > Which knowledge graph concepts does this event touch?
 > Which paths from this event lead toward risk, fraud, failure, churn, delay, escalation, or opportunity?
 
-That deeper lane is where Time Molecules fits.
+That deeper lane is where Time Molecules fits. Time Molecules can act as the system that says: this is not just an event. This is an event inside a case (a cycle) of a process, with case-level properties, event-level properties, semantic meaning, process history, and probable futures.
 
-Time Molecules can act as the system that says: this is not just an event. This is an event inside a case, with case-level properties, event-level properties, semantic meaning, process history, and probable futures.
-
-That changes the nature of detection.
-
-Instead of saying, “Is this event bad?” we can ask:
+That changes the nature of detection. Instead of asking, “Is this event bad?” we can ask:
 
 > What is this event becoming?
 
 ## Events are not Isolated Facts
 
-Events that happen in the world usually have a number of downstream events, some bigger than others, perhaps all seemingly inconsequential, some perhaps disaterous. It order to analyze the effect:
+Events that happen in the world are the result of upstream events and precede a number of downstream events, some bigger than others, perhaps all seemingly inconsequential, some perhaps disaterous. It order to analyze the effect:
 
-1. Knowledge graphs can link the event to other phenomenon.
+1. Knowledge graphs (where the event is part of the ontology of the KG) can link the event to other phenomenon, particularly goals and risks we wish to avoid.
 2. Prolog scripts can estimate the probability of risks based on contemporary events.
 
 Let's look at an example. A login event is not just a login event.
 
-It belongs to a case. The case might be a session, a customer journey, an account lifecycle, an order, a shipment, an insurance claim, a support incident, a loan application, a patient encounter, or a security investigation.
+It belongs to a case of a cycle of potential fraud. The case might be a session, a customer journey, an account lifecycle, an order, a shipment, an insurance claim, a support incident, a loan application, a patient encounter, or a security investigation.
 
 The login also has event properties:
 
@@ -111,15 +107,11 @@ The case has properties too:
 
 > customer type, account age, risk tier, geography, normal activity pattern, open tickets, recent changes, known relationships, employee role, vendor status, current business context.
 
-Now add Time Molecules.
-
-The event can be linked to one or more Markov model segments. That means the system can ask:
+Now add Time Molecules. The event can be linked to one or more Markov model segments. That means the system can ask:
 
 > In cases like this, when this event happens, what usually happens next?
 
-That alone is powerful.
-
-If a customer normally browses, compares, adds to cart, reviews shipping, and pays, but this case jumps from account recovery to stored payment update to high-value purchase to address change, the individual events may all be legal. But the path has the wrong shape.
+That alone is powerful. If a customer normally browses, compares, adds to cart, reviews shipping, and pays, but this case jumps from account recovery to stored payment update to high-value purchase to address change, the individual events may all be legal. But the path has the wrong shape.
 
 This is where process awareness matters. The suspicious thing is not necessarily the event. It is the event in sequence.
 
@@ -195,9 +187,9 @@ It should depend on circumstance, experience, current threat level, user history
 
 That is much richer than a fixed score.
 
-## The architecture: fast CEP plus deeper Time Molecules reads
+## The Architecture: Fast CEP plus Deeper Time Molecules Reads
 
-The architecture I would propose is not to replace CEP. It is to give CEP a deeper nervous system.
+The architecture I would propose is not to replace CEP. It is to give CEP a deeper nervous system. CEP is <i>like</i> Kahneman's System 1 and Time Molecules is <i>like</i> System 2.
 
 The event still enters the streaming platform. The fast CEP layer evaluates immediate rules:
 
@@ -246,6 +238,8 @@ That is where a knowledge graph grounded in source metadata becomes valuable. Th
 This is how “thousands of senses” becomes practical.
 
 Not every event needs every sense. But the system needs the ability to pull in the right sense when the moment demands it.
+
+See: [The Products of System 2 – Prolog in the LLM Era – Spring Break 2026 Special](https://eugeneasahara.com/2026/03/04/the-products-of-system-2/)
 
 ## The stored procedure pattern
 
