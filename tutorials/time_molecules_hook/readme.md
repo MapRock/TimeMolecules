@@ -356,5 +356,22 @@ Also see:
 
 - [hypothetical_example_of_time_molecules_forecase_rare_events.md](https://github.com/MapRock/TimeMolecules/blob/main/tutorials/business_application_intuition/hypothetical_example_of_time_molecules_forecase_rare_events.md) for a discussion on applications focused on rare events.
 
+## PLOD Runthrough
+
+Let's go through a sample runthrough of the PLOD mechanism. For simplicity, let's assume a slight level of dystopia. For example, cards in the wallet/purses/nametags of people can be readily read through RFID sensors. Events, such as detecting a person, is sent to a high-scale event processing system.
+
+We assume there is a high-scale event processing system that detects the arrival of a customer at one of our restaurants. His face is readily recognized by cameras monitoring the door. The system receives a json packet containing the customer's loyalty ID number (1), among other things.
+
+It's rather busy, so the host is unable to greet the customer as soon as he walks in with his party.
+
+```sql
+EXEC GetNextEventsForObservedEvent 
+	@EventA = 'arrive', 
+	@CasePropertiesJson='{"CustomerID":1,"LocationID":1}', 
+	@EventPropertiesJson=NULL,
+	@TopN = 20
+```
+
+
 
 [1]: https://eugeneasahara.com/2025/06/15/thousands-of-senses/ "Thousands of Senses – Soft Coded Logic"
