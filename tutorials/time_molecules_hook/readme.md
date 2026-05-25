@@ -358,11 +358,15 @@ Also see:
 
 ## PLOD Runthrough
 
-Let's go through a sample runthrough of the PLOD mechanism. For simplicity, let's assume a slight level of dystopia. For example, cards in the wallet/purses/nametags of people can be readily read through RFID sensors. Events, such as detecting a person, is sent to a high-scale event processing system.
+Let's go through a sample runthrough of the PLOD mechanism. For simplicity, let's assume a slight level of dystopia. For example, cards in the wallet/purses/nametags of people can be readily read through RFID sensors. Events, such as detecting a person, is sent to a high-scale event processing system. 
+
+Let's also assume that the host at the front desk is a human but not necessarily experienced with dealing with customers, so he gets some AI assistance.
 
 We assume there is a high-scale event processing system that detects the arrival of a customer at one of our restaurants. His face is readily recognized by cameras monitoring the door. The system receives a json packet containing the customer's loyalty ID number (1), among other things.
 
-It's rather busy, so the host is unable to greet the customer as soon as he walks in with his party.
+It's rather busy, so the host is unable to greet the customer as soon as he walks in with his party. A good piece of information is to obtain a general idea of how patient this customer is. Keep in mind that the process to follow is invisible to the host.
+
+A query is submitted to Time Molecules:
 
 ```sql
 EXEC GetNextEventsForObservedEvent 
@@ -371,6 +375,13 @@ EXEC GetNextEventsForObservedEvent
 	@EventPropertiesJson=NULL,
 	@TopN = 20
 ```
+These results are returned from Time Molecules:
+
+
+| ModelID | StartDateTime | EndDateTime | EventSet | Metric | Transforms | ModelType | EventA | EventB | Prob | Rows | EventA_IRI | EventA_Description | EventB_IRI | EventB_Description |
+|---:|---|---|---|---|---|---|---|---|---:|---:|---|---|---|---|
+| 5 | 1900-01-01  | 2050-12-31  | restaurantguest | Time Between | NULL | MarkovChain | arrive | greeted | 0.8 | 8 | NULL | User arrives at location | NULL | User was greeted |
+| 5 | 1900-01-01  | 2050-12-31  | restaurantguest | Time Between | NULL | MarkovChain | arrive | departed | 0.2 | 2 | NULL | User arrives at location | NULL | User departed|
 
 
 
