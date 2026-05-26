@@ -2,7 +2,7 @@
 
 This document describes the Time Molecules process for the analysis of adversarial situations. That includes frauds, competitive games such as chess, and any other situation where imperfect information is the key asset.
 
-It lays out how Time Molecules pulls together <b>P</b>robability (Tuple Correlation Web and Time Molecules), <b>L</b>ogic (Prolog), <b>O</b>ntology (knowledge graphs), and <b>D</b>ata (BI semantic layer) into a foundation for a level of "enterprise awareness". I call it P.L.O.D. ... hahaha ... just kidding.
+It lays out how Time Molecules pulls together <b>P</b>robability (Tuple Correlation Web and Time Molecules), <b>L</b>ogic (Prolog), <b>O</b>ntology (knowledge graphs), and <b>D</b>ata (BI semantic layer) into a foundation for a level of "enterprise awareness". I call it P.L.O.D. ... hahaha ... just my odd sense of humor.
 
 I've written about my first major attempt at something like this in, [Conditional Trade-Off Graphs – Prolog in the LLM Era – AI 3rd Anniversary Special](https://eugeneasahara.com/2025/11/17/trade-off-semantic-network-prolog-in-the-llm-era-ai-3rd-anniversary-special/)
 
@@ -977,7 +977,7 @@ The agent flow now looks like this:
 
 #### How Does Prolog Fits Here
 
-Prolog is useful here because this part of the problem is not merely statistical. It is conditional, explainable, and composable.
+Prolog is useful here because this part of the problem is not merely statistical. It is conditional, explainable, and composable. It is the "L" in PLOD, Logic.
 
 The agent is asking a question requiring a sophisticated answer:
 
@@ -1028,7 +1028,8 @@ For this customer, right now, the active risks are excessive wait time,
 crowding, and host unavailability.
 ```
 
-That is a powerful combination.
+That provides enough information for a human or AI agent to make their priotization decisions.
+
 
 The Time Molecule detects the process path.
 The KG gives the path meaning.
@@ -1039,14 +1040,16 @@ See: [Knowledge Graphs vs Prolog – Prolog’s Role in the LLM Era, Part 7](htt
 
 #### Tying Back to the Data of the Semantic Layer
 
+Time Molecules also facilitates a tie back to the database (BI data source, Semantic Layer, data warehouse, or event storage such as Azure CosmosDB) from which the events creating the Markov models were imported. This is the "D" in PLOD.
+
 The following table is actually part of the result of the stored procedure, GetNextEventsForObservedEvent, way back in [Query Time Molecules](#Query-Time-Molecules):
 
 | ModelID | EventA | EventA_Source_ServerName | EventA_Source_DatabaseName | EventA_SourceColumn_TableName | EventA_SourceColumn_ColumnName | EventB | EventB_Source_ServerName | EventB_Source_DatabaseName | EventB_SourceColumn_TableName | EventB_SourceColumn_ColumnName |
 |---:|---|---|---|---|---|---|---|---|---|---|
-| 5 | arrive | NULL | NULL | NULL | NULL | greeted | NULL | NULL | NULL | NULL |
-| 6 | arrive | NULL | NULL | NULL | NULL | greeted | NULL | NULL | NULL | NULL |
+| 5 | arrive | BI001 | Restaurant | Events | Event | greeted | BI001 | Restaurant | Events | Event
+| 6 | arrive | BI001 | Restaurant | Events | Event | greeted | BI001 | Restaurant | Events | Event
 
-That table displays metadata to the source of the events, particularly the name of the event (arrive, greeted).
+That table displays metadata to the source of the events, particularly the name of the event (arrive, greeted). 
 
 [1]: https://github.com/MapRock/TimeMolecules/tree/main/tutorials/time_molecules_hook "TimeMolecules/tutorials/time_molecules_hook at main · MapRock/TimeMolecules · GitHub"
 [2]: https://github.com/MapRock/TimeMolecules/blob/main/tutorials/time_molecules_hook/restaurant_knowledge_graph.ttl "TimeMolecules/tutorials/time_molecules_hook/restaurant_knowledge_graph.ttl at main · MapRock/TimeMolecules · GitHub"
