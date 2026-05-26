@@ -38,7 +38,7 @@ But something is off.
 
 The action is a little too fast. The device is unfamiliar. The language is nearly right but not quite. The path through the process is legal, but strange. The event is not impossible. It is just not normal in the right way.
 
-That is the enterprise uncanny valley. It's the level of "fish" intelligence (robust, multi-variate), as opposed to the higher level of "reptile intelligence" (iterative), then finally "human-level" intelligence (iterative recognition decoupled from a versatile selection of actions). See, [Levels of Intelligence – Prolog’s Role in the LLM Era, Part 6](https://eugeneasahara.com/2024/08/21/four-levels-of-intelligence-prologs-role-in-the-llm-era-part-6/).
+That is the enterprise uncanny valley. It's the level of "fish" intelligence (robust, multi-variate), as opposed to the higher level of "reptile intelligence" (iterative), then finally "human-level" intelligence (iterative recognition decoupled from a versatile selection of actions). See, [Levels of Intelligence – Prolog’s Role in the LLM Era, Part 6](https://eugeneasahara.com/2024/08/21/four-levels-of-intelligence-prologs-role-in-the-llm-era-part-6/) and [Reptile Intelligence: An AI Summer for CEP](https://eugeneasahara.com/2025/09/25/reptile-intelligence-an-ai-summer-for-cep/#CEP)
 
 ## The Enterprise Uncanny Valley
 
@@ -129,9 +129,9 @@ The event can also be linked to Bayesian conditional probabilities:
 
 ## Expanding the Ontology of Events with a Knowledge Graph 
 
-The event has an IRI. The properties may have IRIs. The database, table, column, source system, event type, and property definitions can all be grounded semantically. The event is not just the string `"PasswordResetRequested"` or `"InvoiceSubmitted"`. It is tied to an enterprise concept. That concept may be related to other concepts: authentication, credential recovery, identity risk, payment method, vendor trust, delivery exception, regulated data, privileged access, medical device, financial instrument, or customer distress.
+The event registered in Time Molecules has an [International Resource Indicator (IRI)](https://eugeneasahara.com/glossary/#IRI). The properties of individual events may have IRIs. The database, table, column, source system, event type, and property definitions can all be grounded semantically. The event is not just the string `"PasswordResetRequested"` or `"InvoiceSubmitted"`. It is tied to an enterprise concept. That concept may be related to other concepts: authentication, credential recovery, identity risk, payment method, vendor trust, delivery exception, regulated data, privileged access, medical device, financial instrument, or customer distress.
 
-This is where Time Molecules, Bayesian probabilities, Markov models, and the knowledge graph begin to act together.
+This is where Time Molecules, Bayesian probabilities, Markov models, and the knowledge graph begin to form a process.
 
 The Markov model tells us what tends to happen next.
 The Bayesian layer tells us what conditions change the odds.
@@ -141,7 +141,7 @@ The deeper Time Molecules layer gives us process memory.
 
 ## Recognition is not One Score
 
-"Just one number, please." That's what my customer usually says when I respond with more than a single answer. A common enterprise pattern is to turn everything into a score:
+"Just one number, please." That's what my customer usually says when I respond with more than a single answer. Why do I respond with more than just one number? Because "it depends". A common enterprise pattern is to turn everything into a score:
 
 > fraud score
 > risk score
@@ -181,7 +181,7 @@ That answer is contextual.
 
 A starving fish may bite despite uncertainty. A cautious fish may not. A novice may freeze in the presence of danger. A trained martial artist, surgeon, firefighter, or security analyst may act because experience lowers the cost of action. Not because danger is absent, but because skill changes the threshold.
 
-Enterprises work the same way.
+Enterprises work the same way because every decision is really a matter of "it depends" to some degree.
 
 A bank may tolerate friction for a high-risk wire transfer but not for a low-value coffee purchase. A hospital may allow a risky override in an emergency but not during routine administration. A cybersecurity system may challenge a user more aggressively during an active incident than during normal operations. An airline may tolerate unusual rebooking patterns during a storm but not on an ordinary Tuesday.
 
