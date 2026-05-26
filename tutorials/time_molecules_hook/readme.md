@@ -746,17 +746,13 @@ This customer is at elevated risk of departing before ordering because the curre
 
 #### Example Prolog Risk Package
 
-The Prolog file can be treated as a generated or authored risk package. It may be created by analysts, exported from machine learning models, or assembled from several model fragments.
+The Prolog file can be treated as a generated or authored risk package. It may be created by analysts, exported from machine learning models, or assembled from several Prolog fragments.
 
-For example:
+For example, here are three Prolog, that are separately created and maintained, but will merge into one. 
+
+This first part is created from realtime information. This facial recognition camera (again, for the sake of explanation, please put aside the dystopian connotations), looks up the perform and returns information calculated from semantic layers (ex. [Kyvos Insights](https://www.kyvosinsights.com/)) formatted as Prolog. These "facts" are merged with the subsequent Prologs:
 
 ```prolog
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Restaurant premature departure risk rules
-%
-% These rules calculate risk reasons for a specific customer
-% in the current restaurant situation.
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Customer qualities
@@ -766,7 +762,11 @@ customer_patience(customer_123, low).
 customer_price_sensitivity(customer_123, medium).
 customer_visit_intent(customer_123, quick_meal).
 customer_loyalty_level(customer_123, new_customer).
+```
 
+This Prolog reflects the current conditions in the restaurant, particurlarly the lobby. Many of these facts could be inferred from cameras using "computer vision" models trained to recognize characteristics:
+
+```prolog
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Contemporary restaurant features
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -780,9 +780,15 @@ current_menu_visibility(medium).
 wait_time_seconds(customer_123, 240).
 greeting_quality(customer_123, neutral).
 seating_process_clarity(low).
+```
+These are the risks Prolog. This Prolog probably needs to be authored primarily by humans. However, the humans can be assisted by LLMs and BI:
 
+```prolog
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Risk rules
+% Restaurant premature departure risk rules
+%
+% These rules calculate risk reasons for a specific customer
+% in the current restaurant situation.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 risk(Customer, excessive_wait_time, high) :-
@@ -841,7 +847,7 @@ departure_reason(Customer, Reason, Level) :-
     risk(Customer, Reason, Level).
 ```
 
-A simple Prolog query would be:
+The three Prolog above are merged. A simple Prolog query would be:
 
 ```prolog
 departure_reason(customer_123, Reason, Level).
