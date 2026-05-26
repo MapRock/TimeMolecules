@@ -84,7 +84,7 @@ The event should still go to the regular CEP engine. We still need fast rule eva
 > What bad outcomes is it associated with?
 > Which properties make this instance different?
 > Which knowledge graph concepts does this event touch?
-> Which paths from this event lead toward risk, fraud, failure, churn, delay, escalation, or opportunity?
+> Which paths from this event lead toward risk, fraud, failure, churn, delay, escalation, **or opportunity**?
 
 That deeper lane is where Time Molecules fits. Time Molecules can act as the system that says: this is not just an event. This is an event inside a case (a cycle) of a process, with case-level properties, event-level properties, semantic meaning, process history, and probable futures.
 
@@ -96,7 +96,7 @@ That changes the nature of detection. Instead of asking, â€œIs this event bad?â€
 
 Events that happen in the world are the result of upstream events and precede a number of downstream events, some bigger than others, perhaps all seemingly inconsequential, some perhaps disaterous. It order to analyze the effect:
 
-1. Knowledge graphs (where events are included as part of the ontology of the KG) can link the event to other phenomenon, particularly goals and risks we wish to avoid.
+1. Knowledge graphs (where events **types** are included as part of the ontology of the KG) can link the event to other phenomenon, particularly goals and risks we wish to avoid. To be clear, by "event", I don't mean each of the individual events that happen, for example, <i>Eugene purchased a pack of honeyberry seeds on 3/10/2026</i>. But the name of events such as arrive, depart, earthquake, sent text, woke up, ate lunch, etc.
 2. Prolog scripts can estimate the probability of risks based on contemporary events. Note that Bayesian Conditional Probabilities act as a lighter, faster detection of probability (like System 1), where we could corroborate with deeper deductive capability of Prolog.
 
 Let's look at an example. A login event is not just a login event.
@@ -115,7 +115,7 @@ Now add Time Molecules. The event can be linked to one or more Markov model segm
 
 > In cases like this, when this event happens, what usually happens next?
 
-That alone is powerful. If a customer normally browses, compares, adds to cart, reviews shipping, and pays, but this case jumps from account recovery to stored payment update to high-value purchase to address change, the individual events may all be legal. But the path has the wrong shape.
+That alone is powerful. But the key to success in an adversarial world is to correctly predict the next several steps. If a customer normally browses, compares, adds to cart, reviews shipping, and pays, but this case jumps from account recovery to stored payment update to high-value purchase to address change, the individual events may all be legal. But the path has the wrong shape.
 
 This is where process awareness matters. The suspicious thing is not necessarily the event. It is the event in sequence.
 
@@ -141,7 +141,7 @@ The deeper Time Molecules layer gives us process memory.
 
 ## Recognition is not One Score
 
-A common enterprise pattern is to turn everything into a score:
+"Just one number, please." That's what my customer usually says when I respond with more than a single answer. A common enterprise pattern is to turn everything into a score:
 
 > fraud score
 > risk score
@@ -155,7 +155,7 @@ Scores are useful. But a score is not the same as recognition.
 Recognition can be simultaneous and contradictory.
 
 A fish can recognize food and danger.
-A poker player can recognize confidence and fear.
+A poker player can recognize confidence, fear, and a huge opportunity.
 A fraud system can recognize a valid customer and an account takeover pattern.
 A security system can recognize a normal employee and a compromised device.
 A supply-chain system can recognize a normal purchase order and a pattern that precedes disruption.
@@ -985,7 +985,7 @@ The agent flow now looks like this:
 
 Prolog is useful here because this part of the problem is not merely statistical. It is conditional, explainable, and composable. It is the "L" in PLOD, Logic.
 
-The agent is asking a question requiring a sophisticated answer:
+The agent is asking a question requiring a sophisticated answer, requiring a level of inference:
 
 ```text
 What is the probability that the customer leaves?
