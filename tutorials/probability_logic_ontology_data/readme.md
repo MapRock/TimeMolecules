@@ -1077,7 +1077,13 @@ This is where the full power of PLOD. reveals itself:
 
 Together they create something that feels remarkably close to experienced human intuition — the same way a seasoned poker player doesn’t just see the cards, but reads the player, the betting pattern, the table dynamics, and the entire history all at once.The link back to the semantic layer is not a boring integration detail. It is the point where Time Molecules stops being an observer of processes and becomes a genuine co-pilot for high-stakes operational decisions. New risks, regulations, or business concepts can be added to the ontology without retraining models. The entire stack stays explainable, adaptable, and deeply grounded in what the business actually cares about.That is how you finally escape the enterprise uncanny valley — not by throwing more scores at the problem, but by giving the system the same rich, multi-layered awareness that lets a fish see the hook … and actually understand why it should swim away.
 
+## Integrating a Lot of Moving Parts
 
+Yes, we'll pulling a lot together. But it's integration of components that creates a powerful entity, whether it's a person or other creature, or a successful enterprise.
+
+My other book, [Enterprise Intelligence](https://technicspub.com/enterprise-intelligence/), is all about integration of components into a system. Please see, [Enterprise Intelligence: Integrating BI, Data Mesh, Knowledge Graphs, Knowledge Workers, and LLMs](https://eugeneasahara.com/2024/06/28/enterprise-intelligence-integrating-bi-data-mesh-knowledge-graphs-and-ai/)
+
+Knowledge Graphs, Semantic Layers, Prolog, all involve a lot of engineering, a lot of human-in-the-loop. But my books and blogs describe automation. Automation is particularly of much assistance with LLMs. I know very well that LLMs fall short in working with me as a peer partner (at this time), but it is rather good at automating mundane but yet time-consuming tasks. This art of working with LLMs, combining human and machine intelligence, is just getting started.
 
 [1]: https://github.com/MapRock/TimeMolecules/tree/main/tutorials/time_molecules_hook "TimeMolecules/tutorials/time_molecules_hook at main · MapRock/TimeMolecules · GitHub"
 [2]: https://github.com/MapRock/TimeMolecules/blob/main/tutorials/time_molecules_hook/restaurant_knowledge_graph.ttl "TimeMolecules/tutorials/time_molecules_hook/restaurant_knowledge_graph.ttl at main · MapRock/TimeMolecules · GitHub"
