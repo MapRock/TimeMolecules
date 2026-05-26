@@ -4,6 +4,8 @@ This document describes the Time Molecules process for the analysis of adversari
 
 It lays out how Time Molecules pulls together <b>P</b>robability (Tuple Correlation Web and Time Molecules), <b>L</b>ogic (Prolog), <b>O</b>ntology (knowledge graphs), and <b>D</b>ata (BI semantic layer) into a foundation for a level of "enterprise awareness". I call it P.L.O.D. ... hahaha ... just kidding.
 
+I've written about my first major attempt at something like this in, [Conditional Trade-Off Graphs – Prolog in the LLM Era – AI 3rd Anniversary Special](https://eugeneasahara.com/2025/11/17/trade-off-semantic-network-prolog-in-the-llm-era-ai-3rd-anniversary-special/)
+
 ## Pros and Cons vs a Checklist
 
 Many recognition algorithms apply a similarity score, a checklist of qualities. It could be more robust as a weighted checklist. But the problem with a weighted checklist is there are many ways to calculate a high, medium or low score. The combination does matter.
@@ -973,11 +975,11 @@ The agent flow now looks like this:
    experience, service engagement, and revenue opportunity.
 ```
 
-#### Why Prolog Fits Here
+#### How Does Prolog Fits Here
 
 Prolog is useful here because this part of the problem is not merely statistical. It is conditional, explainable, and composable.
 
-The agent is not just asking:
+The agent is asking a question requiring a sophisticated answer:
 
 ```text
 What is the probability that the customer leaves?
@@ -985,13 +987,12 @@ What is the probability that the customer leaves?
 
 It is asking:
 
-```text
-Why might this specific customer leave?
-Which risk reasons are active?
-Which features caused those risks?
-Which business concepts are affected?
-What expected event is being missed?
-```
+- Why might this specific customer leave?
+- Which risk reasons are active?
+- Which features caused those risks?
+- Which business concepts are affected?
+- What expected event is being missed?
+
 
 Those are rule-shaped questions.
 
@@ -1034,7 +1035,7 @@ The KG gives the path meaning.
 Prolog calculates which risks are active.
 The AI agent turns the combined result into a useful explanation.
 
-
+See: [Knowledge Graphs vs Prolog – Prolog’s Role in the LLM Era, Part 7](https://eugeneasahara.com/2024/08/26/knowledge-graphs-vs-prolog-prologs-role-in-the-llm-era-part-7/)
 
 [1]: https://github.com/MapRock/TimeMolecules/tree/main/tutorials/time_molecules_hook "TimeMolecules/tutorials/time_molecules_hook at main · MapRock/TimeMolecules · GitHub"
 [2]: https://github.com/MapRock/TimeMolecules/blob/main/tutorials/time_molecules_hook/restaurant_knowledge_graph.ttl "TimeMolecules/tutorials/time_molecules_hook/restaurant_knowledge_graph.ttl at main · MapRock/TimeMolecules · GitHub"
