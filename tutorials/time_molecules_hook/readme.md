@@ -384,8 +384,8 @@ These results are returned from Time Molecules:
 
 | ModelID | StartDateTime | EndDateTime | EventSet | Metric | Transforms | ModelType | EventA | EventB | Prob | Rows | EventA_IRI | EventA_Description | EventB_IRI | EventB_Description |
 |---:|---|---|---|---|---|---|---|---|---:|---:|---|---|---|---|
-| 5 | 1900-01-01  | 2050-12-31  | restaurantguest | Time Between | NULL | MarkovChain | arrive | greeted | 0.8 | 8 | NULL | User arrives at location | NULL | User was greeted |
-| 5 | 1900-01-01  | 2050-12-31  | restaurantguest | Time Between | NULL | MarkovChain | arrive | departed | 0.2 | 2 | NULL | User arrives at location | NULL | User departed|
+| 5 | 1900-01-01 00:00:00.000 | 2050-12-31 00:00:00.000 | restaurantguest | Time Between | NULL | MarkovChain | arrive | greeted | 1 | 2 | NULL | User arrives at location | NULL | User was greeted |
+| 6 | 1900-01-01 00:00:00.000 | 2050-12-31 00:00:00.000 | restaurantguest | Time Between | NULL | MarkovChain | arrive | greeted | 1 | 1 | NULL | User arrives at location | NULL | User was greeted |
 
 If the host was that output and were experienced, he would infer that he might want to place some priority on this customer who is known to leave. But what about other customers already there who are prone to leave or are powerfully mighty YouTube influencers? 
 
@@ -1036,6 +1036,17 @@ Prolog calculates which risks are active.
 The AI agent turns the combined result into a useful explanation.
 
 See: [Knowledge Graphs vs Prolog – Prolog’s Role in the LLM Era, Part 7](https://eugeneasahara.com/2024/08/26/knowledge-graphs-vs-prolog-prologs-role-in-the-llm-era-part-7/)
+
+#### Tying Back to the Data of the Semantic Layer
+
+The following table is actually part of the result of the stored procedure, GetNextEventsForObservedEvent, way back in [Query Time Molecules](#Query-Time-Molecules):
+
+| ModelID | EventA | EventA_Source_ServerName | EventA_Source_DatabaseName | EventA_SourceColumn_TableName | EventA_SourceColumn_ColumnName | EventB | EventB_Source_ServerName | EventB_Source_DatabaseName | EventB_SourceColumn_TableName | EventB_SourceColumn_ColumnName |
+|---:|---|---|---|---|---|---|---|---|---|---|
+| 5 | arrive | NULL | NULL | NULL | NULL | greeted | NULL | NULL | NULL | NULL |
+| 6 | arrive | NULL | NULL | NULL | NULL | greeted | NULL | NULL | NULL | NULL |
+
+That table displays metadata to the source of the events, particularly the name of the event (arrive, greeted).
 
 [1]: https://github.com/MapRock/TimeMolecules/tree/main/tutorials/time_molecules_hook "TimeMolecules/tutorials/time_molecules_hook at main · MapRock/TimeMolecules · GitHub"
 [2]: https://github.com/MapRock/TimeMolecules/blob/main/tutorials/time_molecules_hook/restaurant_knowledge_graph.ttl "TimeMolecules/tutorials/time_molecules_hook/restaurant_knowledge_graph.ttl at main · MapRock/TimeMolecules · GitHub"
