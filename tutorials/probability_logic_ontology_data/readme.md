@@ -1058,6 +1058,27 @@ That table displays metadata to the source of the events, particularly the name 
 
 For example, suppose the database, BI001.Restaurant, is a modern, highly-performant Semantic Layer such as [Kyvos Insights](https://www.kyvosinsights.com/). Assuming we have access to that Semantic layer, we could connect to it and richly obtain further data towards facilitating high-qualty decisions. That's all the wonderful traditional BI information we've come to love over the decaades, such as Time series of the customer's recent profitability.
 
+## All Together Now ...
+
+Tying Time Molecules back to the BI semantic layer (or your data warehouse, event store, or modern semantic engine like Kyvos Insights) is far more than a convenient metadata lookup. It is the final piece that transforms the entire system from sophisticated pattern recognition into genuine process intelligence.The Markov models give you the statistical shape of the process — the DNA of what usually happens next. The knowledge graph gives every event and property real meaning. Prolog lets you reason about active risks and implications. But it is the semantic layer — the rich, business-aware data model — that supplies the living context that makes any deviation actually matter.Suddenly you are no longer just detecting that “this sequence is statistically unusual.” You are understanding:
+
+- This customer belongs to the top 3% lifetime-value segment, has shown high sensitivity to wait times in the past, and the current greet-to-seated delay is already 2.8× their personal baseline.
+- This vendor payment path deviates from their established pattern, their accounts-receivable aging has deteriorated sharply in the last 60 days, and the new beneficiary account matches a known high-risk pattern in the ontology.
+- This user is executing a rare but technically allowed sequence of privileged actions — right after a negative performance review, while accessing sensitive customer data at unusual hours, on a device that has never been seen before.
+
+The semantic layer dynamically enriches every observed event with customer/value/risk dimensions, historical behavioral baselines, segment information, external signals, and any other relevant business context. Time Molecules moves from asking “Is this sequence rare?” to asking “Given who this is, what they normally do, and what is at stake, how concerning is this deviation right now?”
+
+This is where the full power of PLOD. reveals itself:
+
+- Probability (Markov + timing) supplies the expected process memory.  
+- Logic (Prolog + Bayesian) reasons about implications and risk.  
+- Ontology (knowledge graph) grounds everything in shared enterprise meaning.  
+- Data (semantic layer) supplies the rich, multidimensional business reality.
+
+Together they create something that feels remarkably close to experienced human intuition — the same way a seasoned poker player doesn’t just see the cards, but reads the player, the betting pattern, the table dynamics, and the entire history all at once.The link back to the semantic layer is not a boring integration detail. It is the point where Time Molecules stops being an observer of processes and becomes a genuine co-pilot for high-stakes operational decisions. New risks, regulations, or business concepts can be added to the ontology without retraining models. The entire stack stays explainable, adaptable, and deeply grounded in what the business actually cares about.That is how you finally escape the enterprise uncanny valley — not by throwing more scores at the problem, but by giving the system the same rich, multi-layered awareness that lets a fish see the hook … and actually understand why it should swim away.
+
+
+
 [1]: https://github.com/MapRock/TimeMolecules/tree/main/tutorials/time_molecules_hook "TimeMolecules/tutorials/time_molecules_hook at main · MapRock/TimeMolecules · GitHub"
 [2]: https://github.com/MapRock/TimeMolecules/blob/main/tutorials/time_molecules_hook/restaurant_knowledge_graph.ttl "TimeMolecules/tutorials/time_molecules_hook/restaurant_knowledge_graph.ttl at main · MapRock/TimeMolecules · GitHub"
 
