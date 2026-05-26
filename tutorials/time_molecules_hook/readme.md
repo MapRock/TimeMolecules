@@ -1,6 +1,6 @@
 # Seeing the Hook: Time Molecules, CEP, and the Enterprise Uncanny Valley
 
-This document describes the Time Molecules process for the analysis of adversarial situations. That includes frauds, competitive games such as chess, and any other situation where imperfect information is the key asset.
+This document describes the Time Molecules process for the analysis of adversarial situations. That includes frauds, competitive games such as Texas Hold'em Poker, and any other situation where imperfect information is the key asset.
 
 It lays out how Time Molecules pulls together <b>P</b>robability (Tuple Correlation Web and Time Molecules), <b>L</b>ogic (Prolog), <b>O</b>ntology (knowledge graphs), and <b>D</b>ata (BI semantic layer) into a foundation for a level of "enterprise awareness". I call it P.L.O.D. ... hahaha ... just my odd sense of humor.
 
@@ -8,7 +8,7 @@ I've written about my first major attempt at something like this in, [Conditiona
 
 ## Pros and Cons vs a Checklist
 
-Many recognition algorithms apply a similarity score, a checklist of qualities. It could be more robust as a weighted checklist. But the problem with a weighted checklist is there are many ways to calculate a high, medium or low score. The combination does matter.
+Many recognition algorithms apply a similarity score, a checklist of qualities, a one-dimensional structure. It could be more robust as a weighted checklist. But the problem with a weighted checklist is there are many ways to calculate a high, medium or low score. The combination does matter. For example, you can have a good BMI by being tall and of average weight for your height, or you could be shorter and very thin for your height.
 
 Fish do not simply bite a hook because it resembles food. That sounds obvious, but it is a deeper idea than it first appears. A fish may recognize the worm, the movement, the color, the possibility of food. But at the same time, it may recognize something else: the odd gleam of metal, an unnatural bend, a stiffness in the movement, a smell that does not belong, a shape that does not fit any safe pattern.
 
@@ -46,7 +46,7 @@ We usually think of the uncanny valley in terms of human-like robots or syntheti
 
 A scam email is not alarming because one or more features are blatantly wrong. It is alarming because many features are right. It mimics a trusted institution, a familiar workflow, a known person, a normal transaction, or a reasonable request. The scammer’s job is camouflage. The defender’s job is not merely classification. The defender’s job is to notice what the camouflage failed to hide.
 
-That is why this is not just a machine-learning scoring problem. Scores from ML models usually consider a few input features, run it through a computation trained by an algorithm, and outputs a score. That score is only based on the parameter values. Granted those parameters were chosen because they are more "predictive" of an output than other potential parameters. This isn't a bad thing, in fact it's desireable. We don't want to make the model rigid, tied to what is in the training data, which probably won't reflect the world as it changes.
+That's why this is not just a machine-learning scoring problem. Scores from ML models usually consider a few input features, run it through a computation trained by an algorithm, and outputs a score. That score is only based on the parameter values. Granted those parameters were chosen because they are more "predictive" of an output than other potential parameters. This isn't a bad thing, in fact it's desireable. We don't want to make the model rigid, tied to what is in the training data, which probably won't reflect the world as it changes.
 
 Because such ML "scores" consider only the most predictive parameters. A score can be useful, but a single score is often a compression of the very clues we need to preserve. In rare-event detection, the little things matter. Rare events are often perfect storms of many small factors. No one factor screams. But several tiny oddities, recognized together, change the meaning of the event.
 
@@ -63,7 +63,7 @@ The same is true in fraud and cybersecurity. Attackers learn the obvious rules. 
 
 That is why an intelligent enterprise needs many senses.
 
-In my blog, [Thousands of Senses](https://eugeneasahara.com/2025/06/15/thousands-of-senses/), the central point is that intelligence does not come from five broad senses, or even a few dozen inputs, but from access to a long tail of granular signals that can be selectively activated by context. The article makes the enterprise analogy directly: IoT devices, AI agents, application logs, transactions, customer behavior, operational events, and other streams become sensory organs for the business. The issue is not simply “more data,” but more kinds of signals, available when the situation requires them. ([Soft Coded Logic][1])
+In my blog, [Thousands of Senses](https://eugeneasahara.com/2025/06/15/thousands-of-senses/), the central point is that intelligence does not come from merely five broad senses, or even a few dozen inputs, but from access to a long tail of granular signals that can be selectively activated by context. The blog makes the enterprise analogy directly: IoT devices, AI agents, application logs, transactions, customer behavior, operational events, and other streams become sensory organs for the business. The issue is not simply “more data,” but more kinds of signals, available when the situation requires them. ([Soft Coded Logic][1])
 
 That is the missing layer between ordinary CEP and process-aware intelligence.
 
@@ -127,7 +127,7 @@ The event can also be linked to Bayesian conditional probabilities:
 > Given this delay, what is the probability that the case fails its SLA?
 > Given this supplier behavior, what is the probability of a shipment exception?
 
-Now Add the Knowledge Graph.
+## Expanding the Ontology of Events with a Knowledge Graph 
 
 The event has an IRI. The properties may have IRIs. The database, table, column, source system, event type, and property definitions can all be grounded semantically. The event is not just the string `"PasswordResetRequested"` or `"InvoiceSubmitted"`. It is tied to an enterprise concept. That concept may be related to other concepts: authentication, credential recovery, identity risk, payment method, vendor trust, delivery exception, regulated data, privileged access, medical device, financial instrument, or customer distress.
 
