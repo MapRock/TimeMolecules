@@ -73,7 +73,7 @@ Complex Event Processing is already a powerful idea. Events stream through a sys
 
 That is important. It is the fast reflex layer.
 
-But the problem with camouflage is that the known condition is often avoided. The scammer or attacker is deliberately trying not to match the obvious rule. The fish hook is designed to look like food. The phishing email is designed to look like business. The fraudulent transaction is designed to look like normal behavior. So the CEP layer needs help.
+But the problem with camouflage is that the known condition is often avoided. The scammer or attacker is deliberately trying not to match the obvious rule. The fish  is designed to look like food. The phishing email is designed to look like business. The fraudulent transaction is designed to look like normal behavior. So the CEP layer needs help.
 
 The event should still go to the regular CEP engine. We still need fast rule evaluation, windowing, thresholds, and immediate reactions. But beside that fast lane, there should be a deeper process-intelligence lane that asks:
 
@@ -171,7 +171,7 @@ The enterprise should preserve the independent recognitions:
 > This looks like an ordinary vendor invoice.
 > This also looks like a vendor-bank-change scam.
 > This looks like a hungry fish seeing food.
-> This also looks like a fish seeing the hook.
+> This also looks like a fish seeing the .
 
 Then the question becomes:
 
@@ -227,7 +227,7 @@ This can be cached. Most event types do not change their semantic neighborhood e
 
 The third level is property-level semantic search.
 
-This is deeper and more expensive, but it is where many “hook glint” signals live. The event type may be normal, but a property may be odd. The amount, location, device, timing, text, chemical reading, temperature, delay, confidence level, source column, or unit of measure may carry the warning.
+This is deeper and more expensive, but it is where many “ glint” signals live. The event type may be normal, but a property may be odd. The amount, location, device, timing, text, chemical reading, temperature, delay, confidence level, source column, or unit of measure may carry the warning.
 
 At this level, the system is not only asking:
 
@@ -641,9 +641,7 @@ unappealing specials, unavailable host, or confusing seating process.
 
 #### The Value Add
 
-This is the hook.
-
-A conventional process query can say:
+This is the "hook", figuratively and metaphorically. A conventional process query can say:
 
 ```text
 arrive -> departed before ordering
