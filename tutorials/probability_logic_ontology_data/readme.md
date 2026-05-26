@@ -4,7 +4,7 @@ This document describes the Time Molecules process for the analysis of adversari
 
 It lays out how Time Molecules pulls together <b>P</b>robability (Tuple Correlation Web and Time Molecules), <b>L</b>ogic (Prolog), <b>O</b>ntology (knowledge graphs), and <b>D</b>ata (BI semantic layer) into a foundation for a level of "enterprise awareness". I call it P.L.O.D. ... hahaha ... just my odd sense of humor.
 
-I've written about my first major attempt at something like this in, [Conditional Trade-Off Graphs – Prolog in the LLM Era – AI 3rd Anniversary Special](https://eugeneasahara.com/2025/11/17/trade-off-semantic-network-prolog-in-the-llm-era-ai-3rd-anniversary-special/)
+I've written about my first major attempt at something like this in, [Conditional Trade-Off Graphs – Prolog in the LLM Era – AI 3rd Anniversary Special](https://eugeneasahara.com/2025/11/17/trade-off-semantic-network-prolog-in-the-llm-era-ai-3rd-anniversary-special/) and [Prolog in the LLM Era - Part 1](https://eugeneasahara.com/2024/08/04/does-prolog-have-a-place-in-the-llm-era/)
 
 ## Pros and Cons vs a Checklist
 
