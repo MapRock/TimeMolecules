@@ -1008,7 +1008,6 @@ That gives the system a useful separation of concerns:
 | Prolog          | Which risks apply to this case right now?   |
 | LLM / AI Agent  | How should this be explained or acted upon? |
 
-#### The Important Point
 
 The knowledge graph gives the agent the menu of possible explanations.
 
@@ -1050,6 +1049,8 @@ The following table is actually part of the result of the stored procedure, GetN
 | 6 | arrive | BI001 | Restaurant | Events | Event | greeted | BI001 | Restaurant | Events | Event
 
 That table displays metadata to the source of the events, particularly the name of the event (arrive, greeted). 
+
+For example, suppose the database, BI001.Restaurant, is a modern, highly-performant Semantic Layer such as [Kyvos Insights](https://www.kyvosinsights.com/). Assuming we have access to that Semantic layer, we could connect to it and richly obtain further data towards facilitating high-qualty decisions. That's all the wonderful traditional BI information we've come to love over the decaades, such as Time series of the customer's recent profitability.
 
 [1]: https://github.com/MapRock/TimeMolecules/tree/main/tutorials/time_molecules_hook "TimeMolecules/tutorials/time_molecules_hook at main · MapRock/TimeMolecules · GitHub"
 [2]: https://github.com/MapRock/TimeMolecules/blob/main/tutorials/time_molecules_hook/restaurant_knowledge_graph.ttl "TimeMolecules/tutorials/time_molecules_hook/restaurant_knowledge_graph.ttl at main · MapRock/TimeMolecules · GitHub"
