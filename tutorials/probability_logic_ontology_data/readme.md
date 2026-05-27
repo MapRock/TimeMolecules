@@ -360,7 +360,7 @@ Also see:
 
 ## PLOD Runthrough
 
-Let's go through a sample runthrough of the PLOD mechanism. For simplicity, let's assume a slight level of dystopia. For example, cards in the wallet/purses/nametags of people can be readily read through RFID sensors. Events, such as detecting a person, is sent to a high-scale event processing system. 
+Let's go through a sample runthrough of the PLOD mechanism--the service process at a restaurant. For simplicity, let's assume a slight level of dystopia. For example, cards in the wallet/purses/nametags of people can be readily read through RFID sensors. Events, such as detecting a person, is sent to a high-scale event processing system. 
 
 Let's also assume that the host at the front desk is a human but not necessarily experienced with dealing with customers, so he gets some AI assistance from a trusty AI Agent we'll name Hudson.
 
@@ -370,7 +370,7 @@ It's rather busy, so the host is unable to greet the customer as soon as he walk
 
 ### Query Time Molecules
 
-A query is submitted to Time Molecules:
+A query is submitted to Time Molecules, one of the two "Ds" in PLOD (the other is the Semantic Layer):
 
 ```sql
 EXEC GetNextEventsForObservedEvent 
@@ -379,6 +379,9 @@ EXEC GetNextEventsForObservedEvent
 	@EventPropertiesJson=NULL,
 	@TopN = 20
 ```
+
+That stored procedure finds models (Markov models) with the event, **arrive**, for CustomerID:1 at LocationID:1. For each model, the predicted next step is returned, along with some statistics and metadata.
+
 These results are returned from Time Molecules:
 
 
@@ -387,9 +390,9 @@ These results are returned from Time Molecules:
 | 5 | 1900-01-01 00:00:00.000 | 2050-12-31 00:00:00.000 | restaurantguest | Time Between | NULL | MarkovChain | arrive | greeted | 1 | 2 | NULL | User arrives at location | NULL | User was greeted |
 | 6 | 1900-01-01 00:00:00.000 | 2050-12-31 00:00:00.000 | restaurantguest | Time Between | NULL | MarkovChain | arrive | greeted | 1 | 1 | NULL | User arrives at location | NULL | User was greeted |
 
-If the host was that output and were experienced, he would infer that he might want to place some priority on this customer who is known to leave. But what about other customers already there who are prone to leave or are powerfully mighty YouTube influencers? 
+If the host at the front desk were looking at the output and were experienced, he would infer that he might want to place some priority on this customer who is known to leave. But what about other customers already there who are prone to leave or are powerfully mighty YouTube influencers? 
 
-The AI continues to analyze. Next question for the AI is what do we know about customers who arrive and depart? Fortunately, subject-matter-experts have authored a knowledge graph that knows about such things.
+So, the AI continues to analyze to support the host no matter his level of customer service savvy. Next question for the AI is what do we know about customers who arrive and depart? Fortunately, subject-matter-experts have authored a knowledge graph that knows about such things.
 
 ### Adding the Knowledge Graph Check
 
@@ -397,7 +400,7 @@ The previous step asks Time Molecules a process question:
 
 > Given that the customer arrived, what usually happens next?
 
-In the restaurant example, the next event might be `greeted`, but it might also be something worse: the customer may leave before ordering.
+In this restaurant example, the next event might be `greeted`, but it might also be something worse: the customer may leave before ordering.
 
 The Time Molecules result can tell us that this path exists:
 
@@ -405,7 +408,7 @@ The Time Molecules result can tell us that this path exists:
 arrive -> departed before ordering
 ````
 
-That is already useful. But by itself, the Markov model only tells us the process path and its probability. The knowledge graph lets the AI agent ask a second question:
+That is already useful information. But by itself, the Markov model only tells us the process path and its probability. The knowledge graph lets the AI agent ask a second question:
 
 > If this customer is moving toward `departed before ordering`, what does that event mean, and why might it happen?
 
@@ -574,7 +577,7 @@ The result gives the AI agent something like this:
 | departed before ordering | ordered         | customer satisfaction | host unavailable          | service engagement     |
 | departed before ordering | ordered         | customer satisfaction | confusing seating process | service engagement     |
 
-The exact row shape depends on the SPARQL engine and whether it expands the optional combinations, but the meaning is simple:
+The exact row shape depends on the SPARQL engine and whether it expands the optional combinations, but the meaning is:
 
 ```text
 The customer did not merely leave.
@@ -623,7 +626,7 @@ WHERE {
 ORDER BY ?nextEventLabel ?riskReasonLabel
 ```
 
-This query is intentionally simple. It is not trying to replace the Time Molecules model. The model should still provide the probabilities, counts, and elapsed-time statistics. The knowledge graph provides semantic expansion.
+This query is intentionally simple. It is not trying to replace the Time Molecules model--that's not its forte. The model should still provide the probabilities, counts, and elapsed-time statistics. The knowledge graph provides semantic expansion.
 
 A combined agent response could look like this:
 
@@ -683,7 +686,7 @@ That is the larger Time Molecules point. The Markov model supplies process memor
 
 The KG tells the agent **what kinds of risks exist**.
 
-Prolog can then calculate:
+Prolog--normally playing the "L" in PLOD, but also the "P" in this case--an then calculate:
 
 > Given this specific customer, in this specific situation, which risks are currently active?
 
@@ -703,7 +706,7 @@ But the knowledge graph does not, by itself, decide whether those risks apply to
 
 That is the role of Prolog.
 
-In this tutorial, Prolog is used as a lightweight reasoning layer. The rules can be authored from machine learning models, decision trees, scorecards, analyst rules, or other model outputs. The point is not that Prolog replaces machine learning. The point is that machine learning can produce usable risk logic, and that logic can be packaged into rules the AI agent can execute, inspect, and explain.
+In this tutorial, Prolog is used as the reasoning (logic) layer. The rules can be authored from machine learning models, decision trees, scorecards, analyst rules, or other model outputs. The point is not that Prolog replaces machine learning. The point is that machine learning can produce usable risk logic, and that logic can be packaged into rules the AI agent can execute, inspect, and explain.
 
 A machine learning model might discover patterns like this:
 
@@ -896,11 +899,7 @@ The customer is at high risk of leaving before ordering. The strongest active ri
 
 #### Who Authored the Prolog
 
-The Prolog rules do not have to be hand-written from scratch.
-
-They can be authored from machine learning outputs.
-
-For example, a decision tree might produce a branch like this:
+The Prolog rules do not have to be hand-written from scratch. They can be authored from machine learning outputs. For example, a decision tree might produce a branch like this:
 
 ```text
 IF wait_time_seconds > 180
@@ -1043,7 +1042,7 @@ See: [Knowledge Graphs vs Prolog – Prolog’s Role in the LLM Era, Part 7](htt
 
 #### Tying Back to the Data of the Semantic Layer
 
-Time Molecules also facilitates a tie back to the database (BI data source, Semantic Layer, data warehouse, or event storage such as Azure CosmosDB) from which the events creating the Markov models were imported. This is the "D" in PLOD.
+Time Molecules also facilitates a tie back to the database (BI data source, Semantic Layer, data warehouse, or event storage such as Azure CosmosDB) from which the events creating the Markov models were imported. This is the other "D" in PLOD.
 
 The following table is actually part of the result of the stored procedure, GetNextEventsForObservedEvent, way back in [Query Time Molecules](#Query-Time-Molecules):
 
