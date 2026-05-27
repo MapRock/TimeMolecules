@@ -1078,7 +1078,7 @@ Together they create something that feels remarkably close to experienced human 
 
 ## Integrating a Lot of Moving Parts
 
-Yes, we'll pulling a lot together. But it's integration of components that creates a powerful entity, whether it's a person or other creature, or a successful enterprise.
+Yes, we're pulling a lot together. But it's **integration** of components fragmented across a landscape that creates a powerful entity, whether it's a person or other creature, or a successful enterprise.
 
 My other book, <i>[Enterprise Intelligence](https://technicspub.com/enterprise-intelligence/)</i>, is all about integration of components into a system. Please see, [Enterprise Intelligence: Integrating BI, Data Mesh, Knowledge Graphs, Knowledge Workers, and LLMs](https://eugeneasahara.com/2024/06/28/enterprise-intelligence-integrating-bi-data-mesh-knowledge-graphs-and-ai/)
 
