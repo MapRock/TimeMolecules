@@ -6,7 +6,7 @@ It lays out how Time Molecules pulls together <b>P</b>robability (Tuple Correlat
 
 I've written about my first major attempt at something like this in, [Conditional Trade-Off Graphs – Prolog in the LLM Era – AI 3rd Anniversary Special](https://eugeneasahara.com/2025/11/17/trade-off-semantic-network-prolog-in-the-llm-era-ai-3rd-anniversary-special/) and [Prolog in the LLM Era - Part 1](https://eugeneasahara.com/2024/08/04/does-prolog-have-a-place-in-the-llm-era/)
 
-Our world is event-driven, and our intelligence enables us to anticipate the consequences. If there's anything AI could do to better serve **us**, it's to be smarter about anticipating consequences in a strategically valuable manner so we don't need to worry about all the things all the time that could happen.
+Our world is event-driven, and our intelligence enables us to anticipate the consequences. If there's anything AI could do to better serve **us**, it's to be smarter about anticipating consequences in a strategically valuable manner so we don't need to worry about all the things all the time that could happen. It can be my "trusted worrier", so to speak.
 
 ## Pros and Cons vs a Checklist
 
