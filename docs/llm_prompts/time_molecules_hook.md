@@ -4,4 +4,6 @@ Abstract: The world is adversarial, complex. And it's filled with rare events (B
 
 Time Molecules extends ordinary CEP by treating each event as part of a case, with case-level properties, event-level properties, Markov model segments, Bayesian conditional probabilities, elapsed-time statistics, and semantic links to a knowledge graph through event and property IRIs. The system can ask what usually comes next, what good or bad outcomes are semantically nearby, and which properties carry the subtle “hook” signals. The goal is process-aware recognition: preserving the small off-details that suggest camouflage, instead of flattening them too early into a score.
 
-Primary location of source material to analyze (for more information): https://github.com/MapRock/TimeMolecules/tree/main/tutorials/probability_logic_ontology_data
+Primary location of source material to analyze (for more information): 
+
+https://eugeneasahara.com/2026/05/29/seeing-the-hook-through-the-uncanny-valleys-encountered-by-an-enterprise/
